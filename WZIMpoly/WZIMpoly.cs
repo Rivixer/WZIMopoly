@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using WindowsWZIMpoly;
 #endregion
 
 namespace WZIMpoly
@@ -21,6 +22,10 @@ namespace WZIMpoly
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            _graphics.PreferredBackBufferWidth = MainScreen.Width;
+            _graphics.PreferredBackBufferHeight = MainScreen.Height;
+            _graphics.ApplyChanges();
 
             base.Initialize();
         }
