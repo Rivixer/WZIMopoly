@@ -1,6 +1,12 @@
-﻿namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+﻿using System.Xml;
+
+namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
-    class Restroom
+    class Restroom:PurchasableTile
     {
+        public Restroom(XmlNode):base(node)
+        {
+
+        }
     }
 }

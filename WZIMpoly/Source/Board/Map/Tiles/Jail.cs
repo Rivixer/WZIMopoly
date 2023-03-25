@@ -1,6 +1,12 @@
-﻿namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+﻿using System.Xml;
+
+namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
-    class Jail
+    class Jail:Tile
     {
+        public Jail(XmlNode node):base(node)
+        {
+
+        }
     }
 }
