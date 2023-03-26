@@ -2,5 +2,6 @@
 {
     interface ICrossable
     {
+        public abstract OnCross(Player player);
     }
 }

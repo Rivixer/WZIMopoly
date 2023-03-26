@@ -1,14 +1,23 @@
-﻿using System.Xml;
+﻿#region Using Statements
+using System.Xml;
+#endregion
 
 namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
-    class Start
+    class Start : Tile, ICrossable
     {
         private int _money;
-        public Start(XmlNode node):base(node)
+        public Start(XmlNode node) : base(node)
         {
             _money = 0; 
         }
-
+        public override OnCross(Player player)
+        {
+            throw new System.NotImplementedException();
+        }
+        public override void OnStand(Player player)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

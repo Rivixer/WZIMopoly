@@ -1,12 +1,23 @@
-﻿namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+﻿#region Using Statements
+using System.Xml;
+#endregion
+namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
     enum SubjectGrade
     {
 
     }
 
-    class Subject
+    class Subject : PurchasableTile
     {
+        SubjectGrade Grade;
+        public Subject(XmlNode node) : base(node)
+        {
 
+        }
+        public override void OnStand(Player player)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

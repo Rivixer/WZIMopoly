@@ -1,6 +1,17 @@
-﻿namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+﻿#region Using Statements
+using System.Xml;
+#endregion
+namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
-    class Canteen
-    { 
+    class Canteen : ChanceTile
+    {
+        public override void OnStand(Player player)
+        {
+            throw new System.NotImplementedException();
+        }
+        public Canteen(XmlNode node) : base(node)
+        {
+
+        }
     }
 }
