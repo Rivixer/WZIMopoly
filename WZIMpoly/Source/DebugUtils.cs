@@ -13,7 +13,7 @@ namespace WindowsWZIMpoly.DebugUtils
     static class DebugUtils
     {
         // Change if you want to show the cursor position
-        public static ShowPlace ShowCursorPosition = ShowPlace.Screen;
+        public static ShowPlace ShowCursorPosition = ShowPlace.None;
 
         private readonly static List<DrawString> _toDraw = new();
         private static SpriteFont _font;
@@ -52,7 +52,7 @@ namespace WindowsWZIMpoly.DebugUtils
         {
             None = 0,
             Console = 1 << 0,
-            Screen = 2 << 0,
+            Screen = 1 << 1,
             Both = Console | Screen
         }
         private class DrawString
