@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 #endregion
@@ -12,7 +13,7 @@ namespace WindowsWZIMpoly.DebugUtils
     static class DebugUtils
     {
         // Change if you want to show the cursor position
-        private readonly static ShowPlace _showCursorPosition = ShowPlace.None;
+        public static ShowPlace ShowCursorPosition = ShowPlace.Screen;
 
         private readonly static List<DrawString> _toDraw = new();
         private static SpriteFont _font;
@@ -26,15 +27,15 @@ namespace WindowsWZIMpoly.DebugUtils
         {
             _font ??= content.Load<SpriteFont>("Fonts/DebugFont");
 
-            if (_showCursorPosition != ShowPlace.None)
+            if (ShowCursorPosition != ShowPlace.None)
             {
                 var cursorPosition = Mouse.GetState().Position;
                 var info = $"Cursor position: {cursorPosition}";
-                if (_showCursorPosition == ShowPlace.Console || _showCursorPosition == ShowPlace.Both)
+                if (ShowCursorPosition.HasFlag(ShowPlace.Console))
                 {
                     Debug.WriteLine(info);
                 }
-                if (_showCursorPosition == ShowPlace.Screen || _showCursorPosition == ShowPlace.Both) 
+                if (ShowCursorPosition.HasFlag(ShowPlace.Screen))
                 { 
                     var cls = new DrawString(_font, info, GetInfoPosition(), Color.White);
                     _toDraw.Add(cls);
@@ -46,12 +47,13 @@ namespace WindowsWZIMpoly.DebugUtils
             }
             _toDraw.Clear();
         }
-        private enum ShowPlace
+        [Flags]
+        public enum ShowPlace
         {
-            None,
-            Console,
-            Screen,
-            Both
+            None = 0,
+            Console = 1 << 0,
+            Screen = 2 << 0,
+            Both = Console | Screen
         }
         private class DrawString
         {
