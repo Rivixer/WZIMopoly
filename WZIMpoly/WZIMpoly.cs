@@ -28,9 +28,7 @@ namespace WZIMpoly
         {
             // TODO: Add your initialization logic here
 
-            _graphics.PreferredBackBufferWidth = MainScreen.Width;
-            _graphics.PreferredBackBufferHeight = MainScreen.Height;
-            _graphics.ApplyChanges();
+            MainScreen.Initialize(_graphics);
 
             base.Initialize();
         }
@@ -46,6 +44,9 @@ namespace WZIMpoly
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            KeyboardController.Update();
+            MainScreen.Update(_graphics);
 
             // TODO: Add your update logic here
 
