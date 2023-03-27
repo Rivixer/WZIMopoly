@@ -4,13 +4,13 @@ using System.Xml;
 
 namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
-    class Elevator: Tile
+    class Elevator : Tile
     {
         public override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
-        public Elevator(XmlNode node):base(node)
+        public Elevator(XmlNode node) : base(node)
         {
 
         }

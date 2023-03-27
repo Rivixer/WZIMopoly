@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using System.Xml;
 #endregion
+
 namespace WindowsWZIMpoly.Source.Board.Map.Tiles
 {
     class VendingMachine : ChanceTile
