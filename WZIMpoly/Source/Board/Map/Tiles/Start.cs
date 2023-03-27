@@ -11,7 +11,7 @@ namespace WindowsWZIMpoly.Source.Board.Map.Tiles
         {
             _money = 0; 
         }
-        public override OnCross(Player player)
+        public override void OnCross(Player player)
         {
             throw new System.NotImplementedException();
         }
