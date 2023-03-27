@@ -3,12 +3,16 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WindowsWZIMpoly;
+using WindowsWZIMpoly.GUI;
+#endregion
 
+#region Debug Using Statements
 #if DEBUG
 using WindowsWZIMpoly.DebugUtils;
 #endif
-
 #endregion
+
+
 
 namespace WZIMpoly
 {
@@ -16,6 +20,7 @@ namespace WZIMpoly
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Screen _screen;
 
         public WZIMpoly()
         {
@@ -29,12 +34,14 @@ namespace WZIMpoly
             // TODO: Add your initialization logic here
 
             MainScreen.Initialize(_graphics);
+            _screen = new GameScreen(new BoardController());
 
             base.Initialize();
         }
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _screen.Load(Content);
 
             // TODO: use this.Content to load your game content here
 
@@ -58,6 +65,8 @@ namespace WZIMpoly
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
+
+            _screen.Draw(_spriteBatch);
 
 #if DEBUG
             DebugUtils.Draw(_spriteBatch, Content);

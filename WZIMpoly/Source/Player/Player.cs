@@ -1,6 +1,6 @@
 ﻿namespace WindowsWZIMpoly
 {
-    class Player
+    public class Player
     {
     }
 }

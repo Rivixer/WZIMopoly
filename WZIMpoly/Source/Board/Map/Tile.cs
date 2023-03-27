@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace WindowsWZIMpoly.Source.Board.Map
 {
-    abstract class Tile
+    public abstract class Tile
     {
         public string Name;
         public int Id;

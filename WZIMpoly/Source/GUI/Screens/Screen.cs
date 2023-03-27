@@ -6,10 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WindowsWZIMpoly.GUI
 {
-    abstract class Screen
+    public abstract class Screen
     {
         public abstract void Load(ContentManager content);
         public abstract void Draw(SpriteBatch spriteBatch);
-        
     }
 }
