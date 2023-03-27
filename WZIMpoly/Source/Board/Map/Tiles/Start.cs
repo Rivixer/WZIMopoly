@@ -9,9 +9,9 @@ namespace WindowsWZIMpoly.Source.Board.Map.Tiles
         private int _money;
         public Start(XmlNode node) : base(node)
         {
-            _money = 0; 
+            _money = 0;
         }
-        public override void OnCross(Player player)
+        public void OnCross(Player player)
         {
             throw new System.NotImplementedException();
         }

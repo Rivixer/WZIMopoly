@@ -11,5 +11,6 @@ namespace WindowsWZIMpoly.Source.Board.Map
         public int Id;
         protected Vector2 Position;
         public abstract void OnStand(Player player);
+        protected Tile(XmlNode node) { }
     }
 }
