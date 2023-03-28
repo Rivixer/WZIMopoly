@@ -1,4 +1,4 @@
-﻿#region UsingStatements
+﻿#region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,10 +11,10 @@ namespace WindowsWZIMpoly.GUI
         private readonly BoardController _boardController;
         private Texture2D _texture;
         // TODO: Specify rectangle
-        private readonly Rectangle _rect = new();
+        private readonly Rectangle _destinationRect = new();
 
         internal override Texture2D Texture => _texture;
-        internal override Rectangle Rectangle => _rect;
+        internal override Rectangle DestinationRect => _destinationRect;
 
         internal GUIBoard(BoardController boardController)
         {
