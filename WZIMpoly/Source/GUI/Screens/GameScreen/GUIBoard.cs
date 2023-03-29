@@ -11,7 +11,7 @@ namespace WindowsWZIMpoly.GUI
         private readonly BoardController _boardController;
         private Texture2D _texture;
         // TODO: Specify rectangle
-        private readonly Rectangle _destinationRect = new();
+        private readonly Rectangle _destinationRect = new(0, 0, 1920, 1080);
 
         internal override Texture2D Texture => _texture;
         internal override Rectangle DestinationRect => _destinationRect;
@@ -23,8 +23,7 @@ namespace WindowsWZIMpoly.GUI
 
         internal override void Load(ContentManager content)
         {
-            // TODO: Add board texture
-            // _texture = content.Load<Texture2D>("");
+            _texture = content.Load<Texture2D>("Images/Board");
         }
     }
 }

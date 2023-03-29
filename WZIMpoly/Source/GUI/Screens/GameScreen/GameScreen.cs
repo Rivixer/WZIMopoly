@@ -20,12 +20,12 @@ namespace WindowsWZIMpoly.GUI
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            // spriteBatch.Draw(_board.Texture, _board.DestinationRect, Color.White);
+            spriteBatch.Draw(_board.Texture, _board.DestinationRect, Color.White);
         }
 
         public override void Load(ContentManager content)
         {
-            // _board.Load(content);
+            _board.Load(content);
         }
     }
 }
