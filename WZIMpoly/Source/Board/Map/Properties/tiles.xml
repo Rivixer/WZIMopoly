@@ -230,7 +230,7 @@
 		<tax_prices three="12" three_half="36" four="85" four_half="103" five="120"/>
         <position>horizontal</position>
     </tile>
-    <tile id="30" type="Jail">  <!--Nie ma pola idź na wykład -->
+    <tile id="30" type="Deanery">
 		<en_name>Go to the lecture</en_name>
 		<pl_name>Idź na wykład</pl_name>
         <position>square</position>
