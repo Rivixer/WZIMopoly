@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tiles>
+	<tile id="0" type="Start">
+		<en_name>Start</en_name>
+		<pl_name>Start</pl_name>
+		<reward>20</reward>
+        <position>square</position>
+    </tile>
+	<tile id="1" type="Subject">
+		<en_name>Occupational Health and Safety</en_name>
+		<pl_name>Bezpieczeństwo i higiena pracy</pl_name>
+		<color>brown</color>
+		<price>6</price>
+		<upgrade_price>5</upgrade_price>
+		<tax_prices three="1" three_half="3" four="9" four_half="16" five="25"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="2" type="VendingMachine">
+		<en_name>Snack vending machine</en_name>
+		<pl_name>Automat z przekąskami</pl_name>
+        <position>vertical</position>
+    </tile>
+	<tile id="3" type="Subject">
+		<en_name>Intellectual property protection</en_name>
+		<pl_name>Ochrona własności intelektualnej</pl_name>
+		<color>brown</color>
+		<price>6</price>
+		<upgrade_price>5</upgrade_price>
+		<tax_prices three="2" three_half="6" four="18" four_half="32" five="45"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="4" type="ConditionalPass">
+		<en_name>Conditional pass</en_name>
+		<pl_name>Warunek</pl_name>
+        <tax>20</tax>
+        <position>horizontal</position>
+    </tile>
+	<tile id="5" type="Restroom">
+		<en_name>Restroom</en_name>
+		<pl_name>Toaleta</pl_name>
+		<price>20</price>
+		<tax_prices one="3" two="5" three="10" four="20"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="6" type="Subject">
+		<en_name>Physical education</en_name>
+		<pl_name>Wychowanie fizyczne</pl_name>
+		<color>light_blue</color>
+		<price>10</price>
+		<upgrade_price>5</upgrade_price>
+		<tax_prices three="3" three_half="9" four="27" four_half="40" five="55"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="7" type="Canteen">
+		<en_name>Canteen</en_name>
+		<pl_name>"Kartka"</pl_name>
+        <position>square</position>
+    </tile>
+    <tile id="8" type="Subject">
+		<en_name>Physical education</en_name>
+		<pl_name>Język obcy</pl_name>
+		<color>light_blue</color>
+		<price>10</price>
+		<upgrade_price>5</upgrade_price>
+		<tax_prices three="3" three_half="9" four="27" four_half="40" five="55"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="9" type="Subject">
+		<en_name>Faculty</en_name>
+		<pl_name>Fakultet</pl_name>
+		<color>light_blue</color>
+		<price>12</price>
+		<upgrade_price>5</upgrade_price>
+		<tax_prices three="4" three_half="10" four="30" four_half="45" five="60"/>
+        <position>horizontal</position>
+    </tile>
+    <tile id="10" type="Jail">
+		<en_name>Lecture</en_name>
+		<pl_name>Wykład</pl_name>
+        <position>square</position>
+    </tile>
+    <tile id="11" type="Subject">
+		<en_name>Physics</en_name>
+		<pl_name>Fizyka</pl_name>
+		<color>pink</color>
+		<price>14</price>
+		<upgrade_price>10</upgrade_price>
+		<tax_prices three="5" three_half="15" four="45" four_half="63" five="75"/>
+        <position>horizontal</position>
+    </tile>
+    <tile id="12" type="Elevator">
+		<en_name>Elevator</en_name>
+		<pl_name>Winda</pl_name>
+		<price>15</price>
+        <!-- <tax>5</tax> Nie jest opisane-->
+        <position>horizontal</position>
+    </tile>
+    <tile id="13" type="Subject">
+		<en_name>Electronics</en_name>
+		<pl_name>Elektronika</pl_name>
+		<color>pink</color>
+		<price>14</price>
+		<upgrade_price>10</upgrade_price>
+		<tax_prices three="5" three_half="15" four="45" four_half="63" five="75"/>
+        <position>horizontal</position>
+    </tile>
+    <tile id="14" type="Subject">
+		<en_name>Electronics laboratory</en_name>
+		<pl_name>Laboratorium elektroniki</pl_name>
+		<color>pink</color>
+		<price>16</price>
+		<upgrade_price>10</upgrade_price>
+		<tax_prices three="6" three_half="18" four="50" four_half="70" five="90"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="15" type="Restroom">
+		<en_name>Restroom</en_name>
+		<pl_name>Toaleta</pl_name>
+		<price>20</price>
+		<tax_prices one="3" two="5" three="10" four="20"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="16" type="Subject">
+		<en_name>Operating Systems</en_name>
+		<pl_name>Systemy operacyjne</pl_name>
+		<color>orange</color>
+		<price>18</price>
+		<upgrade_price>10</upgrade_price>
+		<tax_prices three="7" three_half="20" four="55" four_half="75" five="95"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="17" type="VendingMachine">
+		<en_name>Snack vending machine</en_name>
+		<pl_name>Automat z przekąskami</pl_name>
+        <position>vertical</position>
+    </tile>
+    <tile id="18" type="Subject">
+		<en_name>Database technologies</en_name>
+		<pl_name>Technologie baz danych</pl_name>
+		<color>orange</color>
+		<price>18</price>
+		<upgrade_price>10</upgrade_price>
+		<tax_prices three="7" three_half="20" four="55" four_half="75" five="95"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="19" type="Subject">
+		<en_name>Building websites</en_name>
+		<pl_name>Budowa serwisów internetowych</pl_name>
+		<color>orange</color>
+		<price>20</price>
+		<upgrade_price>10</upgrade_price>
+		<tax_prices three="8" three_half="22" four="60" four_half="80" five="100"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="20" type="Sofas">
+		<en_name>Sofas</en_name>
+		<pl_name>Sofy</pl_name>
+        <position>square</position>
+    </tile>
+    <tile id="21" type="Subject">
+		<en_name>Algorithms and data structures</en_name>
+		<pl_name>Algorytmy i struktury danych</pl_name>
+		<color>red</color>
+		<price>22</price>
+		<upgrade_price>15</upgrade_price>
+		<tax_prices three="9" three_half="25" four="70" four_half="88" five="105"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="22" type="Canteen">
+		<en_name>Canteen</en_name>
+		<pl_name>"Kartka"</pl_name>
+        <position>square</position>
+    </tile>
+    <tile id="23" type="Subject">
+		<en_name>Graphs and networks</en_name>
+		<pl_name>Grafy i sieci</pl_name>
+		<color>red</color>
+		<price>22</price>
+		<upgrade_price>15</upgrade_price>
+		<tax_prices three="9" three_half="25" four="70" four_half="88" five="105"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="24" type="Subject">
+		<en_name>Discrete mathematics</en_name>
+		<pl_name>Matematyka Dyskretna</pl_name>
+		<color>red</color>
+		<price>24</price>
+		<upgrade_price>15</upgrade_price>
+		<tax_prices three="10" three_half="30" four="75" four_half="93" five="110"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="25" type="Restroom">
+		<en_name>Restroom</en_name>
+		<pl_name>Toaleta</pl_name>
+		<price>20</price>
+		<tax_prices one="3" two="5" three="10" four="20"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="26" type="Subject">
+		<en_name>Probability and statistics</en_name>
+		<pl_name>Rachunek prawdopodobieństwa i statystyka</pl_name>
+		<color>yellow</color>
+		<price>26</price>
+		<upgrade_price>15</upgrade_price>
+		<tax_prices three="11" three_half="33" four="80" four_half="98" five="115"/>
+        <position>vertical</position>
+    </tile>
+    <tile id="27" type="Subject">
+		<en_name>Higher mathematics</en_name>
+		<pl_name>Matematyka wyższa</pl_name>
+		<color>yellow</color>
+		<price>26</price>
+		<upgrade_price>15</upgrade_price>
+		<tax_prices three="11" three_half="33" four="80" four_half="98" five="115"/>
+        <position>horizontal</position>
+    </tile>
+    <tile id="28" type="Elevator">
+		<en_name>Elevator</en_name>
+		<pl_name>Winda</pl_name>
+		<price>15</price>
+        <!-- <tax>5</tax> Nie jest opisane-->
+        <position>horizontal</position>
+    </tile>
+    <tile id="29" type="Subject">
+		<en_name>Mathematical analysis</en_name>
+		<pl_name>Analiza matematyczna</pl_name>
+		<color>yellow</color>
+		<price>28</price>
+		<upgrade_price>15</upgrade_price>
+		<tax_prices three="12" three_half="36" four="85" four_half="103" five="120"/>
+        <position>horizontal</position>
+    </tile>
+    <tile id="30" type="Jail">  <!--Nie ma pola idź na wykład -->
+		<en_name>Go to the lecture</en_name>
+		<pl_name>Idź na wykład</pl_name>
+        <position>square</position>
+    </tile>
+    <tile id="31" type="Subject">
+		<en_name>Introduction to programming</en_name>
+		<pl_name>Wstęp do programowania</pl_name>
+		<color>green</color>
+		<price>30</price>
+		<upgrade_price>20</upgrade_price>
+		<tax_prices three="13" three_half="39" four="90" four_half="110" five="128"/>
+        <position>horizontal</position>
+    </tile>
+	<tile id="32" type="Subject">
+		<en_name>Software engineering</en_name>
+		<pl_name>Inżynieria oprogramowania</pl_name>
+		<color>green</color>
+		<price>30</price>
+		<upgrade_price>20</upgrade_price>
+		<tax_prices three="13" three_half="39" four="90" four_half="110" five="128"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="33" type="VendingMachine">
+		<en_name>Drink vending machine</en_name>
+		<pl_name>Automat z napojami</pl_name>
+        <position>vertical</position>
+    </tile>
+	<tile id="34" type="Subject">
+		<en_name>Software engineering</en_name>
+		<pl_name>Programowanie obiektowe</pl_name>
+		<color>green</color>
+		<price>32</price>
+		<upgrade_price>20</upgrade_price>
+		<tax_prices three="15" three_half="45" four="100" four_half="120" five="140"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="35" type="Restroom">
+		<en_name>Restroom</en_name>
+		<pl_name>Toaleta</pl_name>
+		<price>20</price>
+		<tax_prices one="3" two="5" three="10" four="20"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="36" type="VendingMachine">
+		<en_name>Drink vending machine</en_name>
+		<pl_name>Automat z napojami</pl_name>
+        <position>vertical</position>
+    </tile>
+	<tile id="37" type="Subject">
+		<en_name>Computer architecture</en_name>
+		<pl_name>Architektura komputerów</pl_name>
+		<color>blue</color>
+		<price>35</price>
+		<upgrade_price>20</upgrade_price>
+		<tax_prices three="18" three_half="50" four="110" four_half="130" five="150"/>
+        <position>vertical</position>
+    </tile>
+	<tile id="38" type="ConditionalPass">
+		<en_name>Conditional pass</en_name>
+		<pl_name>Warunek</pl_name>
+        <tax>10</tax>
+        <position>horizontal</position>
+    </tile>
+	<tile id="39" type="Subject">
+		<en_name>Linear algebra</en_name>
+		<pl_name>Algebra liniowa</pl_name>
+		<color>blue</color>
+		<price>40</price>
+		<upgrade_price>20</upgrade_price>
+		<tax_prices three="20" three_half="60" four="140" four_half="170" five="200"/>
+        <position>vertical</position>
+    </tile>
+</tiles>
