@@ -1,10 +1,10 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
-using WindowsWZIMpoly.Source.Board.Map;
+using WZIMpoly.Source.Board.Map;
 #endregion
 
-namespace WindowsWZIMpoly
+namespace WZIMpoly
 {
     public class BoardController
     {

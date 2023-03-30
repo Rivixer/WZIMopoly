@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+namespace WZIMpoly.Source.Board.Map.Tiles
 {
     class Start : Tile, ICrossable
     {

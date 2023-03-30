@@ -1,4 +1,4 @@
-﻿namespace WindowsWZIMpoly.Source
+﻿namespace WZIMpoly.Source
 {
     class Equipment
     {

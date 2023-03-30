@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion
 
 
-namespace WindowsWZIMpoly.GUI
+namespace WZIMpoly.GUI
 {
     /// <summary>
     /// Base class for creating GUI elements.

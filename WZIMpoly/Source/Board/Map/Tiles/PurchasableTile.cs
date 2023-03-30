@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+namespace WZIMpoly.Source.Board.Map.Tiles
 {
     abstract class PurchasableTile : Tile
     {

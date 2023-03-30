@@ -1,9 +1,9 @@
 ﻿#region Using Statements
 using System.Xml;
-using WindowsWZIMpoly.Source.Items;
+using WZIMpoly.Source.Items;
 #endregion
 
-namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+namespace WZIMpoly.Source.Board.Map.Tiles
 {
     abstract class ChanceTile : Tile
     {

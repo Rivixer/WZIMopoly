@@ -1,4 +1,4 @@
-﻿namespace WindowsWZIMpoly.Source.Items
+﻿namespace WZIMpoly.Source.Items
 {
     class ChanceCard
     {

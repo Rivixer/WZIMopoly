@@ -8,12 +8,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 #endregion
 
-namespace WindowsWZIMpoly.DebugUtils
+namespace WZIMpoly.DebugUtils
 {
-    static class DebugUtils
+    static class ShowCursorPosition
     {
         // Change if you want to show the cursor position
-        public static ShowPlace ShowCursorPosition = ShowPlace.None;
+        public static ShowPlace ShowCursorPos = ShowPlace.None;
 
         private readonly static List<DrawString> _toDraw = new();
         private static SpriteFont _font;
@@ -27,15 +27,15 @@ namespace WindowsWZIMpoly.DebugUtils
         {
             _font ??= content.Load<SpriteFont>("Fonts/DebugFont");
 
-            if (ShowCursorPosition != ShowPlace.None)
+            if (ShowCursorPos != ShowPlace.None)
             {
                 var cursorPosition = Mouse.GetState().Position;
                 var info = $"Cursor position: {cursorPosition}";
-                if (ShowCursorPosition.HasFlag(ShowPlace.Console))
+                if (ShowCursorPos.HasFlag(ShowPlace.Console))
                 {
                     Debug.WriteLine(info);
                 }
-                if (ShowCursorPosition.HasFlag(ShowPlace.Screen))
+                if (ShowCursorPos.HasFlag(ShowPlace.Screen))
                 { 
                     var cls = new DrawString(_font, info, GetInfoPosition(), Color.White);
                     _toDraw.Add(cls);

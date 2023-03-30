@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 #endregion
 
-namespace WindowsWZIMpoly
+namespace WZIMpoly
 {
     public static class KeyboardController
     {

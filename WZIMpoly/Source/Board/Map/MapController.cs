@@ -1,9 +1,9 @@
 ﻿#region Using Statements
 using System.Collections.Generic;
-using WindowsWZIMpoly.Source.Board.Map;
+using WZIMpoly.Source.Board.Map;
 #endregion
 
-namespace WindowsWZIMpoly
+namespace WZIMpoly
 {
     public class MapController
     {
