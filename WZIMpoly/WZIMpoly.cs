@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using WZIMpoly;
 using WZIMpoly.GUI;
 #endregion
 
@@ -69,7 +68,7 @@ namespace WZIMpoly
             _screen.Draw(_spriteBatch);
 
 #if DEBUG
-            DebugUtils.Draw(_spriteBatch, Content);
+            ShowCursorPosition.Draw(_spriteBatch, Content);
 #endif
 
             _spriteBatch.End();
