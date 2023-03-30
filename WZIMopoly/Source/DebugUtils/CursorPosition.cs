@@ -36,17 +36,18 @@ namespace WZIMopoly.DebugUtils
                     Debug.WriteLine(info);
                 }
                 if (ShowCursorPos.HasFlag(ShowPlace.Screen))
-                { 
+                {
                     var cls = new DrawString(_font, info, GetInfoPosition(), Color.White);
                     _toDraw.Add(cls);
                 }
             }
-            foreach(var cls in _toDraw)
+            foreach (var cls in _toDraw)
             {
                 cls.Draw(spriteBatch);
             }
             _toDraw.Clear();
         }
+
         [Flags]
         public enum ShowPlace
         {
@@ -55,6 +56,7 @@ namespace WZIMopoly.DebugUtils
             Screen = 1 << 1,
             Both = Console | Screen
         }
+
         private class DrawString
         {
             private readonly SpriteFont _font;
