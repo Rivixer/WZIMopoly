@@ -1,4 +1,4 @@
-﻿namespace WindowsWZIMpoly.Source.Board.Map.Tiles
+﻿namespace WZIMpoly.Source.Board.Map.Tiles
 {
     interface ICrossable
     {

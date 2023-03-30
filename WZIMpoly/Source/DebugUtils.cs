@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 #endregion
 
-namespace WindowsWZIMpoly.DebugUtils
+namespace WZIMpoly.DebugUtils
 {
     static class DebugUtils
     {

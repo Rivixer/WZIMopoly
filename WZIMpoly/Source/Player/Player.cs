@@ -1,4 +1,4 @@
-﻿namespace WindowsWZIMpoly
+﻿namespace WZIMpoly
 {
     public class Player
     {

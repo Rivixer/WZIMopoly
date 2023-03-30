@@ -2,13 +2,13 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using WindowsWZIMpoly;
-using WindowsWZIMpoly.GUI;
+using WZIMpoly;
+using WZIMpoly.GUI;
 #endregion
 
 #region Debug Using Statements
 #if DEBUG
-using WindowsWZIMpoly.DebugUtils;
+using WZIMpoly.DebugUtils;
 #endif
 #endregion
 

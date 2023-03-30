@@ -3,7 +3,7 @@ using System.Xml;
 using Microsoft.Xna.Framework;
 #endregion
 
-namespace WindowsWZIMpoly.Source.Board.Map
+namespace WZIMpoly.Source.Board.Map
 {
     public abstract class Tile
     {

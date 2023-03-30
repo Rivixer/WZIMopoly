@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 #endregion
 
-namespace WindowsWZIMpoly
+namespace WZIMpoly
 {
     public static class MainScreen
     {

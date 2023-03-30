@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion
 
 
-namespace WindowsWZIMpoly.GUI
+namespace WZIMpoly.GUI
 {
     public abstract class Screen
     {
