@@ -33,7 +33,7 @@ namespace WZIMopoly
             // TODO: Add your initialization logic here
 
             MainScreen.Initialize(_graphics);
-            _screen = new GameScreen(new BoardController());
+            _screen = new GameScreen();
 
             base.Initialize();
         }
