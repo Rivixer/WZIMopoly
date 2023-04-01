@@ -6,10 +6,10 @@ namespace WZIMopoly.Source.Board.Map.Tiles
 {
     class ConditionalPass : Tile
     {
-        public int Value;
+        public int Tax;
         public ConditionalPass(XmlNode node) : base(node)
         {
-            Value = 0;  
+            Tax = 0;  
         }
         public override void OnStand(Player player)
         {

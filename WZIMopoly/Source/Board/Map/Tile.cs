@@ -5,11 +5,22 @@ using Microsoft.Xna.Framework;
 
 namespace WZIMopoly.Source.Board.Map
 {
+    /// <summary>
+    /// Represent tile orientation
+    /// </summary>
+    public enum TileOrientation
+    {
+        Vertical,
+        Horizontal,
+        Square
+    }
     public abstract class Tile
     {
-        public string Name;
+        public readonly string EnName;
+        public readonly string PlName;
         public int Id;
-        protected Vector2 Position;
+        protected readonly TileOrientation TileOrientation;
+        protected Rectangle Position;
         public abstract void OnStand(Player player);
         protected Tile(XmlNode node) { }
     }
