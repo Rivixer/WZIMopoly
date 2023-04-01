@@ -17,6 +17,10 @@ namespace WZIMopoly
             InitializeTiles();
         }
 
+        /// <summary>
+        /// Initialize tiles from xml file.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
         private void InitializeTiles()
         {
             var TilesXml = new XmlDocument();

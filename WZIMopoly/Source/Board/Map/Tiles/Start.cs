@@ -6,10 +6,10 @@ namespace WZIMopoly.Source.Board.Map.Tiles
 {
     class Start : Tile, ICrossable
     {
-        private int _reward;
+        private readonly int _reward;
         public Start(XmlNode node) : base(node)
         {
-            _reward = 0;
+            _reward = int.Parse(node.SelectSingleNode("reward").InnerText);
         }
         public void OnCross(Player player)
         {

@@ -10,7 +10,8 @@ namespace WZIMopoly.Source.Board.Map.Tiles
         public Player? owner;
         protected PurchasableTile(XmlNode node) : base(node)
         {
-
+            Price = int.Parse(node.SelectSingleNode("price").InnerText);
+            owner = null;
         }
         public void Purchase(Player owner)
         {
