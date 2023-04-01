@@ -12,19 +12,20 @@ namespace WZIMopoly.GUI
     /// </summary>
     internal abstract class GUIElement
     {
+        protected Texture2D texture;
+        protected Rectangle destinationRect;
+
         /// <value>
         /// The texture of the GUI element.
         /// </value>
-        protected Texture2D texture;
-        internal Texture2D Texture { get; }
+        internal Texture2D Texture => texture;
 
         /// <value>
         /// The drawing bounds on screen.
         /// </value>
-        protected Rectangle destinationRect;
-        internal Rectangle DestinationRect=> destinationRect;
+        internal Rectangle DestinationRect => destinationRect;
         /// <value>
-        /// Center point of DestinationRect
+        /// The center position of the GUI element.
         /// </value>
         internal Point CenterPosition => DestinationRect.Center;
 
