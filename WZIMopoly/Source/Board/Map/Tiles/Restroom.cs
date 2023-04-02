@@ -27,7 +27,8 @@ namespace WZIMopoly.Source.Board.Map.Tiles
             {
                 if (!Enum.TryParse(attribute.Name, true, out RestroomAmount temp))
                 {
-                    throw new ArgumentException($"Invalid attribute name in tax_prices node in tile node with {Id} id");
+                    throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
+                        $" in tile node with {Id} id");
                 }
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }

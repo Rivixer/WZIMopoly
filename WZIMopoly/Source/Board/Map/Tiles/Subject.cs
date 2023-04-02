@@ -41,7 +41,8 @@ namespace WZIMopoly.Source.Board.Map.Tiles
             {
                 if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
                 {
-                    throw new ArgumentException($"Invalid attribute name in tax_prices node in tile node with {Id} id");
+                    throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
+                        $" in tile node with {Id} id");
                 }
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
@@ -49,7 +50,7 @@ namespace WZIMopoly.Source.Board.Map.Tiles
             string rawColor = NamingConvention.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
             if (!Enum.TryParse(rawColor, true, out Color))
             {
-                throw new ArgumentException($"Invalid color node in tile node with {Id} id");
+                throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
         }
         public override void OnStand(Player player)

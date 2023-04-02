@@ -18,7 +18,7 @@ namespace WZIMopoly
         }
 
         /// <summary>
-        /// Initialize tiles from a xml file.
+        /// Initializes tiles from a xml file.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         private void InitializeTiles()
