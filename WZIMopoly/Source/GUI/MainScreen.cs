@@ -22,9 +22,9 @@ namespace WZIMopoly
             _height = height;
             _fullScreen = fullscreen;
 
-            _graphics.PreferredBackBufferWidth() = _width;
-            _graphics.PreferredBackBufferHeight() = _height;
-            _graphics.IsFullScreen() = _fullScreen;
+            _graphics.PreferredBackBufferWidth = _width;
+            _graphics.PreferredBackBufferHeight = _height;
+            _graphics.IsFullScreen = _fullScreen;
 
             _graphics.ApplyChanges();
         }
