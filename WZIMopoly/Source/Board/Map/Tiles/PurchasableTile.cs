@@ -10,11 +10,12 @@ namespace WZIMopoly.Source.Board.Map.Tiles
     /// </summary>
     abstract class PurchasableTile : Tile
     {
-        public int Price;
+        public readonly int Price;
         public Player? owner;
         protected PurchasableTile(XmlNode node) : base(node)
         {
-
+            Price = int.Parse(node.SelectSingleNode("price").InnerText);
+            owner = null;
         }
         public void Purchase(Player owner)
         {

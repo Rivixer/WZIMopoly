@@ -1,5 +1,7 @@
 ﻿#region Using Statements
+using System;
 using System.Collections.Generic;
+using System.Xml;
 using WZIMopoly.Source.Board.Map;
 #endregion
 
@@ -12,7 +14,35 @@ namespace WZIMopoly
         public MapController()
         {
             Tiles = new List<Tile>();
-            // TODO: Load tiles from XML
+            InitializeTiles();
+        }
+
+        /// <summary>
+        /// Initializes tiles from a xml file.
+        /// </summary>
+        /// <exception cref="ArgumentException"></exception>
+        private void InitializeTiles()
+        {
+            var TilesXml = new XmlDocument();
+            TilesXml.Load("../../../Source/Board/Map/Properties/Tiles.xml");
+
+            string namespacePrefix = "WZIMopoly.Source.Board.Map.Tiles";
+            foreach (XmlNode TileNode in TilesXml.DocumentElement.ChildNodes)
+            {
+                string RawTileType = TileNode.Attributes["type"].Value;
+                Type TileType = Type.GetType($"{namespacePrefix}.{RawTileType}");
+
+                if (TileType != null)
+                {
+                    Tile tile = (Tile)Activator.CreateInstance(TileType, TileNode);
+                    Tiles.Add(tile);
+                }
+                else
+                {
+                    throw new ArgumentException($"Invalid value of type attribute: {RawTileType}; " +
+                        $"in tile node with {TileNode.Attributes["id"].Value} id in xml file.");
+                }
+            }
         }
     }
 }
