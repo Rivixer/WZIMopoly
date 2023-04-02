@@ -1,7 +1,6 @@
 ﻿#region Using Statements
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Utils;
@@ -19,7 +18,7 @@ namespace WZIMopoly.Source.Board.Map.Tiles
 
         public Subject(XmlNode node) : base(node)
         {
-            Grade = SubjectGrade.Three;
+            Grade = SubjectGrade.Two;
             UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
             TaxPrices = new Dictionary<SubjectGrade, int>();
 
@@ -27,16 +26,15 @@ namespace WZIMopoly.Source.Board.Map.Tiles
             {
                 if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
                 {
-                    throw new ArgumentException($"Invalid attribute name in tax_prices node in node with {Id} id");
+                    throw new ArgumentException($"Invalid attribute name in tax_prices node in tile node with {Id} id");
                 }
-                TaxPrices.Add(temp, int.Parse(attribute.InnerText));
+                TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
 
             string rawColor = NamingConvention.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
-            Debug.WriteLine(rawColor);
             if (!Enum.TryParse(rawColor, true, out Color))
             {
-                throw new ArgumentException($"Invalid color node in node with {Id} id");
+                throw new ArgumentException($"Invalid color node in tile node with {Id} id");
             }
         }
         public override void OnStand(Player player)

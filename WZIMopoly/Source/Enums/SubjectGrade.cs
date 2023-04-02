@@ -1,14 +1,11 @@
-﻿#region Using Statements
-
-#endregion
-
-namespace WZIMopoly.Enums
+﻿namespace WZIMopoly.Enums
 {
     /// <summary>
     /// Represents a subject grade.
     /// </summary>
     enum SubjectGrade
     {
+        Two,
         Three,
         Three_half,
         Four,

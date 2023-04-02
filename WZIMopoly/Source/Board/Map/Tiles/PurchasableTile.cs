@@ -6,7 +6,7 @@ namespace WZIMopoly.Source.Board.Map.Tiles
 {
     abstract class PurchasableTile : Tile
     {
-        public int Price;
+        public readonly int Price;
         public Player? owner;
         protected PurchasableTile(XmlNode node) : base(node)
         {

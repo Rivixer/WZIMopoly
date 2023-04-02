@@ -18,7 +18,7 @@ namespace WZIMopoly
         }
 
         /// <summary>
-        /// Initialize tiles from xml file.
+        /// Initialize tiles from a xml file.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
         private void InitializeTiles()
@@ -29,7 +29,7 @@ namespace WZIMopoly
             string namespacePrefix = "WZIMopoly.Source.Board.Map.Tiles";
             foreach (XmlNode TileNode in TilesXml.DocumentElement.ChildNodes)
             {
-                string RawTileType = TileNode.Attributes["type"].InnerText;
+                string RawTileType = TileNode.Attributes["type"].Value;
                 Type TileType = Type.GetType($"{namespacePrefix}.{RawTileType}");
 
                 if (TileType != null)
@@ -39,7 +39,8 @@ namespace WZIMopoly
                 }
                 else
                 {
-                    throw new ArgumentException($"Invalid type in xml file: {RawTileType}");
+                    throw new ArgumentException($"Invalid value of type attribute: {RawTileType}; " +
+                        $"in tile node with {TileNode.Attributes["id"].Value} id in xml file.");
                 }
             }
         }

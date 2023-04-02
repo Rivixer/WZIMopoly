@@ -1,8 +1,4 @@
-﻿#region Using Statements
-#endregion
-
-
-namespace WZIMopoly.Enums
+﻿namespace WZIMopoly.Enums
 {
     /// <summary>
     /// Represents a subject color.
