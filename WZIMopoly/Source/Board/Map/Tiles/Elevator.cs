@@ -4,6 +4,9 @@ using System.Xml;
 
 namespace WZIMopoly.Source.Board.Map.Tiles
 {
+    /// <summary>
+    /// Represents an 'Elevator' tile.<br/>
+    /// </summary>
     class Elevator : Tile
     {
         public override void OnStand(Player player)
