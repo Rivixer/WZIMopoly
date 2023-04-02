@@ -32,7 +32,7 @@ namespace WZIMopoly
         {
             _graphics = graphics;
         }
-        public static void Update(GraphicsDeviceManager graphics)
+        public static void Update()
         {
             if (KeyboardController.WasClicked(Keys.F))
             {

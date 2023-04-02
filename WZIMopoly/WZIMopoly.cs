@@ -52,7 +52,7 @@ namespace WZIMopoly
                 Exit();
 
             KeyboardController.Update();
-            MainScreen.Update(_graphics);
+            MainScreen.Update();
 
             // TODO: Add your update logic here
 
