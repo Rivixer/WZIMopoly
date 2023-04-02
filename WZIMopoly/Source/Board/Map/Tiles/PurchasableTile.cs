@@ -4,6 +4,10 @@ using System.Xml;
 
 namespace WZIMopoly.Source.Board.Map.Tiles
 {
+    /// <summary>
+    /// The base class for the classes for tiles that a player can purchase for the appropriate amount of ECTS.<br/><br/>
+    /// If player steps on this field, they have to pay a rent to the person who owns this tile.
+    /// </summary>
     abstract class PurchasableTile : Tile
     {
         public readonly int Price;

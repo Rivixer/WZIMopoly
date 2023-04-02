@@ -4,6 +4,13 @@ using System.Xml;
 
 namespace WZIMopoly.Source.Board.Map.Tiles
 {
+    /// <summary>
+    /// Represents a 'Condition' tile. <br/>    
+    /// The player, who lands on such a tile have to pay the amount of ECTS indicated on the tile to the bank,
+    /// depending on the tile on which he stood.<br/>
+    /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Luxury_Tax">'Luxury Tax'</see>
+    /// and <see href="https://monopoly.fandom.com/wiki/Income_Tax">'Income Tax'</see> tiles in Monopoly.
+    /// </summary>
     class ConditionalPass : Tile
     {
         public readonly int Tax;

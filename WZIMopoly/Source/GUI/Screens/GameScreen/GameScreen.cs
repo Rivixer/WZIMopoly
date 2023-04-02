@@ -13,9 +13,9 @@ namespace WZIMopoly.GUI
     {
         private readonly GUIBoard _board;
 
-        public GameScreen(BoardController boardController)
+        public GameScreen()
         {
-            _board = new GUIBoard(boardController);
+            _board = new GUIBoard();
         }
 
         public override void Draw(SpriteBatch spriteBatch)
