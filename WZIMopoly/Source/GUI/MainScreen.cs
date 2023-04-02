@@ -7,52 +7,42 @@ namespace WZIMopoly
 {
     public static class MainScreen
     {
-        private static _Resolution _resolution;
-        public static _Resolution Resolution => _resolution;
-        public abstract class _Resolution
-        {
-            public readonly int Width;
-            public readonly int Height;
-            protected _Resolution(GraphicsDeviceManager graphics, int width, int height)
-            {
+        private static GraphicsDeviceManager _graphics;
+        private static int _width;  
+        private static int _height;
+        private static bool _fullScreen;
 
-                Width = width;
-                Height = height;
-                graphics.PreferredBackBufferWidth = Width;
-                graphics.PreferredBackBufferHeight = Height;
-            }
-        }
-        private class Windowed : _Resolution
+        public static int Width => _width;
+        public static int Height => _height;
+        public static bool IsFullScreen => _fullScreen;
+
+        public static void ChangeResolution(int width, int height, bool fullscreen)
         {
-            public Windowed(GraphicsDeviceManager graphics) : base(graphics, 1280, 720)
-            {
-                graphics.IsFullScreen = false;
-                graphics.ApplyChanges();
-            }
-        } 
-        private class FullScreen : _Resolution
-        {
-            public FullScreen(GraphicsDeviceManager graphics) : base(graphics, 1920, 1080)
-            {
-                graphics.IsFullScreen = true;
-                graphics.ApplyChanges();
-            }
+            _width = width;
+            _height = height;
+            _fullScreen = fullscreen;
+
+            _graphics.PreferredBackBufferWidth = _width;
+            _graphics.PreferredBackBufferHeight = _height;
+            _graphics.IsFullScreen = _fullScreen;
+
+            _graphics.ApplyChanges();
         }
         public static void Initialize(GraphicsDeviceManager graphics)
         {
-            _resolution = new Windowed(graphics);
+            _graphics = graphics;
         }
-        public static void Update(GraphicsDeviceManager graphics)
+        public static void Update()
         {
             if (KeyboardController.WasClicked(Keys.F))
             {
-                if (Resolution.GetType() == typeof(Windowed))
+                if (_fullScreen)
                 {
-                    _resolution = new FullScreen(graphics);
+                    ChangeResolution(1280, 720, false);
                 }
                 else
                 {
-                    _resolution = new Windowed(graphics);
+                    ChangeResolution(1920, 1080, true);
                 }
             }
         }
