@@ -22,6 +22,7 @@ namespace WZIMopoly.GUI
 
         /// <value>
         /// The drawing bounds on screen.
+        /// DestinationRect scales depending on current Main Screen's resolution.
         /// </value>
         internal Rectangle DestinationRect => new(
             destinationRect.X * MainScreen.Width / 1920,
