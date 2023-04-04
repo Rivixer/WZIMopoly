@@ -2,31 +2,29 @@
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
 using WZIMopoly.Source.Board.Map;
-using WZIMopoly.Source.Enums;
+using WZIMopoly.Enums;
+using System.ComponentModel.DataAnnotations;
 #endregion
-public class GameController
+namespace WZIMopoly.GameController
 {
-    private GameStatus _status;
-    private List<Player> _players;
-    private DataTime _startTime;
-    private BoardController _boardController;
-    private readonly BoardController _boardController
+    public class GameController
     {
-        get;
-        set; 
-    }
-    public GameController(GameStatus _status, List<Player> _players, DataTime _startTime, BoardController _boardController)
-    {
-        _status = GameStatus.InLobby;
-        _players = _players;
-        _startTime = _startTime;
-        _boardController = _boardController;
-    }
+        private GameStatus _status;
+        private List<Player> _players;
+        private DataType _startTime;
+        private BoardController _boardController;
+        public BoardController BoardController { get => _boardController; set => _boardController = value; }
 
-    public void StartGame()
-    {
-        _status = GameStatus.Running;
-        _startTime = DataTime.Now;
+        public GameController(List<Player> players)
+        {
+            _status = GameStatus.InLobby;
+            _players = players;
+        }
+        public void StartGame()
+        {
+            _status = GameStatus.InLobby;
+            _startTime = DataType.DateTime;
+        }
     }
-
 }
+

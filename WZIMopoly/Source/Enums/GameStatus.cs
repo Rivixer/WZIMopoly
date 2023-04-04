@@ -1,13 +1,14 @@
-﻿using System;
-
-/// <summary>
-/// Represents an game status.
-/// </summary>
-
-enum GameStatus
+﻿namespace WZIMopoly.Enums
 {
-    Running,
-    Paused,
-    InLobby,
-    Finished
+    /// <summary>
+    /// Represents an game status.
+    /// </summary>
+    enum GameStatus
+    {
+        Running,
+        Paused,
+        InLobby,
+        Finished
+    }
 }
+
