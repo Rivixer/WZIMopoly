@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using WZIMopoly.Source.Board.Map;
 using WZIMopoly.Enums;
 using System.ComponentModel.DataAnnotations;
+using System;
 #endregion
+
 namespace WZIMopoly.GameController
 {
     public class GameController
     {
         private GameStatus _status;
         private List<Player> _players;
-        private DataType _startTime;
+        private DateTime _startTime;
         private BoardController _boardController;
-        public BoardController BoardController { get => _boardController; set => _boardController = value; }
+        public BoardController BoardController  => _boardController;
 
         public GameController(List<Player> players)
         {
@@ -22,8 +24,8 @@ namespace WZIMopoly.GameController
         }
         public void StartGame()
         {
-            _status = GameStatus.InLobby;
-            _startTime = DataType.DateTime;
+            _status = GameStatus.Running;
+            _startTime = DateTime.Now;
         }
     }
 }
