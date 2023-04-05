@@ -1,9 +1,6 @@
 ﻿#region Using Statements
-using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
-using WZIMopoly.Source.Board.Map;
 using WZIMopoly.Enums;
-using System.ComponentModel.DataAnnotations;
 using System;
 #endregion
 

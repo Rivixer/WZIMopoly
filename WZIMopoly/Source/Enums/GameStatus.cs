@@ -1,7 +1,7 @@
 ﻿namespace WZIMopoly.Enums
 {
     /// <summary>
-    /// Represents an game status.
+    /// Represents a game status.
     /// </summary>
     enum GameStatus
     {
