@@ -16,6 +16,11 @@ namespace WZIMopoly.GUI
         protected Rectangle destinationRect;
 
         /// <value>
+        /// The offset will be used to move the position of the pawn so that the drawing coordinates refer to the center of the field, not the upper left corner.
+        /// </value>
+        protected Vector2 offset;
+
+        /// <value>
         /// The texture of the GUI element.
         /// </value>
         internal Texture2D Texture => texture;
