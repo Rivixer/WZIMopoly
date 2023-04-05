@@ -1,4 +1,8 @@
-﻿namespace WZIMopoly
+﻿#region Using Statements
+using WZIMopoly.Source.Board.Map;
+#endregion
+
+namespace WZIMopoly
 {
     public class Player
     {
