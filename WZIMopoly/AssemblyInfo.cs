@@ -1,4 +1,8 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
+[assembly: InternalsVisibleTo("TestWZIMopoly")]
+
 
 // W projektach w stylu zestawu SDK, takich jak ten, kilka atrybutów zestawu, kiedyś
 // definiowanych w tym pliku, jest teraz automatycznie dodawanych podczas kompilacji
