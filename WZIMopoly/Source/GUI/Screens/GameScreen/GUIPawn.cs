@@ -1,4 +1,5 @@
 #region Using Statements
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -23,14 +24,15 @@ namespace WZIMopoly.GUI
             texture = content.Load<Texture2D>("Images/Pawn" + _color);
         }
 
-        public abstract void UpdateDestinationRect(Vector2 newPosition)
+        public void UpdateDestinationRect(Vector2 newPosition)
         {
-
+            destinationRect.X = Convert.ToInt32(newPosition.X);
+            destinationRect.Y = Convert.ToInt32(newPosition.Y);
         }
 
-        public abstract void UpdateDestinationRect(Rectangle newRectangle)
+        public void UpdateDestinationRect(Rectangle newRectangle)
         {
-
+            destinationRect = newRectangle;
         }
     }
 }
