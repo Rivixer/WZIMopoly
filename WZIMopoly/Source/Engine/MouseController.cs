@@ -11,7 +11,7 @@ namespace WZIMopoly
         private static MouseState _oldMouse;
 
         /// <summary>
-        /// Updates the state of mouse
+        /// Updates the state of the mouse
         /// </summary>
         public static void Update()
         {
@@ -20,37 +20,36 @@ namespace WZIMopoly
         }
 
         /// <summary>
-        /// Checks if left mouse button was clicked
+        /// Checks if the left mouse button was clicked
         /// </summary>
         public static bool WasLeftBtnClicked()
         {
-            bool isClicked = _mouse.LeftButton == ButtonState.Pressed;
-            return isClicked;
+            bool wasRealeased = _oldMouse.LeftButton == ButtonState.Released;
+            bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
+            return isPressed && wasRealeased;   
         }
 
         /// <summary>
-        /// Checks if left mouse button is being pressed
+        /// Checks if the left mouse button is being pressed
         /// </summary>
         public static bool IsLeftBtnPressed()
         {
-            bool wasRealeased = _oldMouse.LeftButton == ButtonState.Released;
             bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
-            return !wasRealeased && isPressed;
+            return  isPressed;
         }
 
         /// <summary>
-        /// Checks if left mouse button was released
+        /// Checks if the left mouse button was released
         /// </summary>
         public static bool WasLeftBtnReleased()
         {
-
-            bool wasRealeased  = _oldMouse.LeftButton == ButtonState.Released;
-            bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
-            return wasRealeased && !isPressed;
+            bool wasPressed = _oldMouse.LeftButton == ButtonState.Pressed;
+            bool isReleased = _mouse.LeftButton == ButtonState.Released;
+            return isReleased && wasPressed;
         }
 
         /// <summary>
-        /// Checks if mouse position is within rectangle
+        /// Checks if the mouse position is within rectangle
         /// </summary>
         public static bool IsHover(Rectangle rect)
         {
