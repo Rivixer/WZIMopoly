@@ -16,7 +16,7 @@ namespace WZIMopoly
         public BoardController(List<Player> players)
         {
             MapController = new MapController();
-            Players = players
+            Players = players;
         }
     }
 }
