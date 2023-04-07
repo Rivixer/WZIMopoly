@@ -24,9 +24,8 @@ namespace WZIMopoly
         /// </summary>
         public static bool WasLeftBtnClicked()
         {
-            bool wasClicked = (_oldMouse.LeftButton == ButtonState.Pressed);
-            bool isClicked = (_mouse.LeftButton == ButtonState.Pressed);
-            return wasClicked && !isClicked;
+            bool isClicked = _mouse.LeftButton == ButtonState.Pressed;
+            return isClicked;
         }
 
         /// <summary>
@@ -34,9 +33,9 @@ namespace WZIMopoly
         /// </summary>
         public static bool IsLeftBtnPressed()
         {
-            bool wasClicked = (_oldMouse.LeftButton == ButtonState.Pressed);
-            bool isClicked = (_mouse.LeftButton == ButtonState.Pressed);
-            return wasClicked && isClicked;
+            bool wasRealeased = _oldMouse.LeftButton == ButtonState.Released;
+            bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
+            return !wasRealeased && isPressed;
         }
 
         /// <summary>
@@ -45,9 +44,9 @@ namespace WZIMopoly
         public static bool WasLeftBtnReleased()
         {
 
-            bool wasClicked = (_oldMouse.LeftButton == ButtonState.Pressed);
-            bool isClicked = (_mouse.LeftButton == ButtonState.Pressed);
-            return wasClicked && !isClicked;
+            bool wasRealeased  = _oldMouse.LeftButton == ButtonState.Released;
+            bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
+            return wasRealeased && !isPressed;
         }
 
         /// <summary>
