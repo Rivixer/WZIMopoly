@@ -12,7 +12,7 @@ namespace WZIMopoly.GameController
         private List<Player> _players;
         private DateTime _startTime;
         private BoardController _boardController;
-        public BoardController BoardController  => _boardController;
+        public BoardController BoardController => _boardController;
 
         public GameController(List<Player> players)
         {
