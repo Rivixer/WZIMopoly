@@ -49,7 +49,7 @@ namespace WZIMopoly
         }
 
         /// <summary>
-        /// Checks if the mouse position is within rectangle
+        /// Checks if the mouse position is within a rectangle
         /// </summary>
         public static bool IsHover(Rectangle rect)
         {
