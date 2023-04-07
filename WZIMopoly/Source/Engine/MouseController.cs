@@ -1,11 +1,6 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 #endregion
 
 namespace WZIMopoly
@@ -21,15 +16,22 @@ namespace WZIMopoly
         }
         public static bool WasLeftBtnClicked()
         {
-            throw new System.NotImplementedException();
+            bool wasClicked = (_oldMouse.LeftButton == ButtonState.Pressed);
+            bool isClicked = (_mouse.LeftButton == ButtonState.Pressed);
+            return wasClicked && !isClicked;
         }
         public static bool IsLeftBtnPressed()
         {
-            throw new System.NotImplementedException();
+            bool wasClicked = (_oldMouse.LeftButton == ButtonState.Pressed);
+            bool isClicked = (_mouse.LeftButton == ButtonState.Pressed);
+            return wasClicked && isClicked;
         }
         public static bool WasLeftBtnReleased()
         {
-            throw new System.NotImplementedException();
+
+            bool wasClicked = (_oldMouse.LeftButton == ButtonState.Pressed);
+            bool isClicked = (_mouse.LeftButton == ButtonState.Pressed);
+            return wasClicked && !isClicked;
         }
         public static bool IsHover(Rectangle rect)
         {
