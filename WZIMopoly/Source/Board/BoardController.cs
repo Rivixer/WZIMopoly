@@ -13,7 +13,7 @@ namespace WZIMopoly
 
         public List<Tile> Tiles => MapController.Tiles;
 
-        public BoardController(List<Player> players)
+        public BoardController(List<Players> players)
         {
             MapController = new MapController();
             Players = players;
