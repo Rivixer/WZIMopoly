@@ -26,7 +26,7 @@ namespace WZIMopoly
         {
             bool wasRealeased = _oldMouse.LeftButton == ButtonState.Released;
             bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
-            return isPressed && wasRealeased;   
+            return isPressed && wasRealeased;
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace WZIMopoly
         public static bool IsLeftBtnPressed()
         {
             bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
-            return  isPressed;
+            return isPressed;
         }
 
         /// <summary>
