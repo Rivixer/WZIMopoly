@@ -9,12 +9,14 @@ namespace WZIMopoly
     public class BoardController
     {
         public readonly MapController MapController;
+        public readonly List<Player> Players;
 
         public List<Tile> Tiles => MapController.Tiles;
 
-        public BoardController()
+        public BoardController(List<Player> players)
         {
             MapController = new MapController();
+            Players = players;
         }
     }
 }
