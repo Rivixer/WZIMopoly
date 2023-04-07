@@ -53,6 +53,7 @@ namespace WZIMopoly
                 Exit();
 
             KeyboardController.Update();
+            MouseController.Update();
             MainScreen.Update();
 
             // TODO: Add your update logic here
