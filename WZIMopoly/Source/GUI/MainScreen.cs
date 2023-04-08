@@ -1,6 +1,7 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using WZIMopoly.GUI;
 #endregion
 
 namespace WZIMopoly
@@ -12,6 +13,7 @@ namespace WZIMopoly
         private static int _height;
         private static bool _fullScreen;
 
+        public static Screen CurrentScreen;
         public static int Width => _width;
         public static int Height => _height;
         public static bool IsFullScreen => _fullScreen;
@@ -25,6 +27,8 @@ namespace WZIMopoly
             _graphics.PreferredBackBufferWidth = _width;
             _graphics.PreferredBackBufferHeight = _height;
             _graphics.IsFullScreen = _fullScreen;
+
+            CurrentScreen.RecalculateAll();
 
             _graphics.ApplyChanges();
         }

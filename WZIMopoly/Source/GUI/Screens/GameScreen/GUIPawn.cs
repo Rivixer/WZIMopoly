@@ -7,32 +7,39 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WZIMopoly.GUI
 {
-    internal class GUIPawn : GUIElement, IGUIDynamicPosition
+    internal class GUIPawn : GUIElement, IGUIDynamicPosition, IGUILoadable, IGUIDrawable
     {
         private readonly string _color;
+        private Texture2D _texture;
 
-        internal GUIPawn(string color)
+        internal GUIPawn(string color) : base(new(0, 0, 1920, 1080))
         {
             _color = color;
-            destinationRect = new(0, 0, 30, 30);
-            offset = new(-destinationRect.Height / 2,
-                         -destinationRect.Width / 2);
+            offset = new(-DestinationRect.Height / 2,
+                         -DestinationRect.Width / 2);
         }
 
-        internal override void Load(ContentManager content)
-        {
-            texture = content.Load<Texture2D>("Images/Pawn" + _color);
-        }
 
         public void UpdateDestinationRect(Vector2 newPosition)
         {
-            destinationRect.X = Convert.ToInt32(newPosition.X);
-            destinationRect.Y = Convert.ToInt32(newPosition.Y);
+            DestinationRect.X = Convert.ToInt32(newPosition.X);
+            DestinationRect.Y = Convert.ToInt32(newPosition.Y);
         }
 
         public void UpdateDestinationRect(Rectangle newRectangle)
         {
-            destinationRect = newRectangle;
+            DestinationRect = newRectangle;
+        }
+
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, offset, Color.White);
+        }
+
+        public void Load(ContentManager content)
+        {
+            _texture = content.Load<Texture2D>("Images/Pawn" + _color);
         }
     }
 }
