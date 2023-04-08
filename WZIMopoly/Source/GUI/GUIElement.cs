@@ -38,7 +38,7 @@ namespace WZIMopoly.GUI
         private void Recalculate()
         {
             var x = _defaultDestinationRect.X * MainScreen.Width / 1920;
-            var y = _defaultDestinationRect.X * MainScreen.Height / 1080;
+            var y = _defaultDestinationRect.Y * MainScreen.Height / 1080;
             var width = _defaultDestinationRect.Width * MainScreen.Width / 1920;
             var height = _defaultDestinationRect.Height * MainScreen.Height / 1080;
             DestinationRect = new(x, y, width, height);
