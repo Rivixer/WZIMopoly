@@ -10,9 +10,7 @@ namespace WZIMopoly.GUI
     {
         private Texture2D _texture;
 
-        public GUIBoard(Rectangle defDstRect) : base(defDstRect)
-        {
-        }
+        public GUIBoard(Rectangle defDstRect) : base(defDstRect) { }
 
         public void Draw(SpriteBatch spriteBatch)
         {

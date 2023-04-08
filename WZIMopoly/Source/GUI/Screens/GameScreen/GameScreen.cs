@@ -15,7 +15,7 @@ namespace WZIMopoly.GUI
 
         public GameScreen()
         {
-            _board = new GUIBoard(new(0,0,1920,1080));
+            _board = new GUIBoard(new(0, 0, 1920, 1080));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -27,6 +27,7 @@ namespace WZIMopoly.GUI
         {
             _board.Load(content);
         }
+
         public override void RecalculateAll()
         {
             _board.RecalculateAll();

@@ -7,27 +7,24 @@ using System.Collections.Generic;
 namespace WZIMopoly.GUI
 {
     /// <summary>
-    /// Base class for creating GUI elements.
+    /// The base class for creating GUI elements.
     /// </summary>
     internal abstract class GUIElement
     {
         private Rectangle _defaultDestinationRect;
         protected List<GUIElement> Children;
         protected Rectangle DestinationRect;
-        /// <value>
-        /// The offset will be used to move the position of the pawn so that the drawing coordinates refer to the center of the field, not the upper left corner.
-        /// </value>
-        protected Vector2 offset;
+        protected Vector2 Offset;
         /// <summary>
-        /// Creates GUIElement with empty list of children. 
+        /// Creates GUIElement with an empty list of children. 
         /// </summary>
-        /// <param name="defDstRect">Receives default destination rectangle</param>
+        /// <param name="defDstRect">Default destination rectangle</param>
         protected GUIElement(Rectangle defDstRect) : this(defDstRect, new List<GUIElement>()) { }
         /// <summary>
-        /// Creates GUIElement
+        /// Creates a GUIElement.
         /// </summary>
-        /// <param name="defDstRect">Receives default destination rectangle</param>
-        /// <param name="children">Receives list of GUIElement</param>
+        /// <param name="defDstRect">Default destination rectangle</param>
+        /// <param name="children">List of GUIElement</param>
         protected GUIElement(Rectangle defDstRect, List<GUIElement> children)
         {
             Children = children;
@@ -36,7 +33,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <summary>
-        /// Sets DestinationRect for this object
+        /// Sets <see cref="DestinationRect"/> for this object.
         /// </summary>
         private void Recalculate()
         {
@@ -48,7 +45,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <summary>
-        /// Runs Recalculate() method for this object and all his childern
+        /// Runs <see cref="Recalculate"/> method for this object and all his children.
         /// </summary>
         internal void RecalculateAll()
         {

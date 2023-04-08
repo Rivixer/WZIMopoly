@@ -15,10 +15,9 @@ namespace WZIMopoly.GUI
         internal GUIPawn(string color) : base(new(0, 0, 1920, 1080))
         {
             _color = color;
-            offset = new(-DestinationRect.Height / 2,
+            Offset = new(-DestinationRect.Height / 2,
                          -DestinationRect.Width / 2);
         }
-
 
         public void UpdateDestinationRect(Vector2 newPosition)
         {
@@ -31,10 +30,9 @@ namespace WZIMopoly.GUI
             DestinationRect = newRectangle;
         }
 
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, offset, Color.White);
+            spriteBatch.Draw(_texture, Offset, Color.White);
         }
 
         public void Load(ContentManager content)
