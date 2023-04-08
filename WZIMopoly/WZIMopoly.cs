@@ -33,8 +33,9 @@ namespace WZIMopoly
             // TODO: Add your initialization logic here
 
             MainScreen.Initialize(_graphics);
-            MainScreen.ChangeResolution(1280, 720, false);
             _screen = new GameScreen();
+            MainScreen.CurrentScreen = _screen;
+            MainScreen.ChangeResolution(1280, 720, false);
 
             base.Initialize();
         }

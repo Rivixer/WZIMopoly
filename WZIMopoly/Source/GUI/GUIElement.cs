@@ -1,53 +1,56 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 #endregion
 
 
 namespace WZIMopoly.GUI
 {
     /// <summary>
-    /// Base class for creating GUI elements.
+    /// The base class for creating GUI elements.
     /// </summary>
     internal abstract class GUIElement
     {
-        protected Texture2D texture;
-        protected Rectangle destinationRect;
-
-        /// <value>
-        /// The offset will be used to move the position of the pawn so that the drawing coordinates refer to the center of the field, not the upper left corner.
-        /// </value>
-        protected Vector2 offset;
-
-        /// <value>
-        /// The texture of the GUI element.
-        /// </value>
-        internal Texture2D Texture => texture;
-
-        /// <value>
-        /// The drawing bounds on screen.
-        /// DestinationRect scales depending on current Main Screen's resolution.
-        /// </value>
-        internal Rectangle DestinationRect => new(
-            destinationRect.X * MainScreen.Width / 1920,
-            destinationRect.Y * MainScreen.Height / 1080,
-            destinationRect.Width * MainScreen.Width / 1920,
-            destinationRect.Height * MainScreen.Height / 1080
-        );
-
-        /// <value>
-        /// The center position of the GUI element.
-        /// </value>
-        internal Point CenterPosition => DestinationRect.Center;
-
+        private Rectangle _defaultDestinationRect;
+        protected List<GUIElement> Children;
+        protected Rectangle DestinationRect;
+        protected Vector2 Offset;
+        /// <summary>
+        /// Creates GUIElement with an empty list of children. 
+        /// </summary>
+        /// <param name="defDstRect">Default destination rectangle</param>
+        protected GUIElement(Rectangle defDstRect) : this(defDstRect, new List<GUIElement>()) { }
+        /// <summary>
+        /// Creates a GUIElement.
+        /// </summary>
+        /// <param name="defDstRect">Default destination rectangle</param>
+        /// <param name="children">List of GUIElement</param>
+        protected GUIElement(Rectangle defDstRect, List<GUIElement> children)
+        {
+            Children = children;
+            _defaultDestinationRect = defDstRect;
+            Recalculate();
+        }
 
         /// <summary>
-        /// Loads the content of the GUI element.
+        /// Sets <see cref="DestinationRect"/> for this object.
         /// </summary>
-        /// <param name="content">
-        /// The content manager used for loading content.
-        /// </param>
-        internal abstract void Load(ContentManager content);
+        private void Recalculate()
+        {
+            var x = _defaultDestinationRect.X * MainScreen.Width / 1920;
+            var y = _defaultDestinationRect.X * MainScreen.Height / 1080;
+            var width = _defaultDestinationRect.Width * MainScreen.Width / 1920;
+            var height = _defaultDestinationRect.Height * MainScreen.Height / 1080;
+            DestinationRect = new(x, y, width, height);
+        }
+
+        /// <summary>
+        /// Runs <see cref="Recalculate"/> method for this object and all his children.
+        /// </summary>
+        internal void RecalculateAll()
+        {
+            Recalculate();
+            Children.ForEach(x => x.RecalculateAll());
+        }
     }
 }

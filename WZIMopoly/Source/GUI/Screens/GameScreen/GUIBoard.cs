@@ -6,16 +6,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace WZIMopoly.GUI
 {
-    internal class GUIBoard : GUIElement
+    internal class GUIBoard : GUIElement, IGUIDrawable, IGUILoadable
     {
-        internal GUIBoard()
+        private Texture2D _texture;
+
+        public GUIBoard(Rectangle defDstRect) : base(defDstRect) { }
+
+        public void Draw(SpriteBatch spriteBatch)
         {
-            destinationRect = new(0, 0, 1920, 1080);
+            spriteBatch.Draw(_texture, DestinationRect, Color.White);
         }
 
-        internal override void Load(ContentManager content)
+        public void Load(ContentManager content)
         {
-            texture = content.Load<Texture2D>("Images/Board");
+            _texture = content.Load<Texture2D>("Images/Board");
         }
     }
 }

@@ -15,17 +15,22 @@ namespace WZIMopoly.GUI
 
         public GameScreen()
         {
-            _board = new GUIBoard();
+            _board = new GUIBoard(new(0, 0, 1920, 1080));
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_board.Texture, _board.DestinationRect, Color.White);
+            _board.Draw(spriteBatch);
         }
 
         public override void Load(ContentManager content)
         {
             _board.Load(content);
+        }
+
+        public override void RecalculateAll()
+        {
+            _board.RecalculateAll();
         }
     }
 }
