@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using WZIMopoly.Enums;
 #endregion
 
-namespace WZIMopoly.Source.Board.Map
+namespace WZIMopoly.Board
 {
 
     public abstract class Tile

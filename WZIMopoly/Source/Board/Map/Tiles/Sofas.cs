@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Source.Board.Map.Tiles
+namespace WZIMopoly.Board
 {
     /// <summary>
     /// Represents a 'Sofas' tile. <br/>

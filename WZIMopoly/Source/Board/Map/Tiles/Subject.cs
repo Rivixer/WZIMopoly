@@ -6,7 +6,7 @@ using WZIMopoly.Enums;
 using WZIMopoly.Utils;
 #endregion
 
-namespace WZIMopoly.Source.Board.Map.Tiles
+namespace WZIMopoly.Board
 {
     /// <summary>
     /// Represents a subject tile.<br/>

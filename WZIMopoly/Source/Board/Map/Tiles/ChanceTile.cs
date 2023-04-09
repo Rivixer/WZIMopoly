@@ -1,9 +1,9 @@
 ﻿#region Using Statements
 using System.Xml;
-using WZIMopoly.Source.Items;
+using WZIMopoly;
 #endregion
 
-namespace WZIMopoly.Source.Board.Map.Tiles
+namespace WZIMopoly.Board
 {
     /// <summary>
     /// The base class for the <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see> in Monopoly.<br/>

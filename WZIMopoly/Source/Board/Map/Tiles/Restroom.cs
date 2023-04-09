@@ -5,7 +5,7 @@ using System.Xml;
 using WZIMopoly.Enums;
 #endregion
 
-namespace WZIMopoly.Source.Board.Map.Tiles
+namespace WZIMopoly.Board
 {
     /// <summary>
     /// Represents a 'Restroom' tile.<br/>

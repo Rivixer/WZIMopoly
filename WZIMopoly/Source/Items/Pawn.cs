@@ -1,4 +1,4 @@
-﻿namespace WZIMopoly.Source.Items
+﻿namespace WZIMopoly
 {
     class Pawn
     {

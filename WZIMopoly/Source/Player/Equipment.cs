@@ -1,4 +1,4 @@
-﻿namespace WZIMopoly.Source
+﻿namespace WZIMopoly
 {
     class Equipment
     {
