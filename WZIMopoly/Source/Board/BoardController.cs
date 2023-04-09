@@ -1,7 +1,7 @@
 ﻿#region Using Statements
 using Microsoft.Xna.Framework.Content;
 using System.Collections.Generic;
-using WZIMopoly.Source.Board.Map;
+using WZIMopoly.Board;
 #endregion
 
 namespace WZIMopoly

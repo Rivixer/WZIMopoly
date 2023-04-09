@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Source.Board.Map.Tiles
+namespace WZIMopoly.Board
 {
     /// <summary>
     /// The base class for the classes for tiles that a player can purchase for the appropriate amount of ECTS.<br/><br/>

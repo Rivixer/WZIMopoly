@@ -1,4 +1,4 @@
-﻿namespace WZIMopoly.Source.Board.Map.Tiles
+﻿namespace WZIMopoly.Board
 {
     /// <summary>
     /// An interface that allows to call a function that registers exceeding a given tile.

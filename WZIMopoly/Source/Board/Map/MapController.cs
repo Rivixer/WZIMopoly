@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using WZIMopoly.Source.Board.Map;
+using WZIMopoly.Board;
 #endregion
 
 namespace WZIMopoly
@@ -26,7 +26,7 @@ namespace WZIMopoly
             var TilesXml = new XmlDocument();
             TilesXml.Load("../../../Source/Board/Map/Properties/Tiles.xml");
 
-            string namespacePrefix = "WZIMopoly.Source.Board.Map.Tiles";
+            string namespacePrefix = "WZIMopoly.Board";
             foreach (XmlNode TileNode in TilesXml.DocumentElement.ChildNodes)
             {
                 string RawTileType = TileNode.Attributes["type"].Value;

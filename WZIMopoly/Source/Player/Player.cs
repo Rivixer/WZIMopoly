@@ -1,5 +1,5 @@
 ﻿#region Using Statements
-using WZIMopoly.Source.Board.Map;
+using WZIMopoly.Board;
 #endregion
 
 namespace WZIMopoly
