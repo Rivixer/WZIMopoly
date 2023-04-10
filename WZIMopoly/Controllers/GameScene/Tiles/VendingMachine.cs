@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a 'Vending Machine' tile.<br/>

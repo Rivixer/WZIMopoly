@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// The base class for the classes for tiles that a player can purchase for the appropriate amount of ECTS.<br/><br/>
@@ -11,7 +11,7 @@ namespace WZIMopoly.Board
     abstract class PurchasableTile : Tile
     {
         public readonly int Price;
-        public Player? owner;
+        public Player owner;
         protected PurchasableTile(XmlNode node) : base(node)
         {
             Price = int.Parse(node.SelectSingleNode("price").InnerText);

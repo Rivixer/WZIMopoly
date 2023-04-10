@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a 'Start' tile. <br/>

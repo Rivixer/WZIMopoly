@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a 'Mandatory Lecture' tile.<br/>
@@ -21,7 +21,7 @@ namespace WZIMopoly.Board
     class Jail : Tile
     {
         public Jail(XmlNode node) : base(node)
-        {}
+        { }
         public override void OnStand(Player player)
         {
             throw new System.NotImplementedException();

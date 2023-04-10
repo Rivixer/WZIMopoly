@@ -6,7 +6,7 @@ using WZIMopoly.Enums;
 using WZIMopoly.Utils;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a subject tile.<br/>

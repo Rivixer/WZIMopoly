@@ -5,7 +5,7 @@ using System.Xml;
 using WZIMopoly.Enums;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a 'Restroom' tile.<br/>
@@ -35,7 +35,7 @@ namespace WZIMopoly.Board
         }
         public override void OnStand(Player player)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

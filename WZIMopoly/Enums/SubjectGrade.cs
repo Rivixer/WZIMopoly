@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a subject grade.
     /// </summary>
-    enum SubjectGrade
+    internal enum SubjectGrade
     {
         Two,
         Three,

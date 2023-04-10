@@ -2,7 +2,7 @@
 using System.Xml;
 #endregion
 
-namespace WZIMopoly.Board
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a 'Sofas' tile. <br/>
@@ -13,7 +13,7 @@ namespace WZIMopoly.Board
     {
         public Sofas(XmlNode node) : base(node)
         {
-            
+
         }
         public override void OnStand(Player player)
         {
