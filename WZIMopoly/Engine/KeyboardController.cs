@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 #endregion
 
-namespace WZIMopoly
+namespace WZIMopoly.Engine
 {
     public static class KeyboardController
     {
@@ -20,9 +20,9 @@ namespace WZIMopoly
             _oldKeyboard = _keyboard;
             _keyboard = Keyboard.GetState();
 #if DEBUG
-            if(_printWhenClicked)
+            if (_printWhenClicked)
             {
-                foreach(var key in _keyboard.GetPressedKeys())
+                foreach (var key in _keyboard.GetPressedKeys())
                 {
                     if (WasClicked(key))
                     {
@@ -52,5 +52,5 @@ namespace WZIMopoly
             bool isClicked = _keyboard.IsKeyDown(key);
             return wasClicked && !isClicked;
         }
-     }
+    }
 }
