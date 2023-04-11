@@ -7,13 +7,14 @@ using WZIMopoly.GUI;
 
 namespace WZIMopoly
 {
-    // Inside because otherwise it gets Model from Microsoft.Xna.Framework.Graphics
+    // Inside because otherwise it gets
+    // Model from Microsoft.Xna.Framework.Graphics
     using Models;
 
     /// <summary>
     /// Represents a controller in MVC pattern.
     /// </summary>
-    public abstract class Controller
+    internal abstract class Controller
     {
         #region Fields
         /// <summary>
@@ -32,14 +33,14 @@ namespace WZIMopoly
 
         #region Properties
         /// <summary>
-        /// The view of the controller.
+        /// Gets or privately sets the view of the controller.
         /// </summary>
-        public GUIElement View { get; private set; }
+        internal GUIElement View { get; private set; }
 
         /// <summary>
-        /// The model of the controller.
+        /// Gets or privately sets the model of the controller.
         /// </summary>
-        public Model Model { get; private set; }
+        internal Model Model { get; private set; }
         #endregion
 
         #region Constructors
@@ -118,11 +119,12 @@ namespace WZIMopoly
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        public void LoadAll(ContentManager content)
+        internal void LoadAll(ContentManager content)
         {
             if (!_isPrimary)
             {
-                throw new NotPrimaryException("Controller must be primary to load all children.");
+                throw new NotPrimaryException(
+                    "Controller must be primary to load all children.");
             }
             LoadAll(content, this);
         }
@@ -152,11 +154,12 @@ namespace WZIMopoly
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        public void UpdateAll()
+        internal void UpdateAll()
         {
             if (!_isPrimary)
             {
-                throw new NotPrimaryException("Controller must be primary to update all children.");
+                throw new NotPrimaryException(
+                    "Controller must be primary to update all children.");
             }
 
             UpdateAll(this);
@@ -196,11 +199,12 @@ namespace WZIMopoly
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        public void DrawAll(SpriteBatch spriteBatch)
+        internal void DrawAll(SpriteBatch spriteBatch)
         {
             if (!_isPrimary)
             {
-                throw new NotPrimaryException("Controller must be primary to recalculate all children.");
+                throw new NotPrimaryException(
+                    "Controller must be primary to draw all children.");
             }
             DrawAll(spriteBatch, this);
         }
@@ -233,11 +237,12 @@ namespace WZIMopoly
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        public void RecalculateAll()
+        internal void RecalculateAll()
         {
             if (!_isPrimary)
             {
-                throw new NotPrimaryException("Controller must be primary to recalculate all children.");
+                throw new NotPrimaryException(
+                    "Controller must be primary to recalculate all children.");
             }
             RecalculateAll(this);
         }
