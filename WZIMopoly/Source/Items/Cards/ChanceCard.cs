@@ -1,6 +1,0 @@
-﻿namespace WZIMopoly
-{
-    class ChanceCard
-    {
-    }
-}

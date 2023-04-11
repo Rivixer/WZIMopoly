@@ -1,15 +1,12 @@
-﻿#region Using Statements
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using WZIMopoly.GUI;
-#endregion
+using WZIMopoly.Engine;
+using WZIMopoly.Scenes;
 
-#region Debug Using Statements
 #if DEBUG
 using WZIMopoly.DebugUtils;
 #endif
-#endregion
 
 
 
@@ -19,7 +16,7 @@ namespace WZIMopoly
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Screen _screen;
+        private Scene _currentScene;
 
         public WZIMopoly()
         {
@@ -30,21 +27,19 @@ namespace WZIMopoly
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            ScreenController.Initialize(_graphics);
+            ScreenController.ChangeResolution(1280, 720, false);
 
-            MainScreen.Initialize(_graphics);
-            _screen = new GameScreen();
-            MainScreen.CurrentScreen = _screen;
-            MainScreen.ChangeResolution(1280, 720, false);
+            _currentScene = new GameScene();
+            _currentScene.RecalculateAll();
+            (_currentScene as GameScene)?.StartGame();
 
             base.Initialize();
         }
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _screen.Load(Content);
-
-            // TODO: use this.Content to load your game content here
+            _currentScene.LoadAll(Content);
 
             base.LoadContent();
         }
@@ -55,9 +50,14 @@ namespace WZIMopoly
 
             KeyboardController.Update();
             MouseController.Update();
-            MainScreen.Update();
 
-            // TODO: Add your update logic here
+            if (KeyboardController.WasClicked(Keys.F))
+            {
+                ScreenController.Update();
+                _currentScene.RecalculateAll();
+            }
+
+            _currentScene.UpdateAll();
 
             base.Update(gameTime);
         }
@@ -68,7 +68,7 @@ namespace WZIMopoly
 
             _spriteBatch.Begin();
 
-            _screen.Draw(_spriteBatch);
+            _currentScene.DrawAll(_spriteBatch);
 
 #if DEBUG
             ShowCursorPosition.Draw(_spriteBatch, Content);
@@ -76,7 +76,6 @@ namespace WZIMopoly
 
             _spriteBatch.End();
 
-            // TODO: Add your drawing code here
 
             base.Draw(gameTime);
         }
