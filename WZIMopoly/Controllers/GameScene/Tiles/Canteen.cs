@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {

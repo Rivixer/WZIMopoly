@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
+using WZIMopoly.Models;
 #endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles

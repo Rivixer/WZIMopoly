@@ -1,4 +1,6 @@
-﻿namespace WZIMopoly.Controllers.GameScene.Tiles
+﻿using WZIMopoly.Models;
+
+namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// An interface that allows to call a function that registers exceeding a given tile.

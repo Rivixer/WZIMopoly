@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
+using WZIMopoly.Models;
 using WZIMopoly.Utils;
 #endregion
 
@@ -47,7 +48,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
 
-            string rawColor = NamingConvention.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
+            string rawColor = NamingConverter.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
             if (!Enum.TryParse(rawColor, true, out Color))
             {
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");

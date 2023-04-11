@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using WZIMopoly.Enums;
+using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers.GameScene
 {
@@ -67,7 +67,6 @@ namespace WZIMopoly.Controllers.GameScene
             Position = new Rectangle(x1, y1, width, height);
         }
 
-
         /// <summary>
         /// The action that should be performed when the player lands on the tile.
         /// </summary>
@@ -75,35 +74,5 @@ namespace WZIMopoly.Controllers.GameScene
         /// The player that landed on the tile.
         /// </param>
         public abstract void OnStand(Player player);
-
-        /// <summary>
-        /// Returns the positions that the pawns should take.
-        /// </summary>
-        /// <remarks>
-        /// The positions refer to the center of the pawn.
-        /// </remarks>
-        /// <param name="pawnAmount">
-        /// The amount of pawns on this tile.
-        /// </param>
-        /// <returns>
-        /// The list of positions.
-        /// </returns>
-        private List<Point> GetPawnPositions(int pawnAmount)
-        {
-            if (pawnAmount == 1)
-            {
-                return new List<Point> { Position.Center };
-            }
-
-            var result = new List<Point>();
-            switch (pawnAmount)
-            {
-                case 2:
-                    break;
-            }
-            return result;
-        }
-
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿#region Using Statements
 using System.Xml;
+using WZIMopoly.Models;
 #endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
