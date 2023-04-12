@@ -80,7 +80,6 @@ namespace WZIMopoly.GUI
 
         /// <summary>
         /// Scales <see cref="_defaultDestinationRect"/> for the current screen resolution.<br/>
-        /// Moves the start position according to the specified <see cref="GUIStartPoint"/>.<br/>
         /// Saves it to <see cref="DestinationRect"/> field.
         /// </summary>
         public void Recalculate()
