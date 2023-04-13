@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using WZIMopoly.Controllers.GameScene;
 
-namespace WZIMopoly.Models.GameScreen
+namespace WZIMopoly.Models.GameScene
 {
     /// <summary>
     /// Represents a map model.
