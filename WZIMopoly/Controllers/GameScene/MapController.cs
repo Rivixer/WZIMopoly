@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 using WZIMopoly.GUI.GameScene;
-using WZIMopoly.Models.GameScreen;
+using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.Controllers.GameScene
 {

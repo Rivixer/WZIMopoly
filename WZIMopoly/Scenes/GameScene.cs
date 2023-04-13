@@ -6,7 +6,7 @@ using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
-using WZIMopoly.Models.GameScreen;
+using WZIMopoly.Models.GameScene;
 using WZIMopoly.Scenes;
 
 namespace WZIMopoly
