@@ -32,7 +32,7 @@ namespace WZIMopoly.GUI
 
         #region Constructors
         /// <summary>
-        /// Initializes a new GUI texture element.
+        /// Initializes a new instance of <see cref="GUITexture"/> class.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -46,7 +46,7 @@ namespace WZIMopoly.GUI
         protected GUITexture() { }
 
         /// <summary>
-        /// Initializes a new GUI texture element.
+        /// Initializes a new instance of <see cref="GUITexture"/> class.
         /// </summary>
         /// <param name="defDstRect">
         /// The destination rectangle of the element specified for 1920x1080 resolution.
@@ -78,7 +78,7 @@ namespace WZIMopoly.GUI
             var width = _defaultDestinationRect.Width * ScreenController.Width / 1920;
             var height = _defaultDestinationRect.Height * ScreenController.Height / 1080;
 
-            DestinationRect = new(x, y, width, height);
+            DestinationRect = new Rectangle(x, y, width, height);
         }
 
         #region IGUIDynamicPosition Static Methods

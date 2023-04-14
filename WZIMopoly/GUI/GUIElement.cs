@@ -24,7 +24,6 @@ namespace WZIMopoly.GUI
         /// </param>
         internal abstract void Draw(SpriteBatch spriteBatch);
 
-
         /// <summary>
         /// Scales a GUI element for the current screen resolution.<br/>
         /// </summary>

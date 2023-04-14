@@ -42,7 +42,7 @@ namespace WZIMopoly.GUI
 
         #region Constructors
         /// <summary>
-        /// Initializes a new instance of <see cref="GUIText"/> class
+        /// Initializes a new instance of <see cref="GUIText"/> class.
         /// </summary>
         /// <param name="defPosition">
         /// The position vector of the element specified for 1920x1080 resolution.
