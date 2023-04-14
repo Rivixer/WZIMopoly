@@ -7,7 +7,7 @@ namespace WZIMopoly.GUI.GameScene
     /// <summary>
     /// Represents a pawn view.
     /// </summary>
-    internal sealed class GUIPawn : GUIElement, IGUIDynamicPosition
+    internal sealed class GUIPawn : GUITexture, IGUIDynamicPosition
     {
         /// <summary>
         /// The color of the pawn.
