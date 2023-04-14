@@ -10,7 +10,7 @@ namespace WZIMopoly.GUI
     /// <summary>
     /// Represents a view of a button.
     /// </summary>
-    internal class GUIButton : GUIElement
+    internal class GUIButton : GUITexture
     {
         /// <summary>
         /// The texture of the button when is enabled.

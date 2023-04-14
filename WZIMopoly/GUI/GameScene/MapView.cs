@@ -6,7 +6,7 @@ namespace WZIMopoly.GUI.GameScene
     /// <summary>
     /// Represents a map view.
     /// </summary>
-    internal sealed class MapView : GUIElement
+    internal sealed class MapView : GUITexture
     {
         internal override void Load(ContentManager content)
         {
