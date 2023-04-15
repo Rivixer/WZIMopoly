@@ -17,7 +17,7 @@ namespace WZIMopoly.GUI
         /// <inheritdoc/>
         internal override void Load(ContentManager content)
         {
-            Texture = content.Load<Texture2D>("Images/board");
+            Texture = content.Load<Texture2D>("Images/Background");
         }
     }
 }
