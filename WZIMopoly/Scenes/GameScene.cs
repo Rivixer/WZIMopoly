@@ -37,6 +37,7 @@ namespace WZIMopoly
             var mapView = new MapView();
             var mapController = new MapController(mapView, mapModel);
             Model.MapController = mapController;
+            Children.Add(Model.MapController);
         }
 
         /// <summary>
