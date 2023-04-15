@@ -1,0 +1,59 @@
+name: Bug Report
+description: Znalazłeś buga - stwórz issue
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Co sie stało?
+      description: Co powinno się wydarzyć, a co stało się innego? 
+      placeholder: "Rzucenie kostką crashuje grę."
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Jak do tego doszło?
+      description: | 
+        Opisz, jak deweloperzy mogą spowodować wystąpienie błędu - gdzie kliknąć, jaką opcję itd. Jest to zdecydowanie najważniejsza część raportu - często jest bardzo trudno lub nawet niemożliwe zdiagnozowanie problemu, jeśli nie znamy warunków, w których się pojawia. Można dorzucić screenshota.
+      placeholder: |
+        1. Uruchom singleplayer na opcjach default.
+        2. Rzuć kostką.
+        3. Gra się crashuje.
+    validations:
+      required: true
+  - type: dropdown
+    id: prevalence
+    attributes:
+      label: Częstotliwość
+      description: "Jak często pojawia się problem?"
+      options:
+        - Raz
+        - Czasami
+        - Zawsze
+    validations:
+      required: true
+  - type: dropdown
+    id: version
+    attributes:
+      label: Wersja
+      description: Jaka to wersja gry - testujesz wersję alpha czy po najnowszym commitcie.
+      options:      
+        - 0.1.0-alpha
+        - Inna
+    validations:
+      required: true
+  - type: input
+    id: otherversion
+    attributes:
+      label: "Link"
+      description: Jeśli wybrałeś "Najnowsza" - podaj link do ostatniego commita z tej wersji.
+  - type: dropdown
+    id: operating-systems
+    attributes:
+      label: System operacyjny
+      options:
+        - Windows
+        - MacOS
+        - Linux
+    validations:
+      required: true

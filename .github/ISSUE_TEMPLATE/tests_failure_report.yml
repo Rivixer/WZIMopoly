@@ -1,0 +1,16 @@
+name: Tests Failure Report
+description: Commit nie przeszedł testów
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Co poszło nie tak?
+      description: Jaka funkcjonalność nie przeszła jakiego testu? 
+      placeholder: "Podczas wywołania funkcji "Mnożenie" z argumentami "2,3" funkcja zwraca "5"."
+    validations:
+      required: true
+  - type: input
+    id: branch
+    attributes:
+      label: "Branch"
+      description: Podaj nazwę brancha.
