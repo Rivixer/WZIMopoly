@@ -14,7 +14,7 @@ body:
     attributes:
       label: Jak do tego doszło?
       description: | 
-        Opisz, jak deweloperzy mogą spowodować wystąpienie błędu - gdzie kliknąć, jaką opcję itd. Jest to zdecydowanie najważniejsza część raportu - często jest bardzo trudno lub nawet niemożliwe zdiagnozowanie problemu, jeśli nie znamy warunków, w których się pojawia. Można dorzucić screenshota.
+        Opisz, jak deweloperzy mogą spowodować wystąpienie błędu - gdzie kliknąć, jaką opcję itd. Jest to zdecydowanie najważniejsza część raportu - często jest bardzo trudne lub nawet niemożliwe zdiagnozowanie problemu, jeśli nie znamy warunków, w których się pojawia. Można dorzucić screenshota.
       placeholder: |
         1. Uruchom singleplayer na opcjach default.
         2. Rzuć kostką.
@@ -46,7 +46,7 @@ body:
     id: otherversion
     attributes:
       label: "Link"
-      description: Jeśli wybrałeś "Najnowsza" - podaj link do ostatniego commita z tej wersji.
+      description: Jeśli wybrałeś "Inna" - podaj link do ostatniego commita z tej wersji.
   - type: dropdown
     id: operating-systems
     attributes:
