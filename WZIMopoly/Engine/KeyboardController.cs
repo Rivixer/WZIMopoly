@@ -3,16 +3,32 @@ using System.Diagnostics;
 
 namespace WZIMopoly.Engine
 {
+    /// <summary>
+    /// Represents a controller for the keyboard.
+    /// </summary>
     public static class KeyboardController
     {
 
 #if DEBUG
+        /// <summary>
+        /// True if the key has been clicked, otherwise false.
+        /// </summary>
         private readonly static bool _printWhenClicked = false;
 #endif
-
+        /// <summary>
+        /// The current state of the keyboard.
+        /// </summary>
         private static KeyboardState _keyboard = Keyboard.GetState();
+
+        /// <summary>
+        /// The previous state of the keyboard.
+        /// </summary>
         private static KeyboardState _oldKeyboard;
 
+        /// <summary>
+        /// Updates the state of the keyboard.<br/>
+        /// Saves the current state as the old state and gets the new state.
+        /// </summary>
         public static void Update()
         {
             _oldKeyboard = _keyboard;
@@ -20,38 +36,34 @@ namespace WZIMopoly.Engine
 #if DEBUG
             if (_printWhenClicked)
             {
-                UpdateForeach();    
+                PrintClickedKeys();    
             }
 #endif
         }
-        private static void UpdateForeach()
-        {
-            foreach (var key in _keyboard.GetPressedKeys())
-            {
-                if (WasPressed(key))
-                {
-                    Debug.WriteLine($"Key '{key}' has been clicked");
-                }
-            }
-        }
-        #region Key Methods
         /// <summary>Checks if the key has been clicked.</summary>
         /// <remarks>
         /// The key has been clicked if it was released and then pressed.
         /// </remarks>
+        /// </summary>
+        /// <param name="key">
+        /// The key to check if it has been released
+        /// </param>
         /// <returns>
         /// True if the key has been clicked, otherwise false.
         /// </returns>
-        public static bool WasPressed(Keys key)
+        public static bool WasClicked(Keys key)
         {
-            bool wasClicked = _oldKeyboard.IsKeyDown(key);
-            bool isClicked = _keyboard.IsKeyDown(key);
-            return !wasClicked && isClicked;
+            bool wasReleased = _oldKeyboard.IsKeyDown(key);
+            bool isPressed = _keyboard.IsKeyDown(key);
+            return wasReleased && isPressed;
         }
 
         /// <summary>
         /// Checks if the key is being pressed.
         /// </summary>
+        /// <param name="key">
+        /// The key to check if it has been released
+        /// </param>
         /// <returns>
         /// True if the key is being pressed, otherwise false.
         /// </returns>
@@ -62,18 +74,39 @@ namespace WZIMopoly.Engine
         }
 
         /// <summary>
-        /// Checks if the key has been released.
+        /// Checks if the key has been released.</summary>
+        /// <remarks>
         /// The key has been released if it was pressed and then released.
-        /// </summary>
+        /// </remarks>
+        /// <param name="key">
+        /// The key to check if it has been released
+        /// </param>
         /// <returns>
         /// True if the key has been released, otherwise false.
         /// </returns>
         public static bool WasReleased(Keys key)
         {
             bool wasPressed = _oldKeyboard.IsKeyDown(key);
-            bool isPressed = _keyboard.IsKeyDown(key);
-            return wasPressed && !isPressed;
+            bool isReleased = _keyboard.IsKeyUp(key);
+            return wasPressed && isReleased;
         }
-        #endregion  
+
+        /// <summary>
+        /// Prints what key has been clicked
+        /// </summary>
+        /// <param name="key">
+        /// The key to check if it has been released
+        /// </param>
+        /// </summary>
+        private static void PrintClickedKeys()
+        {
+            foreach (var key in _keyboard.GetPressedKeys())
+            {
+                if (WasClicked(key))
+                {
+                    Debug.WriteLine($"Key '{key}' has been clicked");
+                }
+            }
+        }
     }
 }
