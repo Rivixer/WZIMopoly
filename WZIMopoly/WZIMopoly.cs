@@ -51,7 +51,7 @@ namespace WZIMopoly
             KeyboardController.Update();
             MouseController.Update();
 
-            if (KeyboardController.WasClicked(Keys.F))
+            if (KeyboardController.WasPressed(Keys.F))
             {
                 ScreenController.Update();
                 _currentScene.RecalculateAll();

@@ -93,7 +93,7 @@ namespace WZIMopoly.Engine
         /// </remarks>
         public static void Update()
         {
-            if (KeyboardController.WasClicked(Keys.F))
+            if (KeyboardController.WasPressed(Keys.F))
             {
                 if (_fullScreen)
                 {
