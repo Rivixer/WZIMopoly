@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
@@ -8,6 +9,7 @@ using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Scenes;
+using WZIMopoly.Engine;
 
 namespace WZIMopoly
 {
@@ -37,6 +39,8 @@ namespace WZIMopoly
             var mapView = new MapView();
             var mapController = new MapController(mapView, mapModel);
             Model.MapController = mapController;
+
+            DrawAllTile();
         }
 
         /// <summary>
@@ -57,6 +61,38 @@ namespace WZIMopoly
             Model.Players.Add(player3);
             Model.Players.Add(player4);
         }
+
+        private void DrawAllTile()
+        {
+            MapModel mapModel = (MapModel)Model.MapController.Model;
+            GUITile view;
+            Controller controller;
+            GUIText _GUIText;
+
+            // Tiles
+            //foreach (Tile tile in  mapModel.Tiles)
+            for(int i = 0; i < 50;  i++)
+            {
+                Tile tile = mapModel.Tiles[i];
+                //view = new GUITile(tile);
+                //controller = new MapController(view, mapModel);
+                //_GUIText =  GUIText(Vector2.Zero, tile.PlName, Color.White);
+                //view = new GUITile(tile);
+                //_GUIText = new GUIText(view);
+                //SpriteBatch spriteBatch = new SpriteBatch();
+                //view.Draw()
+                //view.Draw()
+                //_GUIText = new GUITile(tile);
+                view = new GUITile(tile);
+
+                //MapView view2 = new MapView();
+
+                //controller = new MapController(view2, mapModel);
+                //Children.Add(controller);
+                //controller = new MapController(view, mapModel);
+            }
+        }
+
 
         /// <summary>
         /// Creates all buttons on the game scene and adds them to the children list.
