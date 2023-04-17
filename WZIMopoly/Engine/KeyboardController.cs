@@ -8,7 +8,6 @@ namespace WZIMopoly.Engine
     /// </summary>
     public static class KeyboardController
     {
-
 #if DEBUG
         /// <summary>
         /// True if the key has been clicked, otherwise false.
@@ -40,13 +39,13 @@ namespace WZIMopoly.Engine
             }
 #endif
         }
+
         /// <summary>Checks if the key has been clicked.</summary>
         /// <remarks>
         /// The key has been clicked if it was released and then pressed.
         /// </remarks>
-        /// </summary>
         /// <param name="key">
-        /// The key to check if it has been released
+        /// The key to check if it has been released.
         /// </param>
         /// <returns>
         /// True if the key has been clicked, otherwise false.
@@ -62,7 +61,7 @@ namespace WZIMopoly.Engine
         /// Checks if the key is being pressed.
         /// </summary>
         /// <param name="key">
-        /// The key to check if it has been released
+        /// The key to check if it has been released.
         /// </param>
         /// <returns>
         /// True if the key is being pressed, otherwise false.
@@ -74,12 +73,13 @@ namespace WZIMopoly.Engine
         }
 
         /// <summary>
-        /// Checks if the key has been released.</summary>
+        /// Checks if the key has been released.
+        /// </summary>
         /// <remarks>
         /// The key has been released if it was pressed and then released.
         /// </remarks>
         /// <param name="key">
-        /// The key to check if it has been released
+        /// The key to check if it has been released.
         /// </param>
         /// <returns>
         /// True if the key has been released, otherwise false.
@@ -93,10 +93,6 @@ namespace WZIMopoly.Engine
 
         /// <summary>
         /// Prints what key has been clicked
-        /// </summary>
-        /// <param name="key">
-        /// The key to check if it has been released
-        /// </param>
         /// </summary>
         private static void PrintClickedKeys()
         {
