@@ -55,7 +55,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool WasClicked(Keys key)
         {
-            bool wasReleased = _oldKeyboard.IsKeyDown(key);
+            bool wasReleased = _oldKeyboard.IsKeyUp(key);
             bool isPressed = _keyboard.IsKeyDown(key);
             return wasReleased && isPressed;
         }
