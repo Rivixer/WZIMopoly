@@ -1,13 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
 
 namespace WZIMopoly.GUI
 {
-    internal abstract class GUITexture : GUIElement
+    internal abstract class GUITexture : IGUIable
     {
         #region Fields
+
+        /// <summary>
+        /// The position of element.
+        /// </summary>
+        private GUIStartPoint _startPoint;
+
         /// <summary>
         /// The texture of the element.
         /// </summary>
@@ -43,7 +51,8 @@ namespace WZIMopoly.GUI
         /// and <see cref="Recalculate()"/> methods.
         /// </para>
         /// </remarks>
-        protected GUITexture() { }
+        protected GUITexture()
+            : this(new Rectangle(0, 0, 1920, 1080)) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="GUITexture"/> class.
@@ -52,14 +61,29 @@ namespace WZIMopoly.GUI
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
         protected GUITexture(Rectangle defDstRect)
+            : this(defDstRect, GUIStartPoint.TopLeft) { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="GUITexture"/> class.
+        /// </summary>
+        /// <param name="defDstRect">
+        /// The destination rectangle of the element specified for 1920x1080 resolution.
+        /// </param>
+        /// <param name="startPoint">
+        /// The position of element.
+        /// </param>
+        protected GUITexture(Rectangle defDstRect, GUIStartPoint startPoint)
         {
+            _startPoint = startPoint;
             _defaultDestinationRect = defDstRect;
             Recalculate();
         }
+
+
         #endregion
 
         /// <inheritdoc/> 
-        internal override void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (Texture is not null)
             {
@@ -67,16 +91,52 @@ namespace WZIMopoly.GUI
             }
         }
 
+        public void Load(ContentManager contentManager) { }
+
         /// <summary>
         /// Scales <see cref="_defaultDestinationRect"/> for the current screen resolution.<br/>
         /// Saves it to <see cref="DestinationRect"/> field.
         /// </summary>
-        internal sealed override void Recalculate()
+        public void Recalculate()
         {
             var x = _defaultDestinationRect.X * ScreenController.Width / 1920;
             var y = _defaultDestinationRect.Y * ScreenController.Height / 1080;
             var width = _defaultDestinationRect.Width * ScreenController.Width / 1920;
             var height = _defaultDestinationRect.Height * ScreenController.Height / 1080;
+
+            switch (_startPoint)
+            {
+                case GUIStartPoint.TopLeft:
+                    break;
+                case GUIStartPoint.Left:
+                    y -= height / 2;
+                    break;
+                case GUIStartPoint.BottomLeft:
+                    y -= height;
+                    break;
+                case GUIStartPoint.Top:
+                    x -= width / 2;
+                    break;
+                case GUIStartPoint.Center:
+                    x -= width / 2;
+                    y -= height / 2;
+                    break;
+                case GUIStartPoint.Bottom:
+                    x -= width / 2;
+                    y -= height;
+                    break;
+                case GUIStartPoint.TopRight:
+                    x -= width;
+                    break;
+                case GUIStartPoint.Right:
+                    x -= width;
+                    y -= height / 2;
+                    break;
+                case GUIStartPoint.BottomRight:
+                    x -= width;
+                    y -= height;
+                    break;
+            }
 
             DestinationRect = new Rectangle(x, y, width, height);
         }
