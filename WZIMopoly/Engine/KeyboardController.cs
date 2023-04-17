@@ -10,8 +10,11 @@ namespace WZIMopoly.Engine
     {
 #if DEBUG
         /// <summary>
-        /// True if the key has been clicked, otherwise false.
+        /// Defines if the clicked key is about to be print.
         /// </summary>
+        /// <remarks>
+        /// Works only for debug.
+        /// </remarks>
         private readonly static bool _printWhenClicked = false;
 #endif
         /// <summary>
@@ -92,7 +95,7 @@ namespace WZIMopoly.Engine
         }
 
         /// <summary>
-        /// Prints what key has been clicked
+        /// Prints to the console, the keys that have been clicked.
         /// </summary>
         private static void PrintClickedKeys()
         {
