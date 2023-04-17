@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using WZIMopoly.Enums;
 
 namespace WZIMopoly.GUI
 {
     /// <summary>
     /// Represents a GUI element.
     /// </summary>
-    public abstract class GUIElement
+    public interface IGUIable
     {
         /// <summary>
         /// Loads the content of the element.
