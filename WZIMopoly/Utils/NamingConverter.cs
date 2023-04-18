@@ -20,7 +20,7 @@ namespace WZIMopoly.Utils
         {
             string pattern = @"(^|_)(\w)";
             var regex = new Regex(pattern);
-            var result = regex.Replace(text, match => match.Groups[2].Value.ToUpper());
+            var result = regex.Replace(text.ToLower(), match => match.Groups[2].Value.ToUpper());
             return result;
         }
     }
