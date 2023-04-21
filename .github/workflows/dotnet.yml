@@ -22,7 +22,10 @@ jobs:
       run: dotnet restore WindowsWZIMopoly.sln
     - name: Build debug
       run: dotnet build --configuration Debug --no-restore WindowsWZIMopoly.csproj
-      working-directory: WZIMopoly    
+      working-directory: WZIMopoly
+    - name: Unit tests
+      run: dotnet test --no-restore --verbosity normal TestWZIMopoly.csproj
+      working-directory: TestWZIMopoly
 
   linux:
     runs-on: ubuntu-latest
@@ -37,3 +40,6 @@ jobs:
     - name: Build debug
       run: dotnet build --configuration Debug --no-restore LinuxWZIMopoly.csproj
       working-directory: WZIMopoly
+    - name: Unit tests
+      run: dotnet test --no-restore --verbosity normal TestWZIMopoly.csproj
+      working-directory: TestWZIMopoly
