@@ -18,8 +18,7 @@ namespace WZIMopoly.GUI.GameScene
         /// Initializes a new instance of the <see cref="GUIPawn"/> class.
         /// </summary>
         /// <param name="color"></param>
-        internal GUIPawn(string color)
-            : base() // TODO: Set the default destination rectangle here
+        internal GUIPawn(string color): base(new Rectangle(0, 0, 130, 130)) 
         {
             _color = color;
         }

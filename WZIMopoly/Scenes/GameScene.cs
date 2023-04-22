@@ -31,12 +31,14 @@ namespace WZIMopoly
         /// </summary>
         public GameScene() : base(new GameView(), new GameModel()) 
         {
-            CreateButtons();
 
+            CreateButtons();
+            
             var mapModel = new MapModel();
             var mapView = new MapView();
             var mapController = new MapController(mapView, mapModel);
             Model.MapController = mapController;
+            var children = new MapController();
         }
 
         /// <summary>
@@ -44,6 +46,8 @@ namespace WZIMopoly
         /// </summary>
         internal void StartGame()
         {
+            
+
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
 
@@ -56,6 +60,9 @@ namespace WZIMopoly
             Model.Players.Add(player2);
             Model.Players.Add(player3);
             Model.Players.Add(player4);
+
+            MapController.CreatePawns(Model.Players);
+            MapController.SetPlayersOnStart(Model.Players);
         }
 
         /// <summary>
