@@ -58,7 +58,7 @@ namespace WZIMopoly.GUI
         public bool IsHovered => MouseController.IsHover(_isInHoverArea);
 
         /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch)
+        internal new void Draw(SpriteBatch spriteBatch)
         {
             Texture2D texture;
             if (!_model.IsActive)
@@ -77,7 +77,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content)
+        internal new void Load(ContentManager content)
         {
             _texture = content.Load<Texture2D>($"Images/{_model.Name}");
             _textureHovered = content.Load<Texture2D>($"Images/{_model.Name}Hovered");

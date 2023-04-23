@@ -35,7 +35,7 @@ namespace WZIMopoly
         /// <summary>
         /// Gets or privately sets the view of the controller.
         /// </summary>
-        internal GUIElement View { get; private set; }
+        internal IGUIable View { get; private set; }
 
         /// <summary>
         /// Gets or privately sets the model of the controller.
@@ -56,7 +56,7 @@ namespace WZIMopoly
         /// <param name="isPrimary">
         /// Should be true if the controller has no parents.
         /// </param>
-        protected Controller(GUIElement view, Model model, bool isPrimary)
+        protected Controller(IGUIable view, Model model, bool isPrimary)
             : this(view, model, isPrimary, new List<Controller>()) { }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace WZIMopoly
         /// <param name="children">
         /// The list of children.
         /// </param>
-        protected Controller(GUIElement view, Model model, bool isPrimary, List<Controller> children)
+        protected Controller(IGUIable view, Model model, bool isPrimary, List<Controller> children)
         {
             View = view;
             Model = model;

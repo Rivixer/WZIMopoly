@@ -25,7 +25,7 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content)
+        internal new void Load(ContentManager content)
         {
             Texture = content.Load<Texture2D>("Images/Pawns/Pawn" + _color);
         }

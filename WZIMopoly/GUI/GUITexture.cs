@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.VisualBasic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Xml.Serialization;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
@@ -19,7 +21,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The texture of the element.
         /// </summary>
-        protected Texture2D Texture;
+        private Texture2D _texture;
 
         /// <summary>
         /// The destination rectangle of the element scaled to the current screen resolution.
@@ -79,6 +81,7 @@ namespace WZIMopoly.GUI
             Recalculate();
         }
 
+        protected Texture2D Texture { get => _texture; set { _texture = value; Update(DestinationRect.X, DestinationRect.Y, DestinationRect.Width, DestinationRect.Height); } }
 
         #endregion
 
@@ -104,41 +107,46 @@ namespace WZIMopoly.GUI
             var width = _defaultDestinationRect.Width * ScreenController.Width / 1920;
             var height = _defaultDestinationRect.Height * ScreenController.Height / 1080;
 
+            Update(x, y, width, height);
+
+            DestinationRect = new Rectangle(DestinationRect.X, DestinationRect.Y, width, height);
+        }
+
+        private void Update(double x, double y, double width, double height)
+        {
             switch (_startPoint)
             {
                 case GUIStartPoint.TopLeft:
                     break;
                 case GUIStartPoint.Left:
-                    y -= height / 2;
+                    DestinationRect.Y -= (int)height / 2;
                     break;
                 case GUIStartPoint.BottomLeft:
-                    y -= height;
+                    DestinationRect.Y -= (int)height;
                     break;
                 case GUIStartPoint.Top:
-                    x -= width / 2;
+                    DestinationRect.X -= (int)width / 2;
                     break;
                 case GUIStartPoint.Center:
-                    x -= width / 2;
-                    y -= height / 2;
+                    DestinationRect.X -= (int)width / 2;
+                    DestinationRect.Y -= (int)height / 2;
                     break;
                 case GUIStartPoint.Bottom:
                     x -= width / 2;
-                    y -= height;
+                    DestinationRect.Y -= (int)height;
                     break;
                 case GUIStartPoint.TopRight:
-                    x -= width;
+                    DestinationRect.X -= (int)width;
                     break;
                 case GUIStartPoint.Right:
-                    x -= width;
-                    y -= height / 2;
+                    DestinationRect.Y -= (int)width;
+                    DestinationRect.Y -= (int)height / 2;
                     break;
                 case GUIStartPoint.BottomRight:
-                    x -= width;
-                    y -= height;
+                    DestinationRect.Y -= (int)width;
+                    DestinationRect.Y -= (int)height;
                     break;
             }
-
-            DestinationRect = new Rectangle(x, y, width, height);
         }
 
         #region IGUIDynamicPosition Static Methods
