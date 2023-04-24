@@ -43,8 +43,8 @@ namespace WZIMopoly.GUI
         /// <param name="model">
         /// The model of the button.
         /// </param>
-        /// <param name="onClick">
-        /// The action to be performed when the button is clicked.
+        /// <param name="startPoint">
+        /// Starting position of the element.
         /// </param>
         internal GUIButton(ButtonModel model) : base(model.DefDstRect)
         {

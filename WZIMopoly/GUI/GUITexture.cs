@@ -1,8 +1,5 @@
-﻿using Microsoft.VisualBasic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Xml.Serialization;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
@@ -12,12 +9,6 @@ namespace WZIMopoly.GUI
     internal abstract class GUITexture : GUIElement
     {
         #region Fields
-
-        /// <summary>
-        /// The position of element.
-        /// </summary>
-        private GUIStartPoint _startPoint;
-
         /// <summary>
         /// The texture of the element.
         /// </summary>
@@ -38,6 +29,11 @@ namespace WZIMopoly.GUI
         /// The X and Y coordinates refer to the top-left corner of the element.
         /// </remarks>
         private Rectangle _defaultDestinationRect;
+
+        /// <summary>
+        /// The place where <see cref="_defaultDestinationRect"/> have been specified.
+        /// </summary>
+        private readonly GUIStartPoint _startPoint;
         #endregion
 
         #region Constructors
@@ -72,7 +68,7 @@ namespace WZIMopoly.GUI
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
         /// <param name="startPoint">
-        /// The position of element.
+        /// Starting position of the element.
         /// </param>
         protected GUITexture(Rectangle defDstRect, GUIStartPoint startPoint)
         {
@@ -81,8 +77,18 @@ namespace WZIMopoly.GUI
             Recalculate();
         }
 
-        protected Texture2D Texture { get => _texture; set { _texture = value; Recalculate(); } }
-
+        /// <summary>
+        /// Gets or sets texture of element.
+        /// </summary>
+        protected Texture2D Texture
+        {
+            get => _texture;
+            set
+            {
+                _texture = value;
+                Recalculate();
+            }
+        }
         #endregion
 
         /// <inheritdoc/> 
@@ -93,8 +99,6 @@ namespace WZIMopoly.GUI
                 spriteBatch.Draw(Texture, DestinationRect, Color.White);
             }
         }
-
-        internal override void Load(ContentManager contentManager) { }
 
         /// <summary>
         /// Scales <see cref="_defaultDestinationRect"/> for the current screen resolution.<br/>
@@ -143,7 +147,6 @@ namespace WZIMopoly.GUI
 
             DestinationRect = new Rectangle(x, y, width, height);
         }
-
 
         #region IGUIDynamicPosition Static Methods
         /// <summary>

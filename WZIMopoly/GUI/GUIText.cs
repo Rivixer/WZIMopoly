@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
@@ -12,11 +11,6 @@ namespace WZIMopoly.GUI
     internal abstract class GUIText : GUIElement
     {
         #region Fields
-        /// <summary>
-        /// The position of element.
-        /// </summary>
-        private GUIStartPoint _startPoint;
-
         /// <summary>
         /// The font of the text.
         /// </summary>
@@ -31,7 +25,7 @@ namespace WZIMopoly.GUI
         /// The vector that represents the position scaled to the current screen resolution.
         /// </summary>
         /// <remarks>
-        /// The X and Y coordinates refer to the top-left corner of the element.
+        /// The X and Y coordinates refer to the position <see cref="_startPoint"/> of the element.
         /// </remarks>
         protected Vector2 Position;
 
@@ -44,10 +38,14 @@ namespace WZIMopoly.GUI
         /// The vector that represents position specified for 1920x1080 resolution.
         /// </summary>
         /// <remarks>
-        /// The X and Y coordinates refer to the top-left corner of the element.
+        /// The X and Y coordinates refer to the position <see cref="_startPoint"/> of the element.
         /// </remarks>
-        private Vector2 _defaultPosition;
+        private readonly Vector2 _defaultPosition;
 
+        /// <summary>
+        /// The place where <see cref="_defaultPosition"/> have been specified.
+        /// </summary>
+        private readonly GUIStartPoint _startPoint;
         #endregion
 
         #region Constructors
@@ -55,7 +53,7 @@ namespace WZIMopoly.GUI
         /// Initializes a new instance of <see cref="GUIText"/> class.
         /// </summary>
         /// <param name="defPosition">
-        /// The position vector of the element specified for 1920x1080 resolution.
+        /// The position vector of the element specified for 1920x1080 resolution. It refers to the top left corner.
         /// </param>
         protected GUIText(Vector2 defPosition)
             : this(defPosition, GUIStartPoint.TopLeft, string.Empty, Color.White) { }
@@ -67,25 +65,52 @@ namespace WZIMopoly.GUI
         /// The position vector of the element specified for 1920x1080 resolution.
         /// </param>
         /// <param name="startPoint">
-        /// The text to display.
+        /// Starting position of the element.
         /// </param>
+        /// <remarks>
+        /// The <see cref="Text"/> is empty. The <see cref="Color"/> is white.
+        /// </remarks>
         protected GUIText(Vector2 defPosition, GUIStartPoint startPoint)
             : this(defPosition, startPoint, string.Empty, Color.White) { }
 
-
+        /// <summary>
+        /// Initializes a new instance of <see cref="GUIText"/> class.
+        /// </summary>
+        /// <param name="defPosition">
+        /// The position vector of the element specified for 1920x1080 resolution.
+        /// </param>
+        /// <param name="startPoint">
+        /// Starting position of the element.
+        /// </param>
+        /// <param name="text">
+        /// The text of element.
+        /// </param>
+        /// <param name="color">
+        /// The color of element.
+        /// </param>
         protected GUIText(Vector2 defPosition, GUIStartPoint startPoint, string text, Color color)
         {
+            _defaultPosition = defPosition;
             _startPoint = startPoint;
             Text = text;
             Color = color;
         }
-
         #endregion
 
+        /// <summary>
+        /// Gets or sets text of element.
+        /// </summary>
+        protected string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                Recalculate();
+            }
+        }
 
-        protected string Text { get => _text; set { _text = value; Recalculate(); } }
-
-        /// <inheritdoc/>        
+        /// <inheritdoc/>
         internal override void Draw(SpriteBatch spriteBatch)
         {
             if (Font is not null)
@@ -93,8 +118,6 @@ namespace WZIMopoly.GUI
                 spriteBatch.DrawString(Font, Text, Position, Color);
             }
         }
-
-        internal override void Load(ContentManager contentManager) { }
 
         /// <summary>
         /// Scales <see cref="_defaultPosition"/> for the current screen resolution.<br/>
