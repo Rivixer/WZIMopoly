@@ -9,7 +9,7 @@ namespace WZIMopoly.GUI
     /// <summary>
     /// Represents a text GUI element.
     /// </summary>
-    internal abstract class GUIText : IGUIable
+    internal abstract class GUIText : GUIElement
     {
         #region Fields
         /// <summary>
@@ -83,10 +83,10 @@ namespace WZIMopoly.GUI
         #endregion
 
 
-        protected string Text { get => _text; set { _text = value; Update(Position.X, Position.Y); } }
+        protected string Text { get => _text; set { _text = value; Recalculate(); } }
 
         /// <inheritdoc/>        
-        public void Draw(SpriteBatch spriteBatch)
+        internal override void Draw(SpriteBatch spriteBatch)
         {
             if (Font is not null)
             {
@@ -94,57 +94,52 @@ namespace WZIMopoly.GUI
             }
         }
 
-        public void Load(ContentManager contentManager) { }
+        internal override void Load(ContentManager contentManager) { }
 
         /// <summary>
         /// Scales <see cref="_defaultPosition"/> for the current screen resolution.<br/>
         /// Saves it to <see cref="Position"/> field.
         /// </summary>
-        public void Recalculate()
+        internal override void Recalculate()
         {
             var x = _defaultPosition.X * ScreenController.Width / 1920;
             var y = _defaultPosition.Y * ScreenController.Height / 1080;
 
-            Update(x, y);
-
-            Position = new Vector2(x, y);
-        }
-
-        private void Update(double X, double Y)
-        {
             switch (_startPoint)
             {
                 case GUIStartPoint.TopLeft:
                     break;
                 case GUIStartPoint.Left:
-                    Position.Y -= Font.MeasureString(Text).Y / 2;
+                    y -= Font.MeasureString(Text).Y / 2;
                     break;
                 case GUIStartPoint.BottomLeft:
-                    Position.Y -= Font.MeasureString(Text).Y;
+                    y -= Font.MeasureString(Text).Y;
                     break;
                 case GUIStartPoint.Top:
-                    Position.X -= Font.MeasureString(Text).X / 2;
+                    x -= Font.MeasureString(Text).X / 2;
                     break;
                 case GUIStartPoint.Center:
-                    Position.X -= Font.MeasureString(Text).X / 2;
-                    Position.Y -= Font.MeasureString(Text).Y / 2;
+                    x -= Font.MeasureString(Text).X / 2;
+                    y -= Font.MeasureString(Text).Y / 2;
                     break;
                 case GUIStartPoint.Bottom:
-                    Position.X -= Font.MeasureString(Text).X / 2;
-                    Position.Y -= Font.MeasureString(Text).Y;
+                    x -= Font.MeasureString(Text).X / 2;
+                    y -= Font.MeasureString(Text).Y;
                     break;
                 case GUIStartPoint.TopRight:
-                    Position.X -= Font.MeasureString(Text).X;
+                    x -= Font.MeasureString(Text).X;
                     break;
                 case GUIStartPoint.Right:
-                    Position.X -= Font.MeasureString(Text).X;
-                    Position.Y -= Font.MeasureString(Text).Y / 2;
+                    x -= Font.MeasureString(Text).X;
+                    y -= Font.MeasureString(Text).Y / 2;
                     break;
                 case GUIStartPoint.BottomRight:
-                    Position.X -= Font.MeasureString(Text).X;
-                    Position.Y -= Font.MeasureString(Text).Y;
+                    x -= Font.MeasureString(Text).X;
+                    y -= Font.MeasureString(Text).Y;
                     break;
             }
+
+            Position = new Vector2(x, y);
         }
     }
 }
