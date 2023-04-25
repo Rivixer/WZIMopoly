@@ -31,7 +31,7 @@ namespace WZIMopoly.GUI
         private Rectangle _defaultDestinationRect;
 
         /// <summary>
-        /// The place where <see cref="_defaultDestinationRect"/> have been specified.
+        /// The place where <see cref="_defaultDestinationRect"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
         #endregion
@@ -68,7 +68,7 @@ namespace WZIMopoly.GUI
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
         /// <param name="startPoint">
-        /// Starting position of the element.
+        /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.
         /// </param>
         protected GUITexture(Rectangle defDstRect, GUIStartPoint startPoint)
         {
@@ -78,7 +78,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <summary>
-        /// Gets or sets texture of element.
+        /// Gets or sets texture of the element.
         /// </summary>
         protected Texture2D Texture
         {

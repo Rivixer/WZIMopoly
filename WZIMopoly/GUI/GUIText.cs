@@ -43,7 +43,7 @@ namespace WZIMopoly.GUI
         private readonly Vector2 _defaultPosition;
 
         /// <summary>
-        /// The place where <see cref="_defaultPosition"/> have been specified.
+        /// The place where <see cref="_defaultPosition"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
         #endregion
@@ -65,10 +65,10 @@ namespace WZIMopoly.GUI
         /// The position vector of the element specified for 1920x1080 resolution.
         /// </param>
         /// <param name="startPoint">
-        /// Starting position of the element.
+        /// The starting position of the element for which <paramref name="defPosition"/> has been specified.
         /// </param>
         /// <remarks>
-        /// The <see cref="Text"/> is empty. The <see cref="Color"/> is white.
+        /// The <see cref="Text"/> property is empty and the <see cref="Color"/> property is set to white by default.
         /// </remarks>
         protected GUIText(Vector2 defPosition, GUIStartPoint startPoint)
             : this(defPosition, startPoint, string.Empty, Color.White) { }
@@ -80,7 +80,7 @@ namespace WZIMopoly.GUI
         /// The position vector of the element specified for 1920x1080 resolution.
         /// </param>
         /// <param name="startPoint">
-        /// Starting position of the element.
+        /// The starting position of the element for which <paramref name="defPosition"/> has been specified.
         /// </param>
         /// <param name="text">
         /// The text to display.
@@ -98,7 +98,7 @@ namespace WZIMopoly.GUI
         #endregion
 
         /// <summary>
-        /// Gets or sets text of element.
+        /// Gets or sets the text of the element.
         /// </summary>
         protected string Text
         {

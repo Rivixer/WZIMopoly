@@ -1,7 +1,7 @@
 ﻿namespace WZIMopoly.Enums
 {
     /// <summary>
-    /// Represents of starting point.
+    /// Represents the starting point.
     /// </summary>
     public enum GUIStartPoint
     {
