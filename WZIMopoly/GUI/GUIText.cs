@@ -83,10 +83,10 @@ namespace WZIMopoly.GUI
         /// Starting position of the element.
         /// </param>
         /// <param name="text">
-        /// The text of element.
+        /// The text to display.
         /// </param>
         /// <param name="color">
-        /// The color of element.
+        /// The color of the element.
         /// </param>
         protected GUIText(Vector2 defPosition, GUIStartPoint startPoint, string text, Color color)
         {

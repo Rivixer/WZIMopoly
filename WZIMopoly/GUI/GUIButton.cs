@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.GUI
@@ -46,7 +47,8 @@ namespace WZIMopoly.GUI
         /// <param name="startPoint">
         /// Starting position of the element.
         /// </param>
-        internal GUIButton(ButtonModel model) : base(model.DefDstRect)
+        internal GUIButton(ButtonModel model, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+            : base(model.DefDstRect, startPoint)
         {
             _model = model;
             ResetButtonHoverArea();
