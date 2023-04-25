@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using WZIMopoly.Controllers;
+﻿using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
@@ -38,7 +36,6 @@ namespace WZIMopoly
             var mapView = new MapView();
             var mapController = new MapController(mapView, mapModel);
             Model.MapController = mapController;
-            var children = new MapController();
         }
 
         /// <summary>
@@ -46,8 +43,6 @@ namespace WZIMopoly
         /// </summary>
         internal void StartGame()
         {
-            
-
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
 

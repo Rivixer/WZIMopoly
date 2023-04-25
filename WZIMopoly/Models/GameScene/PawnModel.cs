@@ -3,13 +3,13 @@
     internal class PawnModel : Model
     {
         /// <summary>
-        /// The color of pawn
+        /// The color of pawn.
         /// </summary>
         internal readonly string Color;
 
-        internal PawnModel(string Color)
+        internal PawnModel(string color)
         {
-            this.Color = Color; 
+            Color = color; 
         }
     }
 }

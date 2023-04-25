@@ -39,7 +39,7 @@ namespace WZIMopoly.Controllers.GameScene
         protected Rectangle Position;
 
         ///<summary>
-        ///The list of players
+        ///The list of players.
         ///</summary>
         internal List<Player> Players = new();
 
@@ -84,12 +84,12 @@ namespace WZIMopoly.Controllers.GameScene
 
         internal List<Point> GetPawnPositions()
         {
-            List<Point> lista = new();
+            List<Point> positions = new();
             for (int i = 0; i < Players.Count; i++)
             {
-                lista.Add(Position.Center);
+                positions.Add(Position.Center);
             }
-            return lista;
+            return positions;
         }
     }
 }

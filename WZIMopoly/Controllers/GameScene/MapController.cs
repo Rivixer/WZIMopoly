@@ -33,10 +33,8 @@ namespace WZIMopoly.Controllers.GameScene
         internal MapController(MapView view, MapModel model)
             : base(view, model, false)
         {
-            LoadTiles();           
+            LoadTiles();
         }
-
-        
 
         /// <summary>
         /// Loads tiles from a xml file.
@@ -68,7 +66,7 @@ namespace WZIMopoly.Controllers.GameScene
 
         internal void SetPlayersOnStart(List<Player> players)
         {
-            foreach(var item in Model.Tiles)
+            foreach(Tile item in Model.Tiles)
             {
                 item.Players.Clear();
             }
@@ -77,13 +75,13 @@ namespace WZIMopoly.Controllers.GameScene
 
         internal void CreatePawns(List<Player> players)
         {
-            for (int i = 0; i < players.Count; i++)
+            foreach(Player item in players)
             {
-                PawnModel pm = new PawnModel(players[i].Color);
-                GUIPawn gp = new GUIPawn(players[i].Color);
-                PawnController pw = new PawnController(gp, pm);
-                Children.Add(pw);
-                _pawns.Add(pw);
+                var pawnModel = new PawnModel(players[i].Color);
+                var guiPawn = new GUIPawn(players[i].Color);
+                var pawnController = new PawnController(guiPawn, pawnModel);
+                Children.Add(pawnController);
+                _pawns.Add(pawnController);
             }
         }
 
@@ -91,10 +89,7 @@ namespace WZIMopoly.Controllers.GameScene
         {
             foreach (Tile tile in Model.Tiles)
             {
-                int pawnAmount = tile.Players.Count;
-                List<PawnController> pawnController = tile.GetPawnPositions(pawnAmount);
-
-                foreach (var (Player, Position) in tile.Players.Zip(UpdatePawnPositions,(p1, p2) => (p1, p2)))
+                foreach (var (Player, Position) in tile.Players.Zip(UpdatePawnPositions, (p1, p2) => (p1, p2)))
                 {
                     PawnController pawn = _pawns.Find(pawn => ((PawnModel)pawn.Model).Color == Player.Color);
                     pawn.UpdatePosition(Position);
