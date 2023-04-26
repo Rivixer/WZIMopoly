@@ -17,11 +17,6 @@ namespace WZIMopoly.GUI
         protected SpriteFont Font;
 
         /// <summary>
-        /// The text to display.
-        /// </summary>
-        private string _text;
-
-        /// <summary>
         /// The vector that represents the position scaled to the current screen resolution.
         /// </summary>
         /// <remarks>
@@ -32,7 +27,30 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The color of the text.
         /// </summary>
-        protected Color Color = Color.White;
+        protected Color Color;
+
+        /// <summary>
+        /// The scale of the font scaled to the current screen resolution.
+        /// </summary>
+        protected float Scale;
+
+        /// <summary>
+        /// The background of the text.
+        /// </summary>
+        /// <remarks>
+        /// If the background is null, the text will be displayed without background.
+        /// </remarks>
+        protected GUITexture Background;
+
+        /// <summary>
+        /// The text to display.
+        /// </summary>
+        private string _text;
+
+        /// <summary>
+        /// The scale of the text specified for 1920x1080 resolution.
+        /// </summary>
+        private readonly float _defaultScale;
 
         /// <summary>
         /// The vector that represents position specified for 1920x1080 resolution.
@@ -46,18 +64,10 @@ namespace WZIMopoly.GUI
         /// The place where <see cref="_defaultPosition"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
+
         #endregion
 
         #region Constructors
-        /// <summary>
-        /// Initializes a new instance of <see cref="GUIText"/> class.
-        /// </summary>
-        /// <param name="defPosition">
-        /// The position vector of the element specified for 1920x1080 resolution. It refers to the top left corner.
-        /// </param>
-        protected GUIText(Vector2 defPosition)
-            : this(defPosition, GUIStartPoint.TopLeft, string.Empty, Color.White) { }
-
         /// <summary>
         /// Initializes a new instance of <see cref="GUIText"/> class.
         /// </summary>
@@ -68,10 +78,10 @@ namespace WZIMopoly.GUI
         /// The starting position of the element for which <paramref name="defPosition"/> has been specified.
         /// </param>
         /// <remarks>
-        /// The <see cref="Text"/> property is empty and the <see cref="Color"/> property is set to white by default.
+        /// The <see cref="Color"/> property is set to white and the <see cref="Text"/> property is empty by default.
         /// </remarks>
-        protected GUIText(Vector2 defPosition, GUIStartPoint startPoint)
-            : this(defPosition, startPoint, string.Empty, Color.White) { }
+        protected GUIText(Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+            : this(defPosition, startPoint, Color.White) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="GUIText"/> class.
@@ -82,16 +92,22 @@ namespace WZIMopoly.GUI
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defPosition"/> has been specified.
         /// </param>
-        /// <param name="text">
-        /// The text to display.
-        /// </param>
         /// <param name="color">
         /// The color of the element.
         /// </param>
-        protected GUIText(Vector2 defPosition, GUIStartPoint startPoint, string text, Color color)
+        /// <param name="text">
+        /// The text to display.<br/>
+        /// Defaults to empty string.
+        /// </param>
+        /// <param name="scale">
+        /// The scale of the text. <br/>
+        /// Defaults to 1.0f.
+        /// </param>
+        protected GUIText(Vector2 defPosition, GUIStartPoint startPoint, Color color, string text = "", float scale = 1.0f)
         {
             _defaultPosition = defPosition;
             _startPoint = startPoint;
+            _defaultScale = scale;
             Text = text;
             Color = color;
         }
@@ -113,9 +129,10 @@ namespace WZIMopoly.GUI
         /// <inheritdoc/>
         internal override void Draw(SpriteBatch spriteBatch)
         {
+            Background?.Draw(spriteBatch);
             if (Font is not null)
             {
-                spriteBatch.DrawString(Font, Text, Position, Color);
+                spriteBatch.DrawString(Font, Text, Position, Color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0f);
             }
         }
 
@@ -125,11 +142,16 @@ namespace WZIMopoly.GUI
         /// </summary>
         internal override void Recalculate()
         {
+            if (Font is null)
+            {
+                return;
+            }
+
             var x = _defaultPosition.X * ScreenController.Width / 1920;
             var y = _defaultPosition.Y * ScreenController.Height / 1080;
 
-            float textWidth = Font.MeasureString(Text).X;
-            float textHeight = Font.MeasureString(Text).Y;
+            float textWidth = Font.MeasureString(Text).X * Scale;
+            float textHeight = Font.MeasureString(Text).Y * Scale;
 
             switch (_startPoint)
             {
@@ -166,6 +188,8 @@ namespace WZIMopoly.GUI
             }
 
             Position = new Vector2(x, y);
+            Scale = _defaultScale * ScreenController.Height / 1080;
+            Background?.Recalculate();
         }
     }
 }
