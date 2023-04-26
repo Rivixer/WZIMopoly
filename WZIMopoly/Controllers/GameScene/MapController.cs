@@ -43,7 +43,14 @@ namespace WZIMopoly.Controllers.GameScene
         private void LoadTiles()
         {
             var TilesXml = new XmlDocument();
-            TilesXml.Load("../../../Properties/Tiles.xml");
+
+#if WINDOWS
+            var path = "../../../Properties/Tiles.xml";
+#elif LINUX
+            var path = "WZIMopoly/Properties/Tiles.xml";
+#endif
+
+            TilesXml.Load(path);
 
             string namespacePrefix = "WZIMopoly.Controllers.GameScene.Tiles";
             foreach (XmlNode TileNode in TilesXml.DocumentElement.ChildNodes)
