@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.GUI
@@ -43,10 +44,11 @@ namespace WZIMopoly.GUI
         /// <param name="model">
         /// The model of the button.
         /// </param>
-        /// <param name="onClick">
-        /// The action to be performed when the button is clicked.
+        /// <param name="startPoint">
+        /// The starting position of the element.
         /// </param>
-        internal GUIButton(ButtonModel model) : base(model.DefDstRect)
+        internal GUIButton(ButtonModel model, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+            : base(model.DefDstRect, startPoint)
         {
             _model = model;
             ResetButtonHoverArea();
