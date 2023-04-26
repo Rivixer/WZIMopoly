@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +18,9 @@ namespace WZIMopoly.Controllers.GameScene
         /// Gets the model of the map controller.
         /// </summary>
         private new MapModel Model => (MapModel)base.Model;
-        private new MapView View => (MapView)base.View; 
+
         /// <summary>
-        /// Creates list od pawns
+        /// The list of pawns.
         /// </summary>
         private readonly List<PawnController> _pawns = new();
 
@@ -71,32 +71,54 @@ namespace WZIMopoly.Controllers.GameScene
             }
         }
 
+        /// <summary>
+        /// Sets all players on the start tile.
+        /// </summary>
+        /// <remarks>
+        /// Clears all players from other tiles.
+        /// </remarks>
+        /// <param name="players">
+        /// The list of players to be set on the start tile.
+        /// </param>
         internal void SetPlayersOnStart(List<Player> players)
         {
-            foreach(Tile item in Model.Tiles)
+            foreach(Tile tile in Model.Tiles)
             {
-                item.Players.Clear();
+                tile.Players.Clear();
             }
             Model.Tiles[0].Players = players;
         }
 
+        /// <summary>
+        /// Creates pawns for all players.
+        /// </summary>
+        /// <remarks>
+        /// Adds pawns to the list of pawns and to the children of the map.
+        /// </remarks>
+        /// <param name="players">
+        /// The list of players to create pawns for.
+        /// </param>
         internal void CreatePawns(List<Player> players)
         {
-            foreach(Player item in players)
+            foreach(Player player in players)
             {
-                var pawnModel = new PawnModel(players[i].Color);
-                var guiPawn = new GUIPawn(players[i].Color);
+                var pawnModel = new PawnModel(player.Color);
+                var guiPawn = new GUIPawn(player.Color);
                 var pawnController = new PawnController(guiPawn, pawnModel);
                 Children.Add(pawnController);
                 _pawns.Add(pawnController);
             }
         }
 
+        /// <summary>
+        /// Updates positions of all pawns.
+        /// </summary>
         internal void UpdatePawnPositions()
         {
             foreach (Tile tile in Model.Tiles)
             {
-                foreach (var (Player, Position) in tile.Players.Zip(UpdatePawnPositions, (p1, p2) => (p1, p2)))
+                List<Point> pawnPosition = tile.GetPawnPositions();
+                foreach (var (Player, Position) in tile.Players.Zip(pawnPosition, (p1, p2) => (p1, p2)))
                 {
                     PawnController pawn = _pawns.Find(pawn => ((PawnModel)pawn.Model).Color == Player.Color);
                     pawn.UpdatePosition(Position);
