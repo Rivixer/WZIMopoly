@@ -64,7 +64,6 @@ namespace WZIMopoly.GUI
         /// The place where <see cref="_defaultPosition"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
-
         #endregion
 
         #region Constructors
