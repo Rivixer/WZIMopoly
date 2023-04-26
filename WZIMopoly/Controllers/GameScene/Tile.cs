@@ -82,6 +82,15 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         public abstract void OnStand(Player player);
 
+        /// <summary>
+        /// Returns the list of points where the pawns should be placed on the tile.
+        /// </summary>
+        /// <remarks>
+        /// The points refer to the center of the pawns.
+        /// </remarks>
+        /// <returns>
+        /// The list of points where the pawns should be placed.
+        /// </returns>
         internal List<Point> GetPawnPositions()
         {
             List<Point> positions = new();
