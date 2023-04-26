@@ -31,8 +31,9 @@ namespace WZIMopoly
         /// </summary>
         public GameScene() : base(new GameView(), new GameModel()) 
         {
-            CreateButtons();
 
+            CreateButtons();
+            
             var mapModel = new MapModel();
             var mapView = new MapView();
             var mapController = new MapController(mapView, mapModel);
@@ -50,13 +51,17 @@ namespace WZIMopoly
 
             // A temporary code to add players to the game.
             var player1 = new Player("Player1", "Red");
-            var player2 = new Player("Player2", "Red");
-            var player3 = new Player("Player3", "Red");
-            var player4 = new Player("Player4", "Red");
+            var player2 = new Player("Player2", "Yellow");
+            var player3 = new Player("Player3", "Green");
+            var player4 = new Player("Player4", "Blue");
             Model.Players.Add(player1);
             Model.Players.Add(player2);
             Model.Players.Add(player3);
             Model.Players.Add(player4);
+
+            Model.MapController.CreatePawns(Model.Players);
+            Model.MapController.SetPlayersOnStart(Model.Players);
+            Model.MapController.UpdatePawnPositions();
         }
 
         /// <summary>

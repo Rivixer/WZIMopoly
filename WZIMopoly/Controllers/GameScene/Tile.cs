@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using Microsoft.Xna.Framework;
 using WZIMopoly.Enums;
@@ -36,6 +37,12 @@ namespace WZIMopoly.Controllers.GameScene
         /// The position of the tile.
         /// </summary>
         protected Rectangle Position;
+
+        ///<summary>
+        ///The list of players.
+        ///</summary>
+        internal List<Player> Players = new();
+
         #endregion
 
         /// <summary>
@@ -74,5 +81,24 @@ namespace WZIMopoly.Controllers.GameScene
         /// The player that landed on the tile.
         /// </param>
         public abstract void OnStand(Player player);
+
+        /// <summary>
+        /// Returns the list of points where the pawns should be placed on the tile.
+        /// </summary>
+        /// <remarks>
+        /// The points refer to the center of the pawns.
+        /// </remarks>
+        /// <returns>
+        /// The list of points where the pawns should be placed.
+        /// </returns>
+        internal List<Point> GetPawnPositions()
+        {
+            List<Point> positions = new();
+            for (int i = 0; i < Players.Count; i++)
+            {
+                positions.Add(Position.Center);
+            }
+            return positions;
+        }
     }
 }
