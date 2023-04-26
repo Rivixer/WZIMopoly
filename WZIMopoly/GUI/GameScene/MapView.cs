@@ -15,7 +15,7 @@ namespace WZIMopoly.GUI.GameScene
         internal MapView() : base(new Rectangle(0, 0, 1920, 1080)) { }
 
         /// <inheritdoc/>
-        internal new void Load(ContentManager content)
+        internal override void Load(ContentManager content)
         {
             Texture = content.Load<Texture2D>("Images/Board");
         }

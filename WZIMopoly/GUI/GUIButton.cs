@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.GUI
@@ -43,10 +44,11 @@ namespace WZIMopoly.GUI
         /// <param name="model">
         /// The model of the button.
         /// </param>
-        /// <param name="onClick">
-        /// The action to be performed when the button is clicked.
+        /// <param name="startPoint">
+        /// The starting position of the element.
         /// </param>
-        internal GUIButton(ButtonModel model) : base(model.DefDstRect)
+        internal GUIButton(ButtonModel model, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+            : base(model.DefDstRect, startPoint)
         {
             _model = model;
             ResetButtonHoverArea();
@@ -58,7 +60,7 @@ namespace WZIMopoly.GUI
         public bool IsHovered => MouseController.IsHover(_isInHoverArea);
 
         /// <inheritdoc/>
-        internal new void Draw(SpriteBatch spriteBatch)
+        internal override void Draw(SpriteBatch spriteBatch)
         {
             Texture2D texture;
             if (!_model.IsActive)
@@ -77,7 +79,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <inheritdoc/>
-        internal new void Load(ContentManager content)
+        internal override void Load(ContentManager content)
         {
             _texture = content.Load<Texture2D>($"Images/{_model.Name}");
             _textureHovered = content.Load<Texture2D>($"Images/{_model.Name}Hovered");

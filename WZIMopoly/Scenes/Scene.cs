@@ -22,7 +22,7 @@ namespace WZIMopoly.Scenes
         /// <param name="model">
         /// The model of the controller.
         /// </param>
-        public Scene(IGUIable view, Model model) : base(view, model, true) { }
+        public Scene(GUIElement view, Model model) : base(view, model, true) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene"/> class.
@@ -39,7 +39,7 @@ namespace WZIMopoly.Scenes
         /// <param name="children">
         /// The list of children of controller.
         /// </param>
-        public Scene(IGUIable view, Model model, List<Controller> children)
+        public Scene(GUIElement view, Model model, List<Controller> children)
             : base(view, model, true, children) { }
     }
 }
