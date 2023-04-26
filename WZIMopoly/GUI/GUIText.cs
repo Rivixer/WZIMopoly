@@ -128,37 +128,40 @@ namespace WZIMopoly.GUI
             var x = _defaultPosition.X * ScreenController.Width / 1920;
             var y = _defaultPosition.Y * ScreenController.Height / 1080;
 
+            float textWidth = Font.MeasureString(Text).X;
+            float textHeight = Font.MeasureString(Text).Y;
+
             switch (_startPoint)
             {
                 case GUIStartPoint.TopLeft:
                     break;
                 case GUIStartPoint.Left:
-                    y -= Font.MeasureString(Text).Y / 2;
+                    y -= textHeight / 2;
                     break;
                 case GUIStartPoint.BottomLeft:
-                    y -= Font.MeasureString(Text).Y;
+                    y -= textHeight;
                     break;
                 case GUIStartPoint.Top:
-                    x -= Font.MeasureString(Text).X / 2;
+                    x -= textWidth / 2;
                     break;
                 case GUIStartPoint.Center:
-                    x -= Font.MeasureString(Text).X / 2;
-                    y -= Font.MeasureString(Text).Y / 2;
+                    x -= textWidth / 2;
+                    y -= textHeight / 2;
                     break;
                 case GUIStartPoint.Bottom:
-                    x -= Font.MeasureString(Text).X / 2;
-                    y -= Font.MeasureString(Text).Y;
+                    x -= textWidth / 2;
+                    y -= textHeight;
                     break;
                 case GUIStartPoint.TopRight:
-                    x -= Font.MeasureString(Text).X;
+                    x -= textWidth;
                     break;
                 case GUIStartPoint.Right:
-                    x -= Font.MeasureString(Text).X;
-                    y -= Font.MeasureString(Text).Y / 2;
+                    x -= textWidth;
+                    y -= textHeight / 2;
                     break;
                 case GUIStartPoint.BottomRight:
-                    x -= Font.MeasureString(Text).X;
-                    y -= Font.MeasureString(Text).Y;
+                    x -= textWidth;
+                    y -= textHeight;
                     break;
             }
 
