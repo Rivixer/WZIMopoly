@@ -136,9 +136,11 @@ namespace WZIMopoly.GUI
         }
 
         /// <summary>
-        /// Scales <see cref="_defaultPosition"/> for the current screen resolution.<br/>
-        /// Saves it to <see cref="Position"/> field.
+        /// Scales <see cref="_defaultPosition"/> and <see cref="_defaultScale"/> for the current screen resolution.<br/>
         /// </summary>
+        /// <remarks>
+        /// Saves it to <see cref="Position"/> and <see cref="Scale"/> field.
+        /// </remarks>
         internal override void Recalculate()
         {
             if (Font is null)
