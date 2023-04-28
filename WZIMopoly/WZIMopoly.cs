@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
 using WZIMopoly.Scenes;
+using WZIMopoly.Controllers.GameScene;
+using WZIMopoly.Controllers;
+using WZIMopoly.GUI;
+using WZIMopoly.Models;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -56,7 +60,33 @@ namespace WZIMopoly
                 ScreenController.Update();
                 _currentScene.RecalculateAll();
             }
+#if DEBUG
+            else if (KeyboardController.WasClicked(Keys.OemTilde))
+            {
 
+
+                ConsoleModel model;
+                GUIConsole view;
+                ConsoleController controller;
+
+                model = new ConsoleModel("Console", new Rectangle(0, 0, 800, 400));
+                view = new GUIConsole(model);
+                controller = new ConsoleController(view, model);
+
+                
+
+                if (_currentScene.Children.IndexOf(controller) == -1)
+                {
+                    _currentScene.Children.Add(controller);
+                }
+                else
+                {
+                    _currentScene.Children.RemoveAt(_currentScene.Children.IndexOf(controller));
+                }
+
+                LoadContent();
+            }
+#endif
             _currentScene.UpdateAll();
 
             base.Update(gameTime);

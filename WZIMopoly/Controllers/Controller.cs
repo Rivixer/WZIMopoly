@@ -20,7 +20,7 @@ namespace WZIMopoly
         /// <summary>
         /// The list of children of the controller.
         /// </summary>
-        protected List<Controller> Children;
+        public List<Controller> Children;
 
         /// <summary>
         /// Whether the controller is a primary one and has no parents.
