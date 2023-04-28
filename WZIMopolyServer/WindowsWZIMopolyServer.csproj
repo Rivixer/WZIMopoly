@@ -6,10 +6,6 @@
 		<RootNamespace>WZIMopolyServer</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<RollForward>Major</RollForward>
-		<PublishReadyToRun>false</PublishReadyToRun>
-		<TieredCompilation>false</TieredCompilation>
-		<ApplicationManifest>../WZIMopoly/app.manifest</ApplicationManifest>
 		<Configurations>Debug;Release</Configurations>
 		<Platforms>AnyCPU</Platforms>
 	</PropertyGroup>
@@ -27,15 +23,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
-		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
 		<PackageReference Include="WebSocketSharp-netstandard" Version="1.0.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\WZIMopolyLibrary\WZIMopolyNetworkingLibrary.csproj" />
 	</ItemGroup>
-	<Target Name="RestoreDotnetTools" BeforeTargets="Restore">
-		<Message Text="Restoring dotnet tools" Importance="High" />
-		<Exec Command="dotnet tool restore" />
-	</Target>
 </Project>
