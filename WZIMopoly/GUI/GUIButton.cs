@@ -47,8 +47,8 @@ namespace WZIMopoly.GUI
         /// <param name="startPoint">
         /// The starting position of the element.
         /// </param>
-        internal GUIButton(ButtonModel model, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
-            : base(model.DefDstRect, startPoint)
+        internal GUIButton(ButtonModel model)
+            : base(model.DefDstRect, model.StartPoint)
         {
             _model = model;
             ResetButtonHoverArea();

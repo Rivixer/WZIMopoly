@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using WZIMopoly.Enums;
+using WZIMopoly.GUI;
 
 namespace WZIMopoly.Models
 {
@@ -29,6 +31,10 @@ namespace WZIMopoly.Models
         /// </summary>
         internal bool IsActive = true;
 
+        internal readonly GUIStartPoint StartPoint;
+
+
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ButtonModel"/> class.
         /// </summary>
@@ -40,10 +46,11 @@ namespace WZIMopoly.Models
         /// The default destination rectangle of the button.<br/>
         /// It specifies the position and size of the button.<br/>
         /// </param>
-        internal ButtonModel(string name, Rectangle defDstRect)
+        internal ButtonModel(string name, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
         {
             Name = name;
             DefDstRect = defDstRect;
+            StartPoint = startPoint;    
         }
     }
 }
