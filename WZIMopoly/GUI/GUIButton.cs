@@ -81,9 +81,9 @@ namespace WZIMopoly.GUI
         /// <inheritdoc/>
         internal override void Load(ContentManager content)
         {
-            _texture = content.Load<Texture2D>($"Images/{_model.Name}");
-            _textureHovered = content.Load<Texture2D>($"Images/{_model.Name}Hovered");
-            _textureDisabled = content.Load<Texture2D>($"Images/{_model.Name}Disabled");
+            _texture = content.Load<Texture2D>($"Images/Buttons/{_model.Name}");
+            _textureHovered = content.Load<Texture2D>($"Images/Buttons/{_model.Name}Hovered");
+            _textureDisabled = content.Load<Texture2D>($"Images/Buttons/{_model.Name}Disabled");
         }
 
         /// <summary>
