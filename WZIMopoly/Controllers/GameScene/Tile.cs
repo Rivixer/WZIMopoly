@@ -94,7 +94,7 @@ namespace WZIMopoly.Controllers.GameScene
         internal List<Point> GetPawnPositions()
         {
             List<Point> positions = new();
-            switch(Players.Count)
+            switch (Players.Count)
             {
                 case 1:
                     positions.Add(Position.Center);
