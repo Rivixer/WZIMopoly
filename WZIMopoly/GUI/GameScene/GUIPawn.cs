@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using WZIMopoly.Enums;
 
 namespace WZIMopoly.GUI.GameScene
 {
@@ -18,7 +19,8 @@ namespace WZIMopoly.GUI.GameScene
         /// Initializes a new instance of the <see cref="GUIPawn"/> class.
         /// </summary>
         /// <param name="color"></param>
-        internal GUIPawn(string color): base(new Rectangle(0, 0, 30, 30)) 
+        internal GUIPawn(string color)
+            : base(new Rectangle(0, 0, 30, 30), GUIStartPoint.Center)
         {
             _color = color;
         }

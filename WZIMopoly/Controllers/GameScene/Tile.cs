@@ -94,9 +94,86 @@ namespace WZIMopoly.Controllers.GameScene
         internal List<Point> GetPawnPositions()
         {
             List<Point> positions = new();
-            for (int i = 0; i < Players.Count; i++)
+            switch(Players.Count)
             {
-                positions.Add(Position.Center);
+                case 1:
+                    positions.Add(Position.Center);
+                    break;
+                case 2:
+                    switch (Orientation)
+                    {
+                        case TileOrientation.Square:
+                            positions.Add(new(Position.Center.X + 30, Position.Center.Y));
+                            positions.Add(new(Position.Center.X - 30, Position.Center.Y));
+                            break;
+                        case TileOrientation.HorizontalLeft:
+                            positions.Add(new(Position.Center.X + 10, Position.Center.Y));
+                            positions.Add(new(Position.Center.X - 35, Position.Center.Y));
+                            break;
+                        case TileOrientation.HorizontalRight:
+                            positions.Add(new(Position.Center.X - 10, Position.Center.Y));
+                            positions.Add(new(Position.Center.X + 35, Position.Center.Y));
+                            break;
+                        case TileOrientation.Vertical:
+                            positions.Add(new(Position.Center.X, Position.Center.Y - 10));
+                            positions.Add(new(Position.Center.X, Position.Center.Y + 35));
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (Orientation)
+                    {
+                        case TileOrientation.Square:
+                            positions.Add(new(Position.Center.X + 30, Position.Center.Y - 25));
+                            positions.Add(new(Position.Center.X - 30, Position.Center.Y - 25));
+                            positions.Add(new(Position.Center.X, Position.Center.Y + 25));
+                            break;
+                        case TileOrientation.HorizontalLeft:
+                            positions.Add(new(Position.Center.X + 10, Position.Center.Y - 15));
+                            positions.Add(new(Position.Center.X - 35, Position.Center.Y - 15));
+                            positions.Add(new(Position.Center.X - 13, Position.Center.Y + 15));
+                            break;
+                        case TileOrientation.HorizontalRight:
+                            positions.Add(new(Position.Center.X - 10, Position.Center.Y + 15));
+                            positions.Add(new(Position.Center.X + 35, Position.Center.Y + 15));
+                            positions.Add(new(Position.Center.X + 13, Position.Center.Y - 15));
+                            break;
+                        case TileOrientation.Vertical:
+                            positions.Add(new(Position.Center.X - 15, Position.Center.Y - 10));
+                            positions.Add(new(Position.Center.X - 15, Position.Center.Y + 35));
+                            positions.Add(new(Position.Center.X + 15, Position.Center.Y + 13));
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (Orientation)
+                    {
+                        case TileOrientation.Square:
+                            positions.Add(new(Position.Center.X - 30, Position.Center.Y - 30));
+                            positions.Add(new(Position.Center.X + 30, Position.Center.Y + 30));
+                            positions.Add(new(Position.Center.X - 30, Position.Center.Y + 30));
+                            positions.Add(new(Position.Center.X + 30, Position.Center.Y - 30));
+                            break;
+                        case TileOrientation.HorizontalLeft:
+                            positions.Add(new(Position.Center.X + 2, Position.Center.Y - 18));
+                            positions.Add(new(Position.Center.X - 33, Position.Center.Y - 18));
+                            positions.Add(new(Position.Center.X - 33, Position.Center.Y + 18));
+                            positions.Add(new(Position.Center.X + 2, Position.Center.Y + 18));
+                            break;
+                        case TileOrientation.HorizontalRight:
+                            positions.Add(new(Position.Center.X - 2, Position.Center.Y + 18));
+                            positions.Add(new(Position.Center.X + 33, Position.Center.Y + 18));
+                            positions.Add(new(Position.Center.X + 33, Position.Center.Y - 18));
+                            positions.Add(new(Position.Center.X - 2, Position.Center.Y - 18));
+                            break;
+                        case TileOrientation.Vertical:
+                            positions.Add(new(Position.Center.X - 18, Position.Center.Y - 2));
+                            positions.Add(new(Position.Center.X - 18, Position.Center.Y + 33));
+                            positions.Add(new(Position.Center.X + 18, Position.Center.Y + 33));
+                            positions.Add(new(Position.Center.X + 18, Position.Center.Y - 2));
+                            break;
+                    }
+                    break;
             }
             return positions;
         }
