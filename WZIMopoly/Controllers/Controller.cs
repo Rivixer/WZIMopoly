@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using WZIMopoly.Exceptions;
@@ -14,33 +14,30 @@ namespace WZIMopoly
     /// <summary>
     /// Represents a controller in MVC pattern.
     /// </summary>
-    internal abstract class Controller
+    internal abstract class Controller<_M, _V> : IControllerable
+        where _M : Models.Model
+        where _V : GUIElement
     {
         #region Fields
         /// <summary>
         /// The list of children of the controller.
         /// </summary>
-        protected List<Controller> Children;
-
-        /// <summary>
-        /// Whether the controller is a primary one and has no parents.
-        /// </summary>
-        /// <value>
-        /// If true, it is possible to call <see cref="RecalculateAll()"/> method.
-        /// </value>
-        private readonly bool _isPrimary;
+        private readonly List<IControllerable> _children;
         #endregion
 
         #region Properties
         /// <summary>
-        /// Gets or privately sets the view of the controller.
-        /// </summary>
-        internal GUIElement View { get; private set; }
-
-        /// <summary>
         /// Gets or privately sets the model of the controller.
         /// </summary>
-        internal Model Model { get; private set; }
+        internal _M Model { get; private set; }
+
+        /// <summary>
+        /// Gets or privately sets the view of the controller.
+        /// </summary>
+        internal _V View { get; private set; }
+
+        /// <inheritdoc cref="_children"/>
+        List<IControllerable> IControllerable.Children => _children;
         #endregion
 
         #region Constructors
@@ -53,11 +50,8 @@ namespace WZIMopoly
         /// <param name="model">
         /// The model of the controller.
         /// </param>
-        /// <param name="isPrimary">
-        /// Should be true if the controller has no parents.
-        /// </param>
-        protected Controller(GUIElement view, Model model, bool isPrimary)
-            : this(view, model, isPrimary, new List<Controller>()) { }
+        protected Controller(_M model, _V view)
+            : this(model, view, new List<IControllerable>()) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Controller"/> class.
@@ -68,18 +62,90 @@ namespace WZIMopoly
         /// <param name="model">
         /// The model of the controller.
         /// </param>
-        /// <param name="isPrimary">
-        /// Should be true if the controller has no parents.
-        /// </param>
         /// <param name="children">
         /// The list of children.
         /// </param>
-        protected Controller(GUIElement view, Model model, bool isPrimary, List<Controller> children)
+        protected Controller(_M model, _V view, List<IControllerable> children)
         {
-            View = view;
             Model = model;
-            Children = children;
-            _isPrimary = isPrimary;
+            View = view;
+            _children = children;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Adds a controller to the list of children.
+        /// </summary>
+        /// <param name="child">
+        /// The controller to be added.
+        /// </param>
+        protected void AddChild<M, V>(Controller<M, V> child)
+            where M : Models.Model
+            where V : GUIElement
+        {
+            _children.Add(child);
+        }
+
+        internal C InitializeChild<M, V, C>(object[] modelArgs = null, object[] viewArgs = null)
+            where M : Models.Model
+            where V : GUIElement
+            where C : Controller<M, V>
+        {
+            M model;
+            V view;
+            if (modelArgs is null)
+            {
+                model = (M)Activator.CreateInstance(typeof(M), nonPublic: true);
+            }
+            else
+            {
+                model = (M)Activator.CreateInstance(
+                    type: typeof(M),
+                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                    binder: null,
+                    args: modelArgs,
+                    culture: null
+                );
+            }
+
+            if (viewArgs is null)
+            {
+                view = (V)Activator.CreateInstance(typeof(V), nonPublic: true);
+            }
+            else
+            {
+                view = (V)Activator.CreateInstance(
+                    type: typeof(V),
+                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                    binder: null,
+                    args: viewArgs,
+                    culture: null
+                );
+            }
+
+            C controller = (C)Activator.CreateInstance(
+                type: typeof(C),
+                bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                binder: null,
+                args: new object[] { model, view},
+                culture: null
+            );
+
+            AddChild(controller);
+            return controller;
+        }
+
+        internal C GetController<C>()
+        {
+            foreach(var child in _children)
+            {
+                if (child is C result)
+                {
+                    return result;
+                }
+            }
+            return default;
         }
         #endregion
 
@@ -104,24 +170,19 @@ namespace WZIMopoly
         /// <param name="controller">
         /// The controller whose content is to be loaded.
         /// </param>
-        private static void LoadAll(ContentManager content, Controller controller)
+        private static void LoadAll(ContentManager content, IControllerable controller)
         {
             controller.Load(content);
             controller.Children.ForEach(child => LoadAll(content, child));
         }
 
-        /// <summary>
-        /// Loads the content for this controller and all its children.
-        /// </summary>
-        /// <param name="content">
-        /// The ContentManager used for loading content.
-        /// </param>
+        /// <inheritdoc cref="IPrimaryController.LoadAll(ContentManager)"/>
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        internal void LoadAll(ContentManager content)
+        protected void LoadAll(ContentManager content)
         {
-            if (!_isPrimary)
+            if (this is not IPrimaryController)
             {
                 throw new NotPrimaryException(
                     "Controller must be primary to load all children.");
@@ -145,26 +206,23 @@ namespace WZIMopoly
         /// <param name="controller">
         /// The controller to be updated.
         /// </param>
-        private static void UpdateAll(Controller controller)
+        private static void UpdateAll(IControllerable controller)
         {
             controller.Update();
             controller.Children.ForEach(child => UpdateAll(child));
         }
 
-        /// <summary>
-        /// Updates this controller and all its children.
-        /// </summary>
+        /// <inheritdoc cref="IPrimaryController.UpdateAll"/>
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        internal void UpdateAll()
+        protected void UpdateAll()
         {
-            if (!_isPrimary)
+            if (this is not IPrimaryController)
             {
                 throw new NotPrimaryException(
                     "Controller must be primary to update all children.");
             }
-
             UpdateAll(this);
         }
         #endregion
@@ -187,24 +245,19 @@ namespace WZIMopoly
         /// <param name="controller">
         /// The controller whose view is to be recalculated.
         /// </param>
-        private static void DrawAll(SpriteBatch spriteBatch, Controller controller)
-        {
+        private static void DrawAll(SpriteBatch spriteBatch, IControllerable controller)
+        { 
             controller.Draw(spriteBatch);
             controller.Children.ForEach(child => DrawAll(spriteBatch, child));
         }
 
-        /// <summary>
-        /// Draws the view of this controller and all its children.
-        /// </summary>
-        /// <param name="spriteBatch">
-        /// The SpriteBatch object used for rendering.
-        /// </param>
+        /// <inheritdoc cref="IPrimaryController.DrawAll(SpriteBatch)"/>
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        internal void DrawAll(SpriteBatch spriteBatch)
+        protected void DrawAll(SpriteBatch spriteBatch)
         {
-            if (!_isPrimary)
+            if (this is not IPrimaryController)
             {
                 throw new NotPrimaryException(
                     "Controller must be primary to draw all children.");
@@ -228,21 +281,19 @@ namespace WZIMopoly
         /// <param name="controller">
         /// The controller whose view is to be recalculated.
         /// </param>
-        private static void RecalculateAll(Controller controller)
+        private static void RecalculateAll(IControllerable controller)
         {
             controller.Recalculate();
             controller.Children.ForEach(child => RecalculateAll(child));
         }
 
-        /// <summary>
-        /// Recalculates the view of this controller and all its children.
-        /// </summary>
+        /// <inheritdoc cref="IPrimaryController.RecalculateAll"/>
         /// <exception cref="NotPrimaryException">
         /// Thrown if the controller is not primary.
         /// </exception>
-        internal void RecalculateAll()
+        protected void RecalculateAll()
         {
-            if (!_isPrimary)
+            if (this is not IPrimaryController)
             {
                 throw new NotPrimaryException(
                     "Controller must be primary to recalculate all children.");

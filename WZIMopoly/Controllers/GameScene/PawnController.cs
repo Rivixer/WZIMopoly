@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
 
@@ -7,24 +7,19 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a controller of the pawn.
     /// </summary>
-    internal class PawnController : Controller
+    internal class PawnController : Controller<PawnModel, GUIPawn>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PawnController"/> class.
         /// </summary>
-        /// <param name="view">
-        /// The view of the pawn.
-        /// </param>
         /// <param name="model">
         /// The model of the pawn.
         /// </param>
-        internal PawnController(GUIPawn view, PawnModel model)
-            : base(view, model, false) { }
-
-        /// <summary>
-        /// Gets the view of the pawn.
-        /// </summary>
-        internal new GUIPawn View => (GUIPawn)base.View;
+        /// <param name="view">
+        /// The view of the pawn.
+        /// </param>
+        internal PawnController(PawnModel model, GUIPawn view)
+            : base(model, view) { }
 
         /// <summary>
         /// Updates the position of the pawn.

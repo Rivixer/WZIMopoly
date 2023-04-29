@@ -1,8 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
-using WZIMopoly.Scenes;
+using WZIMopoly.GUI;
+using WZIMopoly.Controllers;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -16,7 +17,7 @@ namespace WZIMopoly
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Scene _currentScene;
+        private IPrimaryController _currentScene;
 
         public WZIMopoly()
         {

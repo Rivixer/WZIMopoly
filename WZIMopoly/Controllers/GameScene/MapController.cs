@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,8 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a controller of the map.
     /// </summary>
-    internal sealed class MapController : Controller
+    internal class MapController : Controller<MapModel, MapView>
     {
-        /// <summary>
-        /// Gets the model of the map controller.
-        /// </summary>
-        private new MapModel Model => (MapModel)base.Model;
-
         /// <summary>
         /// The list of pawns.
         /// </summary>
@@ -30,8 +25,8 @@ namespace WZIMopoly.Controllers.GameScene
         /// <remarks>
         /// Loads tiles from a xml file calling <see cref="LoadTiles()"/> method.
         /// </remarks>
-        internal MapController(MapView view, MapModel model)
-            : base(view, model, false)
+        internal MapController(MapModel model, MapView view)
+            : base(model, view)
         {
             LoadTiles();
         }

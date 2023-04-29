@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
@@ -14,18 +14,8 @@ namespace WZIMopoly
     /// <summary>
     /// Represents a game scene.
     /// </summary>
-    internal class GameScene : Scene
+    internal class GameScene : Scene<GameModel, GameView>
     {
-        /// <summary>
-        /// Gets the view of the game scene.
-        /// </summary>
-        public new GameView View => (GameView)base.View;
-
-        /// <summary>
-        /// Gets the model of the game scene.
-        /// </summary>
-        public new GameModel Model => (GameModel)base.Model;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>

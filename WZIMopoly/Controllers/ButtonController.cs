@@ -7,7 +7,7 @@ namespace WZIMopoly.Controllers
     /// <summary>
     /// Represents a button controller.
     /// </summary>
-    internal abstract class ButtonController : Controller
+    internal abstract class ButtonController : Controller<ButtonModel, GUIButton>
     {
         /// <summary>
         /// Gets the view of the button controller.
@@ -28,8 +28,8 @@ namespace WZIMopoly.Controllers
         /// <param name="model">
         /// The model of the button controller.
         /// </param>
-        internal ButtonController(GUIButton view, ButtonModel model)
-            : base(view, model, false) { }
+        internal ButtonController(ButtonModel model, GUIButton view)
+            : base(model, view) { }
 
         /// <summary>
         /// The method called when the button is clicked.
