@@ -107,6 +107,7 @@ namespace WZIMopoly
             view.SetButtonHoverArea(5, 0.8f);
             controller = new TradeButton(view, model);
             Children.Add(controller);
+
             // Buy button
             model = new ButtonModel("Buy", new Rectangle(1012, 930, 160, 160));
             view = new GUIButton(model);

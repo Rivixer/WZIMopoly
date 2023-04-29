@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
@@ -15,7 +10,7 @@ namespace WZIMopoly.Controllers.GameScene
     internal class BuyButton : ButtonController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="buyButton"/> class.
+        /// Initializes a new instance of the <see cref="BuyButton"/> class.
         /// </summary>
         /// <param name="view">
         /// The view of the buy button controller.

@@ -4,6 +4,9 @@ using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers.GameScene
 {
+    /// <summary>
+    /// Represents a mortgage button controller.
+    /// </summary>
     internal class MortgageButton : ButtonController
     {
         /// <summary>

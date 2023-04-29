@@ -31,9 +31,13 @@ namespace WZIMopoly.Models
         /// </summary>
         internal bool IsActive = true;
 
+        /// <summary>
+        /// The default starting point.
+        /// </summary>
+        /// <remarks>
+        /// It specifies the position of starting point<br/>
+        /// </remarks>
         internal readonly GUIStartPoint StartPoint;
-
-
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ButtonModel"/> class.
@@ -45,6 +49,9 @@ namespace WZIMopoly.Models
         /// <param name="defDstRect">
         /// The default destination rectangle of the button.<br/>
         /// It specifies the position and size of the button.<br/>
+        /// </param>
+        /// <param name="startPoint">
+        /// The default starting point of the button
         /// </param>
         internal ButtonModel(string name, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
         {
