@@ -49,6 +49,13 @@ namespace WZIMopoly
         }
         protected override void Update(GameTime gameTime)
         {
+#if DEBUG
+            if (KeyboardController.WasClicked(Keys.OemTilde))
+            {
+                _currentScene.ToggleConsole();
+                LoadContent();
+            }
+#endif
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -60,33 +67,7 @@ namespace WZIMopoly
                 ScreenController.Update();
                 _currentScene.RecalculateAll();
             }
-#if DEBUG
-            else if (KeyboardController.WasClicked(Keys.OemTilde))
-            {
 
-
-                ConsoleModel model;
-                GUIConsole view;
-                ConsoleController controller;
-
-                model = new ConsoleModel("Console", new Rectangle(0, 0, 800, 400));
-                view = new GUIConsole(model);
-                controller = new ConsoleController(view, model);
-
-                
-
-                if (_currentScene.Children.IndexOf(controller) == -1)
-                {
-                    _currentScene.Children.Add(controller);
-                }
-                else
-                {
-                    _currentScene.Children.RemoveAt(_currentScene.Children.IndexOf(controller));
-                }
-
-                LoadContent();
-            }
-#endif
             _currentScene.UpdateAll();
 
             base.Update(gameTime);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using WZIMopoly.Controllers;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
@@ -10,6 +11,9 @@ namespace WZIMopoly.Scenes
     /// </summary>
     internal abstract class Scene : Controller
     {
+#if DEBUG
+        private ConsoleController _consoleController;
+#endif
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene"/> class.
         /// </summary>
@@ -22,7 +26,12 @@ namespace WZIMopoly.Scenes
         /// <param name="model">
         /// The model of the controller.
         /// </param>
-        public Scene(GUIElement view, Model model) : base(view, model, true) { }
+        public Scene(GUIElement view, Model model) : base(view, model, true) 
+        {
+#if DEBUG
+            InitializeConsole();
+#endif
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene"/> class.
@@ -40,7 +49,37 @@ namespace WZIMopoly.Scenes
         /// The list of children of controller.
         /// </param>
         public Scene(GUIElement view, Model model, List<Controller> children)
-            : base(view, model, true, children) { }
+            : base(view, model, true, children) 
+        {
+#if DEBUG
+            InitializeConsole();
+#endif
+        }
+
+        private void InitializeConsole()
+        {
+            ConsoleModel model;
+            GUIConsole view;
+            ConsoleController controller;
+
+            //Console
+            model = new ConsoleModel("Console", new Rectangle(0, 0, 900, 450));
+            view = new GUIConsole(model);
+            controller = new ConsoleController(view, model);
+            _consoleController = controller;
+        }
+
+        internal void ToggleConsole()
+        {
+            if (!Children.Contains(_consoleController))
+            {
+                Children.Add(_consoleController);
+            }
+            else
+            {
+                Children.Remove(_consoleController);
+            }
+        }
     }
 }
 
