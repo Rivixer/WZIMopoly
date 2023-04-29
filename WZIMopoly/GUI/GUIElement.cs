@@ -9,6 +9,14 @@ namespace WZIMopoly.GUI
     public abstract class GUIElement
     {
         /// <summary>
+        /// Updates the element.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame.
+        /// </remarks>
+        internal virtual void Update() { }
+
+        /// <summary>
         /// Loads the content of the element.
         /// </summary>
         /// <param name="content">
