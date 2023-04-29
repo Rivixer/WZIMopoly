@@ -66,12 +66,12 @@
 		<price>120</price>
 		<upgrade_price>50</upgrade_price>
 		<tax_prices three="8" three_half="40" four="100" four_half="300" five="450" exemption="600"/>
-		<position x1="277" y1="667" x2="401" y2="745" orientation="horizontal"/>
+		<position x1="277" y1="667" x2="401" y2="745" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="9" type="Elevator">
 		<en_name>Elevator</en_name>
 		<pl_name>Winda</pl_name>
-		<position x1="277" y1="585" x2="401" y2="663" orientation="horizontal"/>
+		<position x1="277" y1="585" x2="401" y2="663" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="10" type="Subject">
 		<en_name>Physics</en_name>
@@ -80,13 +80,13 @@
 		<price>140</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="10" three_half="50" four="150" four_half="450" five="625" exemption="750"/>
-		<position x1="277" y1="503" x2="401" y2="581" orientation="horizontal"/>
+		<position x1="277" y1="503" x2="401" y2="581" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="11" type="ConditionalPass">
 		<en_name>Conditional pass</en_name>
 		<pl_name>Warunek</pl_name>
 		<tax>200</tax>
-		<position x1="277" y1="421" x2="401" y2="499" orientation="horizontal"/>
+		<position x1="277" y1="421" x2="401" y2="499" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="12" type="Subject">
 		<en_name>Exercise electronics</en_name>
@@ -95,7 +95,7 @@
 		<price>140</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="10" three_half="50" four="150" four_half="450" five="625" exemption="750"/>
-		<position x1="277" y1="339" x2="401" y2="417" orientation="horizontal"/>
+		<position x1="277" y1="339" x2="401" y2="417" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="13" type="Sofas">
 		<en_name>Sofas</en_name>
@@ -215,12 +215,12 @@
 		<price>260</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="22" three_half="110" four="330" four_half="800" five="975" exemption="1150"/>
-		<position x1="1519" y1="339" x2="1643" y2="417" orientation="horizontal"/>
+		<position x1="1519" y1="339" x2="1643" y2="417" orientation="horizontalRight"/>
 	</tile>
 	<tile id="29" type="Elevator">
 		<en_name>Elevator</en_name>
 		<pl_name>Winda</pl_name>
-		<position x1="1519" y1="421" x2="1643" y2="499" orientation="horizontal"/>
+		<position x1="1519" y1="421" x2="1643" y2="499" orientation="horizontalRight"/>
 	</tile>
 	<tile id="30" type="Subject">
 		<en_name>Mathematical analysis</en_name>
@@ -229,13 +229,13 @@
 		<price>280</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="24" three_half="120" four="360" four_half="850" five="1025" exemption="1200"/>
-		<position x1="1519" y1="503" x2="1643" y2="581" orientation="horizontal"/>
+		<position x1="1519" y1="503" x2="1643" y2="581" orientation="horizontalRight"/>
 	</tile>
 	<tile id="31" type="ConditionalPass">
 		<en_name>Conditional pass</en_name>
 		<pl_name>Warunek</pl_name>
 		<tax>100</tax>
-		<position x1="1519" y1="585" x2="1643" y2="663" orientation="horizontal"/>
+		<position x1="1519" y1="585" x2="1643" y2="663" orientation="horizontalRight"/>
 	</tile>
 	<tile id="32" type="Subject">
 		<en_name>Introduction to programming</en_name>
@@ -244,7 +244,7 @@
 		<price>300</price>
 		<upgrade_price>200</upgrade_price>
 		<tax_prices three="26" three_half="130" four="390" four_half="900" five="1100" exemption="1275"/>
-		<position x1="1519" y1="667" x2="1643" y2="745" orientation="horizontal"/>
+		<position x1="1519" y1="667" x2="1643" y2="745" orientation="horizontalRight"/>
 	</tile>
 	<tile id="33" type="Deanery">
 		<en_name>Go to the lecture</en_name>

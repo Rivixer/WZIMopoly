@@ -134,7 +134,10 @@ namespace WZIMopoly
         /// <summary>
         /// Updates this controller.
         /// </summary>
-        protected virtual void Update() { }
+        protected virtual void Update() 
+        {
+            View.Update();
+        }
 
         /// <summary>
         /// Updates the controller and all its chlidren.
