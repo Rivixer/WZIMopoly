@@ -6,7 +6,8 @@
     public enum TileOrientation
     {
         Vertical,
-        Horizontal,
+        HorizontalLeft,
+        HorizontalRight,
         Square
     }
 }
