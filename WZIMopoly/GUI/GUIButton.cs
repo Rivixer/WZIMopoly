@@ -43,10 +43,6 @@ namespace WZIMopoly.GUI
         /// </summary>
         /// <param name="model">
         /// The model of the button.
-        /// </param>
-        /// <param name="startPoint">
-        /// The starting position of the element.
-        /// </param>
         internal GUIButton(ButtonModel model)
             : base(model.DefDstRect, model.StartPoint)
         {
