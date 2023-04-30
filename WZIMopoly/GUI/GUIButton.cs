@@ -43,6 +43,7 @@ namespace WZIMopoly.GUI
         /// </summary>
         /// <param name="model">
         /// The model of the button.
+        /// </param>
         internal GUIButton(ButtonModel model)
             : base(model.DefDstRect, model.StartPoint)
         {
