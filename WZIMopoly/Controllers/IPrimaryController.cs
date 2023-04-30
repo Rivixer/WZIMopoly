@@ -30,7 +30,7 @@ namespace WZIMopoly.Controllers
         public void UpdateAll();
 
         /// <summary>
-        /// Recalculates the view of the controller.
+        /// Recalculates the view of the controller and all its children.
         /// </summary>
         public void RecalculateAll();
     }

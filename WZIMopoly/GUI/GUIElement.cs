@@ -36,5 +36,13 @@ namespace WZIMopoly.GUI
         /// Scales a GUI element for the current screen resolution.<br/>
         /// </summary>
         internal abstract void Recalculate();
+
+        /// <summary>
+        /// Loads the data from the model.
+        /// </summary>
+        /// <param name="model">
+        /// The model to load data from.
+        /// </param>
+        internal virtual void LoadDataFromModel(Models.Model model) { }
     }
 }

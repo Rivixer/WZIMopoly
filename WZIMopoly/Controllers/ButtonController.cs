@@ -10,16 +10,6 @@ namespace WZIMopoly.Controllers
     internal abstract class ButtonController : Controller<ButtonModel, GUIButton>
     {
         /// <summary>
-        /// Gets the view of the button controller.
-        /// </summary>
-        protected new GUIButton View => (GUIButton)base.View;
-
-        /// <summary>
-        /// Gets the model of the button controller.
-        /// </summary>
-        protected new ButtonModel Model => (ButtonModel)base.Model;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ButtonController"/> class.
         /// </summary>
         /// <param name="view">

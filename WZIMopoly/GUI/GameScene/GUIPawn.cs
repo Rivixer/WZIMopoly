@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Enums;
+using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.GUI.GameScene
 {
@@ -13,16 +14,17 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The color of the pawn.
         /// </summary>
-        private readonly string _color;
+        private string _color;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIPawn"/> class.
         /// </summary>
-        /// <param name="color"></param>
-        internal GUIPawn(string color)
-            : base(new Rectangle(0, 0, 30, 30), GUIStartPoint.Center)
+        internal GUIPawn() : base(new Rectangle(0, 0, 30, 30), GUIStartPoint.Center) { }
+
+        /// <inheritdoc/>
+        internal override void LoadDataFromModel(Models.Model model)
         {
-            _color = color;
+            _color = (model as PawnModel).Color;
         }
 
         /// <inheritdoc/>

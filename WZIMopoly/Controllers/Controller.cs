@@ -1,19 +1,27 @@
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System;
+using WZIMopoly.Controllers;
 using WZIMopoly.Exceptions;
 using WZIMopoly.GUI;
-
+using System.Reflection;
+using System.Linq;
 
 namespace WZIMopoly
 {
-    // Inside because otherwise it gets
-    // Model from Microsoft.Xna.Framework.Graphics
-    using Models;
-
     /// <summary>
     /// Represents a controller in MVC pattern.
     /// </summary>
+    /// <remakrs>
+    /// Each controller has a model and a view.
+    /// </remakrs>
+    /// <typeparam name="_M">
+    /// The type of the model.
+    /// </typeparam>
+    /// <typeparam name="_V">
+    /// The type of the view.
+    /// </typeparam>
     internal abstract class Controller<_M, _V> : IControllerable
         where _M : Models.Model
         where _V : GUIElement
@@ -77,6 +85,12 @@ namespace WZIMopoly
         /// <summary>
         /// Adds a controller to the list of children.
         /// </summary>
+        /// <typeparam name="M">
+        /// The type of the model of the child controller.
+        /// </typeparam>
+        /// <typeparam name="V">
+        /// The type of the view of the child controller.
+        /// </typeparam>
         /// <param name="child">
         /// The controller to be added.
         /// </param>
@@ -87,14 +101,31 @@ namespace WZIMopoly
             _children.Add(child);
         }
 
-        internal C InitializeChild<M, V, C>(object[] modelArgs = null, object[] viewArgs = null)
+        /// <summary>
+        /// Initializes a child controller and adds it to the list of children.
+        /// </summary>
+        /// <typeparam name="M">
+        /// The type of the model of the child controller.
+        /// </typeparam>
+        /// <typeparam name="V">
+        /// The type of the view of the child controller.
+        /// </typeparam>
+        /// <typeparam name="C">
+        /// The type of the child controller.
+        /// </typeparam>
+        /// <param name="modelArgs">
+        /// The arguments for the model constructor.
+        /// </param>
+        /// <returns>
+        /// The initialized child controller.
+        /// </returns>
+        internal C InitializeChild<M, V, C>(params object[] modelArgs)
             where M : Models.Model
             where V : GUIElement
             where C : Controller<M, V>
         {
             M model;
-            V view;
-            if (modelArgs is null)
+            if (modelArgs.Length == 0)
             {
                 model = (M)Activator.CreateInstance(typeof(M), nonPublic: true);
             }
@@ -109,20 +140,8 @@ namespace WZIMopoly
                 );
             }
 
-            if (viewArgs is null)
-            {
-                view = (V)Activator.CreateInstance(typeof(V), nonPublic: true);
-            }
-            else
-            {
-                view = (V)Activator.CreateInstance(
-                    type: typeof(V),
-                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                    binder: null,
-                    args: viewArgs,
-                    culture: null
-                );
-            }
+            V view = (V)Activator.CreateInstance(typeof(V), nonPublic: true);
+            view.LoadDataFromModel(model);
 
             C controller = (C)Activator.CreateInstance(
                 type: typeof(C),
@@ -136,26 +155,55 @@ namespace WZIMopoly
             return controller;
         }
 
-        internal C GetController<C>()
+        /// <summary>
+        /// Returns the first child controller of the specified type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of the child controller.
+        /// </typeparam>
+        /// <returns>
+        /// The first child controller of the specified type if found; otherwise null.
+        /// </returns>
+        internal T GetController<T>()
         {
-            foreach(var child in _children)
-            {
-                if (child is C result)
-                {
-                    return result;
-                }
-            }
-            return default;
+            return GetController<T>((c) => true);
+        }
+
+        /// <inheritdoc cref="GetController{C}"/>
+        /// <param name="condition">
+        /// A predicate used to determine whether a child controller matches the search criteria.
+        /// </param>
+        internal T GetController<T>(Predicate<T> condition)
+        {
+            return (T)_children.FirstOrDefault(c => c is T child && condition(child));
+        }
+
+        /// <summary>
+        /// Returns all controllers of the specified type.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of the child controllers.
+        /// </typeparam>
+        /// <returns>
+        /// The list of child controllers of the specified type.
+        /// </returns>
+        internal List<T> GetAllControllers<T>()
+        {
+            return GetAllControllers<T>((c) => true);
+        }
+
+        /// <inheritdoc cref="GetAllControllers{T}"/>
+        /// <param name="condition">
+        /// A predicate used to determine whether a child controller matches the search criteria.
+        /// </param>
+        internal List<T> GetAllControllers<T>(Predicate<T> condition)
+        {
+            return _children.FindAll((c) => c is T result && condition(result)).Cast<T>().ToList();
         }
         #endregion
 
         #region Load Methods
-        /// <summary>
-        /// Loads the content for this controller.
-        /// </summary>
-        /// <param name="content">
-        /// The ContentManager used for loading content.
-        /// </param>
+        /// <inheritdoc cref="IControllerable.Load(ContentManager)"/>
         protected virtual void Load(ContentManager content)
         {
             View.Load(content);
@@ -192,9 +240,7 @@ namespace WZIMopoly
         #endregion
 
         #region Update Methods
-        /// <summary>
-        /// Updates this controller.
-        /// </summary>
+        /// <inheritdoc cref="IControllerable.Update"/>
         protected virtual void Update() 
         {
             View.Update();
@@ -228,9 +274,7 @@ namespace WZIMopoly
         #endregion
 
         #region Draw Methods
-        /// <summary>
-        /// Draws the view of this controller.
-        /// </summary>
+        /// <inheritdoc cref="IControllerable.Draw(SpriteBatch)"/>
         protected virtual void Draw(SpriteBatch spriteBatch)
         {
             View.Draw(spriteBatch);
@@ -267,9 +311,7 @@ namespace WZIMopoly
         #endregion
 
         #region Recalculate Methods
-        /// <summary>
-        /// Recalculates the view of this controller.
-        /// </summary>
+        /// <inheritdoc cref="IControllerable.Recalculate"/>
         protected virtual void Recalculate()
         {
             View.Recalculate();
@@ -301,7 +343,19 @@ namespace WZIMopoly
             RecalculateAll(this);
         }
         #endregion
+
+        #region IControllerable Methods
+        /// <inheritdoc/>
+        void IControllerable.Load(ContentManager content) => Load(content);
+
+        /// <inheritdoc/>
+        void IControllerable.Draw(SpriteBatch spriteBatch) => Draw(spriteBatch);
+
+        /// <inheritdoc/>
+        void IControllerable.Update() => Update();
+
+        /// <inheritdoc/>
+        void IControllerable.Recalculate() => Recalculate();
+        #endregion
     }
 }
-
-

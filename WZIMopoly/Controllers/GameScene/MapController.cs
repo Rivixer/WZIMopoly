@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,27 +15,19 @@ namespace WZIMopoly.Controllers.GameScene
     internal class MapController : Controller<MapModel, MapView>
     {
         /// <summary>
-        /// The list of pawns.
-        /// </summary>
-        private readonly List<PawnController> _pawns = new();
-
-        /// <summary>
         /// Initilizes a new instance of the <see cref="MapController"/> class.
         /// </summary>
         /// <remarks>
         /// Loads tiles from a xml file calling <see cref="LoadTiles()"/> method.
         /// </remarks>
         internal MapController(MapModel model, MapView view)
-            : base(model, view)
-        {
-            LoadTiles();
-        }
+            : base(model, view) { }
 
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
         /// <exception cref="ArgumentException"></exception>
-        private void LoadTiles()
+        internal void LoadTiles()
         {
             var TilesXml = new XmlDocument();
 
@@ -77,10 +69,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         internal void SetPlayersOnStart(List<Player> players)
         {
-            foreach(Tile tile in Model.Tiles)
-            {
-                tile.Players.Clear();
-            }
+            Model.Tiles.ForEach(x => x.Players.Clear());
             Model.Tiles[0].Players = players;
         }
 
@@ -95,13 +84,9 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         internal void CreatePawns(List<Player> players)
         {
-            foreach(Player player in players)
+            foreach (Player player in players)
             {
-                var pawnModel = new PawnModel(player.Color);
-                var guiPawn = new GUIPawn(player.Color);
-                var pawnController = new PawnController(guiPawn, pawnModel);
-                Children.Add(pawnController);
-                _pawns.Add(pawnController);
+                InitializeChild<PawnModel, GUIPawn, PawnController>(player.Color);
             }
         }
 
@@ -115,11 +100,11 @@ namespace WZIMopoly.Controllers.GameScene
                 List<Point> pawnPosition = tile.GetPawnPositions();
                 foreach (var (Player, Position) in tile.Players.Zip(pawnPosition, (p1, p2) => (p1, p2)))
                 {
-                    PawnController pawn = _pawns.Find(pawn => ((PawnModel)pawn.Model).Color == Player.Color);
-                    pawn.UpdatePosition(Position);
+                    var ctrl = GetController<PawnController>((x) => x.Model.Color == Player.Color);
+                    ctrl.UpdatePosition(Position);
                 }
             }
-            
+
         }
     }
 }

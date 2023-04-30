@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
 

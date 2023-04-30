@@ -1,12 +1,9 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
-using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
-using WZIMopoly.Models.GameScene;
 using WZIMopoly.Scenes;
 
 namespace WZIMopoly
@@ -19,17 +16,14 @@ namespace WZIMopoly
         /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
-        public GameScene() : base(new GameView(), new GameModel()) 
-        {
-
-            CreateButtons();
-            
-            var mapModel = new MapModel();
-            var mapView = new MapView();
-            var mapController = new MapController(mapView, mapModel);
-            Model.MapController = mapController;
-            Children.Add(Model.MapController);
-        }
+        /// <param name="gameView">
+        /// The view of the game scene.
+        /// </param>
+        /// <param name="gameModel">
+        /// The model of the game scene.
+        /// </param>
+        internal GameScene(GameModel gameModel, GameView gameView)
+            : base(gameModel, gameView) { }
 
         /// <summary>
         /// Starts the game.
@@ -49,15 +43,16 @@ namespace WZIMopoly
             Model.Players.Add(player3);
             Model.Players.Add(player4);
 
-            Model.MapController.CreatePawns(Model.Players);
-            Model.MapController.SetPlayersOnStart(Model.Players);
-            Model.MapController.UpdatePawnPositions();
+            MapController mapController = GetController<MapController>();
+            mapController.CreatePawns(Model.Players);
+            mapController.SetPlayersOnStart(Model.Players);
+            mapController.UpdatePawnPositions();
         }
 
         /// <summary>
         /// Creates all buttons on the game scene and adds them to the children list.
         /// </summary>
-        private void CreateButtons()
+        internal void CreateButtons()
         {
             ButtonModel model;
             GUIButton view;
@@ -67,49 +62,43 @@ namespace WZIMopoly
             model = new ButtonModel("Mortgage", new Rectangle(622, 930, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            controller = new MortgageButton(view, model);
-            Children.Add(controller);
+            controller = new MortgageButton(model, view);
+            AddChild(controller);
 
             // Sell button
             model = new ButtonModel("Sell", new Rectangle(752, 930, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            controller = new SellButton(view, model);
-            Children.Add(controller);
+            controller = new SellButton(model, view);
+            AddChild(controller);
 
             // Dice button
             model = new ButtonModel("Dice", new Rectangle(882, 930, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            controller = new DiceButton(view, model);
-            Children.Add(controller);
+            controller = new DiceButton(model, view);
+            AddChild(controller);
 
             // Buy button
             model = new ButtonModel("Buy", new Rectangle(1012, 930, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            controller = new BuyButton(view, model);
-            Children.Add(controller);
+            controller = new BuyButton(model, view);
+            AddChild(controller);
 
             // Trade button
             model = new ButtonModel("Trade", new Rectangle(1142, 930, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            controller = new TradeButton(view, model);
-            Children.Add(controller);
+            controller = new TradeButton(model, view);
+            AddChild(controller);
 
             // Settings button
             model = new ButtonModel("Settings", new Rectangle(60, 200, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.7f);
-            controller = new SettingsButton(view, model);
-            Children.Add(controller);
-        }
-
-        /// <inheritdoc/>
-        protected override void Load(ContentManager content)
-        {
-            View.Load(content);
+            controller = new SettingsButton(model, view);
+            AddChild(controller);
         }
     }
 }
