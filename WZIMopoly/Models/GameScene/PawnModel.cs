@@ -10,12 +10,9 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PawnModel"/> class.
         /// </summary>
-        /// <param name="color">
-        /// The color of pawn.
-        /// </param>
         internal PawnModel(string color)
         {
-            Color = color; 
+            Color = color;
         }
     }
 }

@@ -12,14 +12,14 @@ namespace WZIMopoly.Controllers.GameScene
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsButton"/> class.
         /// </summary>
-        /// <param name="view">
-        /// The view of the settings button controller.
-        /// </param>
         /// <param name="model">
         /// The model of the settings button controller.
         /// </param>
-        internal SettingsButton(GUIButton view, ButtonModel model)
-            : base(view, model) { }
+        /// <param name="view">
+        /// The view of the settings button controller.
+        /// </param>
+        internal SettingsButton(ButtonModel model, GUIButton view)
+            : base(model, view) { }
 
         /// <inheritdoc/>
         protected override void OnClick()

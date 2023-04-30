@@ -18,8 +18,8 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="model">
         /// The model of the dice button controller.
         /// </param>
-        internal DiceButton(GUIButton view, ButtonModel model)
-            : base(view, model) { }
+        internal DiceButton(ButtonModel model, GUIButton view)
+            : base(model, view) { }
 
         /// <inheritdoc/>
         protected override void OnClick()

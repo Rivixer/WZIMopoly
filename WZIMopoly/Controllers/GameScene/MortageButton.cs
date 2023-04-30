@@ -12,14 +12,14 @@ namespace WZIMopoly.Controllers.GameScene
         /// <summary>
         /// Initializes a new instance of the <see cref="MortgageButton"/> class.
         /// </summary>
-        /// <param name="view">
-        /// The view of the mortgage button controller.
-        /// </param>
         /// <param name="model">
         /// The model of the mortgage button controller.
         /// </param>
-        internal MortgageButton(GUIButton view, ButtonModel model)
-            : base(view, model) { }
+        /// <param name="view">
+        /// The view of the mortgage button controller.
+        /// </param>
+        internal MortgageButton(ButtonModel model, GUIButton view)
+            : base(model, view) { }
 
         /// <inheritdoc/>
         protected override void OnClick()
