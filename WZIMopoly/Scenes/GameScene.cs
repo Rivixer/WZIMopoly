@@ -73,11 +73,46 @@ namespace WZIMopoly
             GUIButton view;
             ButtonController controller;
 
+            // Mortage button
+            model = new ButtonModel("Mortgage", new Rectangle(622, 930, 160, 160));
+            view = new GUIButton(model);
+            view.SetButtonHoverArea(5, 0.8f);
+            controller = new MortgageButton(view, model);
+            Children.Add(controller);
+
+            // Sell button
+            model = new ButtonModel("Sell", new Rectangle(752, 930, 160, 160));
+            view = new GUIButton(model);
+            view.SetButtonHoverArea(5, 0.8f);
+            controller = new SellButton(view, model);
+            Children.Add(controller);
+
             // Dice button
-            model = new ButtonModel("Dice", new Rectangle(1710, 680, 160, 160));
+            model = new ButtonModel("Dice", new Rectangle(882, 930, 160, 160));
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
             controller = new DiceButton(view, model);
+            Children.Add(controller);
+
+            // Buy button
+            model = new ButtonModel("Buy", new Rectangle(1012, 930, 160, 160));
+            view = new GUIButton(model);
+            view.SetButtonHoverArea(5, 0.8f);
+            controller = new BuyButton(view, model);
+            Children.Add(controller);
+
+            // Trade button
+            model = new ButtonModel("Trade", new Rectangle(1142, 930, 160, 160));
+            view = new GUIButton(model);
+            view.SetButtonHoverArea(5, 0.8f);
+            controller = new TradeButton(view, model);
+            Children.Add(controller);
+
+            // Settings button
+            model = new ButtonModel("Settings", new Rectangle(60, 200, 160, 160));
+            view = new GUIButton(model);
+            view.SetButtonHoverArea(5, 0.7f);
+            controller = new SettingsButton(view, model);
             Children.Add(controller);
         }
 
