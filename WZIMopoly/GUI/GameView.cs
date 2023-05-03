@@ -1,6 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace WZIMopoly.GUI
 {
@@ -12,12 +10,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// Initializes a new instance of the <see cref="GameView"/> class.
         /// </summary>
-        public GameView() : base(new Rectangle(0, 0, 1920, 1080)) { }
-
-        /// <inheritdoc/>
-        internal override void Load(ContentManager content)
-        {
-            Texture = content.Load<Texture2D>("Images/Background");
-        }
+        public GameView()
+            : base("Images/Background", new Rectangle(0, 0, 1920, 1080)) { }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
@@ -6,21 +7,34 @@ using WZIMopoly.Exceptions;
 
 namespace WZIMopoly.GUI
 {
-    internal abstract class GUITexture : GUIElement
+    internal class GUITexture : GUIElement
     {
         #region Fields
-        /// <summary>
-        /// The texture of the element.
-        /// </summary>
-        private Texture2D _texture;
-
         /// <summary>
         /// The destination rectangle of the element scaled to the current screen resolution.
         /// </summary>
         /// <remarks>
         /// The X and Y coordinates refer to the top-left corner of the element.
         /// </remarks>
-        protected Rectangle DestinationRect;
+        internal Rectangle DestinationRect;
+
+        /// <summary>
+        /// The destination rectangle of the element unscaled to the current screen resolution.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The rectangle is specified for 1920x1080 resolution.
+        /// </para>
+        /// <para>
+        /// The X and Y coordinates refer to the top-left corner of the element.
+        /// </para>
+        /// </remarks>
+        internal Rectangle UnscaledDestinationRect;
+
+        /// <summary>
+        /// The texture of the element.
+        /// </summary>
+        private Texture2D _texture;
 
         /// <summary>
         /// The destination rectangle of the element specified for 1920x1080 resolution.
@@ -34,49 +48,37 @@ namespace WZIMopoly.GUI
         /// The place where <see cref="_defaultDestinationRect"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
+
+        private readonly string _path;
         #endregion
 
         #region Constructors
         /// <summary>
         /// Initializes a new instance of <see cref="GUITexture"/> class.
         /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Doesn't initialize <see cref="_defaultDestinationRect"/> and <see cref="_startPoint"/>.
-        /// </para>
-        /// <para>
-        /// Should be only used if the class overrites <see cref="Draw(SpriteBatch)"/>
-        /// and <see cref="Recalculate()"/> methods.
-        /// </para>
-        /// </remarks>
-        protected GUITexture()
-            : this(new Rectangle(0, 0, 1920, 1080)) { }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="GUITexture"/> class.
-        /// </summary>
+        /// <param name="path">
+        /// The path to the texture that will be drawn.
+        /// </param>
         /// <param name="defDstRect">
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
-        protected GUITexture(Rectangle defDstRect)
-            : this(defDstRect, GUIStartPoint.TopLeft) { }
+        internal GUITexture(string path, Rectangle defDstRect)
+            : this(path, defDstRect, GUIStartPoint.TopLeft) { }
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="GUITexture"/> class.
-        /// </summary>
-        /// <param name="defDstRect">
-        /// The destination rectangle of the element specified for 1920x1080 resolution.
-        /// </param>
+        /// <inheritdoc cref="GUITexture(string, Rectangle)"/>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.
         /// </param>
-        protected GUITexture(Rectangle defDstRect, GUIStartPoint startPoint)
+        internal GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint)
         {
             _startPoint = startPoint;
             _defaultDestinationRect = defDstRect;
+            _path = path;
             Recalculate();
         }
+        #endregion
 
+        #region Properties
         /// <summary>
         /// Gets or sets texture of the element.
         /// </summary>
@@ -91,25 +93,19 @@ namespace WZIMopoly.GUI
         }
         #endregion
 
-        /// <inheritdoc/> 
-        internal override void Draw(SpriteBatch spriteBatch)
-        {
-            if (Texture is not null)
-            {
-                spriteBatch.Draw(Texture, DestinationRect, Color.White);
-            }
-        }
-
+        #region Methods
         /// <summary>
-        /// Scales <see cref="_defaultDestinationRect"/> for the current screen resolution.<br/>
-        /// Saves it to <see cref="DestinationRect"/> field.
+        /// Shifts <see cref="_defaultDestinationRect"/> according to <see cref="_startPoint"/> field.
         /// </summary>
-        internal override void Recalculate()
+        /// <remarks>
+        /// Saves it to <see cref="UnscaledDestinationRect"/> field.
+        /// </remarks>
+        private void ShiftRectangle()
         {
-            var x = _defaultDestinationRect.X * ScreenController.Width / 1920;
-            var y = _defaultDestinationRect.Y * ScreenController.Height / 1080;
-            var width = _defaultDestinationRect.Width * ScreenController.Width / 1920;
-            var height = _defaultDestinationRect.Height * ScreenController.Height / 1080;
+            var x = _defaultDestinationRect.X;
+            var y = _defaultDestinationRect.Y;
+            var width = _defaultDestinationRect.Width;
+            var height = _defaultDestinationRect.Height;
 
             switch (_startPoint)
             {
@@ -145,8 +141,50 @@ namespace WZIMopoly.GUI
                     break;
             }
 
-            DestinationRect = new Rectangle(x, y, width, height);
+            UnscaledDestinationRect = new Rectangle(x, y, width, height);
         }
+        #endregion
+
+        #region GUIElement Methods
+        /// <inheritdoc/> 
+        internal override void Draw(SpriteBatch spriteBatch)
+        {
+            if (Texture is not null)
+            {
+                spriteBatch.Draw(Texture, DestinationRect, Color.White);
+            }
+            base.Draw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Scales and shifts <see cref="_defaultDestinationRect"/> for the current screen resolution.<br/>
+        /// </summary>
+        /// <remarks>
+        /// Saves it to <see cref="DestinationRect"/> field.
+        /// </remarks>
+        internal override void Recalculate()
+        {
+            ShiftRectangle();
+            var x = UnscaledDestinationRect.X * ScreenController.Width / 1920;
+            var y = UnscaledDestinationRect.Y * ScreenController.Height / 1080;
+            var width = UnscaledDestinationRect.Width * ScreenController.Width / 1920;
+            var height = UnscaledDestinationRect.Height * ScreenController.Height / 1080;
+            DestinationRect = new Rectangle(x, y, width, height);
+            base.Recalculate();
+        }
+
+        /// <summary>
+        /// Loads the texture of the element.
+        /// </summary>
+        /// <param name="content">
+        /// The ContentManager used to load the texture.
+        /// </param>
+        internal override void Load(ContentManager content)
+        {
+            Texture = content.Load<Texture2D>(_path);
+            base.Load(content);
+        }
+        #endregion
 
         #region IGUIDynamicPosition Static Methods
         /// <summary>
