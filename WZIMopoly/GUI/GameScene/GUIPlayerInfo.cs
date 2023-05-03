@@ -17,7 +17,15 @@ namespace WZIMopoly.GUI.GameScene
         /// Represents the view of the player texture.
         /// </summary>
         private readonly GUITexture _guiBox;
+
+        /// <summary>
+        /// Represents the nickname of the player.
+        /// </summary>
         private readonly GUIText _guiNick;
+
+        /// <summary>
+        /// Represents amount of money of the player.
+        /// </summary>
         private readonly GUIText _guiMoney;
 
         private static readonly Dictionary<GUIStartPoint, (int X, int Y)> ShiftDirections = new()
@@ -49,7 +57,7 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Returns the rectangle of the texture
+        /// Returns the rectangle of the texture.
         /// </summary>
         /// <param name="guiFlag">
         /// The view of the flag texture.
@@ -68,10 +76,10 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Returns position of the text.
+        /// Returns the position of the text.
         /// </summary>
         /// <param name="rect">
-        /// Represents current screen rectangle.
+        /// Current screen rectangle.
         /// </param>
         /// <param name="startPoint">
         /// The start point of this view.
