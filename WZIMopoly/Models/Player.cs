@@ -10,6 +10,8 @@
         /// </summary>
         public readonly string Color;
 
+        internal int Money { get; set; } = 1500;
+
         /// <summary>
         /// The nick of the player.
         /// </summary>

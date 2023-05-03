@@ -75,6 +75,7 @@ namespace WZIMopoly
 
             _currentScene.RecalculateAll();
             (_currentScene as GameScene)?.StartGame();
+            (_currentScene as GameScene)?.CreateInterface();
 
             base.Initialize();
         }
