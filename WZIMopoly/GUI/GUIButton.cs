@@ -1,9 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Engine;
-using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.GUI
@@ -11,22 +9,22 @@ namespace WZIMopoly.GUI
     /// <summary>
     /// Represents a view of a button.
     /// </summary>
-    internal class GUIButton : GUITexture
+    internal class GUIButton : GUIElement
     {
         /// <summary>
         /// The texture of the button when is enabled.
         /// </summary>
-        private Texture2D _texture;
+        private readonly GUITexture _texture;
 
         /// <summary>
         /// The texture of the button when is hovered.
         /// </summary>
-        private Texture2D _textureHovered;
+        private readonly GUITexture _textureHovered;
 
         /// <summary>
         /// The texture of the button when is disabled.
         /// </summary>
-        private Texture2D _textureDisabled;
+        private readonly GUITexture _textureDisabled;
 
         /// <summary>
         /// The method that determines whether the button is hovered.
@@ -45,21 +43,25 @@ namespace WZIMopoly.GUI
         /// The model of the button.
         /// </param>
         internal GUIButton(ButtonModel model)
-            : base(model.DefDstRect, model.StartPoint)
         {
             _model = model;
+
+            var buttonPath = $"Images/Buttons/{model.Name}";
+            _texture = InitializeTexture(buttonPath, model);
+            _textureHovered = InitializeTexture($"{buttonPath}Hovered", model);
+            _textureDisabled = InitializeTexture($"{buttonPath}Disabled", model);
             ResetButtonHoverArea();
         }
 
         /// <summary>
         /// Whether the mouse cursor is in the button's hover area.
         /// </summary>
-        public bool IsHovered => MouseController.IsHover(_isInHoverArea);
+        internal bool IsHovered => MouseController.IsHover(_isInHoverArea);
 
         /// <inheritdoc/>
         internal override void Draw(SpriteBatch spriteBatch)
         {
-            Texture2D texture;
+            GUITexture texture;
             if (!_model.IsActive)
             {
                 texture = _textureDisabled;
@@ -72,15 +74,11 @@ namespace WZIMopoly.GUI
             {
                 texture = _texture;
             }
-            spriteBatch.Draw(texture, DestinationRect, Color.White);
-        }
+            texture.Draw(spriteBatch);
 
-        /// <inheritdoc/>
-        internal override void Load(ContentManager content)
-        {
-            _texture = content.Load<Texture2D>($"Images/Buttons/{_model.Name}");
-            _textureHovered = content.Load<Texture2D>($"Images/Buttons/{_model.Name}Hovered");
-            _textureDisabled = content.Load<Texture2D>($"Images/Buttons/{_model.Name}Disabled");
+            // We don't call base.Draw(SpriteBatch)
+            // because we don't want to draw
+            // the children of the button.
         }
 
         /// <summary>
@@ -116,6 +114,7 @@ namespace WZIMopoly.GUI
         /// </param>
         internal void SetButtonHoverArea(int factor, float scale, bool onlyIfInRect = true)
         {
+            Rectangle DestinationRect = _texture.DestinationRect;
             _isInHoverArea = (Point p) =>
             {
                 if (onlyIfInRect && !DestinationRect.Contains(p))
@@ -137,7 +136,29 @@ namespace WZIMopoly.GUI
         /// </summary>
         internal void ResetButtonHoverArea()
         {
-            _isInHoverArea = (Point p) => DestinationRect.Contains(p);
+            _isInHoverArea = (Point p) => _texture.DestinationRect.Contains(p);
+        }
+
+        /// <summary>
+        /// Initializes a texture for the button.
+        /// </summary>
+        /// <remarks>
+        /// The initialized texture is added as a child of the button.
+        /// </remarks>
+        /// <param name="path">
+        /// The path to the texture.
+        /// </param>
+        /// <param name="model">
+        /// The model of the button to get the destination rectangle and the start point.
+        /// </param>
+        /// <returns>
+        /// The initialized texture.
+        /// </returns>
+        private GUITexture InitializeTexture(string path, ButtonModel model)
+        {
+            var button = new GUITexture(path, model.DefDstRect, model.StartPoint);
+            AddChild(button);
+            return button;
         }
     }
 }
