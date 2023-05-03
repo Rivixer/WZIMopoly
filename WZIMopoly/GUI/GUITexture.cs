@@ -136,11 +136,11 @@ namespace WZIMopoly.GUI
                     x -= width;
                     break;
                 case GUIStartPoint.Right:
-                    y -= width;
+                    x -= width;
                     y -= height / 2;
                     break;
                 case GUIStartPoint.BottomRight:
-                    y -= width;
+                    x -= width;
                     y -= height;
                     break;
             }
