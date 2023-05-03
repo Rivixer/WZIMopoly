@@ -104,6 +104,16 @@ namespace WZIMopoly
         /// <summary>
         /// Initializes a child controller and adds it to the list of children.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The view of the child controller is initialized by calling
+        /// the default constructor or the constructor with the model
+        /// as the only argument if the default constructor is not available.
+        /// </para>
+        /// <para>
+        /// The initialized child controller is added to the list of children.
+        /// </para>
+        /// </remarks>
         /// <typeparam name="M">
         /// The type of the model of the child controller.
         /// </typeparam>
@@ -140,8 +150,21 @@ namespace WZIMopoly
                 );
             }
 
-            V view = (V)Activator.CreateInstance(typeof(V), nonPublic: true);
-            view.LoadDataFromModel(model);
+            V view;
+            try
+            {
+                view = (V)Activator.CreateInstance(typeof(V), nonPublic: true);
+            }
+            catch (MissingMethodException)
+            {
+                view = (V)Activator.CreateInstance(
+                type: typeof(V),
+                bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                binder: null,
+                args: new object[] { model },
+                culture: null
+                );
+            }
 
             C controller = (C)Activator.CreateInstance(
                 type: typeof(C),
