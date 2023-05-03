@@ -27,7 +27,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         public ChanceCard Draw()
         {
             throw new System.NotImplementedException();
-        }
-        
+        }    
+         
     }
 }

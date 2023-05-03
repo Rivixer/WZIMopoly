@@ -16,7 +16,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// and <see href="https://monopoly.fandom.com/wiki/Income_Tax">'Income Tax'</see> tiles in Monopoly.
     /// </para>
     /// </remarks>
-    internal class ConditionalPass : Tile
+    public class ConditionalPass : Tile
     {
         /// <summary>
         /// The amount of ECTS to be paid.
@@ -39,5 +39,6 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         {
             throw new System.NotImplementedException();
         }
+        
     }
 }

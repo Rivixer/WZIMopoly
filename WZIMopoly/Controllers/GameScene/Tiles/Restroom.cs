@@ -1,10 +1,8 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -21,6 +19,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     class Restroom : PurchasableTile
     {
         public readonly Dictionary<RestroomAmount, int> TaxPrices;
+
         public Restroom(XmlNode node) : base(node)
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();
@@ -34,9 +33,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
         }
+
         public override void OnStand(Player player)
         {
             throw new NotImplementedException();
         }
+        
     }
 }

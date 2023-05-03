@@ -1,7 +1,5 @@
-﻿#region Using Statements
-using System.Xml;
+﻿using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -21,9 +19,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         {
 
         }
+
         public override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
+        
     }
 }

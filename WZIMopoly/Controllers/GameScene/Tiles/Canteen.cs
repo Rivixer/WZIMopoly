@@ -21,13 +21,15 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// </remarks>
     class Canteen : ChanceTile
     {
-        public override void OnStand(Player player)
-        {
-            throw new System.NotImplementedException();
-        }
         public Canteen(XmlNode node) : base(node)
         {
 
         }
+
+        public override void OnStand(Player player)
+        {
+            throw new System.NotImplementedException();
+        }
+        
     }
 }

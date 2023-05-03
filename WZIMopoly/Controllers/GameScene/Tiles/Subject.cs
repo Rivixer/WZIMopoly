@@ -1,11 +1,9 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 using WZIMopoly.Utils;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -28,8 +26,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     class Subject : PurchasableTile
     {
         public SubjectGrade Grade;
+
         public readonly int UpgradePrice;
+
         public readonly Dictionary<SubjectGrade, int> TaxPrices;
+
         public readonly SubjectColor Color;
 
         public Subject(XmlNode node) : base(node)
@@ -54,9 +55,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
         }
+
         public override void OnStand(Player player)
         {
             throw new NotImplementedException();
         }
+        
     }
 }
