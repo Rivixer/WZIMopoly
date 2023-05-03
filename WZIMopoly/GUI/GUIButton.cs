@@ -114,9 +114,9 @@ namespace WZIMopoly.GUI
         /// </param>
         internal void SetButtonHoverArea(int factor, float scale, bool onlyIfInRect = true)
         {
-            Rectangle DestinationRect = _texture.DestinationRect;
             _isInHoverArea = (Point p) =>
             {
+                Rectangle DestinationRect = _texture.DestinationRect;
                 if (onlyIfInRect && !DestinationRect.Contains(p))
                 {
                     return false;
