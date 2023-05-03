@@ -4,7 +4,7 @@ using WZIMopoly.Models.GameScene;
 namespace WZIMopoly.Controllers.GameScene
 {
     /// <summary>
-    /// Represents controller for PlayerInfoModel and GUIPlayerInfo
+    /// Represents a controller for PlayerInfoModel and GUIPlayerInfo
     /// </summary>
     internal class PlayerInfo : Controller<PlayerInfoModel, GUIPlayerInfo>
     {

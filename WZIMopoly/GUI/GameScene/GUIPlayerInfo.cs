@@ -8,7 +8,14 @@ namespace WZIMopoly.GUI.GameScene
 {
     internal class GUIPlayerInfo : GUIElement
     {
+        /// <summary>
+        /// Represents the view of the flag texture.
+        /// </summary>
         private readonly GUITexture _guiFlag;
+
+        /// <summary>
+        /// Represents the view of the player texture.
+        /// </summary>
         private readonly GUITexture _guiBox;
         private readonly GUIText _guiNick;
         private readonly GUIText _guiMoney;
@@ -42,13 +49,13 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Represents position of text.
+        /// Returns the rectangle of the texture
         /// </summary>
         /// <param name="guiFlag">
-        /// Represents image of player's flag.
+        /// The view of the flag texture.
         /// </param>
         /// <param name="startPoint">
-        /// Represents startPoint for box Rectangle
+        /// The start point of this view.
         /// </param>
         private static Rectangle GetBoxRectangle(GUITexture guiFlag, GUIStartPoint startPoint)
         {
@@ -61,19 +68,19 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Represents position of text.
+        /// Returns position of the text.
         /// </summary>
         /// <param name="rect">
         /// Represents current screen rectangle.
         /// </param>
         /// <param name="startPoint">
-        /// Represents startPoint for text
+        /// The start point of this view.
         /// </param>
         /// <param name="offsetX">
-        /// The X position parameter for text.
+        /// The X transition from center of the texture.
         /// </param>
         /// <param name="offsetY">
-        /// The Y position parameter for text.
+        /// The Y transition from center of the texture.
         /// </param>
         private static Vector2 GetPositionOfText(Rectangle rect, GUIStartPoint startPoint, int offsetX, int offsetX)
         {
