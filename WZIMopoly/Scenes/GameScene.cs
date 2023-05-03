@@ -53,6 +53,9 @@ namespace WZIMopoly
             mapController.UpdatePawnPositions();
         }
 
+        /// <summary>
+        /// Creates an interface for the game.
+        /// </summary>
         internal void CreateInterface()
         {
             var infoWidth = 500;

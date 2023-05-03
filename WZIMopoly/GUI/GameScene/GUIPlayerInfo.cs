@@ -41,6 +41,15 @@ namespace WZIMopoly.GUI.GameScene
             AddChild(_guiMoney);
         }
 
+        /// <summary>
+        /// Represents position of text.
+        /// </summary>
+        /// <param name="guiFlag">
+        /// Represents image of player's flag.
+        /// </param>
+        /// <param name="startPoint">
+        /// Represents startPoint for box Rectangle
+        /// </param>
         private static Rectangle GetBoxRectangle(GUITexture guiFlag, GUIStartPoint startPoint)
         {
             var offsetX = -140;
@@ -51,7 +60,22 @@ namespace WZIMopoly.GUI.GameScene
             return rectangle;
         }
 
-        private static Vector2 GetPositionOfText(Rectangle rect, GUIStartPoint startPoint, int offsetX, int offsetY)
+        /// <summary>
+        /// Represents position of text.
+        /// </summary>
+        /// <param name="rect">
+        /// Represents current screen rectangle.
+        /// </param>
+        /// <param name="startPoint">
+        /// Represents startPoint for text
+        /// </param>
+        /// <param name="offsetX">
+        /// The X position parameter for text.
+        /// </param>
+        /// <param name="offsetY">
+        /// The Y position parameter for text.
+        /// </param>
+        private static Vector2 GetPositionOfText(Rectangle rect, GUIStartPoint startPoint, int offsetX, int offsetX)
         {
             var position = new Vector2(rect.Center.X, rect.Center.Y);
             position.X += ShiftDirections[startPoint].X * offsetX;

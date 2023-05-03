@@ -10,6 +10,9 @@
         /// </summary>
         public readonly string Color;
 
+        /// <summary>
+        /// The amount of money player has.
+        /// </summary>
         internal int Money { get; set; } = 1500;
 
         /// <summary>

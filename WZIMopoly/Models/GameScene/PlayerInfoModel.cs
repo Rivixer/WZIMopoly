@@ -3,6 +3,9 @@ using WZIMopoly.Enums;
 
 namespace WZIMopoly.Models.GameScene
 {
+    /// <summary>
+    /// Represents player model.
+    /// </summary>
     internal class PlayerInfoModel : Model
     {
         internal Player Player { get; private set; }
