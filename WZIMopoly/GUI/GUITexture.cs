@@ -56,18 +56,16 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// Initializes a new instance of <see cref="GUITexture"/> class.
         /// </summary>
+        /// <param name="path">
+        /// The path to the texture that will be drawn.
+        /// </param>
         /// <param name="defDstRect">
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
         internal GUITexture(string path, Rectangle defDstRect)
             : this(path, defDstRect, GUIStartPoint.TopLeft) { }
 
-        /// <summary>
-        /// Initializes a new instance of <see cref="GUITexture"/> class.
-        /// </summary>
-        /// <param name="defDstRect">
-        /// The destination rectangle of the element specified for 1920x1080 resolution.
-        /// </param>
+        /// <inheritdoc cref="GUITexture(string, Rectangle)"/>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.
         /// </param>
@@ -78,7 +76,9 @@ namespace WZIMopoly.GUI
             _path = path;
             Recalculate();
         }
+        #endregion
 
+        #region Properties
         /// <summary>
         /// Gets or sets texture of the element.
         /// </summary>

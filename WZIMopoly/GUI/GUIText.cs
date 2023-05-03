@@ -68,6 +68,9 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// Initializes a new instance of <see cref="GUIText"/> class.
         /// </summary>
+        /// <param name="fontPath">
+        /// The path to the font that will be used to display the text.
+        /// </param>
         /// <param name="defPosition">
         /// The position vector of the element specified for 1920x1080 resolution.
         /// </param>
@@ -86,19 +89,22 @@ namespace WZIMopoly.GUI
         /// The <see cref="Color"/> property is set to white and the <see cref="Text"/> property is empty by default.
         /// </remarks>
         internal GUIText(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1.0f)
-            : this(fontPath, defPosition, startPoint, Color.White, text, scale) { }
+            : this(fontPath, defPosition, Color.White, startPoint, text, scale) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="GUIText"/> class.
         /// </summary>
+        /// <param name="fontPath">
+        /// The path to the font that will be used to display the text.
+        /// </param>
         /// <param name="defPosition">
         /// The position vector of the element specified for 1920x1080 resolution.
         /// </param>
-        /// <param name="startPoint">
-        /// The starting position of the element for which <paramref name="defPosition"/> has been specified.
-        /// </param>
         /// <param name="color">
         /// The color of the element.
+        /// </param>
+        /// <param name="startPoint">
+        /// The starting position of the element for which <paramref name="defPosition"/> has been specified.
         /// </param>
         /// <param name="text">
         /// The text to display.<br/>
@@ -108,7 +114,7 @@ namespace WZIMopoly.GUI
         /// The scale of the text. <br/>
         /// Defaults to 1.0f.
         /// </param>
-        internal GUIText(string fontPath, Vector2 defPosition, GUIStartPoint startPoint, Color color, string text = "", float scale = 1.0f)
+        internal GUIText(string fontPath, Vector2 defPosition, Color color, GUIStartPoint startPoint, string text = "", float scale = 1.0f)
         {
             _fontPath = fontPath;
             _defaultPosition = defPosition;
