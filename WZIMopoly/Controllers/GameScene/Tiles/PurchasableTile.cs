@@ -1,7 +1,5 @@
-﻿#region Using Statements
-using System.Xml;
+﻿using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -9,27 +7,31 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// The base class for the classes for tiles that a player can purchase for the appropriate amount of ECTS.<br/><br/>
     /// If player steps on this field, they have to pay a rent to the person who owns this tile.
     /// </summary>
-    abstract class PurchasableTile : Tile
+    internal abstract class PurchasableTile : Tile
     {
-        public readonly int Price;
-        public Player owner;
+        internal readonly int Price;
+
+        internal Player owner;
+
         protected PurchasableTile(XmlNode node) : base(node)
         {
             Price = int.Parse(node.SelectSingleNode("price").InnerText);
             owner = null;
         }
-        public void Purchase(Player owner)
+
+        internal void Purchase(Player owner)
         {
             throw new System.NotImplementedException("Not implemented");
         }
-        public bool CanPurchase(Player owner)
+
+        internal bool CanPurchase(Player owner)
         {
             throw new System.NotImplementedException("Not implemented");
         }
-        public override void OnStand(Player player)
+
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
-
     }
 }

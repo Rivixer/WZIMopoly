@@ -1,7 +1,5 @@
-﻿#region Using Statements
-using System.Xml;
+﻿using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -15,13 +13,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// unless it says 'go back'. <br/>
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see> tile in Monopoly.
     /// </summary>
-    class VendingMachine : ChanceTile
+    internal class VendingMachine : ChanceTile
     {
-        public VendingMachine(XmlNode node) : base(node)
-        {
+        internal VendingMachine(XmlNode node) : base(node) { }
 
-        }
-        public override void OnStand(Player player)
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }

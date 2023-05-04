@@ -1,7 +1,5 @@
-﻿#region Using Statements
-using System.Xml;
+﻿using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -19,11 +17,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// Nothing happens, in case of stepping on this tile.<br/>
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Jail">'Jail'</see> tile in Monopoly.
     /// </summary>
-    class Jail : Tile
+    internal class Jail : Tile
     {
-        public Jail(XmlNode node) : base(node)
-        { }
-        public override void OnStand(Player player)
+        internal Jail(XmlNode node) : base(node) { }
+
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }

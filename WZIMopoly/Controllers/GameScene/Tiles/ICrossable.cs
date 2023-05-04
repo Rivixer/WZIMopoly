@@ -7,6 +7,6 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// </summary>
     interface ICrossable
     {
-        public abstract void OnCross(Player player);
+        internal abstract void OnCross(Player player);
     }
 }

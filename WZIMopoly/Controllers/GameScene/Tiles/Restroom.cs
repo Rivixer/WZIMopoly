@@ -1,10 +1,8 @@
-﻿#region Using Statements
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -18,10 +16,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// In our game, bathroom is the equivalent of one of the Monopoly 
     /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.<br/>
     /// </summary>
-    class Restroom : PurchasableTile
+    internal class Restroom : PurchasableTile
     {
-        public readonly Dictionary<RestroomAmount, int> TaxPrices;
-        public Restroom(XmlNode node) : base(node)
+        internal readonly Dictionary<RestroomAmount, int> TaxPrices;
+
+        internal Restroom(XmlNode node) : base(node)
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
@@ -34,7 +33,8 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
         }
-        public override void OnStand(Player player)
+
+        internal override void OnStand(Player player)
         {
             throw new NotImplementedException();
         }

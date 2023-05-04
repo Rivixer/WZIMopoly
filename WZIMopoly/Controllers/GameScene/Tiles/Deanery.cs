@@ -1,7 +1,5 @@
-﻿#region Using Statements
-using System.Xml;
+﻿using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
@@ -11,13 +9,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Go_to_Jail_(space)">
     /// 'Go To Jail'</see> tile in Monopoly.
     /// </summary>
-    class Deanery : Tile
+    internal class Deanery : Tile
     {
-        public Deanery(XmlNode node) : base(node)
-        {
+        internal Deanery(XmlNode node) : base(node) { }
 
-        }
-        public override void OnStand(Player player)
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
