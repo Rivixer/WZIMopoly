@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Xml;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
@@ -47,7 +48,13 @@ namespace WZIMopoly.Controllers.GameScene
 
                 if (TileType != null)
                 {
-                    Tile tile = (Tile)Activator.CreateInstance(TileType, TileNode);
+                    Tile tile = (Tile)Activator.CreateInstance(
+                        type: TileType,
+                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                        binder: null,
+                        args: new object[] { TileNode },
+                        culture: null
+                    );
                     Model.Tiles.Add(tile);
                 }
                 else
