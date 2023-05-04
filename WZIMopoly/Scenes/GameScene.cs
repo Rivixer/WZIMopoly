@@ -1,9 +1,13 @@
 using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
+using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
+using WZIMopoly.Models.GameScene;
 using WZIMopoly.Scenes;
 
 namespace WZIMopoly
@@ -47,6 +51,33 @@ namespace WZIMopoly
             mapController.CreatePawns(Model.Players);
             mapController.SetPlayersOnStart(Model.Players);
             mapController.UpdatePawnPositions();
+        }
+
+        /// <summary>
+        /// Creates an interface for the game.
+        /// </summary>
+        internal void CreateInterface()
+        {
+            var infoWidth = 500;
+            var infoHeight = 200;
+            var positions = new List<Tuple<Player, Rectangle, GUIStartPoint>>()
+            {
+                new(Model.Players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
+                new(Model.Players[1], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
+                new(Model.Players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
+                new(Model.Players[3], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
+            };
+
+            PlayerInfoModel model;
+            GUIPlayerInfo view;
+            PlayerInfo controller;
+            foreach (var (player, position, startPoint) in positions)
+            {
+                model = new PlayerInfoModel(player, position, startPoint);
+                view = new GUIPlayerInfo(model);
+                controller = new PlayerInfo(model, view);
+                AddChild(controller);
+            }
         }
 
         /// <summary>

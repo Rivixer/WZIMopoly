@@ -11,6 +11,11 @@
         public readonly string Color;
 
         /// <summary>
+        /// The amount of money player has.
+        /// </summary>
+        internal int Money { get; set; } = 1500;
+
+        /// <summary>
         /// The nick of the player.
         /// </summary>
         private string _nick;
