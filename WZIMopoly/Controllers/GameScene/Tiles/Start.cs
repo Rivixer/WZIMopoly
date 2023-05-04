@@ -9,11 +9,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// After each circuit, each player receives the amount of ECTS indicated on the tile after passing through the 'Start' tile.<br/>
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Go">'Go'</see> in Monopoly.
     /// </summary>
-    class Start : Tile, ICrossable
+    internal class Start : Tile, ICrossable
     {
         private readonly int _reward;
 
-        public Start(XmlNode node) : base(node)
+        internal Start(XmlNode node) : base(node)
         {
             _reward = int.Parse(node.SelectSingleNode("reward").InnerText);
         }
@@ -22,8 +22,8 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         {
             throw new System.NotImplementedException();
         }
-        
-        public override void OnStand(Player player)
+
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }

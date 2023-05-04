@@ -80,7 +80,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="player">
         /// The player that landed on the tile.
         /// </param>
-        public abstract void OnStand(Player player);
+        internal abstract void OnStand(Player player);
 
         /// <summary>
         /// Returns the list of points where the pawns should be placed on the tile.

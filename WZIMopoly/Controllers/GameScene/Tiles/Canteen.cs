@@ -19,17 +19,17 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see> tile in Monopoly. 
     /// </para>
     /// </remarks>
-    class Canteen : ChanceTile
+    internal class Canteen : ChanceTile
     {
-        public Canteen(XmlNode node) : base(node)
+        internal Canteen(XmlNode node) : base(node)
         {
 
         }
 
-        public override void OnStand(Player player)
+        /// <inheritdoc/>
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
-        
     }
 }

@@ -7,11 +7,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// The base class for the classes for tiles that a player can purchase for the appropriate amount of ECTS.<br/><br/>
     /// If player steps on this field, they have to pay a rent to the person who owns this tile.
     /// </summary>
-    abstract class PurchasableTile : Tile
+    internal abstract class PurchasableTile : Tile
     {
-        public readonly int Price;
+        internal readonly int Price;
 
-        public Player owner;
+        internal Player owner;
 
         protected PurchasableTile(XmlNode node) : base(node)
         {
@@ -19,20 +19,19 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
             owner = null;
         }
 
-        public void Purchase(Player owner)
+        internal void Purchase(Player owner)
         {
             throw new System.NotImplementedException("Not implemented");
         }
 
-        public bool CanPurchase(Player owner)
+        internal bool CanPurchase(Player owner)
         {
             throw new System.NotImplementedException("Not implemented");
         }
 
-        public override void OnStand(Player player)
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
-        
     }
 }

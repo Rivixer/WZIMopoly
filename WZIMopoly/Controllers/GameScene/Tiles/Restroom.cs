@@ -16,11 +16,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// In our game, bathroom is the equivalent of one of the Monopoly 
     /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.<br/>
     /// </summary>
-    class Restroom : PurchasableTile
+    internal class Restroom : PurchasableTile
     {
-        public readonly Dictionary<RestroomAmount, int> TaxPrices;
+        internal readonly Dictionary<RestroomAmount, int> TaxPrices;
 
-        public Restroom(XmlNode node) : base(node)
+        internal Restroom(XmlNode node) : base(node)
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
@@ -34,10 +34,9 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
             }
         }
 
-        public override void OnStand(Player player)
+        internal override void OnStand(Player player)
         {
             throw new NotImplementedException();
         }
-        
     }
 }

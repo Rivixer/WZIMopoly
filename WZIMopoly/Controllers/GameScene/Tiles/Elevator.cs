@@ -6,17 +6,13 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// <summary>
     /// Represents an 'Elevator' tile.<br/>
     /// </summary>
-    class Elevator : Tile
+    internal class Elevator : Tile
     {
-        public Elevator(XmlNode node) : base(node)
-        {
+        internal Elevator(XmlNode node) : base(node) { }
 
-        }
-
-        public override void OnStand(Player player)
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
-        }
-        
+        }   
     }
 }

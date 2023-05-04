@@ -23,17 +23,17 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// In the future, player can buy this card again.<br/>
     /// Equivalent to Monopoly <see href="https://monopoly.fandom.com/wiki/Street">'streets'</see>. 
     /// </summary>
-    class Subject : PurchasableTile
+    internal class Subject : PurchasableTile
     {
-        public SubjectGrade Grade;
+        internal SubjectGrade Grade;
 
-        public readonly int UpgradePrice;
+        internal readonly int UpgradePrice;
 
-        public readonly Dictionary<SubjectGrade, int> TaxPrices;
+        internal readonly Dictionary<SubjectGrade, int> TaxPrices;
 
-        public readonly SubjectColor Color;
+        internal readonly SubjectColor Color;
 
-        public Subject(XmlNode node) : base(node)
+        internal Subject(XmlNode node) : base(node)
         {
             Grade = SubjectGrade.Two;
             UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
@@ -56,10 +56,9 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
             }
         }
 
-        public override void OnStand(Player player)
+        internal override void OnStand(Player player)
         {
             throw new NotImplementedException();
         }
-        
     }
 }

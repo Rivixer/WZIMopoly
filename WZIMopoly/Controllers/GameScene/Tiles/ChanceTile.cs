@@ -16,7 +16,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
-        public ChanceTile(XmlNode node) : base(node) { }
+        internal ChanceTile(XmlNode node) : base(node) { }
 
         /// <summary>
         /// Draws a chance card.
@@ -24,10 +24,9 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         /// <returns>
         /// The chance card drawn.
         /// </returns>
-        public ChanceCard Draw()
+        internal ChanceCard Draw()
         {
             throw new System.NotImplementedException();
         }    
-         
     }
 }
