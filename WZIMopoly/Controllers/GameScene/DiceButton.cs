@@ -14,7 +14,8 @@ namespace WZIMopoly.Controllers.GameScene
         /// <summary>
         /// The sound effect of a rolling dice.
         /// </summary>
-        SoundEffect effect;
+        SoundEffect soundEffect;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceButton"/> class.
         /// </summary>
@@ -30,7 +31,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <inheritdoc/>
         protected override void OnClick()
         {
-            effect.Play();
+            soundEffect.Play();
             Debug.WriteLine($"{Model.Name} has been clicked.");
         }
 
@@ -38,7 +39,7 @@ namespace WZIMopoly.Controllers.GameScene
         protected override void Load(ContentManager content)
         {
             base.Load(content);
-            effect = content.Load<SoundEffect>("Sounds/dice");
+            soundEffect = content.Load<SoundEffect>("Sounds/dice");
         }
     }
 }
