@@ -560,3 +560,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Timer.png
 
+#begin Sounds/dice.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/dice.mp3
+
