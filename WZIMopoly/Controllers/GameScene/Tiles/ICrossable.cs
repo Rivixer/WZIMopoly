@@ -3,10 +3,14 @@
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
-    /// Provides a method that allows to call a function that registers exceeding a given tile.
+    /// Performs actions when the player crosses over this tile.
     /// </summary>
+    /// <param name="player">
+    /// The player who crossed over this tile.
+    /// </param>
     interface ICrossable
     {
-        public abstract void OnCross(Player player);
+        internal abstract void OnCross(Player player);
+        
     }
 }

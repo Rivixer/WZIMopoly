@@ -10,27 +10,35 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
     /// Represents a 'Restroom' tile.<br/>
-    /// This is a purchasable tile. <br/>
     /// </summary>
     /// <remarks>
-    /// If player steps on this field, they have to pay a rent to the person who owns this tile.
-    /// </remarks>
     /// <para>
-    /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.<br/>
+    /// This is a purchasable tile. <br/>
     /// </para>
-   
+    /// <para>
+    /// If player steps on this field, they have to pay a rent to the person who owns this tile.
+    /// There is a chance to pop an owned tile. It's about pawning the card in the bank for a 
+    /// certain amount of the ECTS points.
+    /// </para>
+    /// <para>
+    /// Money from someone entering this tile is no rewarded during this stage.
+    /// </para>
+    /// <para>
+    /// the equivalent of one the of the Monopoly <br/>
+    /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.<br/>
+    /// <para>
+    /// <remarks>
     class Restroom : PurchasableTile
     {
         public readonly Dictionary<RestroomAmount, int> TaxPrices;
+        /// <summary>
+        /// Initializes a new instance of the <see  cref="Restroom"/> class.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node containing the tile data.
+        /// </param>
         public Restroom(XmlNode node) : base(node)
-        {
-            /// <summary>
-            /// Initializes a new instance of the <see  cref="Restroom"/> class.
-            /// </summary>
-            /// <param name="node">
-            /// The XML node containing the tile data.
-            /// </param>
-            
+        { 
             TaxPrices = new Dictionary<RestroomAmount, int>();
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
             {

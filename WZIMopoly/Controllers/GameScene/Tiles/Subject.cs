@@ -14,6 +14,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// This is a purchasable tile. <br/>
     /// </summary>
     /// <remarks>
+    /// <para>
     /// In order to place grades or an exam exemptions, there is a need to buy all the tiles of a given 
     /// section. To place another element on the tile, it is required to have one on each
     /// of the tiles of that section, and so on. Scores and exemptions can be placed before player's move.
@@ -24,40 +25,36 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// and pawn the card in the bank for a certain amount of the ECTS points.
     /// Moreover, money from someone entering this tile is no rewarded during this stage.
     /// In the future, player can buy this card again.<br/>
-    /// </remarks>
+    /// </para>
     /// <para>
     /// Equivalent to Monopoly <see href="https://monopoly.fandom.com/wiki/Street">'streets'</see>. 
     /// </para>
-    
+    /// </remarks>
     class Subject : PurchasableTile
     {
         
         public SubjectGrade Grade;
-
         /// <summary>
         /// Grade for a subject we own
         /// </summary>
         public readonly int UpgradePrice;
-        
         /// <summary>
         /// Price for upgrading subject
         /// </summary>
         public readonly Dictionary<SubjectGrade, int> TaxPrices;
-
         /// <summary>
         /// Amout of ECTS that has to be paid
         /// </summary>
         public readonly SubjectColor Color;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Subject"/> class.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node containing the tile data.
+        /// </param>
         public Subject(XmlNode node) : base(node)
         {
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="Subject"/> class.
-            /// </summary>
-            /// <param name="node">
-            /// The XML node containing the tile data.
-            /// </param>
+            
             Grade = SubjectGrade.Two;
             UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
             TaxPrices = new Dictionary<SubjectGrade, int>();
