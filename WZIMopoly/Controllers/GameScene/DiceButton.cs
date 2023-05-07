@@ -1,6 +1,8 @@
 ﻿using WZIMopoly.Models;
 using WZIMopoly.GUI;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace WZIMopoly.Controllers.GameScene
 {
@@ -9,6 +11,10 @@ namespace WZIMopoly.Controllers.GameScene
     /// </summary>
     internal sealed class DiceButton : ButtonController
     {
+        /// <summary>
+        /// The sound effect of a rolling dice.
+        /// </summary>
+        SoundEffect effect;
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceButton"/> class.
         /// </summary>
@@ -24,7 +30,15 @@ namespace WZIMopoly.Controllers.GameScene
         /// <inheritdoc/>
         protected override void OnClick()
         {
+            effect.Play();
             Debug.WriteLine($"{Model.Name} has been clicked.");
+        }
+
+        /// <inheritdoc/>
+        protected override void Load(ContentManager content)
+        {
+            base.Load(content);
+            effect = content.Load<SoundEffect>("Sounds/dice");
         }
     }
 }
