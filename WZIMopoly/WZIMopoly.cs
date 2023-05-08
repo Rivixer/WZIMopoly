@@ -63,6 +63,7 @@ namespace WZIMopoly
         {
             ScreenController.Initialize(_graphics);
             ScreenController.ChangeResolution(1280, 720, false);
+            ScreenController.ApplyChanges();
 
             var gameView = new GameView();
             var gameModel = new GameModel();
