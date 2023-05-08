@@ -108,6 +108,7 @@ namespace WZIMopoly
             view = new GUIButton(model);
             view.SetButtonHoverArea(5, 0.8f);
             controller = new DiceButton(model, view);
+            controller.OnButtonClicked += (sender, args) => Model.NextPlayer();
             AddChild(controller);
 
             // Buy button
