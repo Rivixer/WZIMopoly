@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using WZIMopoly.GUI;
+﻿using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers.GameScene
@@ -20,11 +19,5 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         internal TradeButton(ButtonModel model, GUIButton view)
             : base(model, view) { }
-
-        /// <inheritdoc/>
-        protected override void OnClick()
-        {
-            Debug.WriteLine($"{Model.Name} has been clicked.");
-        }
     }
 }

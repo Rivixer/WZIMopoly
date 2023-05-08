@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System;
-using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
 
 namespace WZIMopoly.Models
@@ -11,9 +10,9 @@ namespace WZIMopoly.Models
     internal class GameModel : Model
     {
         /// <summary>
-        /// Gets or sets the map controller.
+        /// The current player index.
         /// </summary>
-        internal MapController MapController { get; set; }
+        private short _currentPlayerIndex = 0;
 
         /// <summary>
         /// Gets or sets the game status.
@@ -24,6 +23,22 @@ namespace WZIMopoly.Models
         /// Gets or sets the list of players.
         /// </summary>
         internal List<Player> Players { get; set; } = new();
+
+        /// <summary>
+        /// Gets the current player.
+        /// </summary>
+        internal Player CurrentPlayer => Players[_currentPlayerIndex];
+
+        /// <summary>
+        /// Changes the current player to the next one.
+        /// </summary>
+        public void NextPlayer()
+        {
+            if (++_currentPlayerIndex >= Players.Count)
+            {
+                _currentPlayerIndex = 0;
+            }
+        }
 
         /// <summary>
         /// Gets the game start time.
