@@ -1,28 +1,25 @@
-﻿#region Using Statements
 using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
-    /// Represents an 'Elevator' tile.<br/>
+    /// Represents an 'Elevator' tile.
     /// </summary>
-    class Elevator : Tile
+    internal class Elevator : Tile
     {
-        public override void OnStand(Player player)
-        {
-            throw new System.NotImplementedException();
-        }
         /// <summary>
-        /// Initializes a new instance of the <see  cref="Elevator"/> class.
+        /// Initializes a new instance of the <see cref="Elevator"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param> 
-        public Elevator(XmlNode node) : base(node)
+        internal Elevator(XmlNode node) : base(node) { }
+        
+        /// <inheritdoc/>
+        internal override void OnStand(Player player)
         {
-            
-        }
+            throw new System.NotImplementedException();
+        }   
     }
 }

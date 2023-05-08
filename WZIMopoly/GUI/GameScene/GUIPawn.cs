@@ -1,34 +1,20 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+using WZIMopoly.Enums;
+using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.GUI.GameScene
 {
     /// <summary>
     /// Represents a pawn view.
     /// </summary>
-    internal sealed class GUIPawn : GUIElement, IGUIDynamicPosition
+    internal sealed class GUIPawn : GUITexture, IGUIDynamicPosition
     {
-        /// <summary>
-        /// The color of the pawn.
-        /// </summary>
-        private readonly string _color;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIPawn"/> class.
         /// </summary>
-        /// <param name="color"></param>
-        internal GUIPawn(string color)
-            : base() // TODO: Set the default destination rectangle here
-        {
-            _color = color;
-        }
+        internal GUIPawn(PawnModel model)
+            : base("Images/Pawns/Pawn" + model.Color, new Rectangle(0, 0, 30, 30), GUIStartPoint.Center) { }
 
-        /// <inheritdoc/>
-        internal override void Load(ContentManager content)
-        {
-            Texture = content.Load<Texture2D>("Images/Pawns/Pawn" + _color);
-        }
 
         /// <inheritdoc/>
         public void UpdatePosition(Point point)

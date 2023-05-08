@@ -1,16 +1,18 @@
-﻿using WZIMopoly.Models;
+using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
-    /// Performs actions when the player crosses over this tile.
+    /// Provides a method to perform when the player crosses over a tile.
     /// </summary>
-    /// <param name="player">
-    /// The player who crossed over this tile.
-    /// </param>
     interface ICrossable
     {
+        /// <summary>
+        /// Performs actions when the player crosses over this tile.
+        /// </summary>
+        /// <param name="player">
+        /// The player who crossed over a tile.
+        /// </param>
         internal abstract void OnCross(Player player);
-        
     }
 }

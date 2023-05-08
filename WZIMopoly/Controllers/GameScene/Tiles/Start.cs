@@ -1,42 +1,56 @@
-﻿#region Using Statements
 using System.Xml;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
-    /// Represents a 'Start' tile. <br/>
-    /// The tile from which the game is started. <br/>
+    /// Represents a 'Start' tile.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// After each circuit, each player receives the amount of ECTS indicated on the tile after passing through the 'Start' tile.<br/>
+    /// The tile from which the game is started.
     /// </para>
     /// <para>
-    /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Go">'Go'</see> in Monopoly.
+    /// After each circuit, each player receives
+    /// the amount of ECTS indicated on the tile
+    /// after passing through the 'Start' tile.
+    /// </para>
+    /// <para>
+    /// Equivalent to the
+    /// <see href="https://monopoly.fandom.com/wiki/Go">'Go'</see>
+    /// in Monopoly.
     /// </para>
     /// </remarks>
-    class Start : Tile, ICrossable
+    internal class Start : Tile, ICrossable
     {
+        /// <summary>
+        /// The amount of ECTS points that the player receives
+        /// after passing through the tile.
+        /// </summary>
         private readonly int _reward;
+
         /// <summary>
         /// Initializes a new instance of the <see  cref="Start"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        public Start(XmlNode node) : base(node)
+        internal Start(XmlNode node) : base(node)
         {
             _reward = int.Parse(node.SelectSingleNode("reward").InnerText);      
         }
-        public void OnCross(Player player)
+
+        /// <inheritdoc/>
+        void ICrossable.OnCross(Player player)
         {
             throw new System.NotImplementedException();
         }
-        public override void OnStand(Player player)
+
+        /// <inheritdoc/>
+        internal override void OnStand(Player player)
         {
             throw new System.NotImplementedException();
         }
+        
     }
 }

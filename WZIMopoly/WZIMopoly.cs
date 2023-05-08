@@ -2,22 +2,53 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
-using WZIMopoly.Scenes;
+using WZIMopoly.GUI;
+using WZIMopoly.Models;
+using WZIMopoly.Controllers;
+using WZIMopoly.Models.GameScene;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Controllers.GameScene;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
 #endif
 
-
-
 namespace WZIMopoly
 {
+    /// <summary>
+    /// Represents a WZIMopoly game.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// The game is based on the Monopoly board game.
+    /// </para>
+    /// <para>
+    /// TODO: more info
+    /// </para>
+    /// </remarks>
     public class WZIMopoly : Game
     {
+        /// <summary>
+        /// The GraphicsDeviceManager responsible for managing graphics in MonoGame.
+        /// </summary>
         private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private Scene _currentScene;
 
+        /// <summary>
+        /// The SpriteBatch object resposible for rendering graphics in Monogame.
+        /// </summary>
+        private SpriteBatch _spriteBatch;
+
+        /// <summary>
+        /// The current scene manages the application's view and model.
+        /// </summary>
+        /// <remarks>
+        /// The scene must implement the <see cref="IPrimaryController"/> interface.
+        /// </remarks>
+        private IPrimaryController _currentScene;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WZIMopoly"/> class.
+        /// </summary>
         public WZIMopoly()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -25,17 +56,36 @@ namespace WZIMopoly
             IsMouseVisible = true;
         }
 
+        /// <summary>
+        /// Initializes the game.
+        /// </summary>
         protected override void Initialize()
         {
             ScreenController.Initialize(_graphics);
             ScreenController.ChangeResolution(1280, 720, false);
 
-            _currentScene = new GameScene();
+            var gameView = new GameView();
+            var gameModel = new GameModel();
+            _currentScene = new GameScene(gameModel, gameView);
+
+            var mapController = (_currentScene as GameScene).InitializeChild<MapModel, MapView, MapController>();
+            mapController.LoadTiles();
+
+            (_currentScene as GameScene).CreateButtons();
+
             _currentScene.RecalculateAll();
             (_currentScene as GameScene)?.StartGame();
+            (_currentScene as GameScene)?.CreateInterface();
 
             base.Initialize();
         }
+
+        /// <summary>
+        /// Loads the content of the game.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per game and is used to load all content.
+        /// </remarks>
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -43,6 +93,16 @@ namespace WZIMopoly
 
             base.LoadContent();
         }
+
+        /// <summary>
+        /// Updates the game.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame and is used to update the game logic.
+        /// </remarks>
+        /// <param name="gameTime">
+        /// The time since the application launched.
+        /// </param>
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -62,6 +122,15 @@ namespace WZIMopoly
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Draws the game.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame and is used to draw the game.
+        /// </remarks>
+        /// <param name="gameTime">
+        /// The time since the application launched.
+        /// </param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);

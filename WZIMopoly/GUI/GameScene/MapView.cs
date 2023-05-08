@@ -1,21 +1,16 @@
-﻿using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 
 namespace WZIMopoly.GUI.GameScene
 {
     /// <summary>
     /// Represents a map view.
     /// </summary>
-    internal sealed class MapView : GUIElement
+    internal sealed class MapView : GUITexture
     {
-        internal override void Load(ContentManager content)
-        {
-            Texture = null; // TODO: Load the board texture here
-        }
-
-        internal override void Draw(SpriteBatch spriteBatch)
-        {
-            // TODO: Remove this override after load the texture
-        }
+        /// <sumary>
+        /// Initializes a new instance of the <see cref="MapView"/> class.
+        /// </summary>
+        internal MapView()
+            : base("Images/Board", new Rectangle(0, 0, 1920, 1080)) { }
     }
 }

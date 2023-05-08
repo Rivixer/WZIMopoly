@@ -1,43 +1,47 @@
-﻿#region Using Statements
 using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
-#endregion
 
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
-    /// Represents a 'Restroom' tile.<br/>
+    /// Represents a 'Restroom' tile.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// This is a purchasable tile. <br/>
+    /// This is a purchasable tile.
     /// </para>
     /// <para>
-    /// If player steps on this field, they have to pay a rent to the person who owns this tile.
-    /// There is a chance to pop an owned tile. It's about pawning the card in the bank for a 
-    /// certain amount of the ECTS points.
+    /// If player steps on this field, they have to pay a rent
+    /// to the person who owns this tile.
     /// </para>
     /// <para>
-    /// Money from someone entering this tile is no rewarded during this stage.
+    /// There is a chance to pop an owned tile. It's about
+    /// pawning the card in the bank for a certain amount
+    /// of the ECTS points. Money from someone entering
+    /// this tile is no rewarded during this stage.
     /// </para>
     /// <para>
-    /// the equivalent of one the of the Monopoly <br/>
-    /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.<br/>
-    /// <para>
-    /// <remarks>
-    class Restroom : PurchasableTile
+    /// Equivalent to one of the Monopoly
+    /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.
+    /// </para>
+    /// </remarks>
+    internal class Restroom : PurchasableTile
     {
-        public readonly Dictionary<RestroomAmount, int> TaxPrices;
+        /// <summary>
+        /// A dictionary containing the tax prices for each restroom amount.
+        /// </summary>
+        internal readonly Dictionary<RestroomAmount, int> TaxPrices;
+
         /// <summary>
         /// Initializes a new instance of the <see  cref="Restroom"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        public Restroom(XmlNode node) : base(node)
+        internal Restroom(XmlNode node) : base(node)
         { 
             TaxPrices = new Dictionary<RestroomAmount, int>();
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
@@ -50,7 +54,9 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
         }
-        public override void OnStand(Player player)
+
+        /// <inheritdoc/>
+        internal override void OnStand(Player player)
         {
             throw new NotImplementedException();
         }
