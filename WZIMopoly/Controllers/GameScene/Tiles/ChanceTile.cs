@@ -3,10 +3,10 @@
 namespace WZIMopoly.Controllers.GameScene.Tiles
 {
     /// <summary>
-    /// Represents a chance tile.
+    /// Represents a base chance tile.
     /// </summary>
     /// <remarks>
-    /// A change tile is a tile that when the player lands on it, they draw a chance card.
+    /// A change tile is a tile when the player lands on it, they draw a chance card.
     /// </remarks>
     internal abstract class ChanceTile : Tile
     {
