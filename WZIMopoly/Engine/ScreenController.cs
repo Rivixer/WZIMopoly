@@ -60,7 +60,7 @@ namespace WZIMopoly.Engine
         }
 
         /// <summary>
-        /// Changes the resolution of the screen.
+        /// Changes the screen resolution parameters.
         /// </summary>
         /// <param name="width">
         /// The new width of the screen.
@@ -76,11 +76,20 @@ namespace WZIMopoly.Engine
             _width = width;
             _height = height;
             _fullScreen = fullscreen;
+        }
 
+        /// <summary>
+        /// Applies the screen settings to the main window.
+        /// </summary>
+        /// <remarks>
+        /// To change the screen settings, use
+        /// <see cref="ChangeResolution"/> method.
+        /// </remarks>
+        public static void ApplyChanges()
+        {
             _graphics.PreferredBackBufferWidth = _width;
             _graphics.PreferredBackBufferHeight = _height;
             _graphics.IsFullScreen = _fullScreen;
-
             _graphics.ApplyChanges();
         }
 
@@ -103,6 +112,7 @@ namespace WZIMopoly.Engine
                 {
                     ChangeResolution(1920, 1080, true);
                 }
+                ApplyChanges();
             }
         }
     }
