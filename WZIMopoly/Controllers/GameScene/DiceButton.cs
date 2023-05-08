@@ -1,6 +1,5 @@
 ﻿using WZIMopoly.Models;
 using WZIMopoly.GUI;
-using System.Diagnostics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
@@ -32,7 +31,7 @@ namespace WZIMopoly.Controllers.GameScene
         protected override void OnClick()
         {
             soundEffect.Play();
-            Debug.WriteLine($"{Model.Name} has been clicked.");
+            base.OnClick();
         }
 
         /// <inheritdoc/>

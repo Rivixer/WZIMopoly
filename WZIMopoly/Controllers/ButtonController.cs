@@ -1,4 +1,6 @@
-﻿using WZIMopoly.Engine;
+﻿using System;
+using System.Diagnostics;
+using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
@@ -22,9 +24,18 @@ namespace WZIMopoly.Controllers
             : base(model, view) { }
 
         /// <summary>
+        /// The event that is invoked when the button is clicked.
+        /// </summary>
+        internal event EventHandler OnButtonClicked;
+
+        /// <summary>
         /// The method called when the button is clicked.
         /// </summary>
-        protected abstract void OnClick();
+        protected virtual void OnClick()
+        {
+            Debug.WriteLine($"{Model.Name} button has been clicked");
+            OnButtonClicked?.Invoke(this, EventArgs.Empty);
+        }
 
         /// <summary>
         /// <inheritdoc/><br/>
