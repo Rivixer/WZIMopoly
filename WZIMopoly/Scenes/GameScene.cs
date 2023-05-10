@@ -74,7 +74,7 @@ namespace WZIMopoly
             foreach (var (player, position, startPoint) in positions)
             {
                 model = new PlayerInfoModel(player, position, startPoint);
-                view = new GUIPlayerInfo(model);
+                view = new GUIPlayerInfo(model,()=>Model.CurrentPlayer);
                 controller = new PlayerInfo(model, view);
                 AddChild(controller);
             }

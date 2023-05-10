@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
@@ -6,7 +8,7 @@ using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.GUI.GameScene
 {
-    internal class GUIPlayerInfo : GUIElement
+    internal class GUIPlayerInfo : GUIElement 
     {
         /// <summary>
         /// The view of the flag texture.
@@ -15,6 +17,14 @@ namespace WZIMopoly.GUI.GameScene
         /// It is the background of the player's nickname.
         /// </remarks>
         private readonly GUITexture _guiFlag;
+
+        /// <summary>
+        /// The view of the flag texture.
+        /// </summary>
+        /// <remarks>
+        /// It is the background of the player's nickname during player's round.
+        /// </remarks>
+        private readonly GUITexture _guiFlagHovered;
 
         /// <summary>
         /// The view of the box texture.
@@ -33,6 +43,10 @@ namespace WZIMopoly.GUI.GameScene
         /// The view of the player's amount of money text.
         /// </summary>
         private readonly GUIText _guiMoney;
+
+        private readonly Func<Player> _getCurrentPlayer;
+
+        private readonly PlayerInfoModel _playerInfoModel;
 
         /// <summary>
         /// A dictionary that contains shift directions for each of the four corner GUI start points.
@@ -55,9 +69,16 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the player info.
         /// </param>
-        internal GUIPlayerInfo(PlayerInfoModel model)
+        internal GUIPlayerInfo(PlayerInfoModel model,Func<Player> getCurrentPlayer)
         {
+            _getCurrentPlayer = getCurrentPlayer;
+            
             Player player = model.Player;
+            
+            _playerInfoModel = model;
+             
+            _guiFlagHovered= new GUITexture($"Images/PlayerFlag{player.Color}Hovered", model.DefRectangle, model.StartPoint);
+            AddChild(_guiFlagHovered);
 
             _guiFlag = new GUITexture($"Images/PlayerFlag{player.Color}", model.DefRectangle, model.StartPoint);
             AddChild(_guiFlag);
@@ -121,6 +142,24 @@ namespace WZIMopoly.GUI.GameScene
             position.X += ShiftDirections[startPoint].X * offsetX;
             position.Y += ShiftDirections[startPoint].Y * offsetY;
             return position;
+        }
+
+        internal override void Draw(SpriteBatch spriteBatch)
+        {
+            if(_getCurrentPlayer()==_playerInfoModel.Player)
+            {
+                _guiFlagHovered.Draw(spriteBatch);  
+            }
+            else
+            {
+                _guiFlag.Draw(spriteBatch);
+            }
+
+            _guiBox.Draw(spriteBatch);
+
+            _guiNick.Draw(spriteBatch);
+
+            _guiMoney.Draw(spriteBatch);
         }
     }
 }
