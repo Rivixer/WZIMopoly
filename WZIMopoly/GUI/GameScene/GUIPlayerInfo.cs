@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
@@ -6,6 +8,13 @@ using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.GUI.GameScene
 {
+    /// <summary>
+    /// Represents a player info view.
+    /// </summary>
+    /// <remarks>
+    /// A player info view contains the player's
+    /// nickname and amount of money.
+    /// </remarks>
     internal class GUIPlayerInfo : GUIElement
     {
         /// <summary>
@@ -15,6 +24,14 @@ namespace WZIMopoly.GUI.GameScene
         /// It is the background of the player's nickname.
         /// </remarks>
         private readonly GUITexture _guiFlag;
+
+        /// <summary>
+        /// The view of the flag texture during player's round.
+        /// </summary>
+        /// <remarks>
+        /// It is also the background of the player's nickname.
+        /// </remarks>
+        private readonly GUITexture _guiFlagHovered;
 
         /// <summary>
         /// The view of the box texture.
@@ -35,7 +52,18 @@ namespace WZIMopoly.GUI.GameScene
         private readonly GUIText _guiMoney;
 
         /// <summary>
-        /// A dictionary that contains shift directions for each of the four corner GUI start points.
+        /// The function that returns the current player.
+        /// </summary>
+        private readonly Func<Player> _getCurrentPlayer;
+
+        /// <summary>
+        /// The model of the player info.
+        /// </summary>
+        private readonly PlayerInfoModel _playerInfoModel;
+
+        /// <summary>
+        /// A dictionary that contains shift directions for each
+        /// of the four corner GUI start points.
         /// </summary>
         /// <remarks>
         /// The shift directions are used to determine the offset for certain
@@ -55,12 +83,21 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the player info.
         /// </param>
-        internal GUIPlayerInfo(PlayerInfoModel model)
+        /// <param name="getCurrentPlayer">
+        /// The function that returns the current player.
+        /// </param>
+        internal GUIPlayerInfo(PlayerInfoModel model, Func<Player> getCurrentPlayer)
         {
+            _playerInfoModel = model;
+            _getCurrentPlayer = getCurrentPlayer;
+
             Player player = model.Player;
 
             _guiFlag = new GUITexture($"Images/PlayerFlag{player.Color}", model.DefRectangle, model.StartPoint);
             AddChild(_guiFlag);
+
+            _guiFlagHovered = new GUITexture($"Images/PlayerFlag{player.Color}Hovered", model.DefRectangle, model.StartPoint);
+            AddChild(_guiFlagHovered);
 
             var boxRectangle = GetBoxRectangle(_guiFlag, model.StartPoint);
             _guiBox = new GUITexture($"Images/PlayerBox{player.Color}", boxRectangle, GUIStartPoint.Center);
@@ -73,6 +110,23 @@ namespace WZIMopoly.GUI.GameScene
             var moneyPosition = GetPositionOfText(_guiBox.UnscaledDestinationRect, model.StartPoint, 2, 0);
             _guiMoney = new GUIText("Fonts/DebugFont", moneyPosition, Color.Black, GUIStartPoint.Center, $"{player.Money} ECTS", 1.5f);
             AddChild(_guiMoney);
+        }
+
+        /// <inheritdoc/>
+        internal override void Draw(SpriteBatch spriteBatch)
+        {
+            if (_getCurrentPlayer() == _playerInfoModel.Player)
+            {
+                _guiFlagHovered.Draw(spriteBatch);
+            }
+            else
+            {
+                _guiFlag.Draw(spriteBatch);
+            }
+
+            _guiBox.Draw(spriteBatch);
+            _guiMoney.Draw(spriteBatch);
+            _guiNick.Draw(spriteBatch);
         }
 
         /// <summary>
@@ -90,7 +144,7 @@ namespace WZIMopoly.GUI.GameScene
         private static Rectangle GetBoxRectangle(GUITexture guiFlag, GUIStartPoint startPoint)
         {
             var offsetX = 140;
-            var offsetY = -42;
+            var offsetY = -45;
             var rectangle = new Rectangle(guiFlag.UnscaledDestinationRect.Center.X, guiFlag.UnscaledDestinationRect.Center.Y, 220, 50);
             rectangle.X += ShiftDirections[startPoint].X * offsetX;
             rectangle.Y += ShiftDirections[startPoint].Y * offsetY;
