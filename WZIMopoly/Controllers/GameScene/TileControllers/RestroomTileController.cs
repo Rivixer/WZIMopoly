@@ -4,7 +4,7 @@ using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Represents a 'Restroom' tile.
@@ -28,7 +28,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.
     /// </para>
     /// </remarks>
-    internal class Restroom : PurchasableTile
+    internal class RestroomTileController : PurchasableTileController
     {
         /// <summary>
         /// A dictionary containing the tax prices for each restroom amount.
@@ -36,12 +36,12 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         internal readonly Dictionary<RestroomAmount, int> TaxPrices;
 
         /// <summary>
-        /// Initializes a new instance of the <see  cref="Restroom"/> class.
+        /// Initializes a new instance of the <see  cref="RestroomTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal Restroom(XmlNode node) : base(node)
+        internal RestroomTileController(XmlNode node) : base(node)
         { 
             TaxPrices = new Dictionary<RestroomAmount, int>();
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
@@ -56,7 +56,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(Player player)
+        internal override void OnStand(PlayerModel player)
         {
             throw new NotImplementedException();
         }

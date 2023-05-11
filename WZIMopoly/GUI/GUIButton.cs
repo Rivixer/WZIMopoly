@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.GUI
@@ -27,9 +29,18 @@ namespace WZIMopoly.GUI
         private readonly GUITexture _textureDisabled;
 
         /// <summary>
-        /// The method that determines whether the button is hovered.
+        /// The default destination rectangle of the button.
         /// </summary>
-        private Func<Point, bool> _isInHoverArea;
+        /// <remarks>
+        /// It specifies the position and size of the button.<br/>
+        /// The X and Y coordinates refer to the top-left corner of the button.
+        /// </remarks>
+        private readonly Rectangle _defDstRect;
+
+        /// <summary>
+        /// The place where <see cref="_defDstRect"/> has been specified.
+        /// </summary>
+        private readonly GUIStartPoint _startPoint;
 
         /// <summary>
         /// The model of the button.
@@ -37,19 +48,34 @@ namespace WZIMopoly.GUI
         private readonly ButtonModel _model;
 
         /// <summary>
+        /// The method that determines whether the button is hovered.
+        /// </summary>
+        private Func<Point, bool> _isInHoverArea;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GUIButton"/> class.
         /// </summary>
         /// <param name="model">
         /// The model of the button.
         /// </param>
-        internal GUIButton(ButtonModel model)
+        /// <param name="defDstRect">
+        /// The default destination rectangle of the button.<br/>
+        /// It specifies the position and size of the button.<br/>
+        /// </param>
+        /// <param name="startPoint">
+        /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.<br/>
+        /// Defaults to <see cref="GUIStartPoint.TopLeft">.
+        /// </param>
+        internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
         {
             _model = model;
+            _defDstRect = defDstRect;
+            _startPoint = startPoint;
 
             var buttonPath = $"Images/Buttons/{model.Name}";
-            _texture = InitializeTexture(buttonPath, model);
-            _textureHovered = InitializeTexture($"{buttonPath}Hovered", model);
-            _textureDisabled = InitializeTexture($"{buttonPath}Disabled", model);
+            _texture = new GUITexture(buttonPath, _defDstRect, _startPoint);
+            _textureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
+            _textureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
             ResetButtonHoverArea();
         }
 
@@ -57,29 +83,6 @@ namespace WZIMopoly.GUI
         /// Whether the mouse cursor is in the button's hover area.
         /// </summary>
         internal bool IsHovered => MouseController.IsHover(_isInHoverArea);
-
-        /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch)
-        {
-            GUITexture texture;
-            if (!_model.IsActive)
-            {
-                texture = _textureDisabled;
-            }
-            else if (IsHovered)
-            {
-                texture = _textureHovered;
-            }
-            else
-            {
-                texture = _texture;
-            }
-            texture.Draw(spriteBatch);
-
-            // We don't call base.Draw(SpriteBatch)
-            // because we don't want to draw
-            // the children of the button.
-        }
 
         /// <summary>
         /// Creates a rounded square hover area for the button
@@ -139,26 +142,39 @@ namespace WZIMopoly.GUI
             _isInHoverArea = (Point p) => _texture.DestinationRect.Contains(p);
         }
 
-        /// <summary>
-        /// Initializes a texture for the button.
-        /// </summary>
-        /// <remarks>
-        /// The initialized texture is added as a child of the button.
-        /// </remarks>
-        /// <param name="path">
-        /// The path to the texture.
-        /// </param>
-        /// <param name="model">
-        /// The model of the button to get the destination rectangle and the start point.
-        /// </param>
-        /// <returns>
-        /// The initialized texture.
-        /// </returns>
-        private GUITexture InitializeTexture(string path, ButtonModel model)
+        /// <inheritdoc/>
+        internal override void Load(ContentManager content)
         {
-            var button = new GUITexture(path, model.DefDstRect, model.StartPoint);
-            AddChild(button);
-            return button;
+            _texture.Load(content);
+            _textureHovered.Load(content);
+            _textureDisabled.Load(content);
+        }
+
+        /// <inheritdoc/>
+        internal override void Recalculate()
+        {
+            _texture.Recalculate();
+            _textureHovered.Recalculate();
+            _textureDisabled.Recalculate();
+        }
+
+        /// <inheritdoc/>
+        internal override void Draw(SpriteBatch spriteBatch)
+        {
+            GUITexture texture;
+            if (!_model.IsActive)
+            {
+                texture = _textureDisabled;
+            }
+            else if (IsHovered)
+            {
+                texture = _textureHovered;
+            }
+            else
+            {
+                texture = _texture;
+            }
+            texture.Draw(spriteBatch);
         }
     }
 }

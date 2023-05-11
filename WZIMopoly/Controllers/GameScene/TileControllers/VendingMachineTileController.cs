@@ -1,7 +1,7 @@
 using System.Xml;
 using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Represents a 'Vending Machine' tile.
@@ -19,21 +19,23 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// in the case of moving a pawn, unless it says 'go back'.
     /// </para>
     /// <para>
-    /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see> tile in Monopoly.
+    /// Equivalent to the 
+    /// <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see>
+    /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class VendingMachine : ChanceTile
+    internal class VendingMachineTileController : ChanceTileController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="VendingMachine"/> class.
+        /// Initializes a new instance of the <see cref="VendingMachineTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal VendingMachine(XmlNode node) : base(node) { }
+        internal VendingMachineTileController(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(Player player)
+        internal override void OnStand(PlayerModel player)
         {
             throw new System.NotImplementedException();
         }

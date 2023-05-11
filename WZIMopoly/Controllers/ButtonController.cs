@@ -23,9 +23,15 @@ namespace WZIMopoly.Controllers
             : base(model, view) { }
 
         /// <summary>
+        /// The delegate used to define the signature of methods 
+        /// that can handle the ButtonClick event.
+        /// </summary>
+        internal delegate void ButtonClickedHandler();
+
+        /// <summary>
         /// The event that is invoked when the button is clicked.
         /// </summary>
-        internal event EventHandler OnButtonClicked;
+        internal event ButtonClickedHandler OnButtonClicked;
 
         /// <summary>
         /// The method called when the button is clicked.
@@ -33,7 +39,7 @@ namespace WZIMopoly.Controllers
         protected virtual void OnClick()
         {
             Debug.WriteLine($"{Model.Name} button has been clicked");
-            OnButtonClicked?.Invoke(this, EventArgs.Empty);
+            OnButtonClicked?.Invoke();
         }
 
         /// <summary>

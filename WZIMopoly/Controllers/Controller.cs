@@ -310,7 +310,7 @@ namespace WZIMopoly
         /// The SpriteBatch object used for rendering.
         /// </param>
         /// <param name="controller">
-        /// The controller whose view is to be recalculated.
+        /// The controller whose view is to be drawn.
         /// </param>
         private static void DrawAll(SpriteBatch spriteBatch, IControllerable controller)
         { 

@@ -1,7 +1,7 @@
 using System.Xml;
 using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Represents a 'Sofas' tile.
@@ -17,18 +17,18 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class Sofas : Tile
+    internal class SofasTileController : TileController
     {
         /// <summary>
-        /// Initializes a new instance of the <see  cref="Sofas"/> class.
+        /// Initializes a new instance of the <see  cref="SofasTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal Sofas(XmlNode node) : base(node) { }
+        internal SofasTileController(XmlNode node) : base(node) { }
         
         /// <inheritdoc/>
-        internal override void OnStand(Player player)
+        internal override void OnStand(PlayerModel player)
         {
             throw new System.NotImplementedException();
         }

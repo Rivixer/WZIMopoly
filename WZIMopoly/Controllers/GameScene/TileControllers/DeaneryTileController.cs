@@ -1,14 +1,15 @@
 using System.Xml;
 using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Represents a 'Deanery' tile.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// After stopping on this tile, the player enters a <see cref="Jail"/>.
+    /// After stopping on this tile, the player enters a 
+    /// <see cref="MandatoryLectureTileController">Jail</see>.
     /// </para>
     /// <para>
     /// Equivalent to the
@@ -16,18 +17,18 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// 'Go To Jail'</see> tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class Deanery : Tile
+    internal class DeaneryTileController : TileController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Deanery"/> class.
+        /// Initializes a new instance of the <see cref="DeaneryTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal Deanery(XmlNode node) : base(node) { }
+        internal DeaneryTileController(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(Player player)
+        internal override void OnStand(PlayerModel player)
         {
             throw new System.NotImplementedException();
         }

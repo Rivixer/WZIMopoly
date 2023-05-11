@@ -5,7 +5,7 @@ using WZIMopoly.Enums;
 using WZIMopoly.Models;
 using WZIMopoly.Utils;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Represents a subject tile.
@@ -46,7 +46,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// in Monopoly. 
     /// </para>
     /// </remarks>
-    internal class Subject : PurchasableTile
+    internal class SubjectTileController : PurchasableTileController
     {
         /// <summary>
         /// The grade of the subject.
@@ -69,12 +69,12 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         internal readonly SubjectColor Color;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Subject"/> class.
+        /// Initializes a new instance of the <see cref="SubjectTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal Subject(XmlNode node) : base(node)
+        internal SubjectTileController(XmlNode node) : base(node)
         {
             Grade = SubjectGrade.Two;
             UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
@@ -98,7 +98,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(Player player)
+        internal override void OnStand(PlayerModel player)
         {
             throw new NotImplementedException();
         }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a player.
     /// </summary>
-    public class Player
+    public class PlayerModel : Model
     {
         /// <summary>
         /// The color of the player.
@@ -21,7 +21,7 @@
         private string _nick;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Player"/> class.
+        /// Initializes a new instance of the <see cref="PlayerModel"/> class.
         /// </summary>
         /// <param name="nick">
         /// The nick of the player.
@@ -29,7 +29,7 @@
         /// <param name="color">
         /// The color of the player.
         /// </param>
-        public Player(string nick, string color)
+        public PlayerModel(string nick, string color)
         {
             _nick = nick;
             Color = color;

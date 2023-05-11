@@ -18,23 +18,9 @@ namespace WZIMopoly.Models
         internal readonly string Name;
 
         /// <summary>
-        /// The default destination rectangle of the button.
-        /// </summary>
-        /// <remarks>
-        /// It specifies the position and size of the button.<br/>
-        /// The X and Y coordinates refer to the top-left corner of the button.
-        /// </remarks>
-        internal readonly Rectangle DefDstRect;
-
-        /// <summary>
         /// Whether the button is active.
         /// </summary>
         internal bool IsActive = true;
-
-        /// <summary>
-        /// The place where <see cref="DefDstRect"/> has been specified.
-        /// </summary>
-        internal readonly GUIStartPoint StartPoint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ButtonModel"/> class.
@@ -43,19 +29,9 @@ namespace WZIMopoly.Models
         /// The name of the button.<br/>
         /// Used to identify the button and load the texture.
         /// </param>
-        /// <param name="defDstRect">
-        /// The default destination rectangle of the button.<br/>
-        /// It specifies the position and size of the button.<br/>
-        /// </param>
-        /// <param name="startPoint">
-        /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.<br/>
-        /// Defaults to <see cref="GUIStartPoint.TopLeft">.
-        /// </param>
-        internal ButtonModel(string name, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+        internal ButtonModel(string name)
         {
-            Name = name;
-            DefDstRect = defDstRect;
-            StartPoint = startPoint;    
+            Name = name;  
         }
     }
 }

@@ -1,6 +1,6 @@
 using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Provides a method to perform when the player crosses over a tile.
@@ -13,6 +13,6 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         /// <param name="player">
         /// The player who crossed over a tile.
         /// </param>
-        internal abstract void OnCross(Player player);
+        internal abstract void OnCross(PlayerModel player);
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System.Xml;
 using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary> 
-    /// Represents a Canteen tile.
+    /// Represents a 'Canteen' tile.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -21,20 +21,14 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see> tile in Monopoly. 
     /// </para>
     /// </remarks>
-    internal class Canteen : ChanceTile
+    internal class CanteenTileController : ChanceTileController
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Canteen"/> class.
+        /// Initializes a new instance of the <see cref="CanteenTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal Canteen(XmlNode node) : base(node) { }
-
-        /// <inheritdoc/>
-        internal override void OnStand(Player player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal CanteenTileController(XmlNode node) : base(node) { }
     }
 }
