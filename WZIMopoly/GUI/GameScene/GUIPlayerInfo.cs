@@ -104,11 +104,11 @@ namespace WZIMopoly.GUI.GameScene
             InsertChild(_guiBox, 0);
 
             var nickPosition = GetPositionOfText(_guiFlag.UnscaledDestinationRect, model.StartPoint, 62, 33);
-            _guiNick = new GUIText("Fonts/DebugFont", nickPosition, GUIStartPoint.Center, player.Nick, 2f);
+            _guiNick = new GUIText("Fonts/WZIMFont", nickPosition, GUIStartPoint.Center, player.Nick, 0.6f);
             AddChild(_guiNick);
 
             var moneyPosition = GetPositionOfText(_guiBox.UnscaledDestinationRect, model.StartPoint, 2, 0);
-            _guiMoney = new GUIText("Fonts/DebugFont", moneyPosition, Color.Black, GUIStartPoint.Center, $"{player.Money} ECTS", 1.5f);
+            _guiMoney = new GUIText("Fonts/WZIMFont", moneyPosition, Color.Black, GUIStartPoint.Center, $"{player.Money} ECTS", 0.4f);
             AddChild(_guiMoney);
         }
 
