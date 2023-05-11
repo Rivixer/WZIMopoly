@@ -65,6 +65,23 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
+        /// Creates pawns for all players.
+        /// </summary>
+        /// <remarks>
+        /// Adds pawns to the list of pawns and to the children of the map.
+        /// </remarks>
+        /// <param name="players">
+        /// The list of players to create pawns for.
+        /// </param>
+        internal void CreatePawns(List<PlayerModel> players)
+        {
+            foreach (PlayerModel player in players)
+            {
+                InitializeChild<PawnModel, GUIPawn, PawnController>(player.Color);
+            }
+        }
+
+        /// <summary>
         /// Sets all players on the start tile.
         /// </summary>
         /// <remarks>

@@ -50,10 +50,10 @@ namespace WZIMopoly
             Model.Players.Add(player3);
             Model.Players.Add(player4);
 
-            MapController mapController = GetController<MapController>();
-            mapController.CreatePawns(Model.Players);
-            mapController.SetPlayersOnStart(Model.Players);
-            mapController.UpdatePawnPositions();
+            MapModel mapModel = GetController<MapController>().Model;
+            mapModel.CreatePawns(Model.Players);
+            mapModel.SetPlayersOnStart(Model.Players);
+            mapModel.UpdatePawnPositions();
         }
 
         /// <summary>
