@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
 using WZIMopoly.Enums;
+using Microsoft.Xna.Framework;
 
 namespace WZIMopoly.Models
 {
@@ -46,11 +47,27 @@ namespace WZIMopoly.Models
         internal DateTime StartTime { get; private set; }
 
         /// <summary>
+        /// Gets the game time since the application launched.
+        /// </summary>
+        internal TimeSpan ActualTime { get; private set; }
+
+        /// <summary>
         /// Sets <see cref="StartTime"/> to the current time.
         /// </summary>
         internal void SetStartTime()
         {
             StartTime = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Updates the game current time.
+        /// </summary>
+        /// <param name="gameTime">
+        /// The time since the application launched.
+        /// </param>
+        internal void UpdateTime(GameTime gameTime)
+        {
+            ActualTime = gameTime.TotalGameTime;
         }
     }
 }

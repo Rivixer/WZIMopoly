@@ -37,6 +37,16 @@ namespace WZIMopoly
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
 
+            TimerModel model;
+            GUITimer view;
+            TimerController timerController;
+
+            model = new TimerModel(Model.ActualTime, new Rectangle(960, 0, 297, 113), GUIStartPoint.Top);
+            view = new GUITimer(model);
+
+            timerController = new TimerController(model, view);
+            AddChild(timerController);
+
             // A temporary code to add players to the game.
             var player1 = new Player("Player1", "Red");
             var player2 = new Player("Player2", "Yellow");
@@ -131,6 +141,17 @@ namespace WZIMopoly
             view.SetButtonHoverArea(5, 0.7f);
             controller = new SettingsButton(model, view);
             AddChild(controller);
+        }
+
+        /// <summary>
+        /// Updates the time in the timer model.
+        /// </summary>
+        /// <param name="gameTime">
+        /// The time since the application launched.
+        /// </param>
+        internal void UpdateTime(GameTime gameTime)
+        {
+            Model.UpdateTime(gameTime);
         }
     }
 }
