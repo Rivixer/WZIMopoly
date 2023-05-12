@@ -23,12 +23,12 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the list of players.
         /// </summary>
-        internal List<Player> Players { get; set; } = new();
+        internal List<PlayerModel> Players { get; set; } = new();
 
         /// <summary>
         /// Gets the current player.
         /// </summary>
-        internal Player CurrentPlayer => Players[_currentPlayerIndex];
+        internal PlayerModel CurrentPlayer => Players[_currentPlayerIndex];
 
         /// <summary>
         /// Changes the current player to the next one.

@@ -69,8 +69,8 @@ namespace WZIMopoly
             var gameModel = new GameModel();
             _currentScene = new GameScene(gameModel, gameView);
 
-            var mapController = (_currentScene as GameScene).InitializeChild<MapModel, MapView, MapController>();
-            mapController.LoadTiles();
+            var mapController = (_currentScene as GameScene).Model.InitializeChild<MapModel, GUIMap, MapController>();
+            mapController.Model.LoadTiles();
 
             (_currentScene as GameScene).CreateButtons();
 

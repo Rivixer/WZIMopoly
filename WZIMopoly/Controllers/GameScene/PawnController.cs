@@ -7,7 +7,7 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a controller of the pawn.
     /// </summary>
-    internal class PawnController : Controller<PawnModel, GUIPawn>
+    internal sealed class PawnController : Controller<PawnModel, GUIPawn>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PawnController"/> class.

@@ -159,7 +159,6 @@ namespace WZIMopoly.GUI
             {
                 spriteBatch.DrawString(Font, Text, _position, Color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0f);
             }
-            base.Draw(spriteBatch);
         }
 
         /// <summary>
@@ -216,7 +215,6 @@ namespace WZIMopoly.GUI
             }
 
             _position = new Vector2(x, y);
-            base.Recalculate();
         }
 
         /// <summary>
@@ -232,7 +230,6 @@ namespace WZIMopoly.GUI
         {
             Font = content.Load<SpriteFont>(_fontPath);
             Recalculate();
-            base.Load(content);
         }
         #endregion
     }

@@ -6,7 +6,7 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a settings button controller.
     /// </summary>
-    internal class SettingsButton : ButtonController
+    internal sealed class SettingsButton : ButtonController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsButton"/> class.
