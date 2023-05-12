@@ -11,9 +11,12 @@ namespace WZIMopoly.Controllers.GameScene
         /// <summary>
         /// Initilizes a new instance of the <see cref="MapController"/> class.
         /// </summary>
-        /// <remarks>
-        /// Loads tiles from a xml file calling <see cref="LoadTiles()"/> method.
-        /// </remarks>
+        /// <param name="model">
+        /// The model of the map controller.
+        /// </param>
+        /// <param name="view">
+        /// The view of the map controller.
+        /// </param>
         internal MapController(MapModel model, GUIMap view)
             : base(model, view) { }
     }

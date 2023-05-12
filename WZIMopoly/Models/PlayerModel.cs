@@ -8,12 +8,12 @@
         /// <summary>
         /// The color of the player.
         /// </summary>
-        public readonly string Color;
+        internal readonly string Color;
 
         /// <summary>
         /// The amount of money player has.
         /// </summary>
-        internal int Money { get; set; } = 1500;
+        internal int Money = 1500;
 
         /// <summary>
         /// The nick of the player.
@@ -29,7 +29,7 @@
         /// <param name="color">
         /// The color of the player.
         /// </param>
-        public PlayerModel(string nick, string color)
+        internal PlayerModel(string nick, string color)
         {
             _nick = nick;
             Color = color;
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets or sets the nick of the player.
         /// </summary>
-        public string Nick
+        internal string Nick
         {
             get => _nick;
             set => _nick = value;

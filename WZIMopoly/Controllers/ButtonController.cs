@@ -10,7 +10,15 @@ namespace WZIMopoly.Controllers
     /// </summary>
     internal abstract class ButtonController : Controller<ButtonModel, GUIButton>
     {
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ButtonController"/> class.
+        /// </summary>
+        /// <param name="model">
+        /// The model of the button controller.
+        /// </param>
+        /// <param name="view">
+        /// The view of the button controller.
+        /// </param>
         protected ButtonController(ButtonModel model, GUIButton view) 
             : base(model, view) { }
 
@@ -34,6 +42,18 @@ namespace WZIMopoly.Controllers
             (View as ISoundable)?.PlaySound();
             OnButtonClicked?.Invoke();
         }
+
+        /// <summary>
+        /// <inheritdoc/><br/>
+        /// Calls <see cref="OnClick"/> method when the button is clicked.
+        /// </summary>
+        protected override void Update()
+        {
+            if (Model.IsActive && MouseController.WasLeftBtnClicked() && View.IsHovered)
+            {
+                OnClick();
+            }
+        }
     }
 
     /// <summary>
@@ -54,11 +74,17 @@ namespace WZIMopoly.Controllers
         internal ButtonController(ButtonModel model, V view)
             : base(model, view) { }
 
+        /// <summary>
+        /// Gets the view of the button.
+        /// </summary>
+        /// <value>
+        /// The specified view of the button.
+        /// </value>
         internal new V View => (V)base.View;
 
         /// <summary>
         /// <inheritdoc/><br/>
-        /// Calls <see cref="OnClick"/> method when the button is clicked.
+        /// Calls <see cref="ButtonController.OnClick"/> method when the button is clicked.
         /// </summary>
         protected override void Update()
         {

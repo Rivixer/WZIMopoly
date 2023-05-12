@@ -21,6 +21,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the XML file data is invalid.
+        /// </exception>
         internal RestroomTileModel(XmlNode node) : base(node)
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();

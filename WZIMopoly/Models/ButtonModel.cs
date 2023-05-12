@@ -1,8 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using WZIMopoly.Enums;
-using WZIMopoly.GUI;
-
-namespace WZIMopoly.Models
+﻿namespace WZIMopoly.Models
 {
     /// <summary>
     /// Represents a button model.

@@ -12,11 +12,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
     internal class SubjectTileModel : PurchasableTileModel
     {
         /// <summary>
-        /// The grade of the subject.
-        /// </summary>
-        internal SubjectGrade Grade;
-
-        /// <summary>
         /// The price for upgrading subject.
         /// </summary>
         internal readonly int UpgradePrice;
@@ -32,11 +27,19 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal readonly SubjectColor Color;
 
         /// <summary>
+        /// The grade of the subject.
+        /// </summary>
+        internal SubjectGrade Grade;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the XML file data is invalid.
+        /// </exception>
         internal SubjectTileModel(XmlNode node) : base(node)
         {
             Grade = SubjectGrade.Two;
