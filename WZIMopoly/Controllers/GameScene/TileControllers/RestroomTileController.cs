@@ -25,13 +25,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.
     /// </para>
     /// </remarks>
-    internal class RestroomTileController : TileController<RestroomTileModel>
+    internal sealed class RestroomTileController : TileController<RestroomTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see  cref="RestroomTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Restroom tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Restroom tile.
         /// </param>
         internal RestroomTileController(RestroomTileModel model, GUITile view) 
             : base(model, view) { }

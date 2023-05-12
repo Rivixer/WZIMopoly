@@ -24,13 +24,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class VendingMachineTileController : TileController<VendingMachineTileModel>
+    internal sealed class VendingMachineTileController : TileController<VendingMachineTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VendingMachineTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Vending Machine tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Vending Machine tile.
         /// </param>
         internal VendingMachineTileController(VendingMachineTileModel model, GUITile view) 
             : base(model, view) { }

@@ -6,7 +6,7 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a buy button controller.
     /// </summary>
-    internal class BuyButton : ButtonController
+    internal sealed class BuyButton : ButtonController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BuyButton"/> class.

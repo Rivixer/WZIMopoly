@@ -11,7 +11,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
-    internal class PurchasableTileModel : TileModel
+    internal abstract class PurchasableTileModel : TileModel
     {
         /// <summary>
         /// The price of the tile.
@@ -65,6 +65,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
             throw new NotImplementedException("Not implemented");
         }
 
+        /// <inheritdoc/>
         internal override void OnStand(PlayerModel player)
         {
             throw new NotImplementedException();

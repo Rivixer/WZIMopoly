@@ -17,13 +17,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// 'Go To Jail'</see> tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class DeaneryTileController : TileController<DeaneryTileModel>
+    internal sealed class DeaneryTileController : TileController<DeaneryTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeaneryTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Deanery tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Deanery tile.
         /// </param>
         internal DeaneryTileController(DeaneryTileModel model, GUITile view) 
             : base(model, view) { }

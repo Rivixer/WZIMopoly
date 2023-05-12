@@ -19,13 +19,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// tiles in Monopoly.
     /// </para>
     /// </remarks>
-    internal class ConditionalPassTileController : TileController<ConditionalPassTileModel>
+    internal sealed class ConditionalPassTileController : TileController<ConditionalPassTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Conditional Pass tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Conditional Pass tile.
         /// </param>
         internal ConditionalPassTileController(ConditionalPassTileModel model, GUITile view) 
             : base(model, view) { }

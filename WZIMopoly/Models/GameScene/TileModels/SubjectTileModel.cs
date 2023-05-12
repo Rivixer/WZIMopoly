@@ -6,6 +6,9 @@ using WZIMopoly.Utils;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
+    /// <summary>
+    /// Represents the Subject tile model.
+    /// </summary>
     internal class SubjectTileModel : PurchasableTileModel
     {
         /// <summary>
@@ -28,6 +31,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </summary>
         internal readonly SubjectColor Color;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node of the chance tile.
+        /// </param>
         internal SubjectTileModel(XmlNode node) : base(node)
         {
             Grade = SubjectGrade.Two;

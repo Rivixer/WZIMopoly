@@ -108,9 +108,9 @@ namespace WZIMopoly
 
             // Dice button
             model = new ButtonModel("Dice");
-            view = new GUIButton(model, new Rectangle(882, 930, 160, 160));
+            view = new GUIDiceButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            controller = new DiceButton(model, view);
+            controller = new DiceButton(model, view as GUIDiceButton);
             controller.OnButtonClicked += () => Model.NextPlayer();
             AddChild(controller);
 

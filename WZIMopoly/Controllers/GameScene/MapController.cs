@@ -1,11 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Xml;
-using WZIMopoly.GUI.GameScene;
-using WZIMopoly.Models;
+﻿using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.Controllers.GameScene
@@ -13,7 +6,7 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a controller of the map.
     /// </summary>
-    internal class MapController : Controller<MapModel, GUIMap>
+    internal sealed class MapController : Controller<MapModel, GUIMap>
     {
         /// <summary>
         /// Initilizes a new instance of the <see cref="MapController"/> class.

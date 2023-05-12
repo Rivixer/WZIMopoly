@@ -20,6 +20,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </param>
         internal ChanceTileModel(XmlNode node) : base(node) { }
 
+        /// <inheritdoc/>
         internal override void OnStand(PlayerModel player)
         {
             throw new NotImplementedException();

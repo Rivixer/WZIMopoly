@@ -17,13 +17,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class SofasTileController : TileController<SofasTileModel>
+    internal sealed class SofasTileController : TileController<SofasTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see  cref="SofasTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Sofas tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Sofas tile.
         /// </param>
         internal SofasTileController(SofasTileModel model, GUITile view) 
             : base(model, view) { }

@@ -42,13 +42,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// in Monopoly. 
     /// </para>
     /// </remarks>
-    internal class SubjectTileController : TileController<SubjectTileModel>
+    internal sealed class SubjectTileController : TileController<SubjectTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Subject tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Subject tile.
         /// </param>
         internal SubjectTileController(SubjectTileModel model, GUITile view) 
             : base(model, view) { }

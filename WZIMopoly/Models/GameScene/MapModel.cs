@@ -19,7 +19,6 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
-        /// <exception cref="ArgumentException"></exception>
         internal void LoadTiles()
         {
             var tilesXml = new XmlDocument();
@@ -38,7 +37,9 @@ namespace WZIMopoly.Models.GameScene
             {
                 string rawTileType = tileNode.Attributes["type"].Value;
                 Type tileControllerType = Type.GetType($"{controllerNamespace}.{rawTileType}TileController");
+                Type tileGenericControllerType = Type.GetType($"{controllerNamespace}.TileController");
                 Type tileModelType = Type.GetType($"{modelNamespace}.{rawTileType}TileModel");
+
 
                 TileModel tileModel = (TileModel)Activator.CreateInstance(
                     type: tileModelType,

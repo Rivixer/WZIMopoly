@@ -5,6 +5,9 @@ using WZIMopoly.Enums;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
+    /// <summary>
+    /// Represents the Restroom tile model.
+    /// </summary>
     internal class RestroomTileModel : PurchasableTileModel
     {
         /// <summary>
@@ -12,6 +15,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </summary>
         internal readonly Dictionary<RestroomAmount, int> TaxPrices;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestroomTileModel"/> class.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node of the chance tile.
+        /// </param>
         internal RestroomTileModel(XmlNode node) : base(node)
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();

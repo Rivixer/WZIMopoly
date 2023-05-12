@@ -21,13 +21,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// in Monopoly.
     /// </para>
     /// </remarks>
-    internal class StartTileController : TileController<StartTileModel>
+    internal sealed class StartTileController : TileController<StartTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see  cref="StartTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Start tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Start tile.
         /// </param>
         internal StartTileController(StartTileModel model, GUITile view) 
             : base(model, view) { }

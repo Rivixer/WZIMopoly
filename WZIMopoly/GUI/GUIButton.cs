@@ -16,17 +16,22 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The texture of the button when is enabled.
         /// </summary>
-        private readonly GUITexture _texture;
+        protected readonly GUITexture Texture;
 
         /// <summary>
         /// The texture of the button when is hovered.
         /// </summary>
-        private readonly GUITexture _textureHovered;
+        protected readonly GUITexture TextureHovered;
 
         /// <summary>
         /// The texture of the button when is disabled.
         /// </summary>
-        private readonly GUITexture _textureDisabled;
+        protected readonly GUITexture TextureDisabled;
+
+        /// <summary>
+        /// The model of the button.
+        /// </summary>
+        protected readonly ButtonModel Model;
 
         /// <summary>
         /// The default destination rectangle of the button.
@@ -43,11 +48,6 @@ namespace WZIMopoly.GUI
         private readonly GUIStartPoint _startPoint;
 
         /// <summary>
-        /// The model of the button.
-        /// </summary>
-        private readonly ButtonModel _model;
-
-        /// <summary>
         /// The method that determines whether the button is hovered.
         /// </summary>
         private Func<Point, bool> _isInHoverArea;
@@ -60,22 +60,22 @@ namespace WZIMopoly.GUI
         /// </param>
         /// <param name="defDstRect">
         /// The default destination rectangle of the button.<br/>
-        /// It specifies the position and size of the button.<br/>
+        /// It specifies the position and size of the button.
         /// </param>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.<br/>
-        /// Defaults to <see cref="GUIStartPoint.TopLeft">.
+        /// Defaults to <see cref="GUIStartPoint.TopLeft"/>.
         /// </param>
         internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
         {
-            _model = model;
+            Model = model;
             _defDstRect = defDstRect;
             _startPoint = startPoint;
 
             var buttonPath = $"Images/Buttons/{model.Name}";
-            _texture = new GUITexture(buttonPath, _defDstRect, _startPoint);
-            _textureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
-            _textureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
+            Texture = new GUITexture(buttonPath, _defDstRect, _startPoint);
+            TextureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
+            TextureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
             ResetButtonHoverArea();
         }
 
@@ -119,7 +119,7 @@ namespace WZIMopoly.GUI
         {
             _isInHoverArea = (Point p) =>
             {
-                Rectangle DestinationRect = _texture.DestinationRect;
+                Rectangle DestinationRect = Texture.DestinationRect;
                 if (onlyIfInRect && !DestinationRect.Contains(p))
                 {
                     return false;
@@ -139,40 +139,40 @@ namespace WZIMopoly.GUI
         /// </summary>
         internal void ResetButtonHoverArea()
         {
-            _isInHoverArea = (Point p) => _texture.DestinationRect.Contains(p);
+            _isInHoverArea = (Point p) => Texture.DestinationRect.Contains(p);
         }
 
         /// <inheritdoc/>
         internal override void Load(ContentManager content)
         {
-            _texture.Load(content);
-            _textureHovered.Load(content);
-            _textureDisabled.Load(content);
+            Texture.Load(content);
+            TextureHovered.Load(content);
+            TextureDisabled.Load(content);
         }
 
         /// <inheritdoc/>
         internal override void Recalculate()
         {
-            _texture.Recalculate();
-            _textureHovered.Recalculate();
-            _textureDisabled.Recalculate();
+            Texture.Recalculate();
+            TextureHovered.Recalculate();
+            TextureDisabled.Recalculate();
         }
 
         /// <inheritdoc/>
         internal override void Draw(SpriteBatch spriteBatch)
         {
             GUITexture texture;
-            if (!_model.IsActive)
+            if (!Model.IsActive)
             {
-                texture = _textureDisabled;
+                texture = TextureDisabled;
             }
             else if (IsHovered)
             {
-                texture = _textureHovered;
+                texture = TextureHovered;
             }
             else
             {
-                texture = _texture;
+                texture = Texture;
             }
             texture.Draw(spriteBatch);
         }

@@ -6,14 +6,17 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// <summary>
     /// Represents an 'Elevator' tile.
     /// </summary>
-    internal class ElevatorTileController : TileController<ElevatorTileModel>
+    internal sealed class ElevatorTileController : TileController<ElevatorTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ElevatorTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
-        /// </param> 
+        /// <param name="model">
+        /// The model of the Elevator tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Elevator tile.
+        /// </param>
         internal ElevatorTileController(ElevatorTileModel model, GUITile view) 
             : base(model, view) { }
     }

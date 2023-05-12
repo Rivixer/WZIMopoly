@@ -1,25 +1,17 @@
-﻿using System;
-using WZIMopoly.Engine;
+﻿using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers
 {
     /// <summary>
-    /// Represents a button controller.
+    /// Represents a button controller with 
+    /// a <see cref="GUIButton"/> view.
     /// </summary>
     internal abstract class ButtonController : Controller<ButtonModel, GUIButton>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ButtonController"/> class.
-        /// </summary>
-        /// <param name="view">
-        /// The view of the button controller.
-        /// </param>
-        /// <param name="model">
-        /// The model of the button controller.
-        /// </param>
-        internal ButtonController(ButtonModel model, GUIButton view)
+
+        protected ButtonController(ButtonModel model, GUIButton view) 
             : base(model, view) { }
 
         /// <summary>
@@ -39,8 +31,30 @@ namespace WZIMopoly.Controllers
         protected virtual void OnClick()
         {
             Debug.WriteLine($"{Model.Name} button has been clicked");
+            (View as ISoundable)?.PlaySound();
             OnButtonClicked?.Invoke();
         }
+    }
+
+    /// <summary>
+    /// Represents a button controller with a specific view type.
+    /// </summary>
+    internal abstract class ButtonController<V> : ButtonController
+        where V : GUIButton
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ButtonController"/> class.
+        /// </summary>
+        /// <param name="view">
+        /// The view of the button controller.
+        /// </param>
+        /// <param name="model">
+        /// The model of the button controller.
+        /// </param>
+        internal ButtonController(ButtonModel model, V view)
+            : base(model, view) { }
+
+        internal new V View => (V)base.View;
 
         /// <summary>
         /// <inheritdoc/><br/>

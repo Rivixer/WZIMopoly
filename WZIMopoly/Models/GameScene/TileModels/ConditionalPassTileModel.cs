@@ -3,6 +3,9 @@ using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
+    /// <summary>
+    /// Represents the Conditional Pass tile model.
+    /// </summary>
     internal class ConditionalPassTileModel : TileModel
     {
         /// <summary>
@@ -21,6 +24,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
             Tax = int.Parse(node.SelectSingleNode("tax").InnerText);
         }
 
+        /// <inheritdoc/>
         internal override void OnStand(PlayerModel player)
         {
             throw new NotImplementedException();
