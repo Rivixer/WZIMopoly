@@ -1,7 +1,7 @@
-using System.Xml;
-using WZIMopoly.Models;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
     /// <summary>
     /// Represents a 'Mandatory Lecture' tile.
@@ -11,11 +11,11 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// This is the tile on which player stands during the mandatory lecture.
     /// </para>
     /// <para>
-    /// Player can also get on this tile with a 'Canteen' or 'VendingMachine' card.<br/>
     /// There are 3 ways to go to the must-have lecture: 
-    /// landing on this tile, drawing a <see cref="Canteen"/>
-    /// or <see cref="VendingMachine"/> card that leads to the 
-    /// mandatory lecture or throwing a double dice 3 times in a row.
+    /// landing on this tile, drawing a <see cref="CanteenTileController">Canteen</see>
+    /// or <see cref="VendingMachineTileController">Vending Machine</see>
+    /// card that leads to the mandatory lecture
+    /// or throwing a double dice 3 times in a row.
     /// </para>
     /// <para>
     /// Once player is at the lecture, 
@@ -33,23 +33,23 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// Nothing happens, in case of stepping on this tile.
     /// </para>
     /// <para>
-    /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Jail">'Jail'</see> tile in Monopoly.
+    /// Equivalent to the 
+    /// <see href="https://monopoly.fandom.com/wiki/Jail">'Jail'</see>
+    /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class Jail : Tile
+    internal sealed class MandatoryLectureTileController : TileController<MandatoryLectureTileModel>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Jail"/> class.
+        /// Initializes a new instance of the <see cref="MandatoryLectureTileController"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="model">
+        /// The model of the Mandatory Lecture tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the Mandatory Lecture tile.
         /// </param> 
-        internal Jail(XmlNode node) : base(node) { }
-        
-        /// <inheritdoc/>
-        internal override void OnStand(Player player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal MandatoryLectureTileController(MandatoryLectureTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

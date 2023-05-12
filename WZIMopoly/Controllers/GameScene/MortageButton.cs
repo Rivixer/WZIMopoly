@@ -6,7 +6,7 @@ namespace WZIMopoly.Controllers.GameScene
     /// <summary>
     /// Represents a mortgage button controller.
     /// </summary>
-    internal class MortgageButton : ButtonController
+    internal sealed class MortgageButton : ButtonController
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MortgageButton"/> class.
