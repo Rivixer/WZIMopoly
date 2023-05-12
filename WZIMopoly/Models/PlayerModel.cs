@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a player.
     /// </summary>
-    public class PlayerModel : Model
+    internal class PlayerModel : Model
     {
         /// <summary>
         /// The color of the player.

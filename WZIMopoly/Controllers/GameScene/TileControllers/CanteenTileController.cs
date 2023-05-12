@@ -1,5 +1,5 @@
-﻿using System.Xml;
-using WZIMopoly.Models;
+﻿using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -21,7 +21,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// Equivalent to the <see href="https://monopoly.fandom.com/wiki/Chance">'Chance'</see> tile in Monopoly. 
     /// </para>
     /// </remarks>
-    internal class CanteenTileController : ChanceTileController
+    internal class CanteenTileController : TileController<CanteenTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CanteenTileController"/> class.
@@ -29,6 +29,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal CanteenTileController(XmlNode node) : base(node) { }
+        internal CanteenTileController(CanteenTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

@@ -44,7 +44,7 @@ namespace WZIMopoly.Scenes
         /// The list of children of controller.
         /// </param>
         public Scene(_M model, _V view, List<IControllerable> children)
-            : base(model, view, children) { }
+            : base(model, view) { }
         #endregion
 
         #region IPrimaryController Methods

@@ -1,5 +1,5 @@
-using System.Xml;
-using WZIMopoly.Models;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// 'Go To Jail'</see> tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class DeaneryTileController : TileController
+    internal class DeaneryTileController : TileController<DeaneryTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DeaneryTileController"/> class.
@@ -25,12 +25,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal DeaneryTileController(XmlNode node) : base(node) { }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal DeaneryTileController(DeaneryTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

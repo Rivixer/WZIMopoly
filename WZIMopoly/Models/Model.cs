@@ -15,7 +15,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The list of children.
         /// </summary>
-        private readonly List<IControllerable> _children;
+        private readonly List<IControllerable> _children = new();
 
         /// <summary>
         /// Gets the copy of the list of children.

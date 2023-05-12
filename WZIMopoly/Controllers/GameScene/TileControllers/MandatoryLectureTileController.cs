@@ -1,5 +1,5 @@
-using System.Xml;
-using WZIMopoly.Models;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -38,7 +38,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class MandatoryLectureTileController : TileController
+    internal class MandatoryLectureTileController : TileController<MandatoryLectureTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MandatoryLectureTileController"/> class.
@@ -46,12 +46,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param> 
-        internal MandatoryLectureTileController(XmlNode node) : base(node) { }
-        
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal MandatoryLectureTileController(MandatoryLectureTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

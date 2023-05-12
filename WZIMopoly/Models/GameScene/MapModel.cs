@@ -25,7 +25,7 @@ namespace WZIMopoly.Models.GameScene
         /// <exception cref="ArgumentException"></exception>
         internal void LoadTiles()
         {
-            var TilesXml = new XmlDocument();
+            var tilesXml = new XmlDocument();
 
 #if WINDOWS
             var path = "../../../Properties/Tiles.xml";
@@ -33,34 +33,36 @@ namespace WZIMopoly.Models.GameScene
             var path = "WZIMopoly/Properties/Tiles.xml";
 #endif
 
-            TilesXml.Load(path);
+            tilesXml.Load(path);
 
-            string controllersNamespacePrefix = "WZIMopoly.Controllers.GameScene.TileControllers";
-            string modelNamespacePrefix = "WZIMopoly.Controllers.GameScene.TileControllers";
-            foreach (XmlNode TileNode in TilesXml.DocumentElement.ChildNodes)
+            string controllerNamespace = "WZIMopoly.Controllers.GameScene.TileControllers";
+            string modelNamespace = "WZIMopoly.Models.GameScene.TileModels";
+            foreach (XmlNode tileNode in tilesXml.DocumentElement.ChildNodes)
             {
-                string rawTileType = TileNode.Attributes["type"].Value;
-                Type tileControllerType = Type.GetType($"{controllersNamespacePrefix}.{rawTileType}TileController");
-                Type tileModelType = Type.GetType($"{modelNamespacePrefix}.{rawTileType}TileModel");
+                string rawTileType = tileNode.Attributes["type"].Value;
+                Type tileControllerType = Type.GetType($"{controllerNamespace}.{rawTileType}TileController");
+                Type tileModelType = Type.GetType($"{modelNamespace}.{rawTileType}TileModel");
 
                 TileModel tileModel = (TileModel)Activator.CreateInstance(
                     type: tileModelType,
                     bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                     binder: null,
-                    args: new object[] { TileNode },
+                    args: new object[] { tileNode },
                     culture: null
                 );
 
-                tileControllerType.MakeGenericType(tileModelType);
+                var tileView = new GUITile(tileNode, tileModel);
 
-                TileController<TileModel> tileController = (TileController<TileModel>)Activator.CreateInstance(
+                //tileControllerType.MakeGenericType(tileModelType);
+
+                var tileController = Activator.CreateInstance(
                     type: tileControllerType,
                     bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                     binder: null,
-                    args: new object[] { TileNode, tileModel },
+                    args: new object[] {tileModel, tileView},
                     culture: null
                 );
-                Tiles.Add(tileController);
+                Tiles.Add(tileController as TileController<TileModel>);
             }
         }
 

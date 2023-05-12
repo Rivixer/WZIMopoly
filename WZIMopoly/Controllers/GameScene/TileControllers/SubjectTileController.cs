@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Xml;
-using WZIMopoly.Enums;
-using WZIMopoly.Models;
-using WZIMopoly.Utils;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -46,61 +42,15 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// in Monopoly. 
     /// </para>
     /// </remarks>
-    internal class SubjectTileController : PurchasableTileController
+    internal class SubjectTileController : TileController<SubjectTileModel>
     {
-        /// <summary>
-        /// The grade of the subject.
-        /// </summary>
-        internal SubjectGrade Grade;
-
-        /// <summary>
-        /// The price for upgrading subject.
-        /// </summary>
-        internal readonly int UpgradePrice;
-
-        /// <summary>
-        /// A dictionary containing the tax prices for each subject grade.
-        /// </summary>
-        internal readonly Dictionary<SubjectGrade, int> TaxPrices;
-
-        /// <summary>
-        /// The color representing the section of the tile.
-        /// </summary>
-        internal readonly SubjectColor Color;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal SubjectTileController(XmlNode node) : base(node)
-        {
-            Grade = SubjectGrade.Two;
-            UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
-            TaxPrices = new Dictionary<SubjectGrade, int>();
-
-            foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
-            {
-                if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
-                {
-                    throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
-                        $" in tile node with {Id} id");
-                }
-                TaxPrices.Add(temp, int.Parse(attribute.Value));
-            }
-
-            string rawColor = NamingConverter.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
-            if (!Enum.TryParse(rawColor, true, out Color))
-            {
-                throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
-            }
-        }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new NotImplementedException();
-        }
+        internal SubjectTileController(SubjectTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

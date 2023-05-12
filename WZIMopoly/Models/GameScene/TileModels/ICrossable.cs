@@ -1,6 +1,4 @@
-using WZIMopoly.Models;
-
-namespace WZIMopoly.Controllers.GameScene.TileControllers
+namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Provides a method to perform when the player crosses over a tile.

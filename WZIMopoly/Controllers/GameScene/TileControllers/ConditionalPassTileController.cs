@@ -1,5 +1,5 @@
-﻿using System.Xml;
-using WZIMopoly.Models;
+﻿using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -19,28 +19,15 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// tiles in Monopoly.
     /// </para>
     /// </remarks>
-    internal class ConditionalPassTileController : TileController
+    internal class ConditionalPassTileController : TileController<ConditionalPassTileModel>
     {
-        /// <summary>
-        /// The amount of ECTS to be paid.
-        /// </summary>
-        internal readonly int Tax;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal ConditionalPassTileController(XmlNode node) : base(node)
-        {
-            Tax = int.Parse(node.SelectSingleNode("tax").InnerText);
-        }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal ConditionalPassTileController(ConditionalPassTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

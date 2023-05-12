@@ -1,7 +1,7 @@
+﻿using System;
 using System.Xml;
-using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.TileControllers
+namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Represents a base class for tile classes that
@@ -11,7 +11,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
-    internal abstract class PurchasableTileController : TileController
+    internal class PurchasableTileModel : TileModel
     {
         /// <summary>
         /// The price of the tile.
@@ -29,13 +29,13 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
 #nullable disable
 
         /// <summary>
-        /// Initializes a new instance of the <see  cref="PurchasableTileController"/> class.
+        /// Initializes a new instance of the <see  cref="PurchasableTileModel"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        protected PurchasableTileController(XmlNode node) : base(node)
-        {     
+        internal PurchasableTileModel(XmlNode node) : base(node)
+        {
             Price = int.Parse(node.SelectSingleNode("price").InnerText);
             owner = null;
         }
@@ -62,13 +62,12 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// </returns>
         internal bool CanPurchase(PlayerModel owner)
         {
-            throw new System.NotImplementedException("Not implemented");
+            throw new NotImplementedException("Not implemented");
         }
 
-        /// <inheritdoc/>
         internal override void OnStand(PlayerModel player)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

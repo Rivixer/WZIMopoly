@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
-    internal class ElevatorTileModel
+    internal class ElevatorTileModel : TileModel
     {
+        internal ElevatorTileModel(XmlNode node) : base(node) { }
+
+        internal override void OnStand(PlayerModel player)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

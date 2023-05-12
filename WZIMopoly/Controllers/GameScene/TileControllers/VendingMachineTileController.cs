@@ -1,5 +1,5 @@
-using System.Xml;
-using WZIMopoly.Models;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -24,7 +24,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// tile in Monopoly.
     /// </para>
     /// </remarks>
-    internal class VendingMachineTileController : ChanceTileController
+    internal class VendingMachineTileController : TileController<VendingMachineTileModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VendingMachineTileController"/> class.
@@ -32,12 +32,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal VendingMachineTileController(XmlNode node) : base(node) { }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal VendingMachineTileController(VendingMachineTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }

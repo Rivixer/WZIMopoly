@@ -1,5 +1,5 @@
-using System.Xml;
-using WZIMopoly.Models;
+using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Controllers.GameScene.TileControllers
 {
@@ -21,36 +21,15 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// in Monopoly.
     /// </para>
     /// </remarks>
-    internal class StartTileController : TileController, ICrossable
+    internal class StartTileController : TileController<StartTileModel>
     {
-        /// <summary>
-        /// The amount of ECTS points that the player receives
-        /// after passing through the tile.
-        /// </summary>
-        private readonly int _reward;
-
         /// <summary>
         /// Initializes a new instance of the <see  cref="StartTileController"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal StartTileController(XmlNode node) : base(node)
-        {
-            _reward = int.Parse(node.SelectSingleNode("reward").InnerText);      
-        }
-
-        /// <inheritdoc/>
-        void ICrossable.OnCross(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
-        
+        internal StartTileController(StartTileModel model, GUITile view) 
+            : base(model, view) { }
     }
 }
