@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
+using WZIMopoly.Controllers.GameScene.TileControllers;
 using WZIMopoly.GUI.GameScene;
 
 namespace WZIMopoly.Models.GameScene
@@ -14,11 +16,6 @@ namespace WZIMopoly.Models.GameScene
     /// </summary>
     internal sealed class MapModel : Model
     {
-        /// <summary>
-        /// Gets or sets the list of tiles.
-        /// </summary>
-        internal List<TileController<TileModel>> Tiles { get; set; } = new();
-
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
@@ -53,16 +50,14 @@ namespace WZIMopoly.Models.GameScene
 
                 var tileView = new GUITile(tileNode, tileModel);
 
-                //tileControllerType.MakeGenericType(tileModelType);
-
-                var tileController = Activator.CreateInstance(
+                IControllerable tileController = (IControllerable)Activator.CreateInstance(
                     type: tileControllerType,
                     bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                     binder: null,
-                    args: new object[] {tileModel, tileView},
+                    args: new object[] { tileModel, tileView },
                     culture: null
                 );
-                Tiles.Add(tileController as TileController<TileModel>);
+                AddChild(tileController);
             }
         }
 
@@ -94,8 +89,11 @@ namespace WZIMopoly.Models.GameScene
         /// </param>
         internal void SetPlayersOnStart(List<PlayerModel> players)
         {
-            Tiles.ForEach(x => x.Model.Players.Clear());
-            Tiles[0].Model.Players.AddRange(players);
+            var tiles = GetAllControllers<TileController>();
+            tiles.ForEach(x => x.Model.Players.Clear());
+
+            var startTile = GetController<StartTileController>();
+            startTile.Model.Players.AddRange(players);
         }
 
         /// <summary>
@@ -103,7 +101,7 @@ namespace WZIMopoly.Models.GameScene
         /// </summary>
         internal void UpdatePawnPositions()
         {
-            foreach (var tile in Tiles)
+            foreach (var tile in GetAllControllers<TileController>())
             {
                 List<Point> pawnPosition = tile.View.GetPawnPositions();
                 foreach (var (Player, Position) in tile.Model.Players.Zip(pawnPosition, (p1, p2) => (p1, p2)))

@@ -123,7 +123,7 @@ namespace WZIMopoly
                 throw new NotPrimaryException(
                     "Controller must be primary to load all children.");
             }
-            LoadAll(content, this as Controller<Models.Model, GUIElement>);
+            LoadAll(content, this);
         }
         #endregion
 
