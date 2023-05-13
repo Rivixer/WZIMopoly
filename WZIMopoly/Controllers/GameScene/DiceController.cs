@@ -19,6 +19,5 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         internal DiceController(DiceModel model, GUIDice view) 
             : base(model, view) { }
-
     }
 }

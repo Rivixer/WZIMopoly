@@ -97,6 +97,15 @@ namespace WZIMopoly.Models.GameScene
             startTile.Model.Players.AddRange(players);
         }
 
+        /// <summary>
+        /// Moves the player by a designated number of tiles.
+        /// </summary>
+        /// <param name="player">
+        /// The player to move.
+        /// </param>
+        /// <param name="step">
+        /// The number of tiles to pass.
+        /// </param>
         internal void MovePlayer(PlayerModel player, int step)
         {
             var sourceTile = GetController<TileController>(x => x.Model.Players.Contains(player));
