@@ -34,6 +34,19 @@ namespace WZIMopoly.GUI.GameScene
         private readonly TimerModel _timerModel;
 
         /// <summary>
+        /// Gets or privately sets the default rectangle of the timer background texture.
+        /// </summary>
+        private readonly Rectangle _defRectangle;
+
+        /// <summary>
+        /// Gets or privately sets the GUI start point of the timer texture.
+        /// </summary>
+        /// <remarks>
+        /// Used to determine the place for which <see cref="_defRectangle"/> is specified.
+        /// </remarks>
+        private readonly GUIStartPoint _startPoint;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GUITimer"/> class.
         /// </summary>
         /// <param name="model">
@@ -42,34 +55,38 @@ namespace WZIMopoly.GUI.GameScene
         internal GUITimer(TimerModel model)
         {
             _timerModel = model;
-            _guiBackground = new GUITexture($"Images/Timer", model.DefRectangle, model.StartPoint);
+            _defRectangle = new Rectangle(960, 0, 170, 54);
+            _startPoint = GUIStartPoint.Top;
 
-            _guiTime = new GUIText("Fonts/WZIMFont", new Vector2(model.DefRectangle.X, 50), Color.Black, GUIStartPoint.Center, model.Time.ToString());
+            _guiBackground = new GUITexture($"Images/Timer", _defRectangle, _startPoint);
+            
+            var textPosition = new Vector2(_defRectangle.X, _defRectangle.Height / 2);
+            _guiTime = new GUIText("Fonts/WZIMFont", textPosition, Color.Black, GUIStartPoint.Center, model.Time.ToString(), 0.51f);
         }
 
         /// <inheritdoc/>
-        internal override void Update()
+        public override void Update()
         {
             _guiTime.Text = _timerModel.Time.ToString(@"mm\:ss");
             base.Update();
         }
 
         /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             _guiBackground.Draw(spriteBatch);
             _guiTime.Draw(spriteBatch);
         }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             var elements = new List<GUIElement>() { _guiBackground, _guiTime };
             elements.ForEach(x => x.Load(content));
         }
 
         /// <inheritdoc/>
-        internal override void Recalculate()
+        public override void Recalculate()
         {
             var elements = new List<GUIElement>() { _guiBackground, _guiTime };
             elements.ForEach(x => x.Recalculate());

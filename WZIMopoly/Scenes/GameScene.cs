@@ -21,6 +21,11 @@ namespace WZIMopoly
     internal class GameScene : Scene<GameModel, GameView>
     {
         /// <summary>
+        /// The timer controller.
+        /// </summary>
+        private TimerController _timerController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="gameView">
@@ -40,15 +45,7 @@ namespace WZIMopoly
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
 
-            TimerModel model;
-            GUITimer view;
-            TimerController timerController;
-
-            model = new TimerModel(Model.ActualTime, new Rectangle(960, 0, 297, 113), GUIStartPoint.Top);
-            view = new GUITimer(model);
-
-            timerController = new TimerController(model, view);
-            AddChild(timerController);
+            _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
 
             // A temporary code to add players to the game.
             var player1 = new PlayerModel("Player1", "Red");
@@ -153,11 +150,10 @@ namespace WZIMopoly
         }
 
         /// <inheritdoc/>
-        protected override void Update()
+        public override void Update()
         {
-            Model.UpdateTime();
-            GetController<TimerController>().UpdateTime(Model.ActualTime);
             base.Update();
+            _timerController.UpdateTime(Model.ActualTime);
         }
     }
 }

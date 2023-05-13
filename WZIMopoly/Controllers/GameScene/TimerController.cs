@@ -29,12 +29,11 @@ namespace WZIMopoly.Controllers.GameScene
         /// Updates the current game time.
         /// </summary>
         /// <param name="actualTime">
-        /// The current time.
+        /// The actual time in the game.
         /// </param>
         internal void UpdateTime(TimeSpan actualTime)
         {
             Model.UpdateTime(actualTime);
-            base.Update();
         }
     }
 }

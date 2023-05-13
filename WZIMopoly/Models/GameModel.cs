@@ -30,9 +30,19 @@ namespace WZIMopoly.Models
         internal PlayerModel CurrentPlayer => Players[_currentPlayerIndex];
 
         /// <summary>
+        /// Gets the game start time.
+        /// </summary>
+        internal DateTime StartTime { get; private set; }
+
+        /// <summary>
+        /// Gets the game time since the game started.
+        /// </summary>
+        internal TimeSpan ActualTime => DateTime.Now - StartTime;
+
+        /// <summary>
         /// Changes the current player to the next one.
         /// </summary>
-        public void NextPlayer()
+        internal void NextPlayer()
         {
             if (++_currentPlayerIndex >= Players.Count)
             {
@@ -41,30 +51,11 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
-        /// Gets the game start time.
-        /// </summary>
-        internal DateTime StartTime { get; private set; }
-
-        /// <summary>
-        /// Gets the game time since the application launched.
-        /// </summary>
-        internal TimeSpan ActualTime { get; private set; }
-
-        /// <summary>
         /// Sets <see cref="StartTime"/> to the current time.
         /// </summary>
         internal void SetStartTime()
         {
             StartTime = DateTime.Now;
-            ActualTime = DateTime.Now - StartTime;
-        }
-
-        /// <summary>
-        /// Updates the game current time.
-        /// </summary>
-        internal void UpdateTime()
-        {
-            ActualTime = DateTime.Now - StartTime;
         }
     }
 }
