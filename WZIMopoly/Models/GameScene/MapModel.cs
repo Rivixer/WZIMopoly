@@ -98,6 +98,25 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
+        /// Moves the player by a designated number of tiles.
+        /// </summary>
+        /// <param name="player">
+        /// The player to move.
+        /// </param>
+        /// <param name="step">
+        /// The number of tiles to pass.
+        /// </param>
+        internal void MovePlayer(PlayerModel player, int step)
+        {
+            var sourceTile = GetController<TileController>(x => x.Model.Players.Contains(player));
+            sourceTile.Model.Players.Remove(player);
+            var destinationTileIndex = (sourceTile.Model.Id + step) % 40;
+            var destinationTile = GetController<TileController>(x => x.Model.Id == destinationTileIndex);
+            destinationTile.Model.Players.Add(player);
+            UpdatePawnPositions();
+        }
+
+        /// <summary>
         /// Updates positions of all pawns.
         /// </summary>
         internal void UpdatePawnPositions()

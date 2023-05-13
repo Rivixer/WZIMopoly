@@ -1,5 +1,5 @@
 ﻿using WZIMopoly.Models;
-using WZIMopoly.GUI;
+using WZIMopoly.GUI.GameScene;
 
 namespace WZIMopoly.Controllers.GameScene
 {

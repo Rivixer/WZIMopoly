@@ -91,6 +91,8 @@ namespace WZIMopoly
                 controller = new PlayerInfoController(model, view);
                 AddChild(controller);
             }
+
+            Model.InitializeChild<DiceModel, GUIDice, DiceController>();
         }
 
         /// <summary>
@@ -120,7 +122,11 @@ namespace WZIMopoly
             model = new ButtonModel("Dice");
             view = new GUIDiceButton(model);
             view.SetButtonHoverArea(5, 0.8f);
+            DiceModel diceModel = GetController<DiceController>().Model;
+            MapModel mapModel = GetController<MapController>().Model;
             controller = new DiceButton(model, view as GUIDiceButton);
+            controller.OnButtonClicked += () => diceModel.RollDice();
+            controller.OnButtonClicked += () => mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
             controller.OnButtonClicked += () => Model.NextPlayer();
             AddChild(controller);
 
