@@ -156,12 +156,12 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch) { }
+        public override void Draw(SpriteBatch spriteBatch) { }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content) { }
+        public override void Load(ContentManager content) { }
 
         /// <inheritdoc/>
-        internal override void Recalculate() { }
+        public override void Recalculate() { }
     }
 }

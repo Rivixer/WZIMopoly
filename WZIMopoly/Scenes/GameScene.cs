@@ -50,7 +50,7 @@ namespace WZIMopoly
             Model.Players.Add(player3);
             Model.Players.Add(player4);
 
-            MapModel mapModel = GetController<MapController>().Model;
+            var mapModel = Model.GetModel<MapModel>();
             mapModel.CreatePawns(Model.Players);
             mapModel.SetPlayersOnStart(Model.Players);
             mapModel.UpdatePawnPositions();
@@ -79,7 +79,7 @@ namespace WZIMopoly
                 model = new PlayerInfoModel(player);
                 view = new GUIPlayerInfo(model, () => Model.CurrentPlayer, position, startPoint);
                 controller = new PlayerInfoController(model, view);
-                AddChild(controller);
+                Model.AddChild(controller);
             }
 
             Model.InitializeChild<DiceModel, GUIDice, DiceController>();
@@ -99,47 +99,47 @@ namespace WZIMopoly
             view = new GUIButton(model, new Rectangle(622, 930, 160, 160));
             view.SetButtonHoverArea(5, 0.8f);
             controller = new MortgageButton(model, view);
-            AddChild(controller);
+            Model.AddChild(controller);
 
             // Sell button
             model = new ButtonModel("Sell");
             view = new GUIButton(model, new Rectangle(752, 930, 160, 160));
             view.SetButtonHoverArea(5, 0.8f);
             controller = new SellButton(model, view);
-            AddChild(controller);
+            Model.AddChild(controller);
 
             // Dice button
             model = new ButtonModel("Dice");
             view = new GUIDiceButton(model);
             view.SetButtonHoverArea(5, 0.8f);
-            DiceModel diceModel = GetController<DiceController>().Model;
-            MapModel mapModel = GetController<MapController>().Model;
+            var diceModel = Model.GetModel<DiceModel>();
+            var mapModel = Model.GetModel<MapModel>();
             controller = new DiceButton(model, view as GUIDiceButton);
             controller.OnButtonClicked += () => diceModel.RollDice();
             controller.OnButtonClicked += () => mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
             controller.OnButtonClicked += () => Model.NextPlayer();
-            AddChild(controller);
+            Model.AddChild(controller);
 
             // Buy button
             model = new ButtonModel("Buy");
             view = new GUIButton(model, new Rectangle(1012, 930, 160, 160));
             view.SetButtonHoverArea(5, 0.8f);
             controller = new BuyButton(model, view);
-            AddChild(controller);
+            Model.AddChild(controller);
 
             // Trade button
             model = new ButtonModel("Trade");
             view = new GUIButton(model, new Rectangle(1142, 930, 160, 160));
             view.SetButtonHoverArea(5, 0.8f);
             controller = new TradeButton(model, view);
-            AddChild(controller);
+            Model.AddChild(controller);
 
             // Settings button
             model = new ButtonModel("Settings");
             view = new GUIButton(model, new Rectangle(60, 200, 160, 160));
             view.SetButtonHoverArea(5, 0.7f);
             controller = new SettingsButton(model, view);
-            AddChild(controller);
+            Model.AddChild(controller);
         }
     }
 }

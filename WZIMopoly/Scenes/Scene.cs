@@ -53,7 +53,7 @@ namespace WZIMopoly.Scenes
         private static void LoadAll(ContentManager content, IControllerable controller)
         {
             controller.Load(content);
-            controller.Children.ForEach(child => LoadAll(content, child));
+            controller.Model.Children.ForEach(child => LoadAll(content, child));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace WZIMopoly.Scenes
         private static void UpdateAll(IControllerable controller)
         {
             controller.Update();
-            controller.Children.ForEach(child => UpdateAll(child));
+            controller.Model.Children.ForEach(child => UpdateAll(child));
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace WZIMopoly.Scenes
         private static void DrawAll(SpriteBatch spriteBatch, IControllerable controller)
         {
             controller.Draw(spriteBatch);
-            controller.Children.ForEach(child => DrawAll(spriteBatch, child));
+            controller.Model.Children.ForEach(child => DrawAll(spriteBatch, child));
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace WZIMopoly.Scenes
         private static void RecalculateAll(IControllerable controller)
         {
             controller.Recalculate();
-            controller.Children.ForEach(child => RecalculateAll(child));
+            controller.Model.Children.ForEach(child => RecalculateAll(child));
         }
         #endregion
     }

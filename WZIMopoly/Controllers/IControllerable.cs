@@ -1,43 +1,77 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+using WZIMopoly.GUI;
+using WZIMopoly.Models;
 
 namespace WZIMopoly.Controllers
 {
     /// <summary>
-    /// Provides an interface for a controller that can be controlled by another controller.
+    /// Provides methods and properties for controlling
+    /// the interacton between the model and the view.
     /// </summary>
     internal interface IControllerable
     {
         /// <summary>
-        /// Gets a list of child controllers.
+        /// Gets the model associated with this controller.
         /// </summary>
-        internal List<IControllerable> Children { get; }
+        IModelable Model { get; }
 
         /// <summary>
-        /// Loads the content for the controller.
+        /// Gets the view associated with this controller.
+        /// </summary>
+        IGUIable View { get; }
+
+        /// <summary>
+        /// Loads the content required by the controller.
         /// </summary>
         /// <param name="content">
         /// The ContentManager used for loading content.
         /// </param>
-        internal void Load(ContentManager content);
+        void Load(ContentManager content);
 
         /// <summary>
-        /// Draws the view of this controller.
+        /// Draws the view associated with this controller.
         /// </summary>
         /// <param name="spriteBatch">
         /// The SpriteBatch used for drawing.
         /// </param>
-        internal void Draw(SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch);
 
         /// <summary>
-        /// Updates the controller.
+        /// Updates the controller and its associated model and view.
         /// </summary>
-        internal void Update();
+        void Update();
 
         /// <summary>
-        /// Recalculates the view of this controller.
+        /// Recalculates the view associated with this controller.
         /// </summary>
-        internal void Recalculate();
+        void Recalculate();
+    }
+
+    /// <summary>
+    /// Provides methods and generic properties for controlling
+    /// the interacton between the model and the view.
+    /// </summary>
+    /// <typeparam name="M">
+    /// The type of the model associated with the controller.
+    /// </typeparam>
+    /// <typeparam name="V">
+    /// The type of the view associated with the controller.
+    /// </typeparam>
+    internal interface IControllerable<M, V> : IControllerable
+        where M : IModelable
+        where V : IGUIable
+    {
+        /// <inheritdoc/>
+        IModelable IControllerable.Model => Model;
+
+        /// <inheritdoc/>
+        IGUIable IControllerable.View => View;
+
+        /// <inheritdoc cref="IControllerable.Model"/>
+        public new M Model { get; }
+
+        /// <inheritdoc cref="IControllerable.View"/>
+        public new V View { get; }        
     }
 }
