@@ -118,8 +118,6 @@ namespace WZIMopoly
                 _currentScene.RecalculateAll();
             }
 
-            (_currentScene as GameScene)?.GetController<TimerController>()?.Model.UpdateTime(gameTime);
-
             _currentScene.UpdateAll();
 
             base.Update(gameTime);

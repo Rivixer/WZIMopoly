@@ -146,15 +146,12 @@ namespace WZIMopoly
             AddChild(controller);
         }
 
-        /// <summary>
-        /// Updates the time in the timer model.
-        /// </summary>
-        /// <param name="gameTime">
-        /// The time since the application launched.
-        /// </param>
-        internal void UpdateTime(GameTime gameTime)
+        /// <inheritdoc/>
+        protected override void Update()
         {
-            Model.UpdateTime(gameTime);
+            Model.UpdateTime();
+            GetController<TimerController>().UpdateTime(Model.ActualTime);
+            base.Update();
         }
     }
 }

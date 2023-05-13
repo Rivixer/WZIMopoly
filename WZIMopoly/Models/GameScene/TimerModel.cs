@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 using WZIMopoly.Enums;
 
 namespace WZIMopoly.Models.GameScene
@@ -8,7 +7,7 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents a timer model.
     /// </summary>
-    internal class TimerModel : GameModel
+    internal class TimerModel : Model
     {
         /// <summary>
         /// Gets or privately sets the time.
@@ -50,9 +49,12 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Updates the current game time.
         /// </summary>
-        internal void UpdateTime()
+        /// <param name="actualTime">
+        /// The current time.
+        /// </param>
+        internal void UpdateTime(TimeSpan actualTime)
         {
-            Time = ActualTime;
+            Time = actualTime;
         }
     }
 }

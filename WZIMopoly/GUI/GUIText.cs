@@ -132,7 +132,7 @@ namespace WZIMopoly.GUI
         /// <value>
         /// The text to display.
         /// </value>
-        protected string Text
+        internal string Text
         {
             get => _text;
             set
