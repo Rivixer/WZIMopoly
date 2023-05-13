@@ -17,10 +17,7 @@ namespace WZIMopoly.Models
         #region Get Controller Methods
         /// <inheritdoc/>
         public T GetController<T>()
-            where T : IControllerable
-        {
-            return GetController<T>((x) => true);
-        }
+            where T : IControllerable => GetController<T>((x) => true);
 
         /// <inheritdoc/>
         public T GetController<T>(Predicate<T> condition)
@@ -31,10 +28,7 @@ namespace WZIMopoly.Models
 
         /// <inheritdoc/>
         public T GetControllerRecursively<T>()
-            where T : IControllerable
-        {
-            return GetControllerRecursively<T>((x) => true);
-        }
+            where T : IControllerable => GetControllerRecursively<T>((x) => true);
 
         /// <inheritdoc/>
         public T GetControllerRecursively<T>(Predicate<T> condition)
@@ -80,24 +74,18 @@ namespace WZIMopoly.Models
         #region Get Model Methods
         /// <inheritdoc/>
         public T GetModel<T>()
-            where T : IModelable
-        {
-            return GetModel<T>((x) => true);
-        }
+            where T : IModelable => GetModel<T>((x) => true);
 
         /// <inheritdoc/>
         public T GetModel<T>(Predicate<T> condition)
             where T : IModelable
         {
-            return (T)_children.FirstOrDefault(x => x.Model is T model && condition(model)).Model;
+            return (T)_children.FirstOrDefault(x => x.Model is T model && condition(model))?.Model;
         }
 
         /// <inheritdoc/>
         public T GetModelRecursively<T>()
-            where T : IModelable
-        {
-            return GetModelRecursively<T>((x) => true);
-        }
+            where T : IModelable => GetModelRecursively<T>((x) => true);
 
         /// <inheritdoc/>
         public T GetModelRecursively<T>(Predicate<T> condition)
@@ -117,10 +105,7 @@ namespace WZIMopoly.Models
 
         /// <inheritdoc/> 
         public List<T> GetAllModels<T>()
-            where T : IModelable
-        {
-            return GetAllModels<T>((x) => true);
-        }
+            where T : IModelable => GetAllModels<T>((x) => true);
 
         /// <inheritdoc/>
         public List<T> GetAllModels<T>(Predicate<T> condition)
@@ -132,21 +117,14 @@ namespace WZIMopoly.Models
 
         /// <inheritdoc/>
         public List<T> GetAllModelsRecursively<T>()
-            where T : IModelable
-        {
-            return GetAllModelsRecursively<T>((x) => true);
-        }
+            where T : IModelable => GetAllModelsRecursively<T>((x) => true);
 
         /// <inheritdoc/>
         public List<T> GetAllModelsRecursively<T>(Predicate<T> condition)
             where T : IModelable
         {
             List<T> result = GetAllModels(condition);
-            foreach (var child in Children)
-            {
-                Model model = (Model)child.Model;
-                result.AddRange(GetAllModels(condition));
-            }
+            Children.ForEach(x => result.AddRange(x.Model.GetAllModels(condition)));
             return result;
         }
         #endregion
@@ -154,24 +132,18 @@ namespace WZIMopoly.Models
         #region Get View Methods
         /// <inheritdoc/>
         public T GetView<T>()
-            where T : IGUIable
-        {
-            return GetView<T>((x) => true);
-        }
+            where T : IGUIable => GetView<T>((x) => true);
 
         /// <inheritdoc/>
         public T GetView<T>(Predicate<T> condition)
             where T : IGUIable
         {
-            return (T)_children.FirstOrDefault(x => x.View is T view && condition(view)).View;
+            return (T)_children.FirstOrDefault(x => x.View is T view && condition(view))?.View;
         }
 
         /// <inheritdoc/>
         public T GetViewRecursively<T>()
-            where T : IGUIable
-        {
-            return GetViewRecursively<T>((x) => true);
-        }
+            where T : IGUIable => GetViewRecursively<T>((x) => true);
 
         /// <inheritdoc/>
         public T GetViewRecursively<T>(Predicate<T> condition)
@@ -191,10 +163,7 @@ namespace WZIMopoly.Models
 
         /// <inheritdoc/> 
         public List<T> GetAllViews<T>()
-            where T : IGUIable
-        {
-            return GetAllViews<T>((x) => true);
-        }
+            where T : IGUIable => GetAllViews<T>((x) => true);
 
         /// <inheritdoc/>
         public List<T> GetAllViews<T>(Predicate<T> condition)
@@ -206,21 +175,14 @@ namespace WZIMopoly.Models
 
         /// <inheritdoc/>
         public List<T> GetAllViewsRecursively<T>()
-            where T : IGUIable
-        {
-            return GetAllViewsRecursively<T>((x) => true);
-        }
+            where T : IGUIable => GetAllViewsRecursively<T>((x) => true);
 
         /// <inheritdoc/>
         public List<T> GetAllViewsRecursively<T>(Predicate<T> condition)
             where T : IGUIable
         {
             List<T> result = GetAllViews(condition);
-            foreach (var child in Children)
-            {
-                Model model = (Model)child.Model;
-                result.AddRange(GetAllViews(condition));
-            }
+            Children.ForEach(x => result.AddRange(x.Model.GetAllViews(condition)));
             return result;
         }
         #endregion
