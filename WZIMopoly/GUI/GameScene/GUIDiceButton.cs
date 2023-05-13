@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using WZIMopoly.Models;
 
-namespace WZIMopoly.GUI
+namespace WZIMopoly.GUI.GameScene
 {
     /// <summary>
     /// Represents a dice button view.
@@ -21,7 +21,7 @@ namespace WZIMopoly.GUI
         /// <param name="model">
         /// The model of the button.
         /// </param>
-        internal GUIDiceButton(ButtonModel model) 
+        internal GUIDiceButton(ButtonModel model)
             : base(model, new Rectangle(882, 930, 160, 160)) { }
 
         /// <inheritdoc/>

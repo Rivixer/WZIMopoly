@@ -72,11 +72,10 @@ namespace WZIMopoly
             var mapController = (_currentScene as GameScene).Model.InitializeChild<MapModel, GUIMap, MapController>();
             mapController.Model.LoadTiles();
 
-            (_currentScene as GameScene).CreateButtons();
-
             _currentScene.RecalculateAll();
             (_currentScene as GameScene)?.StartGame();
             (_currentScene as GameScene)?.CreateInterface();
+            (_currentScene as GameScene)?.CreateButtons();
 
             base.Initialize();
         }
