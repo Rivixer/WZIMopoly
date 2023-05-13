@@ -24,26 +24,23 @@ namespace WZIMopoly.GUI.GameScene
         private readonly GUITexture _guiBackground;
 
         /// <summary>
-        /// The view of the timer.
+        /// The view of the timer text.
         /// </summary>
         private readonly GUIText _guiTime;
 
         /// <summary>
-        /// The model of the timer.
+        /// The model of the timer controller..
         /// </summary>
         private readonly TimerModel _timerModel;
 
         /// <summary>
-        /// Gets or privately sets the default rectangle of the timer background texture.
+        /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </summary>
         private readonly Rectangle _defRectangle;
 
         /// <summary>
-        /// Gets or privately sets the GUI start point of the timer texture.
+        /// The place where <see cref="_defRectangle"/> has been specified.
         /// </summary>
-        /// <remarks>
-        /// Used to determine the place for which <see cref="_defRectangle"/> is specified.
-        /// </remarks>
         private readonly GUIStartPoint _startPoint;
 
         /// <summary>

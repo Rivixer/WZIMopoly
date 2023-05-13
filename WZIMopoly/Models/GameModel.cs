@@ -30,7 +30,7 @@ namespace WZIMopoly.Models
         internal PlayerModel CurrentPlayer => Players[_currentPlayerIndex];
 
         /// <summary>
-        /// Gets the game start time.
+        /// Gets or privately sets the game start time.
         /// </summary>
         internal DateTime StartTime { get; private set; }
 
