@@ -150,7 +150,7 @@
 		<tax_prices three="16" three_half="80" four="220" four_half="600" five="800" exemption="1000"/>
 		<position x1="815" y1="211" x2="893" y2="335" orientation="vertical"/>
 	</tile>
-	<tile id="20" type="Jail">
+	<tile id="20" type="MandatoryLecture">
 		<en_name>Lecture</en_name>
 		<pl_name>Wykład</pl_name>
 		<position x1="897" y1="211" x2="1023" y2="335" orientation="square"/>

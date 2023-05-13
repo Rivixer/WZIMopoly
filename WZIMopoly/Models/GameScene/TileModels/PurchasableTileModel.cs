@@ -1,7 +1,7 @@
+﻿using System;
 using System.Xml;
-using WZIMopoly.Models;
 
-namespace WZIMopoly.Controllers.GameScene.Tiles
+namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Represents a base class for tile classes that
@@ -11,7 +11,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
-    internal abstract class PurchasableTile : Tile
+    internal abstract class PurchasableTileModel : TileModel
     {
         /// <summary>
         /// The price of the tile.
@@ -25,17 +25,17 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         /// <remarks>
         /// Can be <see langword="null"/> if the tile is not owned by anyone.
         /// </remarks>
-        internal Player? owner;
+        internal PlayerModel? owner;
 #nullable disable
 
         /// <summary>
-        /// Initializes a new instance of the <see  cref="PurchasableTile"/> class.
+        /// Initializes a new instance of the <see  cref="PurchasableTileModel"/> class.
         /// </summary>
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        protected PurchasableTile(XmlNode node) : base(node)
-        {     
+        internal PurchasableTileModel(XmlNode node) : base(node)
+        {
             Price = int.Parse(node.SelectSingleNode("price").InnerText);
             owner = null;
         }
@@ -46,7 +46,7 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         /// <param name="owner">
         /// The player who purchases the tile.
         /// </param>
-        internal void Purchase(Player owner)
+        internal void Purchase(PlayerModel owner)
         {
             throw new System.NotImplementedException("Not implemented");
         }
@@ -60,15 +60,15 @@ namespace WZIMopoly.Controllers.GameScene.Tiles
         /// <returns>
         /// True if the player can purchase the tile, false otherwise.
         /// </returns>
-        internal bool CanPurchase(Player owner)
+        internal bool CanPurchase(PlayerModel owner)
         {
-            throw new System.NotImplementedException("Not implemented");
+            throw new NotImplementedException("Not implemented");
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(Player player)
+        internal override void OnStand(PlayerModel player)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

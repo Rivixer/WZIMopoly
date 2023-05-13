@@ -1,5 +1,8 @@
 ﻿namespace WZIMopoly.Models.GameScene
 {
+    /// <summary>
+    /// Represents a pawn model.
+    /// </summary>
     internal class PawnModel : Model
     {
         /// <summary>

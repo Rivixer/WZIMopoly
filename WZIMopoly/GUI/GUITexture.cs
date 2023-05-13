@@ -7,6 +7,9 @@ using WZIMopoly.Exceptions;
 
 namespace WZIMopoly.GUI
 {
+    /// <summary>
+    /// Represents a texture GUI element.
+    /// </summary>
     internal class GUITexture : GUIElement
     {
         #region Fields
@@ -153,7 +156,6 @@ namespace WZIMopoly.GUI
             {
                 spriteBatch.Draw(Texture, DestinationRect, Color.White);
             }
-            base.Draw(spriteBatch);
         }
 
         /// <summary>
@@ -170,7 +172,6 @@ namespace WZIMopoly.GUI
             var width = UnscaledDestinationRect.Width * ScreenController.Width / 1920;
             var height = UnscaledDestinationRect.Height * ScreenController.Height / 1080;
             DestinationRect = new Rectangle(x, y, width, height);
-            base.Recalculate();
         }
 
         /// <summary>
@@ -182,7 +183,6 @@ namespace WZIMopoly.GUI
         internal override void Load(ContentManager content)
         {
             Texture = content.Load<Texture2D>(_path);
-            base.Load(content);
         }
         #endregion
 

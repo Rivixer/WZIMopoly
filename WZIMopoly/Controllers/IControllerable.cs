@@ -10,7 +10,7 @@ namespace WZIMopoly.Controllers
     internal interface IControllerable
     {
         /// <summary>
-        /// The list of child controllers.
+        /// Gets a list of child controllers.
         /// </summary>
         internal List<IControllerable> Children { get; }
 

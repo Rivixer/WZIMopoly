@@ -5,12 +5,12 @@ namespace WZIMopoly.GUI.GameScene
     /// <summary>
     /// Represents a map view.
     /// </summary>
-    internal sealed class MapView : GUITexture
+    internal sealed class GUIMap : GUITexture
     {
         /// <sumary>
-        /// Initializes a new instance of the <see cref="MapView"/> class.
+        /// Initializes a new instance of the <see cref="GUIMap"/> class.
         /// </summary>
-        internal MapView()
+        internal GUIMap()
             : base("Images/Board", new Rectangle(0, 0, 1920, 1080)) { }
     }
 }

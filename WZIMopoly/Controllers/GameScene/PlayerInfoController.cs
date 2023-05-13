@@ -10,10 +10,10 @@ namespace WZIMopoly.Controllers.GameScene
     /// Used to display player information such as
     /// nickname or amount of money in the game scene.
     /// </remarks>
-    internal class PlayerInfo : Controller<PlayerInfoModel, GUIPlayerInfo>
+    internal sealed class PlayerInfoController : Controller<PlayerInfoModel, GUIPlayerInfo>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlayerInfo"/> class.
+        /// Initializes a new instance of the <see cref="PlayerInfoController"/> class.
         /// </summary>
         /// <param name="model">
         /// The model of the player information.
@@ -21,7 +21,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="view">
         /// The view of the player information.
         /// </param>
-        internal PlayerInfo(PlayerInfoModel model, GUIPlayerInfo view)
+        internal PlayerInfoController(PlayerInfoModel model, GUIPlayerInfo view)
             : base (model, view) { }
     }
 }
