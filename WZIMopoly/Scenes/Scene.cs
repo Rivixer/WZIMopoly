@@ -26,18 +26,18 @@ namespace WZIMopoly.Scenes
         /// </param>
         internal Scene(_M model, _V view) : base(model, view) { }
 
-        #region IPrimaryController Implementation       
+        #region IPrimaryController Implementation
         /// <inheritdoc/>
-        void IPrimaryController.LoadAll(ContentManager content) => LoadAll(content, this);
+        public void LoadAll(ContentManager content) => LoadAll(content, this);
 
         /// <inheritdoc/>
-        void IPrimaryController.UpdateAll() => UpdateAll(this);
+        public void UpdateAll() => UpdateAll(this);
 
         /// <inheritdoc/>
-        void IPrimaryController.DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch, this);
-        
+        public void DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch, this);
+
         /// <inheritdoc/>
-        void IPrimaryController.RecalculateAll() => RecalculateAll(this);
+        public void RecalculateAll() => RecalculateAll(this);
         #endregion
 
         #region Private Static Methods

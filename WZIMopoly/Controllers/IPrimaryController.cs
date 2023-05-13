@@ -14,7 +14,7 @@ namespace WZIMopoly.Controllers
         /// <param name="content">
         /// The ContentManager used for loading content.
         /// </param>
-        public void LoadAll(ContentManager content);
+        void LoadAll(ContentManager content);
 
         /// <summary>
         /// Draws the view of the controller and all its children.
@@ -22,16 +22,16 @@ namespace WZIMopoly.Controllers
         /// <param name="spriteBatch">
         /// The SpriteBatch object used for rendering.
         /// </param>
-        public void DrawAll(SpriteBatch spriteBatch);
+        void DrawAll(SpriteBatch spriteBatch);
 
         /// <summary>
         /// Updates the controller and all its children.
         /// </summary>
-        public void UpdateAll();
+        void UpdateAll();
 
         /// <summary>
         /// Recalculates the view of the controller and all its children.
         /// </summary>
-        public void RecalculateAll();
+        void RecalculateAll();
     }
 }
