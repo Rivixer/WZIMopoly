@@ -143,7 +143,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             Texture.Load(content);
             TextureHovered.Load(content);
@@ -151,7 +151,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <inheritdoc/>
-        internal override void Recalculate()
+        public override void Recalculate()
         {
             Texture.Recalculate();
             TextureHovered.Recalculate();
@@ -159,7 +159,7 @@ namespace WZIMopoly.GUI
         }
 
         /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             GUITexture texture;
             if (!Model.IsActive)

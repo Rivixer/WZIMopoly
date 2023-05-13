@@ -127,7 +127,7 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (_getCurrentPlayer() == _playerInfoModel.Player)
             {
@@ -144,14 +144,14 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered };
             elements.ForEach(x => x.Load(content));
         }
 
         /// <inheritdoc/>
-        internal override void Recalculate()
+        public override void Recalculate()
         {
             var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered };
             elements.ForEach(x => x.Recalculate());
