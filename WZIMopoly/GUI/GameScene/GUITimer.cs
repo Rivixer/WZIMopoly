@@ -44,7 +44,7 @@ namespace WZIMopoly.GUI.GameScene
             _timerModel = model;
             _guiBackground = new GUITexture($"Images/Timer", model.DefRectangle, model.StartPoint);
 
-            _guiTime = new GUIText("Fonts/DebugFont", new Vector2(model.DefRectangle.X, 50), Color.Black, GUIStartPoint.Center, model.Time.ToString(), 2f);
+            _guiTime = new GUIText("Fonts/WZIMFont", new Vector2(model.DefRectangle.X, 50), Color.Black, GUIStartPoint.Center, model.Time.ToString());
         }
 
         /// <inheritdoc/>
