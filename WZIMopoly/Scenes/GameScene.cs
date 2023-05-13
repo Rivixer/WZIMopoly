@@ -21,6 +21,11 @@ namespace WZIMopoly
     internal class GameScene : Scene<GameModel, GameView>
     {
         /// <summary>
+        /// The timer controller.
+        /// </summary>
+        private TimerController _timerController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="gameView">
@@ -39,6 +44,8 @@ namespace WZIMopoly
         {
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
+
+            _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
 
             // A temporary code to add players to the game.
             var player1 = new PlayerModel("Player1", "Red");
@@ -140,6 +147,13 @@ namespace WZIMopoly
             view.SetButtonHoverArea(5, 0.7f);
             controller = new SettingsButton(model, view);
             Model.AddChild(controller);
+        }
+
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            base.Update();
+            _timerController.UpdateTime(Model.ActualTime);
         }
     }
 }
