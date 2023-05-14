@@ -8,6 +8,6 @@
         /// <summary>
         /// Plays a sound.
         /// </summary>
-        internal abstract void PlaySound();
+        void PlaySound();
     }
 }

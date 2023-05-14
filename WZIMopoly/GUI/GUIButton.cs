@@ -177,4 +177,26 @@ namespace WZIMopoly.GUI
             texture.Draw(spriteBatch);
         }
     }
+
+    /// <summary>
+    /// Represents a view of a button with a specific model.
+    /// </summary>
+    /// <typeparam name="M">
+    /// The type of the model of the button.
+    /// </typeparam>
+    internal class GUIButton<M> : GUIButton
+        where M : ButtonModel
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GUIButton{M}"/> class.
+        /// </summary>
+        /// <inheritdoc cref="GUIButton(ButtonModel, Rectangle, GUIStartPoint)"/>
+        internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+            : base(model, defDstRect, startPoint) { }
+
+        /// <summary>
+        /// Gets the model of the button.
+        /// </summary>
+        protected new M Model => (M)base.Model;
+    }
 }

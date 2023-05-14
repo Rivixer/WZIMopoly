@@ -25,7 +25,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <remarks>
         /// Can be <see langword="null"/> if the tile is not owned by anyone.
         /// </remarks>
-        internal PlayerModel? owner;
+        internal PlayerModel? Owner;
 #nullable disable
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal PurchasableTileModel(XmlNode node) : base(node)
         {
             Price = int.Parse(node.SelectSingleNode("price").InnerText);
-            owner = null;
+            Owner = null;
         }
 
         /// <summary>
@@ -54,15 +54,15 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Determines whether the specified player can purchase the tile.
         /// </summary>
-        /// <param name="owner">
+        /// <param name="player">
         /// The player who wants to purchase the tile.
         /// </param>
         /// <returns>
         /// True if the player can purchase the tile, false otherwise.
         /// </returns>
-        internal bool CanPurchase(PlayerModel owner)
+        internal bool CanPurchase(PlayerModel player)
         {
-            throw new NotImplementedException("Not implemented");
+            return Owner == null && player.Money >= Price;
         }
 
         /// <inheritdoc/>
