@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Controllers;
 using WZIMopoly.GUI;
@@ -28,16 +28,16 @@ namespace WZIMopoly.Scenes
 
         #region IPrimaryController Implementation
         /// <inheritdoc/>
-        public void LoadAll(ContentManager content) => LoadAll(content, this);
+        public virtual void LoadAll(ContentManager content) => LoadAll(content, this);
 
         /// <inheritdoc/>
-        public void UpdateAll() => UpdateAll(this);
+        public virtual void UpdateAll() => UpdateAll(this);
 
         /// <inheritdoc/>
-        public void DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch, this);
+        public virtual void DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch, this);
 
         /// <inheritdoc/>
-        public void RecalculateAll() => RecalculateAll(this);
+        public virtual void RecalculateAll() => RecalculateAll(this);
         #endregion
 
         #region Private Static Methods

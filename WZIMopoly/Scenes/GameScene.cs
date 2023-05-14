@@ -1,13 +1,17 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
+using WZIMopoly.Controllers.GameScene.GameButtonControllers;
+using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.GameScene;
+using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
 using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models.GameScene.GameButtonModels;
+using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 using WZIMopoly.Scenes;
 
 namespace WZIMopoly
@@ -97,56 +101,29 @@ namespace WZIMopoly
         /// </summary>
         internal void CreateButtons()
         {
-            ButtonModel model;
-            GUIButton view;
-            ButtonController controller;
-
-            // Mortage button
-            model = new ButtonModel("Mortgage");
-            view = new GUIButton(model, new Rectangle(622, 930, 160, 160));
-            view.SetButtonHoverArea(5, 0.8f);
-            controller = new MortgageButton(model, view);
-            Model.AddChild(controller);
-
-            // Sell button
-            model = new ButtonModel("Sell");
-            view = new GUIButton(model, new Rectangle(752, 930, 160, 160));
-            view.SetButtonHoverArea(5, 0.8f);
-            controller = new SellButton(model, view);
-            Model.AddChild(controller);
-
-            // Dice button
-            model = new ButtonModel("Dice");
-            view = new GUIDiceButton(model);
-            view.SetButtonHoverArea(5, 0.8f);
             var diceModel = Model.GetModel<DiceModel>();
             var mapModel = Model.GetModel<MapModel>();
-            controller = new DiceButton(model, view as GUIDiceButton);
-            controller.OnButtonClicked += () => diceModel.RollDice();
-            controller.OnButtonClicked += () => mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
-            controller.OnButtonClicked += () => Model.NextPlayer();
-            Model.AddChild(controller);
+
+            // Mortage button
+            Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
+
+            // Sell button
+            Model.InitializeChild<SellButtonModel, GUISellButton, SellButtonController>();
+
+            // Dice button
+            var diceButton = Model.InitializeChild<DiceButtonModel, GUIDiceButton, DiceButtonController>();
+            diceButton.OnButtonClicked += () => diceModel.RollDice();
+            diceButton.OnButtonClicked += () => mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+            diceButton.OnButtonClicked += () => Model.NextPlayer();
 
             // Buy button
-            model = new ButtonModel("Buy");
-            view = new GUIButton(model, new Rectangle(1012, 930, 160, 160));
-            view.SetButtonHoverArea(5, 0.8f);
-            controller = new BuyButton(model, view);
-            Model.AddChild(controller);
+            Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
 
             // Trade button
-            model = new ButtonModel("Trade");
-            view = new GUIButton(model, new Rectangle(1142, 930, 160, 160));
-            view.SetButtonHoverArea(5, 0.8f);
-            controller = new TradeButton(model, view);
-            Model.AddChild(controller);
+            Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
 
             // Settings button
-            model = new ButtonModel("Settings");
-            view = new GUIButton(model, new Rectangle(60, 200, 160, 160));
-            view.SetButtonHoverArea(5, 0.7f);
-            controller = new SettingsButton(model, view);
-            Model.AddChild(controller);
+            Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
         }
 
         /// <inheritdoc/>
@@ -154,6 +131,9 @@ namespace WZIMopoly
         {
             base.Update();
             _timerController.UpdateTime(Model.ActualTime);
+            var gameButtonModels = Model.GetAllModelsRecursively<IGameButtonModel>();
+            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+            gameButtonModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
         }
     }
 }
