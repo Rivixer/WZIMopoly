@@ -78,10 +78,6 @@ namespace WZIMopoly.Models
         private static T InitializeObject<T>(params object[] args)
             where T : class
         {
-            foreach (var v in args)
-                Debug.Write(v);
-                Debug.Write(' ');
-            Debug.WriteLine("");
             return args.Length == 0
                 ? (T)Activator.CreateInstance(typeof(T), nonPublic: true)
                 : (T)Activator.CreateInstance(
