@@ -31,7 +31,7 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <inheritdoc/>
-        internal override void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             base.Load(content);
             _soundEffect = content.Load<SoundEffect>($"Sounds/{Model.Name}");

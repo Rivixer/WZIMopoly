@@ -150,7 +150,7 @@ namespace WZIMopoly.GUI
 
         #region GUIElement Methods
         /// <inheritdoc/> 
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (Texture is not null)
             {
@@ -164,7 +164,7 @@ namespace WZIMopoly.GUI
         /// <remarks>
         /// Saves it to <see cref="DestinationRect"/> field.
         /// </remarks>
-        internal override void Recalculate()
+        public override void Recalculate()
         {
             ShiftRectangle();
             var x = UnscaledDestinationRect.X * ScreenController.Width / 1920;
@@ -180,7 +180,7 @@ namespace WZIMopoly.GUI
         /// <param name="content">
         /// The ContentManager used to load the texture.
         /// </param>
-        internal override void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             Texture = content.Load<Texture2D>(_path);
         }

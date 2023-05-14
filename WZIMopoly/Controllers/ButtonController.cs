@@ -47,7 +47,7 @@ namespace WZIMopoly.Controllers
         /// <inheritdoc/><br/>
         /// Calls <see cref="OnClick"/> method when the button is clicked.
         /// </summary>
-        protected override void Update()
+        public override void Update()
         {
             if (Model.IsActive && MouseController.WasLeftBtnClicked() && View.IsHovered)
             {
@@ -81,17 +81,5 @@ namespace WZIMopoly.Controllers
         /// The specified view of the button.
         /// </value>
         internal new V View => (V)base.View;
-
-        /// <summary>
-        /// <inheritdoc/><br/>
-        /// Calls <see cref="ButtonController.OnClick"/> method when the button is clicked.
-        /// </summary>
-        protected override void Update()
-        {
-            if (Model.IsActive && MouseController.WasLeftBtnClicked() && View.IsHovered)
-            {
-                OnClick();
-            }
-        }
     }
 }

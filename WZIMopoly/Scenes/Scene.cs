@@ -26,20 +26,74 @@ namespace WZIMopoly.Scenes
         /// </param>
         internal Scene(_M model, _V view) : base(model, view) { }
 
-        #region IPrimaryController Methods
+        #region IPrimaryController Implementation
         /// <inheritdoc/>
-        void IPrimaryController.DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch);
+        public void LoadAll(ContentManager content) => LoadAll(content, this);
 
         /// <inheritdoc/>
-        void IPrimaryController.LoadAll(ContentManager content) => LoadAll(content);
+        public void UpdateAll() => UpdateAll(this);
 
         /// <inheritdoc/>
-        void IPrimaryController.RecalculateAll() => RecalculateAll();
+        public void DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch, this);
 
         /// <inheritdoc/>
-        void IPrimaryController.UpdateAll() => UpdateAll();
+        public void RecalculateAll() => RecalculateAll(this);
+        #endregion
+
+        #region Private Static Methods
+        /// <summary>
+        /// Loads the content for the controller and all its children.
+        /// </summary>
+        /// <param name="content">
+        /// The ContentManager used for loading content.
+        /// </param>
+        /// <param name="controller">
+        /// The controller whose content is to be loaded.
+        /// </param>
+        private static void LoadAll(ContentManager content, IControllerable controller)
+        {
+            controller.Load(content);
+            controller.Model.Children.ForEach(child => LoadAll(content, child));
+        }
+
+        /// <summary>
+        /// Updates the controller and all its chlidren.
+        /// </summary>
+        /// <param name="controller">
+        /// The controller to be updated.
+        /// </param>
+        private static void UpdateAll(IControllerable controller)
+        {
+            controller.Update();
+            controller.Model.Children.ForEach(child => UpdateAll(child));
+        }
+
+        /// <summary>
+        /// Draws the view of the controller.
+        /// </summary>
+        /// <param name="spriteBatch">
+        /// The SpriteBatch object used for rendering.
+        /// </param>
+        /// <param name="controller">
+        /// The controller whose view is to be drawn.
+        /// </param>
+        private static void DrawAll(SpriteBatch spriteBatch, IControllerable controller)
+        {
+            controller.Draw(spriteBatch);
+            controller.Model.Children.ForEach(child => DrawAll(spriteBatch, child));
+        }
+
+        /// <summary>
+        /// Recalculates the view of the controller.
+        /// </summary>
+        /// <param name="controller">
+        /// The controller whose view is to be recalculated.
+        /// </param>
+        private static void RecalculateAll(IControllerable controller)
+        {
+            controller.Recalculate();
+            controller.Model.Children.ForEach(child => RecalculateAll(child));
+        }
         #endregion
     }
 }
-
-

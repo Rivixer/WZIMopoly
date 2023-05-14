@@ -132,7 +132,7 @@ namespace WZIMopoly.GUI
         /// <value>
         /// The text to display.
         /// </value>
-        protected string Text
+        internal string Text
         {
             get => _text;
             set
@@ -153,7 +153,7 @@ namespace WZIMopoly.GUI
 
         #region GUIElement Methods
         /// <inheritdoc/>
-        internal override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             if (Font is not null)
             {
@@ -167,7 +167,7 @@ namespace WZIMopoly.GUI
         /// <remarks>
         /// Saves it to <see cref="_position"/> and <see cref="Scale"/> field.
         /// </remarks>
-        internal override void Recalculate()
+        public override void Recalculate()
         {
             if (Font is null)
             {
@@ -226,7 +226,7 @@ namespace WZIMopoly.GUI
         /// <param name="content">
         /// The ContentManager used to load the font.
         /// </param>
-        internal override void Load(ContentManager content)
+        public override void Load(ContentManager content)
         {
             Font = content.Load<SpriteFont>(_fontPath);
             Recalculate();
