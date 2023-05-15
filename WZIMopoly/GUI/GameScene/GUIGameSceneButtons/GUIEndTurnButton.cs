@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 
 namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
@@ -15,7 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the end turn button.
         /// </param>
-        internal GUIEndTurnButton(ButtonModel model)
+        internal GUIEndTurnButton(EndTurnButtonModel model)
             : base(model, new Rectangle(882, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);

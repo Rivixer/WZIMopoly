@@ -13,7 +13,7 @@ namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
         internal EndTurnButtonModel()
             : base("EndTurn")
         {
-            visibleIfNotActive = false;
+            VisibleIfNotActive = false;
         }
 
         /// <inheritdoc/>

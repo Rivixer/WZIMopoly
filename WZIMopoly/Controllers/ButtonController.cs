@@ -42,7 +42,7 @@ namespace WZIMopoly.Controllers
             Debug.WriteLine($"{Model.Name} button has been clicked");
             (View as ISoundable)?.PlaySound();
             OnButtonClicked?.Invoke();
-            View.WasClickedInThisFrame = true;
+            Model.WasClickedInThisFrame = true;
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace WZIMopoly.Controllers
         {
             var canBeClicked = 
                 Model.IsActive
-                && View.Condition()
+                && Model.Conditions()
                 && MouseController.WasLeftBtnClicked()
                 && View.IsHovered;
 

@@ -13,7 +13,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         internal DiceButtonModel()
             : base("Dice")
         {
-            visibleIfNotActive = false;
+            VisibleIfNotActive = false;
         }
 
         /// <inheritdoc/>

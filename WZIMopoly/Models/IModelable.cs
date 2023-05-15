@@ -22,7 +22,7 @@ namespace WZIMopoly.Models
         /// This method is called once per frame,
         /// before the <see cref="Update"/> method.
         /// </remarks>
-        virtual void BeforeUpdate() { }
+        void BeforeUpdate();
 
         /// <summary>
         /// Updates the model.
@@ -30,7 +30,7 @@ namespace WZIMopoly.Models
         /// <remarks>
         /// This method is called once per frame.
         /// </remarks>
-        virtual void Update() { }
+        void Update();
 
         /// <summary>
         /// Updates the model after the main update loop.
@@ -39,7 +39,7 @@ namespace WZIMopoly.Models
         /// This method is called once per frame, 
         /// after the <see cref="Update"/> method.
         /// </remarks>
-        virtual void AfterUpdate() { }
+        void AfterUpdate();
 
         /// <summary>
         /// Adds a controller to the list of children.

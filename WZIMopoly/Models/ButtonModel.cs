@@ -1,4 +1,6 @@
-﻿namespace WZIMopoly.Models
+﻿using System;
+
+namespace WZIMopoly.Models
 {
     /// <summary>
     /// Represents a button model.
@@ -19,11 +21,6 @@
         internal bool IsActive = true;
 
         /// <summary>
-        /// Whether the button should be visible if it isn't active.
-        /// </summary>
-        protected bool visibleIfNotActive = true;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ButtonModel"/> class.
         /// </summary>
         /// <param name="name">
@@ -32,12 +29,36 @@
         /// </param>
         internal ButtonModel(string name)
         {
-            Name = name;  
+            Name = name;
         }
 
         /// <summary>
-        /// Gets whether the button should be visible if it isn't active.
+        /// Gets or protectly sets whether the
+        /// button should be visible if it isn't active.
         /// </summary>
-        internal bool VisibleIfNotActive => visibleIfNotActive;
+        /// <remarks>
+        /// Defaults to true.
+        /// </remarks>
+        public bool VisibleIfNotActive { get; protected set; } = true;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether
+        /// the button meets requirements to be clicked.
+        /// </summary>
+        /// <remarks>
+        /// Function returns true by default.
+        /// </remarks>
+        public Func<bool> Conditions { get; set; } = () => true;
+
+        /// <summary>
+        /// Gets or sets whether the button has been clicked in this frame.
+        /// </summary>
+        public bool WasClickedInThisFrame { get; set; }
+
+        /// <inheritdoc/>
+        public override void BeforeUpdate()
+        {
+            WasClickedInThisFrame = false;
+        }
     }
 }

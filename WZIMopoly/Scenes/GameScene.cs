@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.GameButtonControllers;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
@@ -114,8 +113,8 @@ namespace WZIMopoly
             // Dice and EndTurn button
             var diceButton = Model.InitializeChild<DiceButtonModel, GUIDiceButton, DiceButtonController>();
             var endTurnButton = Model.InitializeChild<EndTurnButtonModel, GUIEndTurnButton, EndTurnButtonController>();
-            diceButton.View.Condition = () => !endTurnButton.View.WasClickedInThisFrame;
-            endTurnButton.View.Condition = () => !diceButton.View.WasClickedInThisFrame;
+            diceButton.Model.Conditions = () => !endTurnButton.Model.WasClickedInThisFrame;
+            endTurnButton.Model.Conditions = () => !diceButton.Model.WasClickedInThisFrame;
             diceButton.OnButtonClicked += () =>
             {
                 diceModel.RollDice();
