@@ -16,9 +16,30 @@ namespace WZIMopoly.Models
         List<IControllerable> Children { get; }
 
         /// <summary>
+        /// Updates the model before the main update loop.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame,
+        /// before the <see cref="Update"/> method.
+        /// </remarks>
+        virtual void BeforeUpdate() { }
+
+        /// <summary>
         /// Updates the model.
         /// </summary>
+        /// <remarks>
+        /// This method is called once per frame.
+        /// </remarks>
         virtual void Update() { }
+
+        /// <summary>
+        /// Updates the model after the main update loop.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame, 
+        /// after the <see cref="Update"/> method.
+        /// </remarks>
+        virtual void AfterUpdate() { }
 
         /// <summary>
         /// Adds a controller to the list of children.

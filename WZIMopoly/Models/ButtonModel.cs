@@ -19,6 +19,11 @@
         internal bool IsActive = true;
 
         /// <summary>
+        /// Whether the button should be visible if it isn't active.
+        /// </summary>
+        protected bool visibleIfNotActive = true;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ButtonModel"/> class.
         /// </summary>
         /// <param name="name">
@@ -29,5 +34,10 @@
         {
             Name = name;  
         }
+
+        /// <summary>
+        /// Gets whether the button should be visible if it isn't active.
+        /// </summary>
+        internal bool VisibleIfNotActive => visibleIfNotActive;
     }
 }

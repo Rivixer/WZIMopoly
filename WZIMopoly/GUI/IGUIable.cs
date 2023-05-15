@@ -9,12 +9,30 @@ namespace WZIMopoly.GUI
     internal interface IGUIable
     {
         /// <summary>
+        /// Updates the element before the main update loop.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame
+        /// and before <see cref="Update"/> method.
+        /// </remarks>
+        void BeforeUpdate();
+
+        /// <summary>
         /// Updates the element.
         /// </summary>
         /// <remarks>
         /// This method is called once per frame.
         /// </remarks>
-        abstract void Update();
+        void Update();
+
+        /// <summary>
+        /// Updates the element after the main update loop.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame
+        /// and after <see cref="Update"/> method.
+        /// </remarks>
+        void AfterUpdate();
 
         /// <summary>
         /// Loads the content of the element.
@@ -22,7 +40,7 @@ namespace WZIMopoly.GUI
         /// <param name="content">
         /// The ContentManager used for loading content.
         /// </param>
-        abstract void Load(ContentManager content);
+        void Load(ContentManager content);
 
         /// <summary>
         /// Draws the element.
@@ -30,11 +48,11 @@ namespace WZIMopoly.GUI
         /// <param name="spriteBatch">
         /// The SpriteBatch object used for rendering.
         /// </param>
-        abstract void Draw(SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch);
 
         /// <summary>
         /// Scales a GUI element for the current screen resolution.
         /// </summary>
-        abstract void Recalculate();
+        void Recalculate();
     }
 }

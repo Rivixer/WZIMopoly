@@ -14,6 +14,11 @@ namespace WZIMopoly.GUI
     internal class GUIButton : GUIElement
     {
         /// <summary>
+        /// Whether the button has been clicked in this frame.
+        /// </summary>
+        public bool WasClickedInThisFrame;
+
+        /// <summary>
         /// The texture of the button when is enabled.
         /// </summary>
         protected readonly GUITexture Texture;
@@ -85,6 +90,12 @@ namespace WZIMopoly.GUI
         internal bool IsHovered => MouseController.IsHover(_isInHoverArea);
 
         /// <summary>
+        /// Gets or sets a value indicating whether
+        /// the button meets requirements to be clicked.
+        /// </summary>
+        internal Func<bool> Condition { get; set; } = () => true;
+
+        /// <summary>
         /// Creates a rounded square hover area for the button
         /// and assigns it to the <see cref="IsHovered"/> as method.
         /// </summary>
@@ -151,6 +162,12 @@ namespace WZIMopoly.GUI
         }
 
         /// <inheritdoc/>
+        public override void BeforeUpdate()
+        {
+            WasClickedInThisFrame = false;
+        }
+
+        /// <inheritdoc/>
         public override void Recalculate()
         {
             Texture.Recalculate();
@@ -164,7 +181,7 @@ namespace WZIMopoly.GUI
             GUITexture texture;
             if (!Model.IsActive)
             {
-                texture = TextureDisabled;
+                texture = Model.VisibleIfNotActive ? TextureDisabled : null;
             }
             else if (IsHovered)
             {
@@ -174,7 +191,7 @@ namespace WZIMopoly.GUI
             {
                 texture = Texture;
             }
-            texture.Draw(spriteBatch);
+            texture?.Draw(spriteBatch);
         }
     }
 
