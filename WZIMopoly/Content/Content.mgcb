@@ -267,7 +267,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/TradeHovered.png
 
-#begin Images/dice1.png
+#begin Images/Dice1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -277,9 +277,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice1.png
+/build:Images/Dice1.png
 
-#begin Images/dice1.png
+#begin Images/Dice1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -289,9 +289,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice1.png
+/build:Images/Dice1.png
 
-#begin Images/dice1.png
+#begin Images/Dice1.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -301,9 +301,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice1.png
+/build:Images/Dice1.png
 
-#begin Images/dice2.png
+#begin Images/Dice2.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -313,9 +313,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice2.png
+/build:Images/Dice2.png
 
-#begin Images/dice3.png
+#begin Images/Dice3.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -325,9 +325,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice3.png
+/build:Images/Dice3.png
 
-#begin Images/dice4.png
+#begin Images/Dice4.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -337,9 +337,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice4.png
+/build:Images/Dice4.png
 
-#begin Images/dice5.png
+#begin Images/Dice5.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -349,9 +349,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice5.png
+/build:Images/Dice5.png
 
-#begin Images/dice6.png
+#begin Images/Dice6.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -361,7 +361,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/dice6.png
+/build:Images/Dice6.png
 
 #begin Images/Pawns/PawnBlue.png
 /importer:TextureImporter
