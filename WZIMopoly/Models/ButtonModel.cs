@@ -33,7 +33,7 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
-        /// Gets or protectly sets whether the
+        /// Gets or sets whether the
         /// button should be visible if it isn't active.
         /// </summary>
         /// <remarks>
