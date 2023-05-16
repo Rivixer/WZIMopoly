@@ -23,6 +23,15 @@ namespace WZIMopoly.Models
         public List<IControllerable> Children => new(_children);
 
         /// <inheritdoc/>
+        public virtual void BeforeUpdate() { }
+
+        /// <inheritdoc/>
+        public virtual void Update() { }
+
+        /// <inheritdoc/>
+        public virtual void AfterUpdate() { }
+
+        /// <inheritdoc/>
         public void AddChild(IControllerable child)
         {
             _children.Add(child);

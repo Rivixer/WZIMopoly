@@ -164,7 +164,7 @@ namespace WZIMopoly.GUI
             GUITexture texture;
             if (!Model.IsActive)
             {
-                texture = TextureDisabled;
+                texture = Model.VisibleIfNotActive ? TextureDisabled : null;
             }
             else if (IsHovered)
             {
@@ -174,7 +174,7 @@ namespace WZIMopoly.GUI
             {
                 texture = Texture;
             }
-            texture.Draw(spriteBatch);
+            texture?.Draw(spriteBatch);
         }
     }
 
