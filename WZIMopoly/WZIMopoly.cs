@@ -105,6 +105,8 @@ namespace WZIMopoly
         /// </param>
         protected override void Update(GameTime gameTime)
         {
+            _currentScene.BeforeUpdateAll();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -120,6 +122,8 @@ namespace WZIMopoly
             _currentScene.UpdateAll();
 
             base.Update(gameTime);
+
+            _currentScene.AfterUpdateAll();
         }
 
         /// <summary>

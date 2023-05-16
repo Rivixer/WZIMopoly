@@ -110,11 +110,18 @@ namespace WZIMopoly
             // Sell button
             Model.InitializeChild<SellButtonModel, GUISellButton, SellButtonController>();
 
-            // Dice button
+            // Dice and EndTurn button
             var diceButton = Model.InitializeChild<DiceButtonModel, GUIDiceButton, DiceButtonController>();
-            diceButton.OnButtonClicked += () => diceModel.RollDice();
-            diceButton.OnButtonClicked += () => mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
-            diceButton.OnButtonClicked += () => Model.NextPlayer();
+            var endTurnButton = Model.InitializeChild<EndTurnButtonModel, GUIEndTurnButton, EndTurnButtonController>();
+            diceButton.Model.Conditions = () => !endTurnButton.Model.WasClickedInThisFrame;
+            endTurnButton.Model.Conditions = () => !diceButton.Model.WasClickedInThisFrame;
+            diceButton.OnButtonClicked += () =>
+            {
+                diceModel.RollDice();
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+            };
+            endTurnButton.OnButtonClicked += () => Model.NextPlayer();
 
             // Buy button
             Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();

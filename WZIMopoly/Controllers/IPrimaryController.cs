@@ -25,9 +25,29 @@ namespace WZIMopoly.Controllers
         void DrawAll(SpriteBatch spriteBatch);
 
         /// <summary>
+        /// Updates the controller and all its children
+        /// before the main update loop.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame,
+        /// before the <see cref="UpdateAll"/> method.
+        /// </remarks>
+        void BeforeUpdateAll();
+
+        /// <summary>
         /// Updates the controller and all its children.
         /// </summary>
         void UpdateAll();
+
+        /// <summary>
+        /// Updates the controller and all its children
+        /// after the main update loop.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once per frame,
+        /// after the <see cref="UpdateAll"/> method.
+        /// </remarks>
+        void AfterUpdateAll();
 
         /// <summary>
         /// Recalculates the view of the controller and all its children.

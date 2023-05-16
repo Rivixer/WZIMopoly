@@ -16,6 +16,6 @@
         /// <param name="tile">
         /// The tile that the player is on.
         /// </param>
-        internal virtual void Update(PlayerModel player, TileModel tile) { }
+        void Update(PlayerModel player, TileModel tile);
     }
 }
