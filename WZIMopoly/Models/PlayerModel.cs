@@ -5,7 +5,7 @@ namespace WZIMopoly.Models
     /// <summary>
     /// Represents a player.
     /// </summary>
-    internal class PlayerModel : Model
+    internal sealed class PlayerModel : Model
     {
         /// <summary>
         /// The color of the player.
@@ -15,7 +15,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The amount of money player has.
         /// </summary>
-        internal int Money = 1500;
+        private int _money = 1500;
 
         /// <summary>
         /// The nick of the player.
@@ -49,6 +49,33 @@ namespace WZIMopoly.Models
         {
             get => _nick;
             set => _nick = value;
+        }
+
+        /// <summary>
+        /// Gets the amount of money the player has.
+        /// </summary>
+        internal int Money => _money;
+
+        /// <summary>
+        /// Increases the amount of money the player has.
+        /// </summary>
+        /// <param name="amount">
+        /// Amount of money which player receive.
+        /// </param>
+        internal void ReceiveMoney(int amount)
+        {
+            _money += amount;
+        }
+
+        /// <summary>
+        /// Decreases the amount of money the player has.
+        /// </summary>
+        /// <param name="amount">
+        /// Amount of money which the player lose.
+        /// </param>
+        internal void LoseMoney(int amount)
+        {
+            _money -= amount;
         }
     }
 }
