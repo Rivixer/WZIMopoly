@@ -73,9 +73,9 @@ namespace WZIMopoly
             var positions = new List<Tuple<PlayerModel, Rectangle, GUIStartPoint>>()
             {
                 new(Model.Players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
-                new(Model.Players[3], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
-                new(Model.Players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
                 new(Model.Players[1], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
+                new(Model.Players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
+                new(Model.Players[3], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
             };
 
             PlayerInfoModel model;
