@@ -67,7 +67,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The view of the player's amount of money text.
         /// </summary>
-        private readonly GUIText _guiMoney;
+        private GUIText _guiMoney;
 
         /// <summary>
         /// The function that returns the current player.
@@ -141,6 +141,12 @@ namespace WZIMopoly.GUI.GameScene
             _guiBox.Draw(spriteBatch);
             _guiMoney.Draw(spriteBatch);
             _guiNick.Draw(spriteBatch);
+        }
+
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            _guiMoney.Text = $"{_playerInfoModel.Player.Money} ECTS";
         }
 
         /// <inheritdoc/>

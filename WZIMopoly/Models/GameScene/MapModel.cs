@@ -8,6 +8,7 @@ using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.TileControllers;
 using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models.GameScene
 {
@@ -110,9 +111,17 @@ namespace WZIMopoly.Models.GameScene
         {
             var sourceTile = GetController<TileController>(x => x.Model.Players.Contains(player));
             sourceTile.Model.Players.Remove(player);
+
             var destinationTileIndex = (sourceTile.Model.Id + step) % 40;
             var destinationTile = GetController<TileController>(x => x.Model.Id == destinationTileIndex);
             destinationTile.Model.Players.Add(player);
+            destinationTile.Model.OnStand(player);
+
+            var passedTiles = GetAllControllers<TileController>((x) => 
+                x.Model.Id > sourceTile.Model.Id && x.Model.Id < destinationTile.Model.Id ||
+                destinationTile.Model.Id < sourceTile.Model.Id && (x.Model.Id > sourceTile.Model.Id || x.Model.Id < destinationTile.Model.Id));
+            passedTiles.ForEach(x => (x.Model as ICrossable)?.OnCross(player));
+
             UpdatePawnPositions();
         }
 

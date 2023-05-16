@@ -21,10 +21,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal ChanceTileModel(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new NotImplementedException();
-        }
+        internal override void OnStand(PlayerModel player) { }
 
         /// <summary>
         /// Draws a chance card.
