@@ -31,7 +31,13 @@ namespace WZIMopoly.Scenes
         public virtual void LoadAll(ContentManager content) => LoadAll(content, this);
 
         /// <inheritdoc/>
+        public virtual void BeforeUpdateAll() => BeforeUpdateAll(this);
+
+        /// <inheritdoc/>
         public virtual void UpdateAll() => UpdateAll(this);
+
+        /// <inheritdoc/>
+        public virtual void AfterUpdateAll() => AfterUpdateAll(this);
 
         /// <inheritdoc/>
         public virtual void DrawAll(SpriteBatch spriteBatch) => DrawAll(spriteBatch, this);
@@ -57,6 +63,19 @@ namespace WZIMopoly.Scenes
         }
 
         /// <summary>
+        /// Updates the controller and all its chlidren
+        /// before the main update.
+        /// </summary>
+        /// <param name="controller">
+        /// The controller to be updated.
+        /// </param>
+        private static void BeforeUpdateAll(IControllerable controller)
+        {
+            controller.BeforeUpdate();
+            controller.Model.Children.ForEach(child => BeforeUpdateAll(child));
+        }
+
+        /// <summary>
         /// Updates the controller and all its chlidren.
         /// </summary>
         /// <param name="controller">
@@ -67,6 +86,19 @@ namespace WZIMopoly.Scenes
             controller.Update();
             controller.Model.Children.ForEach(child => UpdateAll(child));
         }
+
+        /// <summary>
+        /// Updates the controller and all its chlidren.
+        /// </summary>
+        /// <param name="controller">
+        /// The controller to be updated.
+        /// </param>
+        private static void AfterUpdateAll(IControllerable controller)
+        {
+            controller.AfterUpdate();
+            controller.Model.Children.ForEach(child => AfterUpdateAll(child));
+        }
+
 
         /// <summary>
         /// Draws the view of the controller.

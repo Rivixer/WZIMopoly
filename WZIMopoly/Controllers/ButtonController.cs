@@ -20,7 +20,7 @@ namespace WZIMopoly.Controllers
         /// <param name="view">
         /// The view of the button controller.
         /// </param>
-        protected ButtonController(ButtonModel model, GUIButton view) 
+        protected ButtonController(ButtonModel model, GUIButton view)
             : base(model, view) { }
 
         /// <summary>
@@ -42,6 +42,7 @@ namespace WZIMopoly.Controllers
             Debug.WriteLine($"{Model.Name} button has been clicked");
             (View as ISoundable)?.PlaySound();
             OnButtonClicked?.Invoke();
+            Model.WasClickedInThisFrame = true;
         }
 
         /// <summary>
@@ -50,7 +51,13 @@ namespace WZIMopoly.Controllers
         /// </summary>
         public override void Update()
         {
-            if (Model.IsActive && MouseController.WasLeftBtnClicked() && View.IsHovered)
+            var canBeClicked = 
+                Model.IsActive
+                && Model.Conditions()
+                && MouseController.WasLeftBtnClicked()
+                && View.IsHovered;
+
+            if (canBeClicked)
             {
                 OnClick();
             }
@@ -82,8 +89,8 @@ namespace WZIMopoly.Controllers
         /// <value>
         /// The specified model of the button.
         /// </value>
-        internal new M Model => (M)base.Model;        
-        
+        internal new M Model => (M)base.Model;
+
         /// <summary>
         /// Gets the view of the button.
         /// </summary>

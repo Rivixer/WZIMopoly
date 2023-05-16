@@ -9,7 +9,13 @@ namespace WZIMopoly.GUI
     public abstract class GUIElement : IGUIable
     {
         /// <inheritdoc/>
+        public virtual void BeforeUpdate() { }
+
+        /// <inheritdoc/>
         public virtual void Update() { }
+
+        /// <inheritdoc/>
+        public virtual void AfterUpdate() { }
 
         /// <inheritdoc/>
         public abstract void Load(ContentManager content);

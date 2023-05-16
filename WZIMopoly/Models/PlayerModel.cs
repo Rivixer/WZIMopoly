@@ -1,4 +1,6 @@
-﻿namespace WZIMopoly.Models
+﻿using WZIMopoly.Enums;
+
+namespace WZIMopoly.Models
 {
     /// <summary>
     /// Represents a player.
@@ -36,6 +38,11 @@
         }
 
         /// <summary>
+        /// Gets or sets the player status.
+        /// </summary>
+        internal PlayerStatus PlayerStatus { get; set; }
+
+        /// <summary>
         /// Gets or sets the nick of the player.
         /// </summary>
         internal string Nick
@@ -43,6 +50,5 @@
             get => _nick;
             set => _nick = value;
         }
-
     }
 }

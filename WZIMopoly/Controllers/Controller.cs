@@ -50,10 +50,24 @@ namespace WZIMopoly
         }
 
         /// <inheritdoc/>
+        public virtual void BeforeUpdate()
+        {
+            Model.BeforeUpdate();
+            View.BeforeUpdate();
+        }
+
+        /// <inheritdoc/>
         public virtual void Update() 
         {
             Model.Update();
             View.Update();
+        }
+
+        /// <inheritdoc/>
+        public virtual void AfterUpdate()
+        {
+            Model.AfterUpdate();
+            View.AfterUpdate();
         }
 
         /// <inheritdoc/>
