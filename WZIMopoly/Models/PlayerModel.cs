@@ -28,7 +28,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The list of bought tiles of the player.
         /// </summary>
-        private readonly List<PurchasableTileModel> BoughtTiles = new List<PurchasableTileModel>();
+        readonly private List<PurchasableTileModel> _boughtTiles = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
@@ -62,6 +62,6 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the BoughtTiles of the player.
         /// </summary>
-        internal List<PurchasableTileModel> _boughtTiles => BoughtTiles;
+        internal List<PurchasableTileModel> BoughtTiles => _boughtTiles;
     }
 }

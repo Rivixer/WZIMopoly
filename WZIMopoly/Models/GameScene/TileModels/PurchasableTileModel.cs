@@ -50,7 +50,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
                 Owner = owner;
                 owner.Money -= Price;
-                owner._boughtTiles.Add(this);
+                owner.BoughtTiles.Add(this);
         }
 
         /// <summary>
