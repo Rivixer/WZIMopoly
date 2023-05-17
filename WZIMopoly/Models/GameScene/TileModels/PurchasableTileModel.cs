@@ -11,7 +11,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
-    internal abstract class PurchasableTileModel : TileModel
+    internal abstract class PurchasableTileModel : TileModel 
     {
         /// <summary>
         /// The price of the tile.
@@ -48,7 +48,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </param>
         internal void Purchase(PlayerModel owner)
         {
-            throw new System.NotImplementedException("Not implemented");
+                Owner = owner;
+                owner.Money -= Price;
+                owner._boughtTiles.Add(this);
         }
 
         /// <summary>
@@ -71,4 +73,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
             throw new NotImplementedException();
         }
     }
+
 }
+

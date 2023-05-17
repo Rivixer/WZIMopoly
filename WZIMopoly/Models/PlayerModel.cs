@@ -1,4 +1,7 @@
-﻿using WZIMopoly.Enums;
+﻿using System.Collections;
+using System.Collections.Generic;
+using WZIMopoly.Enums;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models
 {
@@ -21,6 +24,11 @@ namespace WZIMopoly.Models
         /// The nick of the player.
         /// </summary>
         private string _nick;
+
+        /// <summary>
+        /// The list of bought tiles of the player.
+        /// </summary>
+        private readonly List<PurchasableTileModel> BoughtTiles = new List<PurchasableTileModel>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
@@ -50,5 +58,10 @@ namespace WZIMopoly.Models
             get => _nick;
             set => _nick = value;
         }
+
+        /// <summary>
+        /// Gets or sets the BoughtTiles of the player.
+        /// </summary>
+        internal List<PurchasableTileModel> _boughtTiles => BoughtTiles;
     }
 }
