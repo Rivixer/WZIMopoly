@@ -9,6 +9,10 @@
         /// The player has not rolled the dice yet.
         /// </summary>
         BeforeRollingDice,
+        /// <summary>
+        /// The dice is rolling.
+        /// </summary>
+        DuringRollingDice,
 
         /// <summary>
         /// The player has already rolled the dice.

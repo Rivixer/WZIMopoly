@@ -119,11 +119,15 @@ namespace WZIMopoly
             diceButton.OnButtonClicked += async () =>
             {
                 diceModel.RollDice();
-                await Task.Delay(300);
+                await Task.Delay(350);
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
             };
-            endTurnButton.OnButtonClicked += () => Model.NextPlayer();
+            endTurnButton.OnButtonClicked += () =>
+            {
+                Model.NextPlayer();
+                diceModel.Reset();
+            };
 
             // Buy button
             Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();

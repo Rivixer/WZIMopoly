@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene;
 
@@ -15,6 +16,7 @@ namespace WZIMopoly.GUI.GameScene
     /// </remarks>
     internal class GUIDice : GUIElement
     {
+        private int delay = 0;
         /// <summary>
         /// List of textures for the first dice.
         /// </summary>
@@ -57,8 +59,16 @@ namespace WZIMopoly.GUI.GameScene
         {
             if (_model.LastRoll != null)
             {
-                _firstDiceTextures[_model.LastRoll.Item1 - 1].Draw(spriteBatch);
-                _secondDiceTextures[_model.LastRoll.Item2 - 1].Draw(spriteBatch);
+                delay++;
+                if(delay > 21)
+                {
+                    _firstDiceTextures[_model.LastRoll.Item1 - 1].Draw(spriteBatch);
+                    _secondDiceTextures[_model.LastRoll.Item2 - 1].Draw(spriteBatch);
+                }
+            }
+            else
+            {
+                delay = 0;
             }
         }
 

@@ -36,5 +36,12 @@ namespace WZIMopoly.Models.GameScene
             LastRoll = new Tuple<int, int>(_random.Next(1, 7), _random.Next(1, 7));
             return LastRoll;
         }
+        /// <summary>
+        /// Resets data about the last roll.
+        /// </summary>
+        internal void Reset()
+        {
+            LastRoll = null;
+        }
     }
 }
