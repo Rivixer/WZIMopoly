@@ -1,4 +1,4 @@
-﻿namespace WZIMopoly.Enums
+namespace WZIMopoly.Enums
 {
     /// <summary>
     /// Represents the player status.
@@ -9,8 +9,9 @@
         /// The player has not rolled the dice yet.
         /// </summary>
         BeforeRollingDice,
+
         /// <summary>
-        /// The dice is rolling.
+        /// The player is rolling the dice.
         /// </summary>
         DuringRollingDice,
 

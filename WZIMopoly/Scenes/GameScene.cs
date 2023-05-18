@@ -62,6 +62,8 @@ namespace WZIMopoly
             Model.Players.Add(player3);
             Model.Players.Add(player4);
 
+            player1.PlayerStatus = PlayerStatus.BeforeRollingDice;
+
             var mapModel = Model.GetModel<MapModel>();
             mapModel.CreatePawns(Model.Players);
             mapModel.SetPlayersOnStart(Model.Players);
@@ -119,13 +121,16 @@ namespace WZIMopoly
             diceButton.OnButtonClicked += async () =>
             {
                 diceModel.RollDice();
+
                 await Task.Delay(350);
+
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
             };
             endTurnButton.OnButtonClicked += () =>
             {
                 Model.NextPlayer();
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 diceModel.Reset();
             };
 
@@ -144,9 +149,14 @@ namespace WZIMopoly
         {
             base.Update();
             _timerController.UpdateTime(Model.ActualTime);
-            var gameButtonModels = Model.GetAllModelsRecursively<IGameButtonModel>();
+
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-            gameButtonModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+            var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
+            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+            var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
+            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
         }
     }
 }
