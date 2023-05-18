@@ -45,9 +45,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="owner">
         /// The player who purchases the tile.
         /// </param>
-        internal void Purchase(PlayerModel owner)
+        internal virtual void Purchase(PlayerModel player)
         {
-            throw new System.NotImplementedException("Not implemented");
+            Owner = player;
+            Owner.LoseMoney(Price);
+            Owner.PurchasedTiles.Add(this);
         }
 
         /// <summary>

@@ -12,6 +12,7 @@ using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.GameButtonModels;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
+using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Scenes;
 
 namespace WZIMopoly
@@ -53,9 +54,9 @@ namespace WZIMopoly
 
             // A temporary code to add players to the game.
             var player1 = new PlayerModel("Player1", "Red");
-            var player2 = new PlayerModel("Player2", "Yellow");
+            var player2 = new PlayerModel("Player2", "Blue");
             var player3 = new PlayerModel("Player3", "Green");
-            var player4 = new PlayerModel("Player4", "Blue");
+            var player4 = new PlayerModel("Player4", "Yellow");
             Model.Players.Add(player1);
             Model.Players.Add(player2);
             Model.Players.Add(player3);
@@ -77,9 +78,9 @@ namespace WZIMopoly
             var positions = new List<Tuple<PlayerModel, Rectangle, GUIStartPoint>>()
             {
                 new(Model.Players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
-                new(Model.Players[1], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
+                new(Model.Players[1], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
                 new(Model.Players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
-                new(Model.Players[3], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
+                new(Model.Players[3], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
             };
 
             PlayerInfoModel model;
@@ -124,7 +125,12 @@ namespace WZIMopoly
             endTurnButton.OnButtonClicked += () => Model.NextPlayer();
 
             // Buy button
-            Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
+            var buyButton = Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
+            buyButton.OnButtonClicked += () =>
+            {
+                var currentPlayerTile = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+                currentPlayerTile.Purchase(Model.CurrentPlayer);
+            };
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
