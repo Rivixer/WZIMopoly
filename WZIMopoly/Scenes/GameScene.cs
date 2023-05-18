@@ -12,6 +12,7 @@ using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.GameButtonModels;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
+using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Scenes;
 
 namespace WZIMopoly
@@ -124,7 +125,12 @@ namespace WZIMopoly
             endTurnButton.OnButtonClicked += () => Model.NextPlayer();
 
             // Buy button
-            Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
+            var buyButton = Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
+            buyButton.OnButtonClicked += () =>
+            {
+                var currentPlayerTile = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+                currentPlayerTile.Purchase(Model.CurrentPlayer);
+            };
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
