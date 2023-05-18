@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -28,13 +27,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <inheritdoc/>
         internal override void OnStand(PlayerModel player)
         {
-            throw new NotImplementedException();
+            player.ReceiveMoney(_reward);
         }
 
         /// <inheritdoc/>
         void ICrossable.OnCross(PlayerModel player)
         {
-            throw new NotImplementedException();
+            player.ReceiveMoney(_reward);
         }
     }
 }

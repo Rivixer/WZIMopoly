@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -17,9 +16,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal DeaneryTileModel(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new NotImplementedException();
-        }
+        internal override void OnStand(PlayerModel player) { }
     }
 }

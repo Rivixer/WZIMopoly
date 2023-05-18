@@ -16,9 +16,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal MandatoryLectureTileModel(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new System.NotImplementedException();
-        }
+        internal override void OnStand(PlayerModel player) { }
     }
 }

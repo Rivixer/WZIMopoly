@@ -8,6 +8,7 @@ using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.TileControllers;
 using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models.GameScene
 {
@@ -104,16 +105,44 @@ namespace WZIMopoly.Models.GameScene
         /// The player to move.
         /// </param>
         /// <param name="step">
-        /// The number of tiles to pass.
+        /// A positive number of tiles to pass.
         /// </param>
-        internal void MovePlayer(PlayerModel player, int step)
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="step"/> is not a positive number.
+        /// </exception>
+        /// <remarks>
+        /// If the player crosses the <see cref="ICrossable"/> tile,
+        /// the <see cref="ICrossable.OnCross"/> method is called.
+        /// </remarks>
+        internal void MovePlayer(PlayerModel player, uint step)
         {
+            if (step == 0)
+            {
+                throw new ArgumentException("Step must be a positive number.");
+            }
             var sourceTile = GetController<TileController>(x => x.Model.Players.Contains(player));
             sourceTile.Model.Players.Remove(player);
+
             var destinationTileIndex = (sourceTile.Model.Id + step) % 40;
             var destinationTile = GetController<TileController>(x => x.Model.Id == destinationTileIndex);
             destinationTile.Model.Players.Add(player);
+            destinationTile.Model.OnStand(player);
+
             UpdatePawnPositions();
+
+            var passedTiles = GetAllControllers<TileController>((x) =>
+            {
+                // checking if the player has crossed the start tile
+                if (destinationTile.Model.Id < sourceTile.Model.Id)
+                {
+                    return x.Model.Id > sourceTile.Model.Id || x.Model.Id < destinationTile.Model.Id;
+                }
+                else
+                {
+                    return x.Model.Id > sourceTile.Model.Id && x.Model.Id < destinationTile.Model.Id;
+                }
+            });
+            passedTiles.ForEach(x => (x.Model as ICrossable)?.OnCross(player));
         }
 
         /// <summary>
@@ -130,7 +159,6 @@ namespace WZIMopoly.Models.GameScene
                     ctrl.UpdatePosition(Position);
                 }
             }
-
         }
     }
 }

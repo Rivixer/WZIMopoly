@@ -144,6 +144,12 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <inheritdoc/>
+        public override void Update()
+        {
+            _guiMoney.Text = $"{_playerInfoModel.Player.Money} ECTS";
+        }
+
+        /// <inheritdoc/>
         public override void Load(ContentManager content)
         {
             var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered };

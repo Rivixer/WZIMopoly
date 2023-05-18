@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -49,7 +48,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal virtual void Purchase(PlayerModel player)
         {
             Owner = player;
-            Owner.Money -= Price;
+            Owner.LoseMoney(Price);
             Owner.PurchasedTiles.Add(this);
         }
 
@@ -68,11 +67,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            throw new NotImplementedException();
-        }
+        internal override void OnStand(PlayerModel player) { }
     }
-
 }
-
