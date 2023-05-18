@@ -67,7 +67,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The view of the player's amount of money text.
         /// </summary>
-        private GUIText _guiMoney;
+        private readonly GUIText _guiMoney;
 
         /// <summary>
         /// The function that returns the current player.

@@ -117,9 +117,18 @@ namespace WZIMopoly.Models.GameScene
             destinationTile.Model.Players.Add(player);
             destinationTile.Model.OnStand(player);
 
-            var passedTiles = GetAllControllers<TileController>((x) => 
-                x.Model.Id > sourceTile.Model.Id && x.Model.Id < destinationTile.Model.Id ||
-                destinationTile.Model.Id < sourceTile.Model.Id && (x.Model.Id > sourceTile.Model.Id || x.Model.Id < destinationTile.Model.Id));
+            var passedTiles = GetAllControllers<TileController>((x) =>
+            {
+                //checking if player crossed start
+                if (destinationTile.Model.Id < sourceTile.Model.Id)
+                {
+                    return x.Model.Id > sourceTile.Model.Id || x.Model.Id < destinationTile.Model.Id;
+                }
+                else
+                {
+                    return x.Model.Id > sourceTile.Model.Id && x.Model.Id < destinationTile.Model.Id;
+                }
+            });
             passedTiles.ForEach(x => (x.Model as ICrossable)?.OnCross(player));
 
             UpdatePawnPositions();
@@ -139,7 +148,6 @@ namespace WZIMopoly.Models.GameScene
                     ctrl.UpdatePosition(Position);
                 }
             }
-
         }
     }
 }

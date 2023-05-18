@@ -60,7 +60,7 @@ namespace WZIMopoly.Models
         /// Increases the amount of money the player has.
         /// </summary>
         /// <param name="amount">
-        /// Amount of money which player receive.
+        /// Amount of money which the player receive.
         /// </param>
         internal void ReceiveMoney(int amount)
         {
