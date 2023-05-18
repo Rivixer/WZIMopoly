@@ -5,10 +5,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Start tile model.
     /// </summary>
-    /// <remarks>
-    /// If the player crossed that tile will receive money 
-    /// which amount is specified in xml file.
-    /// </remarks>
     internal class StartTileModel : TileModel, ICrossable
     {
         /// <summary>
