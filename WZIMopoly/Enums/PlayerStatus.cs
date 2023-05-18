@@ -1,10 +1,15 @@
-namespace WZIMopoly.Enums
+﻿namespace WZIMopoly.Enums
 {
     /// <summary>
     /// Represents the player status.
     /// </summary>
     internal enum PlayerStatus
     {
+        /// <summary>
+        /// The player is waiting for his turn.
+        /// </summary>
+        WaitingForTurn,
+
         /// <summary>
         /// The player has not rolled the dice yet.
         /// </summary>

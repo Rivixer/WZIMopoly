@@ -120,6 +120,7 @@ namespace WZIMopoly
             endTurnButton.Model.Conditions = () => !diceButton.Model.WasClickedInThisFrame;
             diceButton.OnButtonClicked += async () =>
             {
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.DuringRollingDice;
                 diceModel.RollDice();
 
                 await Task.Delay(350);
@@ -129,6 +130,7 @@ namespace WZIMopoly
             };
             endTurnButton.OnButtonClicked += () =>
             {
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
                 Model.NextPlayer();
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 diceModel.Reset();
