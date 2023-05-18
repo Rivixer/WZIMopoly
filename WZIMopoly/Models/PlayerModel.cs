@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.TileModels;
 
@@ -26,9 +25,9 @@ namespace WZIMopoly.Models
         private string _nick;
 
         /// <summary>
-        /// The list of bought tiles of the player.
+        /// The list of tiles purchased by the player.
         /// </summary>
-        readonly private List<PurchasableTileModel> _boughtTiles = new();
+        readonly private List<PurchasableTileModel> _purchasedTiles = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
@@ -60,8 +59,8 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
-        /// Gets or sets the BoughtTiles of the player.
+        /// Gets pucharsed tiles by the player.
         /// </summary>
-        internal List<PurchasableTileModel> BoughtTiles => _boughtTiles;
+        internal List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
     }
 }

@@ -11,7 +11,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
-    internal abstract class PurchasableTileModel : TileModel 
+    internal abstract class PurchasableTileModel : TileModel
     {
         /// <summary>
         /// The price of the tile.
@@ -46,11 +46,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="owner">
         /// The player who purchases the tile.
         /// </param>
-        internal void Purchase(PlayerModel owner)
+        internal virtual void Purchase(PlayerModel player)
         {
-                Owner = owner;
-                owner.Money -= Price;
-                owner.BoughtTiles.Add(this);
+            Owner = player;
+            Owner.Money -= Price;
+            Owner.PurchasedTiles.Add(this);
         }
 
         /// <summary>
