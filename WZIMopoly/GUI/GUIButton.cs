@@ -6,6 +6,8 @@ using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
+#nullable enable
+
 namespace WZIMopoly.GUI
 {
     /// <summary>
@@ -21,12 +23,18 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The texture of the button when is hovered.
         /// </summary>
-        protected readonly GUITexture TextureHovered;
+        /// <remarks>
+        /// If null, <see cref="Texture"/> will be used instead.
+        /// </remarks>
+        protected readonly GUITexture? TextureHovered;
 
         /// <summary>
         /// The texture of the button when is disabled.
         /// </summary>
-        protected readonly GUITexture TextureDisabled;
+        /// <remarks>
+        /// If null, the disabled button will not be displayed.
+        /// </remarks>
+        protected readonly GUITexture? TextureDisabled;
 
         /// <summary>
         /// The model of the button.
@@ -66,7 +74,22 @@ namespace WZIMopoly.GUI
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.<br/>
         /// Defaults to <see cref="GUIStartPoint.TopLeft"/>.
         /// </param>
-        internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+        /// <param name="hoverTexture">
+        /// Whether the button has a texture when is hovered.<br/>
+        /// If false, <see cref="Texture"/> will be used instead.<br/>
+        /// Defaults to true.
+        /// </param>
+        /// <param name="disableTexture">
+        /// Whether the button has a texture when is disabled.<br/>
+        /// If false, the disabled button will not be displayed.<br/>
+        /// Default to true.
+        /// </param>
+        internal GUIButton(
+            ButtonModel model,
+            Rectangle defDstRect,
+            GUIStartPoint startPoint = GUIStartPoint.TopLeft,
+            bool hoverTexture = true,
+            bool disableTexture = true)
         {
             Model = model;
             _defDstRect = defDstRect;
@@ -74,9 +97,18 @@ namespace WZIMopoly.GUI
 
             var buttonPath = $"Images/Buttons/{model.Name}";
             Texture = new GUITexture(buttonPath, _defDstRect, _startPoint);
-            TextureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
-            TextureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
-            ResetButtonHoverArea();
+
+            if (hoverTexture)
+            {
+                TextureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
+            }
+
+            if (disableTexture)
+            {
+                TextureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
+            }
+            
+            _isInHoverArea = (Point p) => Texture.DestinationRect.Contains(p);
         }
 
         /// <summary>
@@ -146,29 +178,29 @@ namespace WZIMopoly.GUI
         public override void Load(ContentManager content)
         {
             Texture.Load(content);
-            TextureHovered.Load(content);
-            TextureDisabled.Load(content);
+            TextureHovered?.Load(content);
+            TextureDisabled?.Load(content);
         }
 
         /// <inheritdoc/>
         public override void Recalculate()
         {
             Texture.Recalculate();
-            TextureHovered.Recalculate();
-            TextureDisabled.Recalculate();
+            TextureHovered?.Recalculate();
+            TextureDisabled?.Recalculate();
         }
 
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            GUITexture texture;
+            GUITexture? texture;
             if (!Model.IsActive)
             {
-                texture = Model.VisibleIfNotActive ? TextureDisabled : null;
+                texture = TextureDisabled;
             }
             else if (IsHovered)
             {
-                texture = TextureHovered;
+                texture = TextureHovered ?? Texture;
             }
             else
             {
@@ -191,8 +223,13 @@ namespace WZIMopoly.GUI
         /// Initializes a new instance of the <see cref="GUIButton{M}"/> class.
         /// </summary>
         /// <inheritdoc cref="GUIButton(ButtonModel, Rectangle, GUIStartPoint)"/>
-        internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
-            : base(model, defDstRect, startPoint) { }
+        internal GUIButton(
+            ButtonModel model,
+            Rectangle defDstRect,
+            GUIStartPoint startPoint = GUIStartPoint.TopLeft,
+            bool hoverTexture = true,
+            bool disableTexture = true
+        ) : base(model, defDstRect, startPoint, hoverTexture, disableTexture) { }
 
         /// <summary>
         /// Gets the model of the button.

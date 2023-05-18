@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.GameButtonControllers;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
@@ -62,6 +63,8 @@ namespace WZIMopoly
             Model.Players.Add(player3);
             Model.Players.Add(player4);
 
+            player1.PlayerStatus = PlayerStatus.BeforeRollingDice;
+
             var mapModel = Model.GetModel<MapModel>();
             mapModel.CreatePawns(Model.Players);
             mapModel.SetPlayersOnStart(Model.Players);
@@ -116,13 +119,23 @@ namespace WZIMopoly
             var endTurnButton = Model.InitializeChild<EndTurnButtonModel, GUIEndTurnButton, EndTurnButtonController>();
             diceButton.Model.Conditions = () => !endTurnButton.Model.WasClickedInThisFrame;
             endTurnButton.Model.Conditions = () => !diceButton.Model.WasClickedInThisFrame;
-            diceButton.OnButtonClicked += () =>
+            diceButton.OnButtonClicked += async () =>
             {
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.DuringRollingDice;
                 diceModel.RollDice();
+
+                await Task.Delay(350);
+
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
             };
-            endTurnButton.OnButtonClicked += () => Model.NextPlayer();
+            endTurnButton.OnButtonClicked += () =>
+            {
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                Model.NextPlayer();
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                diceModel.Reset();
+            };
 
             // Buy button
             var buyButton = Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
@@ -144,9 +157,14 @@ namespace WZIMopoly
         {
             base.Update();
             _timerController.UpdateTime(Model.ActualTime);
-            var gameButtonModels = Model.GetAllModelsRecursively<IGameButtonModel>();
+
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-            gameButtonModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+            var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
+            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+            var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
+            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
         }
     }
 }

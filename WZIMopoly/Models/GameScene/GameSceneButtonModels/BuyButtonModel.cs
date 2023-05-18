@@ -5,7 +5,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
     /// <summary>
     /// Represents the buy button model.
     /// </summary>
-    internal sealed class BuyButtonModel : ButtonModel, IGameButtonModel
+    internal sealed class BuyButtonModel : ButtonModel, IGameUpdateModel
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BuyButtonModel"/> class.

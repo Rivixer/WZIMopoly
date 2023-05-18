@@ -48,7 +48,6 @@ namespace WZIMopoly.Models
             {
                 _currentPlayerIndex = 0;
             }
-            CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
 
         /// <summary>
