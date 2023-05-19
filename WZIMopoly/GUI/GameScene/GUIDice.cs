@@ -33,6 +33,11 @@ namespace WZIMopoly.GUI.GameScene
         private readonly DiceModel _model;
 
         /// <summary>
+        /// The random number generator.
+        /// </summary>
+        private readonly Random random = new();
+
+        /// <summary>
         /// The player who is now taking a turn.
         /// </summary>
         private PlayerModel _currentPlayer;
@@ -62,7 +67,12 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_currentPlayer.PlayerStatus == PlayerStatus.AfterRollingDice)
+            if (_currentPlayer.PlayerStatus == PlayerStatus.DuringRollingDice)
+            {
+                _firstDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
+                _secondDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
+            }
+            else if (_currentPlayer.PlayerStatus == PlayerStatus.AfterRollingDice)
             {
                 _firstDiceTextures[_model.LastRoll.Item1 - 1].Draw(spriteBatch);
                 _secondDiceTextures[_model.LastRoll.Item2 - 1].Draw(spriteBatch);
