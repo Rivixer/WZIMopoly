@@ -26,6 +26,14 @@ namespace WZIMopoly.Scenes
         /// </param>
         internal Scene(_M model, _V view) : base(model, view) { }
 
+        /// <summary>
+        /// Initializes the scene.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once when the application starts.
+        /// </remarks>
+        public abstract void Initialize();
+
         #region IPrimaryController Implementation
         /// <inheritdoc/>
         public virtual void LoadAll(ContentManager content) => LoadAll(content, this);

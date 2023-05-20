@@ -47,6 +47,11 @@ namespace WZIMopoly
         private IPrimaryController _currentScene;
 
         /// <summary>
+        /// The game scene.
+        /// </summary>
+        private GameScene _gameScene;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WZIMopoly"/> class.
         /// </summary>
         public WZIMopoly()
@@ -67,15 +72,13 @@ namespace WZIMopoly
 
             var gameView = new GameView();
             var gameModel = new GameModel();
-            _currentScene = new GameScene(gameModel, gameView);
+            _gameScene = new GameScene(gameModel, gameView);
+            _gameScene.Initialize();
 
-            var mapController = (_currentScene as GameScene).Model.InitializeChild<MapModel, GUIMap, MapController>();
-            mapController.Model.LoadTiles();
-
+            _currentScene = _gameScene;
             _currentScene.RecalculateAll();
+
             (_currentScene as GameScene)?.StartGame();
-            (_currentScene as GameScene)?.CreateInterface();
-            (_currentScene as GameScene)?.CreateButtons();
 
             base.Initialize();
         }
