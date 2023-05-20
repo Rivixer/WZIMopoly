@@ -16,7 +16,9 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         /// <inheritdoc/>
         public void Update(PlayerModel player, TileModel tile)
         {
-            IsActive = tile is PurchasableTileModel t && t.CanPurchase(player);
+            IsActive = player.PlayerStatus == Enums.PlayerStatus.AfterRollingDice
+                && tile is PurchasableTileModel t
+                && t.CanPurchase(player);
         }
     }
 }
