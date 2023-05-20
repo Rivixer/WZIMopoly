@@ -1,5 +1,4 @@
-﻿using System.Data;
-using WZIMopoly.Controllers.MenuScene;
+﻿using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.MenuScene;
 using WZIMopoly.Models;
