@@ -3,7 +3,7 @@
 namespace WZIMopoly.GUI
 {
     /// <summary>
-    /// Represents a main menu view.
+    /// Represents a menu view.
     /// </summary>
     internal class MenuView : GUITexture
     {

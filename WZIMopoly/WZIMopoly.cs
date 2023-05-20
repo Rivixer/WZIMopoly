@@ -47,7 +47,7 @@ namespace WZIMopoly
 
         #region Scenes
         /// <summary>
-        /// The main menu scene.
+        /// The menu scene.
         /// </summary>
         private readonly MenuScene _menuScene;
 
@@ -66,9 +66,9 @@ namespace WZIMopoly
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            var mainMenuModel = new MenuModel();
-            var mainMenuView = new MenuView();
-            _menuScene = new MenuScene(mainMenuModel, mainMenuView);
+            var menuModel = new MenuModel();
+            var menuView = new MenuView();
+            _menuScene = new MenuScene(menuModel, menuView);
 
             var gameView = new GameView();
             var gameModel = new GameModel();
