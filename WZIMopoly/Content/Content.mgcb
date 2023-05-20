@@ -1515,9 +1515,9 @@
 /processorParam:TextureFormat=Color
 /build:Images/Timer.png
 
-#begin Sounds/dice.mp3
+#begin Sounds/Dice.mp3
 /importer:Mp3Importer
-/processor:SoundEffectProcessor
+/processor:SongProcessor
 /processorParam:Quality=Best
-/build:Sounds/dice.mp3
+/build:Sounds/Dice.mp3
 
