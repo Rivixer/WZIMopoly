@@ -51,7 +51,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            GUITexture texture = _currentPlayer.PlayerStatus switch
+            GUITexture texture = _currentPlayer?.PlayerStatus switch
             {
                 PlayerStatus.BeforeRollingDice => IsHovered ? TextureHovered : Texture,
                 PlayerStatus.DuringRollingDice => TextureDisabled,
