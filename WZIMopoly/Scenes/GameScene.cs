@@ -14,9 +14,8 @@ using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.GameButtonModels;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 using WZIMopoly.Models.GameScene.TileModels;
-using WZIMopoly.Scenes;
 
-namespace WZIMopoly
+namespace WZIMopoly.Scenes
 {
     /// <summary>
     /// Represents a game scene.
@@ -69,7 +68,7 @@ namespace WZIMopoly
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
             _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
 
-            InitializePlayerInfos();
+            InitializePlayerInfo();
             InitializeButtons();
         }
 
@@ -86,7 +85,25 @@ namespace WZIMopoly
             Model.Players[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
 
-        private void InitializePlayerInfos()
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            base.Update();
+            _timerController.UpdateTime(Model.ActualTime);
+
+            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+
+            var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
+            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+            var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
+            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+        }
+
+        /// <summary>
+        /// Initializes the player information on the game scene and adds them to the children list.
+        /// </summary>
+        private void InitializePlayerInfo()
         {
             var infoWidth = 500;
             var infoHeight = 200;
@@ -108,23 +125,8 @@ namespace WZIMopoly
             }
         }
 
-        /// <inheritdoc/>
-        public override void Update()
-        {
-            base.Update();
-            _timerController.UpdateTime(Model.ActualTime);
-
-            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-
-            var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
-            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
-
-            var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
-            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
-        }
-
         /// <summary>
-        /// Creates all buttons on the game scene and adds them to the children list.
+        /// Initializes all buttons on the game scene and adds them to the children list.
         /// </summary>
         private void InitializeButtons()
         {

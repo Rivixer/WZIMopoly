@@ -87,7 +87,10 @@ namespace WZIMopoly.Models
         private static T InitializeObject<T>(params object[] args)
             where T : class
         {
-            return args.Length == 0
+            // TODO: Remove try-catch after changing all constructors to public.
+            try
+            {
+                return args.Length == 0
                 ? (T)Activator.CreateInstance(typeof(T), nonPublic: true)
                 : (T)Activator.CreateInstance(
                     type: typeof(T),
@@ -95,7 +98,21 @@ namespace WZIMopoly.Models
                     binder: null,
                     args: args,
                     culture: null
-                ) ;
+                );
+            }
+            catch (MissingMethodException)
+            {
+                return args.Length == 0
+                ? (T)Activator.CreateInstance(typeof(T))
+                : (T)Activator.CreateInstance(
+                    type: typeof(T),
+                    bindingAttr: BindingFlags.Instance | BindingFlags.Public,
+                    binder: null,
+                    args: args,
+                    culture: null
+                );
+            }
+            
         }
     }
 }
