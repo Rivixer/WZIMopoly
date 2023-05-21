@@ -67,6 +67,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
+        internal override void OnStand(PlayerModel player) 
+        {
+            if(Owner != null && Owner != player)
+            {
+                player.LoseMoney(Price);
+                Owner.ReceiveMoney(Price);
+            }
+         }
     }
 }
