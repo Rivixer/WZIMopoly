@@ -1467,6 +1467,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/SettingsScreenPL.png
 
+#begin Images/TextCursor.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/TextCursor.png
+
 #begin Images/TileNames.png
 /importer:TextureImporter
 /processor:TextureProcessor
