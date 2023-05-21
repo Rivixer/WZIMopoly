@@ -47,7 +47,12 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the player status.
         /// </summary>
-        internal PlayerStatus PlayerStatus { get; set; }
+        internal PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+
+        /// <summary>
+        /// Gets or sets the player type.
+        /// </summary>
+        internal PlayerType PlayerType { get; set; } = PlayerType.None;
 
         /// <summary>
         /// Gets or sets the nick of the player.

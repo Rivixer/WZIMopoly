@@ -14,9 +14,8 @@ using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.GameButtonModels;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 using WZIMopoly.Models.GameScene.TileModels;
-using WZIMopoly.Scenes;
 
-namespace WZIMopoly
+namespace WZIMopoly.Scenes
 {
     /// <summary>
     /// Represents a game scene.
@@ -32,81 +31,107 @@ namespace WZIMopoly
         private TimerController _timerController;
 
         /// <summary>
+        /// The map controller.
+        /// </summary>
+        private MapController _mapController;
+
+        /// <summary>
+        /// The dice controller.
+        /// </summary>
+        private DiceController _diceController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
-        /// <param name="gameView">
-        /// The view of the game scene.
-        /// </param>
-        /// <param name="gameModel">
+        /// <param name="model">
         /// The model of the game scene.
         /// </param>
-        internal GameScene(GameModel gameModel, GameView gameView)
-            : base(gameModel, gameView) { }
+        /// <param name="view">
+        /// The view of the game scene.
+        /// </param>
+        public GameScene(GameModel model, GameView view)
+            : base(model, view) { }
+
+
+        /// <inheritdoc/>
+        public override void Initialize()
+        {
+            Model.Players.Add(new PlayerModel("Player1", "Red"));
+            Model.Players.Add(new PlayerModel("Player2", "Blue"));
+            Model.Players.Add(new PlayerModel("Player3", "Green"));
+            Model.Players.Add(new PlayerModel("Player4", "Yellow"));
+
+            _mapController = Model.InitializeChild<MapModel, GUIMap, MapController>();
+            _mapController.Model.LoadTiles();
+            _mapController.Model.CreatePawns(Model.Players);
+
+            _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
+            _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
+
+            InitializePlayerInfo();
+            InitializeButtons();
+        }
 
         /// <summary>
         /// Starts the game.
         /// </summary>
         internal void StartGame()
         {
+            _mapController.Model.SetPlayersOnStart(Model.Players);
+            _mapController.Model.UpdatePawnPositions();
+            
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
+            Model.Players[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
+        }
 
-            _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            base.Update();
+            _timerController.UpdateTime(Model.ActualTime);
 
-            // A temporary code to add players to the game.
-            var player1 = new PlayerModel("Player1", "Red");
-            var player2 = new PlayerModel("Player2", "Blue");
-            var player3 = new PlayerModel("Player3", "Green");
-            var player4 = new PlayerModel("Player4", "Yellow");
-            Model.Players.Add(player1);
-            Model.Players.Add(player2);
-            Model.Players.Add(player3);
-            Model.Players.Add(player4);
+            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
 
-            player1.PlayerStatus = PlayerStatus.BeforeRollingDice;
+            var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
+            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
 
-            var mapModel = Model.GetModel<MapModel>();
-            mapModel.CreatePawns(Model.Players);
-            mapModel.SetPlayersOnStart(Model.Players);
-            mapModel.UpdatePawnPositions();
+            var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
+            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
         }
 
         /// <summary>
-        /// Creates an interface for the game.
+        /// Initializes the player information on the game scene and adds them to the children list.
         /// </summary>
-        internal void CreateInterface()
+        private void InitializePlayerInfo()
         {
             var infoWidth = 500;
             var infoHeight = 200;
+            var players = Model.Players;
             var positions = new List<Tuple<PlayerModel, Rectangle, GUIStartPoint>>()
             {
-                new(Model.Players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
-                new(Model.Players[1], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
-                new(Model.Players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
-                new(Model.Players[3], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
+                new(players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
+                new(players[1], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
+                new(players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
+                new(players[3], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
             };
 
-            PlayerInfoModel model;
-            GUIPlayerInfo view;
-            PlayerInfoController controller;
             foreach (var (player, position, startPoint) in positions)
             {
-                model = new PlayerInfoModel(player);
-                view = new GUIPlayerInfo(model, () => Model.CurrentPlayer, position, startPoint);
-                controller = new PlayerInfoController(model, view);
+                var model = new PlayerInfoModel(player);
+                var view = new GUIPlayerInfo(model, position, startPoint);
+                var controller = new PlayerInfoController(model, view);
                 Model.AddChild(controller);
             }
-
-            Model.InitializeChild<DiceModel, GUIDice, DiceController>();
         }
 
         /// <summary>
-        /// Creates all buttons on the game scene and adds them to the children list.
+        /// Initializes all buttons on the game scene and adds them to the children list.
         /// </summary>
-        internal void CreateButtons()
+        private void InitializeButtons()
         {
-            var diceModel = Model.GetModel<DiceModel>();
-            var mapModel = Model.GetModel<MapModel>();
+            var diceModel = _diceController.Model;
+            var mapModel = _mapController.Model;
 
             // Mortage button
             Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
@@ -150,21 +175,6 @@ namespace WZIMopoly
 
             // Settings button
             Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
-        }
-
-        /// <inheritdoc/>
-        public override void Update()
-        {
-            base.Update();
-            _timerController.UpdateTime(Model.ActualTime);
-
-            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-
-            var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
-            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
-
-            var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
-            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
         }
     }
 }
