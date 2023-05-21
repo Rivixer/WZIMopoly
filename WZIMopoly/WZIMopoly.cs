@@ -7,6 +7,7 @@ using WZIMopoly.Models;
 using WZIMopoly.Controllers;
 using WZIMopoly.Scenes;
 using WZIMopoly.Controllers.MenuScene;
+using WZIMopoly.Controllers.LobbyScene;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -27,10 +28,27 @@ namespace WZIMopoly
     /// </remarks>
     public class WZIMopoly : Game
     {
+        #region Scenes
+        /// <summary>
+        /// The menu scene.
+        /// </summary>
+        private readonly MenuScene _menuScene;
+
+        /// <summary>
+        /// The lobby scene.
+        /// </summary>
+        private readonly LobbyScene _lobbyScene;
+
+        /// <summary>
+        /// The game scene.
+        /// </summary>
+        private readonly GameScene _gameScene;
+        #endregion
+
         /// <summary>
         /// The GraphicsDeviceManager responsible for managing graphics in MonoGame.
         /// </summary>
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
 
         /// <summary>
         /// The SpriteBatch object resposible for rendering graphics in Monogame.
@@ -45,18 +63,6 @@ namespace WZIMopoly
         /// </remarks>
         private IPrimaryController _currentScene;
 
-        #region Scenes
-        /// <summary>
-        /// The menu scene.
-        /// </summary>
-        private readonly MenuScene _menuScene;
-
-        /// <summary>
-        /// The game scene.
-        /// </summary>
-        private readonly GameScene _gameScene;
-        #endregion
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WZIMopoly"/> class.
         /// </summary>
@@ -70,9 +76,26 @@ namespace WZIMopoly
             var menuView = new MenuView();
             _menuScene = new MenuScene(menuModel, menuView);
 
+            var lobbyModel = new LobbyModel();
+            var lobbyView = new LobbyView();
+            _lobbyScene = new LobbyScene(lobbyModel, lobbyView);
+
             var gameView = new GameView();
             var gameModel = new GameModel();
             _gameScene = new GameScene(gameModel, gameView);
+        }
+
+        /// <summary>
+        /// Changes the current scene to the specified one
+        /// and recalculates all the elements.
+        /// </summary>
+        /// <param name="newScene">
+        /// The new scene to be set as the current one.
+        /// </param>
+        private void ChangeCurrentScene(IPrimaryController newScene)
+        {
+            _currentScene = newScene;
+            _currentScene.RecalculateAll();
         }
 
         /// <summary>
@@ -86,19 +109,24 @@ namespace WZIMopoly
 
             _menuScene.Initialize();
             var newGameButton = _menuScene.Model.GetController<NewGameButtonController>();
-            newGameButton.OnButtonClicked += () =>
-            {
-                _gameScene.StartGame();
-                _currentScene = _gameScene;
-                _currentScene.RecalculateAll();
-            };
+            newGameButton.OnButtonClicked += () => ChangeCurrentScene(_lobbyScene);
+
             var quitButton = _menuScene.Model.GetController<QuitButtonController>();
             quitButton.OnButtonClicked += Exit;
 
+            _lobbyScene.Initialize();
+            var returnButton = _lobbyScene.Model.GetController<ReturnButtonController>();
+            returnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
+            var startGameButton = _lobbyScene.Model.GetController<StartGameButtonController>();
+            startGameButton.OnButtonClicked += () =>
+            {
+                ChangeCurrentScene(_gameScene);
+                _gameScene.StartGame();
+            };
+
             _gameScene.Initialize();
 
-            _currentScene = _menuScene;
-            _currentScene.RecalculateAll();
+            ChangeCurrentScene(_menuScene);
             base.Initialize();
         }
 
@@ -113,6 +141,7 @@ namespace WZIMopoly
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _menuScene.LoadAll(Content);
+            _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
 
             base.LoadContent();
@@ -157,6 +186,8 @@ namespace WZIMopoly
         /// </param>
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Clear(Color.White);
+            
             _spriteBatch.Begin();
             
             _currentScene.DrawAll(_spriteBatch);

@@ -10,7 +10,7 @@ namespace WZIMopoly.Scenes
     /// </summary>
     internal abstract class Scene<_M, _V> : Controller<_M, _V>, IPrimaryController
         where _M : Models.Model
-        where _V : GUITexture
+        where _V : GUIElement
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene{_M, _V}"/> class.
