@@ -139,7 +139,7 @@ namespace WZIMopoly.GUI
         /// </para>
         /// <para>
         /// This method may be not working properly
-        /// if the width of the button is greater than its height.
+        /// if the height of the button is greater than its width.
         /// </para>
         /// </remarks>
         /// <param name="factor">
