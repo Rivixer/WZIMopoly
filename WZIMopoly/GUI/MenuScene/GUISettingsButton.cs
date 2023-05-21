@@ -12,7 +12,7 @@ namespace WZIMopoly.GUI.MenuScene
         /// <summary>
         /// Initializes a new instance of the <see cref="GUISettingsButton"/> class.
         /// </summary>
-        /// <param name="model">\
+        /// <param name="model">
         /// The model of the settings button.
         /// </param>
         public GUISettingsButton(SettingsButtonModel model)
