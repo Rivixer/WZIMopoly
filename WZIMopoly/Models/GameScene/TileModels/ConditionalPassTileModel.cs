@@ -24,6 +24,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
+        internal override void OnStand(PlayerModel player) 
+        {
+            player.LoseMoney(Tax);
+        }
     }
 }
