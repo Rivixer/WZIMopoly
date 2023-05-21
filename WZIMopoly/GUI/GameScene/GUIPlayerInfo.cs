@@ -100,8 +100,11 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the player info.
         /// </param>
-        /// <param name="getCurrentPlayer">
-        /// The function that returns the current player.
+        /// <param name="defDstRect">
+        /// The default destination rectangle of the player info.
+        /// </param>
+        /// <param name="startPoint">
+        /// The place where <paramref name="defDstRect"/> has been specified.
         /// </param>
         internal GUIPlayerInfo(PlayerInfoModel model, Rectangle defDstRect, GUIStartPoint startPoint)
         {

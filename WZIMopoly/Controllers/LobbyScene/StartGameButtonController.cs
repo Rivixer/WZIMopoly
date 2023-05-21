@@ -9,7 +9,7 @@ namespace WZIMopoly.Controllers.LobbyScene
     internal class StartGameButtonController : ButtonController<StartGameButtonModel, GUIStartGameButton>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReturnButtonController"/> class.
+        /// Initializes a new instance of the <see cref="StartGameButtonController"/> class.
         /// </summary>
         /// <param name="model">
         /// The model of the start game button.

@@ -1,7 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Moq;
 using System;
+using System.ComponentModel;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
@@ -169,7 +172,7 @@ namespace WZIMopoly.GUI
             {
                 bool InRoundedSquareArea(Point squareCenter, float radius)
                 {
-                    // The distance vector from squareCenter to the mouse position
+                    // The vector from squareCenter to the mouse position
                     var vector = new Vector2(
                         squareCenter.X - p.X,
                         squareCenter.Y - p.Y);
@@ -205,19 +208,20 @@ namespace WZIMopoly.GUI
                         DestinationRect.Height / 2);
                 }
 
-                // The distance vector from the center of
+                // The vector from the center of
                 // the button to the mouse position
                 var vector = new Vector2(
                     DestinationRect.Center.X - p.X,
                     DestinationRect.Center.Y - p.Y);
 
-                // The distance vector from the center of
-                // the button to the top and left borders
+                // The vector from the center of the button that simulates the 
+                // button's inner rectangle, where the left and right borders
+                // have been cut off by the half of the height of the button
                 var innerRectangle = new Vector2(
                     (DestinationRect.Width - DestinationRect.Height) / 2,
                     DestinationRect.Height / 2);
 
-                // Check if the mouse cursor is within the inner rectangle area
+                    // Check if the mouse cursor is within the inner rectangle area
                 if (Math.Abs(vector.X) <= Math.Abs(innerRectangle.X) * scale
                     && Math.Abs(vector.Y) <= Math.Abs(innerRectangle.Y) * scale)
                 {
