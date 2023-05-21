@@ -9,6 +9,6 @@
         /// Initializes a new instance of the <see cref="ReturnButtonModel"/> class.
         /// </summary>
         public ReturnButtonModel()
-            : base("SettingsReturn") { }
+            : base("Return") { }
     }
 }
