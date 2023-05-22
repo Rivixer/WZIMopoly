@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Moq;
 using System;
-using System.ComponentModel;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
