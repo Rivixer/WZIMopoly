@@ -22,6 +22,8 @@ namespace TestWZIMopoly.Test_Utils
 
     internal class Model2 : Model { }
 
+    internal class ModelX : Model { }
+
     public class View0 : GUIElement
     {
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) { }
@@ -74,9 +76,9 @@ namespace TestWZIMopoly.Test_Utils
         public Controller2(Model2 model, View2 view) : base(model, view) { }
     }
 
-    internal class ControllerX : Controller<Model2, View2>
+    internal class ControllerX : Controller<ModelX, View2>
     {
-        public ControllerX(Model2 model, View2 view) : base(model, view) { }
+        public ControllerX(ModelX model, View2 view) : base(model, view) { }
     }
 
     [TestClass]
@@ -86,6 +88,7 @@ namespace TestWZIMopoly.Test_Utils
         private Model1_1 _model1_1;
         private Model1_2 _model1_2;
         private Model2 _model2;
+        private ModelX _modelX;
 
         private View0 _view0;
         private View1_1 _view1_1;
@@ -112,7 +115,6 @@ namespace TestWZIMopoly.Test_Utils
             return controller.View is GUITexture;
         }
 
-
         Predicate<IControllerable> _predicate0 = FindController0;
         Predicate<IControllerable> _predicate1 = FindController1;
 
@@ -123,6 +125,7 @@ namespace TestWZIMopoly.Test_Utils
             _model1_1 = new Model1_1();
             _model1_2 = new Model1_2();
             _model2 = new Model2();
+            _modelX = new ModelX();
 
             _view0 = new View0();
             _view1_1 = new View1_1(_path, _vector2);
@@ -133,7 +136,7 @@ namespace TestWZIMopoly.Test_Utils
             _controller1_1 = new Controller1_1(_model1_1, _view1_1);
             _controller1_2 = new Controller1_2(_model1_2,_view1_2);
             _controller2 = new Controller2(_model2,_view2);
-            _controllerX = new ControllerX(_model2, _view2);
+            _controllerX = new ControllerX(_modelX, _view2);
 
             _model0.AddChild(_controller1_1);
             _model0.AddChild(_controller1_2);
@@ -165,7 +168,6 @@ namespace TestWZIMopoly.Test_Utils
 
             //assert
             Assert.AreEqual(ExpectedResult, Result);
-
 
         }
 
@@ -223,7 +225,6 @@ namespace TestWZIMopoly.Test_Utils
 
             //assert
             Assert.AreEqual(ExpectedResult, Result);
-
 
         }
 
@@ -317,6 +318,98 @@ namespace TestWZIMopoly.Test_Utils
 
             //act
             var Result = _model0.GetAllControllersRecursively<IControllerable>(_predicate1);
+
+            //assert
+            CollectionAssert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetModel_ReturnModel()
+        {
+            //arrange
+            var ExpectedResult = _model1_2;
+
+            //act
+            var Result = _model0.GetModel<Model1_2>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+        }
+        [TestMethod]
+        public void Test_GetModel_ReturnNULL()
+        {
+            //arrange
+            string x = null;
+            var ExpectedResult = x;
+
+            //act
+            var Result = _model0.GetModel<ModelX>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetModelRecursively_ReturnModel()
+        {
+            //arrange
+            var ExpectedResult = _model1_2;
+
+            //act
+            var Result = _model0.GetModelRecursively<Model1_2>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetModelRecursively_ReturnNULL()
+        {
+            //arrange
+            string x = null;
+            var ExpectedResult = x;
+
+            //act
+            var Result = _model0.GetModelRecursively<ModelX>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetAllModels_ReturnModels()
+        {
+            //arrange
+            List<IModelable> models = new List<IModelable>();
+            models.Add(_model1_1);
+            models.Add(_model1_2);
+            var ExpectedResult = models;
+
+            //act
+            var Result = _model0.GetAllModels<IModelable>();
+
+            //assert
+            CollectionAssert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetAllModelsRecursively_ReturnModels()
+        {
+            //arrange
+            List<IModelable> models = new List<IModelable>();
+            models.Add(_model1_1);
+            models.Add(_model1_2);
+            models.Add(_model2);
+            var ExpectedResult = models;
+
+            //act
+            var Result = _model0.GetAllModelsRecursively<IModelable>();
 
             //assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
