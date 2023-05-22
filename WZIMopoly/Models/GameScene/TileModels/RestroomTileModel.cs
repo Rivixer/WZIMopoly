@@ -37,5 +37,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
         }
+        internal override void OnStand(PlayerModel player) {}
     }
 }
