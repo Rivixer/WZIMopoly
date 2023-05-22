@@ -56,6 +56,13 @@ namespace TestWZIMopoly.Test_Utils
         public override void Recalculate() { }
     }
 
+    internal class ViewX : GUIText
+    {
+        internal ViewX(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1) : base(fontPath, defPosition, startPoint, text, scale)
+        {
+        }
+    }
+
     internal class Controller0 : Controller<Model0, View0>
     {
         public Controller0(Model0 model, View0 view) : base(model, view) { }
@@ -76,9 +83,9 @@ namespace TestWZIMopoly.Test_Utils
         public Controller2(Model2 model, View2 view) : base(model, view) { }
     }
 
-    internal class ControllerX : Controller<ModelX, View2>
+    internal class ControllerX : Controller<ModelX, ViewX>
     {
-        public ControllerX(ModelX model, View2 view) : base(model, view) { }
+        public ControllerX(ModelX model, ViewX view) : base(model, view) { }
     }
 
     [TestClass]
@@ -94,6 +101,7 @@ namespace TestWZIMopoly.Test_Utils
         private View1_1 _view1_1;
         private View1_2 _view1_2;
         private View2 _view2;
+        private ViewX _viewX;
 
         private Controller0 _controller0;
         private Controller1_1 _controller1_1;
@@ -131,12 +139,13 @@ namespace TestWZIMopoly.Test_Utils
             _view1_1 = new View1_1(_path, _vector2);
             _view1_2 = new View1_2(_path, _rectangle);
             _view2 = new View2();
+            _viewX = new ViewX(_path, _vector2);
 
             _controller0 = new Controller0(_model0,_view0);
             _controller1_1 = new Controller1_1(_model1_1, _view1_1);
             _controller1_2 = new Controller1_2(_model1_2,_view1_2);
             _controller2 = new Controller2(_model2,_view2);
-            _controllerX = new ControllerX(_modelX, _view2);
+            _controllerX = new ControllerX(_modelX, _viewX);
 
             _model0.AddChild(_controller1_1);
             _model0.AddChild(_controller1_2);
@@ -415,6 +424,98 @@ namespace TestWZIMopoly.Test_Utils
             CollectionAssert.AreEqual(ExpectedResult, Result);
 
         }
+        [TestMethod]
+        public void Test_GetView_ReturnView()
+        {
+            //arrange
+            var ExpectedResult = _view1_2;
 
+            //act
+            var Result = _model0.GetView<View1_2>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+        }
+        [TestMethod]
+        public void Test_GetView_ReturnNULL()
+        {
+            //arrange
+            string x = null;
+            var ExpectedResult = x;
+
+            //act
+            var Result = _model0.GetView<ViewX>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+
+        }
+
+        [TestMethod]
+        public void Test_GetViewRecursively_ReturnView()
+        {
+            //arrange
+            var ExpectedResult = _view1_2;
+
+            //act
+            var Result = _model0.GetViewRecursively<View1_2>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetViewRecursively_ReturnNULL()
+        {
+            //arrange
+            string x = null;
+            var ExpectedResult = x;
+
+            //act
+            var Result = _model0.GetViewRecursively<ViewX>();
+
+            //assert
+            Assert.AreEqual(ExpectedResult, Result);
+
+
+        }
+
+        [TestMethod]
+        public void Test_GetAllViews_ReturnViews()
+        {
+            //arrange
+            List<IGUIable> views = new List<IGUIable>();
+            views.Add(_view1_1);
+            views.Add(_view1_2);
+            var ExpectedResult = views;
+
+            //act
+            var Result = _model0.GetAllViews<IGUIable>();
+
+            //assert
+            CollectionAssert.AreEqual(ExpectedResult, Result);
+
+        }
+
+        [TestMethod]
+        public void Test_GetAllViewsRecursively_ReturnControllers()
+        {
+            //arrange
+            List<IGUIable> views = new List<IGUIable>();
+            views.Add(_view1_1);
+            views.Add(_view1_2);
+            views.Add(_view2);
+            var ExpectedResult = views;
+
+            //act
+            var Result = _model0.GetAllViewsRecursively<IGUIable>();
+
+            //assert
+            CollectionAssert.AreEqual(ExpectedResult, Result);
+
+        }
     }
 }
