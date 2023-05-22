@@ -62,6 +62,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
         }
-        internal override void OnStand(PlayerModel player) {}
+        internal override void OnStand(PlayerModel player)
+        {
+            if(Owner != null && player != Owner)
+            {
+                player.LoseMoney(TaxPrices[Grade]);
+                Owner.ReceiveMoney(TaxPrices[Grade]);
+            }
+        }
     }
 }

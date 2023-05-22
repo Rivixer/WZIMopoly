@@ -67,13 +67,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <inheritdoc/>
-        internal virtual void OnStand(PlayerModel player, SubjectTileModel subjectTile) 
-        {
-            if(Owner != null && Owner != player)
-            {
-                player.LoseMoney(subjectTile.TaxPrices[subjectTile.Grade]);
-                player.ReceiveMoney(subjectTile.TaxPrices[subjectTile.Grade]);
-            }
-        }
+        internal override void OnStand(PlayerModel player) {}
     }
 }
