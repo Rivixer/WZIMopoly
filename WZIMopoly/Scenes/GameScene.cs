@@ -136,8 +136,8 @@ namespace WZIMopoly.Scenes
             // Mortage button
             Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
 
-            // Sell button
-            Model.InitializeChild<SellButtonModel, GUISellButton, SellButtonController>();
+            // Upgrade button
+            Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
 
             // Dice and EndTurn button
             var diceButton = Model.InitializeChild<DiceButtonModel, GUIDiceButton, DiceButtonController>();
