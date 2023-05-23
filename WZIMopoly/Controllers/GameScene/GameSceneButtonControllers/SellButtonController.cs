@@ -6,10 +6,10 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
     /// <summary>
     /// Represents the sell button controller.
     /// </summary>
-    internal sealed class SellButtonController : ButtonController<SellButtonModel, GUISellButton>
+    internal sealed class UpgradeButtonController : ButtonController<UpgradeButtonModel, GUIUpgradeButton>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SellButtonController"/> class.
+        /// Initializes a new instance of the <see cref="UpgradeButtonController"/> class.
         /// </summary>
         /// <param name="model">
         /// The model of the sell button controller.
@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
         /// <param name="view">
         /// The view of the sell button controller.
         /// </param>
-        internal SellButtonController(SellButtonModel model, GUISellButton view)
+        internal UpgradeButtonController(UpgradeButtonModel model, GUIUpgradeButton view)
             : base(model, view) { }
     }
 }
