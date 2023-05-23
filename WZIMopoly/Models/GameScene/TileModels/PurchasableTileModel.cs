@@ -42,13 +42,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Purchases the tile.
         /// </summary>
-        /// <param name="owner">
+        /// <param name="player">
         /// The player who purchases the tile.
         /// </param>
         internal virtual void Purchase(PlayerModel player)
         {
             Owner = player;
-            Owner.LoseMoney(Price);
+            Owner.Money -= Price;
             Owner.PurchasedTiles.Add(this);
         }
 
@@ -65,8 +65,5 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             return Owner == null && player.Money >= Price;
         }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) {}
     }
 }
