@@ -165,6 +165,7 @@ namespace WZIMopoly.GUI
         /// </param>
         internal void SetButtonHoverArea(int factor, float scale, bool onlyIfInRect = true)
         {
+            // I hate this function - Wiktor
             _isInHoverArea = (Point p) =>
             {
                 bool InRoundedSquareArea(Point squareCenter, float radius)
@@ -215,10 +216,10 @@ namespace WZIMopoly.GUI
                 // button's inner rectangle, where the left and right borders
                 // have been cut off by the half of the height of the button
                 var innerRectangle = new Vector2(
-                    (DestinationRect.Width - DestinationRect.Height) / 2,
+                    (DestinationRect.Width - DestinationRect.Height / 2) / 2,
                     DestinationRect.Height / 2);
 
-                    // Check if the mouse cursor is within the inner rectangle area
+                // Check if the mouse cursor is within the inner rectangle area
                 if (Math.Abs(vector.X) <= Math.Abs(innerRectangle.X) * scale
                     && Math.Abs(vector.Y) <= Math.Abs(innerRectangle.Y) * scale)
                 {
