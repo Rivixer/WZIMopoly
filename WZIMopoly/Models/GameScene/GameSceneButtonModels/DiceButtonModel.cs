@@ -10,7 +10,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         /// <summary>
         /// Initializes a new instance of the <see cref="DiceButtonModel"/> class.
         /// </summary>
-        internal DiceButtonModel()
+        public DiceButtonModel()
             : base("Dice")
         {
             VisibleIfNotActive = false;

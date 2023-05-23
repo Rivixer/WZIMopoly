@@ -11,7 +11,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The amount of ECTS to be paid.
         /// </summary>
-        internal readonly int Tax;
+        public readonly int Tax;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileModel"/> class.
@@ -19,13 +19,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="node">
         /// The XML node containing the tile data.
         /// </param>
-        internal ConditionalPassTileModel(XmlNode node) : base(node)
+        public ConditionalPassTileModel(XmlNode node) : base(node)
         {
             Tax = int.Parse(node.SelectSingleNode("tax").InnerText);
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
+        public override void OnStand(PlayerModel player)
         {
             throw new NotImplementedException();
         }

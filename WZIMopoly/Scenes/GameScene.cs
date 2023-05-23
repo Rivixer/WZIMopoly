@@ -38,13 +38,13 @@ namespace WZIMopoly
         /// <param name="gameModel">
         /// The model of the game scene.
         /// </param>
-        internal GameScene(GameModel gameModel, GameView gameView)
+        public GameScene(GameModel gameModel, GameView gameView)
             : base(gameModel, gameView) { }
 
         /// <summary>
         /// Starts the game.
         /// </summary>
-        internal void StartGame()
+        public void StartGame()
         {
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
@@ -70,7 +70,7 @@ namespace WZIMopoly
         /// <summary>
         /// Creates an interface for the game.
         /// </summary>
-        internal void CreateInterface()
+        public void CreateInterface()
         {
             var infoWidth = 500;
             var infoHeight = 200;
@@ -99,7 +99,7 @@ namespace WZIMopoly
         /// <summary>
         /// Creates all buttons on the game scene and adds them to the children list.
         /// </summary>
-        internal void CreateButtons()
+        public void CreateButtons()
         {
             var diceModel = Model.GetModel<DiceModel>();
             var mapModel = Model.GetModel<MapModel>();

@@ -12,22 +12,21 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// The name of the tile in English.
         /// </summary>
-        internal readonly string EnName;
+        public readonly string EnName;
 
         /// <summary>
         /// The name of the tile in Polish.
         /// </summary>
-        internal readonly string PlName;
+        public readonly string PlName;
 
         /// <summary>
         /// The id of the tile.
         /// </summary>
-        internal readonly int Id;
+        public readonly int Id;
 
         ///<summary>
         ///The list of players.
-        ///</summary>
-        internal readonly List<PlayerModel> Players = new();
+        public readonly List<PlayerModel> Players = new();
         #endregion
 
         /// <summary>
@@ -49,6 +48,6 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="player">
         /// The player that landed on the tile.
         /// </param>
-        internal abstract void OnStand(PlayerModel player);
+        public abstract void OnStand(PlayerModel player);
     }
 }

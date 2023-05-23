@@ -32,7 +32,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Canteen tile.
         /// </param>
-        internal CanteenTileController(CanteenTileModel model, GUITile view) 
+        public CanteenTileController(CanteenTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

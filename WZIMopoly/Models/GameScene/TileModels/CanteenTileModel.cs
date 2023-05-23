@@ -13,6 +13,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
-        internal CanteenTileModel(XmlNode node) : base(node) { }
+        public CanteenTileModel(XmlNode node) : base(node) { }
     }
 }

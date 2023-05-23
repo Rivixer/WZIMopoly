@@ -30,7 +30,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Conditional Pass tile.
         /// </param>
-        internal ConditionalPassTileController(ConditionalPassTileModel model, GUITile view) 
+        public ConditionalPassTileController(ConditionalPassTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }
