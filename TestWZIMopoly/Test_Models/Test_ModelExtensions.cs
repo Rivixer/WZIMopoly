@@ -1,18 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WZIMopoly;
 using WZIMopoly.Controllers;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
+#nullable disable
 
-namespace TestWZIMopoly.Test_Utils
+
+namespace TestWZIMopoly.Test_Models
 {
     internal class Model0 : Model { }
 
@@ -47,7 +44,7 @@ namespace TestWZIMopoly.Test_Utils
         }
     }
 
-    internal class View2: GUIElement
+    internal class View2 : GUIElement
     {
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch) { }
 
@@ -67,8 +64,7 @@ namespace TestWZIMopoly.Test_Utils
     {
         public Controller0(Model0 model, View0 view) : base(model, view) { }
     }
-
-    internal class Controller1_1 : Controller<Model1_1,View1_1>
+    internal class Controller1_1 : Controller<Model1_1, View1_1>
     {
         public Controller1_1(Model1_1 model, View1_1 view) : base(model, view) { }
     }
@@ -89,7 +85,7 @@ namespace TestWZIMopoly.Test_Utils
     }
 
     [TestClass]
-    public class Test_ModelExtensions 
+    public class Test_ModelExtensions
     {
         private Model0 _model0;
         private Model1_1 _model1_1;
@@ -115,8 +111,8 @@ namespace TestWZIMopoly.Test_Utils
 
         internal static bool FindController0(IControllerable controller)
         {
-            return controller.View is GUIText;      
-            
+            return controller.View is GUIText;
+
         }
         internal static bool FindController1(IControllerable controller)
         {
@@ -141,10 +137,10 @@ namespace TestWZIMopoly.Test_Utils
             _view2 = new View2();
             _viewX = new ViewX(_path, _vector2);
 
-            _controller0 = new Controller0(_model0,_view0);
+            _controller0 = new Controller0(_model0, _view0);
             _controller1_1 = new Controller1_1(_model1_1, _view1_1);
-            _controller1_2 = new Controller1_2(_model1_2,_view1_2);
-            _controller2 = new Controller2(_model2,_view2);
+            _controller1_2 = new Controller1_2(_model1_2, _view1_2);
+            _controller2 = new Controller2(_model2, _view2);
             _controllerX = new ControllerX(_modelX, _viewX);
 
             _model0.AddChild(_controller1_1);
@@ -155,367 +151,347 @@ namespace TestWZIMopoly.Test_Utils
         [TestMethod]
         public void Test_GetController_ReturnController()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _controller1_2;
 
-            //act
+            // Act
             var Result = _model0.GetController<Controller1_2>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
+
         [TestMethod]
         public void Test_GetController_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetController<ControllerX>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetControllerPredicate_ReturnController()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _controller1_1;
 
-            //act
+            // Act
             var Result = _model0.GetController<Controller1_1>(_predicate0);
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
+
         [TestMethod]
         public void Test_GetControllerPredicate_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetController<Controller1_1>(_predicate1);
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetControllerRecursively_ReturnController()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _controller1_2;
 
-            //act
+            // Act
             var Result = _model0.GetControllerRecursively<Controller1_2>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetControllerRecursively_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetControllerRecursively<ControllerX>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetControllerRecursivelyPredicate_ReturnController()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _controller1_1;
 
-            //act
+            // Act
             var Result = _model0.GetControllerRecursively<Controller1_1>(_predicate0);
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetControllerRecursivelyPredicate_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetControllerRecursively<Controller1_1>(_predicate1);
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetAllControllers_ReturnControllers()
         {
-            //arrange
+            // Arrange
             List<IControllerable> controllers = new List<IControllerable>();
             controllers.Add(_controller1_1);
             controllers.Add(_controller1_2);
             var ExpectedResult = controllers;
 
-            //act
+            // Act
             var Result = _model0.GetAllControllers<IControllerable>();
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
+
         [TestMethod]
         public void Test_GetAllControllersPredicate_ReturnControllers()
         {
-            //arrange
+            // Arrange
             List<IControllerable> controllers = new List<IControllerable>();
             controllers.Add(_controller1_2);
             var ExpectedResult = controllers;
 
-            //act
-            var Result = _model0.GetAllControllers<IControllerable>(_predicate1);
+            // Act
+            var Result = _model0.GetAllControllers(_predicate1);
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetAllControllersRecursively_ReturnControllers()
         {
-            //arrange
+            // Arrange
             List<IControllerable> controllers = new List<IControllerable>();
             controllers.Add(_controller1_1);
             controllers.Add(_controller1_2);
             controllers.Add(_controller2);
             var ExpectedResult = controllers;
 
-            //act
+            // Act
             var Result = _model0.GetAllControllersRecursively<IControllerable>();
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetAllControllersRecursivelyPredicate_ReturnControllers()
         {
-            //arrange
+            // Arrange
             List<IControllerable> controllers = new List<IControllerable>();
             controllers.Add(_controller1_2);
 
             var ExpectedResult = controllers;
 
-            //act
-            var Result = _model0.GetAllControllersRecursively<IControllerable>(_predicate1);
+            // Act
+            var Result = _model0.GetAllControllersRecursively(_predicate1);
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetModel_ReturnModel()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _model1_2;
 
-            //act
+            // Act
             var Result = _model0.GetModel<Model1_2>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
+
         [TestMethod]
         public void Test_GetModel_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetModel<ModelX>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetModelRecursively_ReturnModel()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _model1_2;
 
-            //act
+            // Act
             var Result = _model0.GetModelRecursively<Model1_2>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetModelRecursively_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetModelRecursively<ModelX>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetAllModels_ReturnModels()
         {
-            //arrange
+            // Arrange
             List<IModelable> models = new List<IModelable>();
             models.Add(_model1_1);
             models.Add(_model1_2);
             var ExpectedResult = models;
 
-            //act
+            // Act
             var Result = _model0.GetAllModels<IModelable>();
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetAllModelsRecursively_ReturnModels()
         {
-            //arrange
+            // Arrange
             List<IModelable> models = new List<IModelable>();
             models.Add(_model1_1);
             models.Add(_model1_2);
             models.Add(_model2);
             var ExpectedResult = models;
 
-            //act
+            // Act
             var Result = _model0.GetAllModelsRecursively<IModelable>();
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
+
         [TestMethod]
         public void Test_GetView_ReturnView()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _view1_2;
 
-            //act
+            // Act
             var Result = _model0.GetView<View1_2>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
+
         [TestMethod]
         public void Test_GetView_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetView<ViewX>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
-
         }
 
         [TestMethod]
         public void Test_GetViewRecursively_ReturnView()
         {
-            //arrange
+            // Arrange
             var ExpectedResult = _view1_2;
 
-            //act
+            // Act
             var Result = _model0.GetViewRecursively<View1_2>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
         public void Test_GetViewRecursively_ReturnNULL()
         {
-            //arrange
+            // Arrange
             string x = null;
             var ExpectedResult = x;
 
-            //act
+            // Act
             var Result = _model0.GetViewRecursively<ViewX>();
 
-            //assert
+            // Assert
             Assert.AreEqual(ExpectedResult, Result);
-
-
         }
 
         [TestMethod]
         public void Test_GetAllViews_ReturnViews()
         {
-            //arrange
+            // Arrange
             List<IGUIable> views = new List<IGUIable>();
             views.Add(_view1_1);
             views.Add(_view1_2);
             var ExpectedResult = views;
 
-            //act
+            // Act
             var Result = _model0.GetAllViews<IGUIable>();
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
 
         [TestMethod]
-        public void Test_GetAllViewsRecursively_ReturnControllers()
+        public void Test_GetAllViewsRecursively()
         {
-            //arrange
+            // Arrange
             List<IGUIable> views = new List<IGUIable>();
             views.Add(_view1_1);
             views.Add(_view1_2);
             views.Add(_view2);
             var ExpectedResult = views;
 
-            //act
+            // Act
             var Result = _model0.GetAllViewsRecursively<IGUIable>();
 
-            //assert
+            // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
-
         }
     }
 }
