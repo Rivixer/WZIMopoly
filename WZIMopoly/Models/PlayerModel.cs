@@ -50,6 +50,11 @@ namespace WZIMopoly.Models
         public string Color => _color;
 
         /// <summary>
+        /// Gets or sets the player type.
+        /// </summary>
+        internal PlayerType PlayerType { get; set; } = PlayerType.None;
+
+        /// <summary>
         /// Gets or sets the nick of the player.
         /// </summary>
         public string Nick
@@ -70,7 +75,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the player status.
         /// </summary>
-        public PlayerStatus PlayerStatus { get; set; }
+        public PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
 
         /// <summary>
         /// Gets pucharsed tiles by the player.

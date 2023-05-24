@@ -3,12 +3,12 @@
     /// <summary>
     /// Represents the sell button model.
     /// </summary>
-    internal sealed class SellButtonModel : ButtonModel
+    internal sealed class UpgradeButtonModel : ButtonModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SellButtonModel"/> class.
+        /// Initializes a new instance of the <see cref="UpgradeButtonModel"/> class.
         /// </summary>
-        internal SellButtonModel()
-            : base("Sell") { }
+        internal UpgradeButtonModel()
+            : base("Upgrade") { }
     }
 }

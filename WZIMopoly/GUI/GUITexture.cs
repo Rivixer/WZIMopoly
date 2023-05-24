@@ -180,9 +180,23 @@ namespace WZIMopoly.GUI
         /// <param name="content">
         /// The ContentManager used to load the texture.
         /// </param>
+        /// <remarks>
+        /// After loading the texture, <see cref="Recalculate"/> is called
+        /// to scale and shift the element to the current screen resolution.
+        /// </remarks>
         public override void Load(ContentManager content)
         {
-            Texture = content.Load<Texture2D>(_path);
+            // TODO: Standardize this after creating the game language selection
+            try
+            {
+                Texture = content.Load<Texture2D>(_path + "PL");
+            }
+            catch (ContentLoadException)
+            {
+               Texture = content.Load<Texture2D>(_path);
+            }
+
+            Recalculate();
         }
         #endregion
 

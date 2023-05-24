@@ -10,7 +10,7 @@ namespace WZIMopoly.Scenes
     /// </summary>
     internal abstract class Scene<_M, _V> : Controller<_M, _V>, IPrimaryController
         where _M : Models.Model
-        where _V : GUITexture
+        where _V : GUIElement
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Scene{_M, _V}"/> class.
@@ -25,6 +25,14 @@ namespace WZIMopoly.Scenes
         /// The model of the controller.
         /// </param>
         internal Scene(_M model, _V view) : base(model, view) { }
+
+        /// <summary>
+        /// Initializes the scene.
+        /// </summary>
+        /// <remarks>
+        /// This method is called once when the application starts.
+        /// </remarks>
+        public abstract void Initialize();
 
         #region IPrimaryController Implementation
         /// <inheritdoc/>

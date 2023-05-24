@@ -16,7 +16,7 @@ namespace WZIMopoly.GUI.GameScene
     /// A player info view contains the player's
     /// nickname and amount of money.
     /// </remarks>
-    internal class GUIPlayerInfo : GUIElement
+    internal class GUIPlayerInfo : GUIElement, IGUIGameUpdate
     {
         #region Fields
         /// <summary>
@@ -70,11 +70,6 @@ namespace WZIMopoly.GUI.GameScene
         private readonly GUIText _guiMoney;
 
         /// <summary>
-        /// The function that returns the current player.
-        /// </summary>
-        private readonly Func<PlayerModel> _getCurrentPlayer;
-
-        /// <summary>
         /// The model of the player info.
         /// </summary>
         private readonly PlayerInfoModel _playerInfoModel;
@@ -92,6 +87,11 @@ namespace WZIMopoly.GUI.GameScene
         /// The place where <see cref="_defDstRect"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
+
+        /// <summary>
+        /// The player who is now taking a turn.
+        /// </summary>
+        private PlayerModel _currentPlayer;
         #endregion
 
         /// <summary>
@@ -100,13 +100,15 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the player info.
         /// </param>
-        /// <param name="getCurrentPlayer">
-        /// The function that returns the current player.
+        /// <param name="defDstRect">
+        /// The default destination rectangle of the player info.
         /// </param>
-        internal GUIPlayerInfo(PlayerInfoModel model, Func<PlayerModel> getCurrentPlayer, Rectangle defDstRect, GUIStartPoint startPoint)
+        /// <param name="startPoint">
+        /// The place where <paramref name="defDstRect"/> has been specified.
+        /// </param>
+        internal GUIPlayerInfo(PlayerInfoModel model, Rectangle defDstRect, GUIStartPoint startPoint)
         {
             _playerInfoModel = model;
-            _getCurrentPlayer = getCurrentPlayer;
             _defDstRect = defDstRect;
             _startPoint = startPoint;
 
@@ -129,7 +131,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_getCurrentPlayer() == _playerInfoModel.Player)
+            if (_currentPlayer == _playerInfoModel.Player)
             {
                 _guiFlagHovered.Draw(spriteBatch);
             }
@@ -161,6 +163,12 @@ namespace WZIMopoly.GUI.GameScene
         {
             var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered };
             elements.ForEach(x => x.Recalculate());
+        }
+
+        /// <inheritdoc/>
+        public void Update(PlayerModel player, TileModel tile)
+        {
+            _currentPlayer = player;
         }
 
         /// <summary>

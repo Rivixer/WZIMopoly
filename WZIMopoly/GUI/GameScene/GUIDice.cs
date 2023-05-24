@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -67,12 +67,12 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_currentPlayer.PlayerStatus == PlayerStatus.DuringRollingDice)
+            if (_currentPlayer?.PlayerStatus == PlayerStatus.DuringRollingDice)
             {
                 _firstDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
                 _secondDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
             }
-            else if (_currentPlayer.PlayerStatus == PlayerStatus.AfterRollingDice)
+            else if (_currentPlayer?.PlayerStatus == PlayerStatus.AfterRollingDice)
             {
                 _firstDiceTextures[_model.LastRoll.Item1 - 1].Draw(spriteBatch);
                 _secondDiceTextures[_model.LastRoll.Item2 - 1].Draw(spriteBatch);
