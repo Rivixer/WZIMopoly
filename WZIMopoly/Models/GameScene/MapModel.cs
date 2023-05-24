@@ -153,7 +153,7 @@ namespace WZIMopoly.Models.GameScene
                 foreach (var (Player, Position) in tile.Model.Players.Zip(pawnPosition, (p1, p2) => (p1, p2)))
                 {
                     var ctrl = GetController<PawnController>((x) => x.Model.Color == Player.Color);
-                    ctrl.UpdatePosition(Position);
+                    ctrl.View.UpdatePosition(Position);
                 }
             }
         }
