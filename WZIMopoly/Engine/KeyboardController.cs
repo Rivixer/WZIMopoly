@@ -14,17 +14,17 @@ namespace WZIMopoly.Engine
         /// <remarks>
         /// Works only for debug.
         /// </remarks>
-        private readonly static bool _printWhenClicked = false;
+        private readonly static bool s_printWhenClicked = false;
 #endif
         /// <summary>
         /// The current state of the keyboard.
         /// </summary>
-        private static KeyboardState _keyboard = Keyboard.GetState();
+        private static KeyboardState s_keyboard = Keyboard.GetState();
 
         /// <summary>
         /// The previous state of the keyboard.
         /// </summary>
-        private static KeyboardState _oldKeyboard;
+        private static KeyboardState s_oldKeyboard;
 
         /// <summary>
         /// Updates the state of the keyboard.<br/>
@@ -32,10 +32,10 @@ namespace WZIMopoly.Engine
         /// </summary>
         public static void Update()
         {
-            _oldKeyboard = _keyboard;
-            _keyboard = Keyboard.GetState();
+            s_oldKeyboard = s_keyboard;
+            s_keyboard = Keyboard.GetState();
 #if DEBUG
-            if (_printWhenClicked)
+            if (s_printWhenClicked)
             {
                 PrintClickedKeys();    
             }
@@ -54,8 +54,8 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool WasClicked(Keys key)
         {
-            bool wasReleased = _oldKeyboard.IsKeyUp(key);
-            bool isPressed = _keyboard.IsKeyDown(key);
+            bool wasReleased = s_oldKeyboard.IsKeyUp(key);
+            bool isPressed = s_keyboard.IsKeyDown(key);
             return wasReleased && isPressed;
         }
 
@@ -70,7 +70,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool IsPressed(Keys key)
         {
-            bool isPressed = _keyboard.IsKeyDown(key);
+            bool isPressed = s_keyboard.IsKeyDown(key);
             return isPressed;
         }
 
@@ -88,8 +88,8 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool WasReleased(Keys key)
         {
-            bool wasPressed = _oldKeyboard.IsKeyDown(key);
-            bool isReleased = _keyboard.IsKeyUp(key);
+            bool wasPressed = s_oldKeyboard.IsKeyDown(key);
+            bool isReleased = s_keyboard.IsKeyUp(key);
             return wasPressed && isReleased;
         }
 
@@ -98,7 +98,7 @@ namespace WZIMopoly.Engine
         /// </summary>
         private static void PrintClickedKeys()
         {
-            foreach (var key in _keyboard.GetPressedKeys())
+            foreach (var key in s_keyboard.GetPressedKeys())
             {
                 if (WasClicked(key))
                 {

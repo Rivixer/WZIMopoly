@@ -12,12 +12,12 @@ namespace WZIMopoly.Engine
         /// <summary>
         /// The current state of the mouse.
         /// </summary>
-        private static MouseState _mouse = Mouse.GetState();
+        private static MouseState s_mouse = Mouse.GetState();
 
         /// <summary>
         /// The previous state of the mouse.
         /// </summary>
-        private static MouseState _oldMouse;
+        private static MouseState s_oldMouse;
 
         /// <summary>
         /// Updates the state of the mouse.<br/>
@@ -25,8 +25,8 @@ namespace WZIMopoly.Engine
         /// </summary>
         public static void Update()
         {
-            _oldMouse = _mouse;
-            _mouse = Mouse.GetState();
+            s_oldMouse = s_mouse;
+            s_mouse = Mouse.GetState();
         }
 
         #region Left Button Methods
@@ -39,8 +39,8 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool WasLeftBtnClicked()
         {
-            bool wasRealeased = _oldMouse.LeftButton == ButtonState.Released;
-            bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
+            bool wasRealeased = s_oldMouse.LeftButton == ButtonState.Released;
+            bool isPressed = s_mouse.LeftButton == ButtonState.Pressed;
             return isPressed && wasRealeased;
         }
 
@@ -52,7 +52,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool IsLeftBtnPressed()
         {
-            bool isPressed = _mouse.LeftButton == ButtonState.Pressed;
+            bool isPressed = s_mouse.LeftButton == ButtonState.Pressed;
             return isPressed;
         }
 
@@ -65,8 +65,8 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool WasLeftBtnReleased()
         {
-            bool wasPressed = _oldMouse.LeftButton == ButtonState.Pressed;
-            bool isReleased = _mouse.LeftButton == ButtonState.Released;
+            bool wasPressed = s_oldMouse.LeftButton == ButtonState.Pressed;
+            bool isReleased = s_mouse.LeftButton == ButtonState.Released;
             return isReleased && wasPressed;
         }
         #endregion
@@ -80,7 +80,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool IsHover(Rectangle rect)
         {
-            return rect.Contains(_mouse.Position);
+            return rect.Contains(s_mouse.Position);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool IsHover(Func<Point, bool> func)
         {
-            return func(_mouse.Position);
+            return func(s_mouse.Position);
         }
         #endregion
     }
