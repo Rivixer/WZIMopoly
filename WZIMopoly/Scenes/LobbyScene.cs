@@ -1,4 +1,4 @@
-﻿using WZIMopoly.Controllers.LobbyScene;
+using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.LobbyScene;
 using WZIMopoly.Models;
@@ -28,6 +28,7 @@ namespace WZIMopoly.Scenes
         {
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
             Model.InitializeChild<StartGameButtonModel, GUIStartGameButton, StartGameButtonController>();
+            Model.InitializeChild<LocalModeButtonModel, GUILocalModeButton, LocalModeButtonController>();
         }
     }
 }
