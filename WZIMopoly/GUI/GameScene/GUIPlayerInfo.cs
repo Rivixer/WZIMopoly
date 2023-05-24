@@ -131,23 +131,27 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_currentPlayer == _playerInfoModel.Player)
+            if (_playerInfoModel.Player.PlayerType != PlayerType.None)
             {
-                _guiFlagHovered.Draw(spriteBatch);
-            }
-            else
-            {
-                _guiFlag.Draw(spriteBatch);
-            }
+                if (_currentPlayer == _playerInfoModel.Player)
+                {
+                    _guiFlagHovered.Draw(spriteBatch);
+                }
+                else
+                {
+                    _guiFlag.Draw(spriteBatch);
+                }
 
-            _guiBox.Draw(spriteBatch);
-            _guiMoney.Draw(spriteBatch);
-            _guiNick.Draw(spriteBatch);
+                _guiBox.Draw(spriteBatch);
+                _guiMoney.Draw(spriteBatch);
+                _guiNick.Draw(spriteBatch);
+            }
         }
 
         /// <inheritdoc/>
         public override void Update()
         {
+            _guiNick.Text = _playerInfoModel.Player.Nick;
             _guiMoney.Text = $"{_playerInfoModel.Player.Money} ECTS";
         }
 
