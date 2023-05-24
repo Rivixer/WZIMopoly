@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,16 +86,13 @@ namespace WZIMopoly.Models.GameScene
         /// <remarks>
         /// Clears all players from other tiles.
         /// </remarks>
-        /// <param name="players">
-        /// The list of players to be set on the start tile.
-        /// </param>
-        internal void SetPlayersOnStart(List<PlayerModel> players)
+        internal void SetPlayersOnStart()
         {
             var tiles = GetAllControllers<TileController>();
             tiles.ForEach(x => x.Model.Players.Clear());
 
             var startTile = GetController<StartTileController>();
-            startTile.Model.Players.AddRange(players);
+            startTile.Model.Players.AddRange(GameSettings.ActivePlayers);
         }
 
         /// <summary>
