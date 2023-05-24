@@ -1,13 +1,16 @@
-﻿namespace WZIMopoly.Models.GameScene
+﻿using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models;
+
+namespace WZIMopoly.GUI.GameScene
 {
     /// <summary>
-    /// Provides a method for updating the button
-    /// model with the current player and tile as parameters.
+    /// Provides a method for updating a view
+    /// with the current player and tile as parameters.
     /// </summary>
-    internal interface IGameButtonModel : IModelable
+    internal interface IGUIGameUpdate : IGUIable
     {
         /// <summary>
-        /// Updates the button model using the current
+        /// Updates the view using the current
         /// player and tile that the player is on.
         /// </summary>
         /// <param name="player">

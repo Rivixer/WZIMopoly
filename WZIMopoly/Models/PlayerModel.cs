@@ -1,11 +1,13 @@
-﻿using WZIMopoly.Enums;
+﻿using System.Collections.Generic;
+using WZIMopoly.Enums;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models
 {
     /// <summary>
     /// Represents a player.
     /// </summary>
-    internal class PlayerModel : Model
+    internal sealed class PlayerModel : Model
     {
         /// <summary>
         /// The color of the player.
@@ -15,12 +17,17 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The amount of money player has.
         /// </summary>
-        internal int Money = 1500;
+        private int _money = 1500;
 
         /// <summary>
         /// The nick of the player.
         /// </summary>
         private string _nick;
+
+        /// <summary>
+        /// The list of tiles purchased by the player.
+        /// </summary>
+        readonly private List<PurchasableTileModel> _purchasedTiles = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
@@ -40,7 +47,12 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the player status.
         /// </summary>
-        internal PlayerStatus PlayerStatus { get; set; }
+        internal PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+
+        /// <summary>
+        /// Gets or sets the player type.
+        /// </summary>
+        internal PlayerType PlayerType { get; set; } = PlayerType.None;
 
         /// <summary>
         /// Gets or sets the nick of the player.
@@ -49,6 +61,38 @@ namespace WZIMopoly.Models
         {
             get => _nick;
             set => _nick = value;
+        }
+
+        /// <summary>
+        /// Gets pucharsed tiles by the player.
+        /// </summary>
+        internal List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
+
+        /// <summary>
+        /// Gets the amount of money the player has.
+        /// </summary>
+        internal int Money => _money;
+
+        /// <summary>
+        /// Increases the amount of money the player has.
+        /// </summary>
+        /// <param name="amount">
+        /// Amount of money which the player receive.
+        /// </param>
+        internal void ReceiveMoney(int amount)
+        {
+            _money += amount;
+        }
+
+        /// <summary>
+        /// Decreases the amount of money the player has.
+        /// </summary>
+        /// <param name="amount">
+        /// Amount of money which the player lose.
+        /// </param>
+        internal void LoseMoney(int amount)
+        {
+            _money -= amount;
         }
     }
 }

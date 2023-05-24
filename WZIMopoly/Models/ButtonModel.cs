@@ -33,15 +33,6 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
-        /// Gets or sets whether the
-        /// button should be visible if it isn't active.
-        /// </summary>
-        /// <remarks>
-        /// Defaults to true.
-        /// </remarks>
-        public bool VisibleIfNotActive { get; protected set; } = true;
-
-        /// <summary>
         /// Gets or sets a value indicating whether
         /// the button meets requirements to be clicked.
         /// </summary>

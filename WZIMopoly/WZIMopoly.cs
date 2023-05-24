@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 using WZIMopoly.Controllers;
-using WZIMopoly.Models.GameScene;
-using WZIMopoly.GUI.GameScene;
-using WZIMopoly.Controllers.GameScene;
+using WZIMopoly.Scenes;
+using WZIMopoly.Controllers.MenuScene;
+using WZIMopoly.Controllers.LobbyScene;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -28,10 +28,27 @@ namespace WZIMopoly
     /// </remarks>
     public class WZIMopoly : Game
     {
+        #region Scenes
+        /// <summary>
+        /// The menu scene.
+        /// </summary>
+        private readonly MenuScene _menuScene;
+
+        /// <summary>
+        /// The lobby scene.
+        /// </summary>
+        private readonly LobbyScene _lobbyScene;
+
+        /// <summary>
+        /// The game scene.
+        /// </summary>
+        private readonly GameScene _gameScene;
+        #endregion
+
         /// <summary>
         /// The GraphicsDeviceManager responsible for managing graphics in MonoGame.
         /// </summary>
-        private GraphicsDeviceManager _graphics;
+        private readonly GraphicsDeviceManager _graphics;
 
         /// <summary>
         /// The SpriteBatch object resposible for rendering graphics in Monogame.
@@ -54,6 +71,31 @@ namespace WZIMopoly
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
+            var menuModel = new MenuModel();
+            var menuView = new MenuView();
+            _menuScene = new MenuScene(menuModel, menuView);
+
+            var lobbyModel = new LobbyModel();
+            var lobbyView = new LobbyView();
+            _lobbyScene = new LobbyScene(lobbyModel, lobbyView);
+
+            var gameView = new GameView();
+            var gameModel = new GameModel();
+            _gameScene = new GameScene(gameModel, gameView);
+        }
+
+        /// <summary>
+        /// Changes the current scene to the specified one
+        /// and recalculates all the elements.
+        /// </summary>
+        /// <param name="newScene">
+        /// The new scene to be set as the current one.
+        /// </param>
+        private void ChangeCurrentScene(IPrimaryController newScene)
+        {
+            _currentScene = newScene;
+            _currentScene.RecalculateAll();
         }
 
         /// <summary>
@@ -65,18 +107,26 @@ namespace WZIMopoly
             ScreenController.ChangeResolution(1280, 720, false);
             ScreenController.ApplyChanges();
 
-            var gameView = new GameView();
-            var gameModel = new GameModel();
-            _currentScene = new GameScene(gameModel, gameView);
+            _menuScene.Initialize();
+            var newGameButton = _menuScene.Model.GetController<NewGameButtonController>();
+            newGameButton.OnButtonClicked += () => ChangeCurrentScene(_lobbyScene);
 
-            var mapController = (_currentScene as GameScene).Model.InitializeChild<MapModel, GUIMap, MapController>();
-            mapController.Model.LoadTiles();
+            var quitButton = _menuScene.Model.GetController<QuitButtonController>();
+            quitButton.OnButtonClicked += Exit;
 
-            _currentScene.RecalculateAll();
-            (_currentScene as GameScene)?.StartGame();
-            (_currentScene as GameScene)?.CreateInterface();
-            (_currentScene as GameScene)?.CreateButtons();
+            _lobbyScene.Initialize();
+            var returnButton = _lobbyScene.Model.GetController<ReturnButtonController>();
+            returnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
+            var startGameButton = _lobbyScene.Model.GetController<StartGameButtonController>();
+            startGameButton.OnButtonClicked += () =>
+            {
+                ChangeCurrentScene(_gameScene);
+                _gameScene.StartGame();
+            };
 
+            _gameScene.Initialize();
+
+            ChangeCurrentScene(_menuScene);
             base.Initialize();
         }
 
@@ -89,7 +139,10 @@ namespace WZIMopoly
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _currentScene.LoadAll(Content);
+
+            _menuScene.LoadAll(Content);
+            _lobbyScene.LoadAll(Content);
+            _gameScene.LoadAll(Content);
 
             base.LoadContent();
         }
@@ -107,9 +160,6 @@ namespace WZIMopoly
         {
             _currentScene.BeforeUpdateAll();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             KeyboardController.Update();
             MouseController.Update();
 
@@ -120,10 +170,9 @@ namespace WZIMopoly
             }
 
             _currentScene.UpdateAll();
+            _currentScene.AfterUpdateAll();
 
             base.Update(gameTime);
-
-            _currentScene.AfterUpdateAll();
         }
 
         /// <summary>
@@ -137,18 +186,15 @@ namespace WZIMopoly
         /// </param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            GraphicsDevice.Clear(Color.White);
+            
             _spriteBatch.Begin();
-
+            
             _currentScene.DrawAll(_spriteBatch);
-
 #if DEBUG
             ShowCursorPosition.Draw(_spriteBatch, Content);
 #endif
-
             _spriteBatch.End();
-
 
             base.Draw(gameTime);
         }

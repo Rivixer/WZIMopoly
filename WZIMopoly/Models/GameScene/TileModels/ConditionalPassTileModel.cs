@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -27,7 +26,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <inheritdoc/>
         public override void OnStand(PlayerModel player)
         {
-            throw new NotImplementedException();
+            player.LoseMoney(Tax);
         }
     }
 }

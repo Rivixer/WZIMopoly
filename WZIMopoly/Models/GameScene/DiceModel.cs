@@ -20,7 +20,7 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Gets the sum of the last dice roll.
         /// </summary>
-        internal int Sum => LastRoll.Item1 + LastRoll.Item2;
+        internal ushort Sum => (ushort)(LastRoll.Item1 + LastRoll.Item2);
 
         /// <summary>
         /// Simulates the roll of two dice.
@@ -35,6 +35,13 @@ namespace WZIMopoly.Models.GameScene
         {
             LastRoll = new Tuple<int, int>(s_random.Next(1, 7), s_random.Next(1, 7));
             return LastRoll;
+        }
+        /// <summary>
+        /// Resets data about the last roll.
+        /// </summary>
+        internal void Reset()
+        {
+            LastRoll = null;
         }
     }
 }

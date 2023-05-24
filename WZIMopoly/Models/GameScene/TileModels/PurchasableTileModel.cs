@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -46,9 +45,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="owner">
         /// The player who purchases the tile.
         /// </param>
-        public void Purchase(PlayerModel owner)
+        public virtual void Purchase(PlayerModel player)
         {
-            throw new System.NotImplementedException("Not implemented");
+            Owner = player;
+            Owner.LoseMoney(Price);
+            Owner.PurchasedTiles.Add(this);
         }
 
         /// <summary>
@@ -66,9 +67,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <inheritdoc/>
-        public override void OnStand(PlayerModel player)
-        {
-            throw new NotImplementedException();
-        }
+        public override void OnStand(PlayerModel player) { }
     }
 }

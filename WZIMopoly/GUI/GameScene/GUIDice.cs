@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using WZIMopoly.Enums;
+using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.GUI.GameScene
@@ -13,7 +15,7 @@ namespace WZIMopoly.GUI.GameScene
     /// <remarks>
     /// Shows the last roll of the dice on the screen.
     /// </remarks>
-    internal class GUIDice : GUIElement
+    internal class GUIDice : GUIElement, IGUIGameUpdate
     {
         /// <summary>
         /// List of textures for the first dice.
@@ -29,6 +31,16 @@ namespace WZIMopoly.GUI.GameScene
         /// The model of the dice.
         /// </summary>
         private readonly DiceModel _model;
+
+        /// <summary>
+        /// The random number generator.
+        /// </summary>
+        private readonly Random random = new();
+
+        /// <summary>
+        /// The player who is now taking a turn.
+        /// </summary>
+        private PlayerModel _currentPlayer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIDice"/> class.
@@ -55,7 +67,12 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_model.LastRoll != null)
+            if (_currentPlayer?.PlayerStatus == PlayerStatus.DuringRollingDice)
+            {
+                _firstDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
+                _secondDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
+            }
+            else if (_currentPlayer?.PlayerStatus == PlayerStatus.AfterRollingDice)
             {
                 _firstDiceTextures[_model.LastRoll.Item1 - 1].Draw(spriteBatch);
                 _secondDiceTextures[_model.LastRoll.Item2 - 1].Draw(spriteBatch);
@@ -74,6 +91,12 @@ namespace WZIMopoly.GUI.GameScene
         {
             _firstDiceTextures.ForEach(x => x.Recalculate());
             _secondDiceTextures.ForEach(x => x.Recalculate());
+        }
+
+        /// <inheritdoc/>
+        public void Update(PlayerModel player, TileModel tile)
+        {
+            _currentPlayer = player;
         }
     }
 }

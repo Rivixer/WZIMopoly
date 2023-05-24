@@ -6,6 +6,8 @@ using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
+#nullable enable
+
 namespace WZIMopoly.GUI
 {
     /// <summary>
@@ -21,12 +23,18 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The texture of the button when is hovered.
         /// </summary>
-        protected readonly GUITexture TextureHovered;
+        /// <remarks>
+        /// If null, <see cref="Texture"/> will be used instead.
+        /// </remarks>
+        protected readonly GUITexture? TextureHovered;
 
         /// <summary>
         /// The texture of the button when is disabled.
         /// </summary>
-        protected readonly GUITexture TextureDisabled;
+        /// <remarks>
+        /// If null, the disabled button will not be displayed.
+        /// </remarks>
+        protected readonly GUITexture? TextureDisabled;
 
         /// <summary>
         /// The model of the button.
@@ -66,7 +74,22 @@ namespace WZIMopoly.GUI
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.<br/>
         /// Defaults to <see cref="GUIStartPoint.TopLeft"/>.
         /// </param>
-        internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+        /// <param name="hoverTexture">
+        /// Whether the button has a texture when is hovered.<br/>
+        /// If false, <see cref="Texture"/> will be used instead.<br/>
+        /// Defaults to true.
+        /// </param>
+        /// <param name="disableTexture">
+        /// Whether the button has a texture when is disabled.<br/>
+        /// If false, the disabled button will not be displayed.<br/>
+        /// Default to true.
+        /// </param>
+        public GUIButton(
+            ButtonModel model,
+            Rectangle defDstRect,
+            GUIStartPoint startPoint = GUIStartPoint.TopLeft,
+            bool hoverTexture = true,
+            bool disableTexture = true)
         {
             Model = model;
             _defDstRect = defDstRect;
@@ -74,9 +97,18 @@ namespace WZIMopoly.GUI
 
             var buttonPath = $"Images/Buttons/{model.Name}";
             Texture = new GUITexture(buttonPath, _defDstRect, _startPoint);
-            TextureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
-            TextureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
-            ResetButtonHoverArea();
+
+            if (hoverTexture)
+            {
+                TextureHovered = new GUITexture($"{buttonPath}Hovered", _defDstRect, _startPoint);
+            }
+
+            if (disableTexture)
+            {
+                TextureDisabled = new GUITexture($"{buttonPath}Disabled", _defDstRect, _startPoint);
+            }
+            
+            _isInHoverArea = (Point p) => Texture.DestinationRect.Contains(p);
         }
 
         /// <summary>
@@ -85,14 +117,30 @@ namespace WZIMopoly.GUI
         internal bool IsHovered => MouseController.IsHover(_isInHoverArea);
 
         /// <summary>
-        /// Creates a rounded square hover area for the button
+        /// Creates a rounded rectangle hover area for the button
         /// and assigns it to the <see cref="IsHovered"/> as method.
         /// </summary>
         /// <remarks>
-        /// Uses the formula: <c>|x^factor| + |y^factor| &lt;=
+        /// <para>
+        /// Uses the formula (if the button's rectangle is a square):<br/>
+        /// <c>|x^factor| + |y^factor| &lt;=
         /// |(Width / 2 * scale)^factor|</c>,<br/>
         /// where <c>x</c> and <c>y</c> are the distance
         /// from the center of the button to the mouse position.
+        /// </para>
+        /// <para>
+        /// If the button's rectangle is not a square,
+        /// it simulates the squares on the sides of the rectangle
+        /// and uses the above formula for each one.<br/>
+        /// It also checks if the mouse is inside the
+        /// button's inner rectangle, where the
+        /// left and right borders have been cut off
+        /// by the half of the height of the button.
+        /// </para>
+        /// <para>
+        /// This method may be not working properly
+        /// if the height of the button is greater than its width.
+        /// </para>
         /// </remarks>
         /// <param name="factor">
         /// The factor of the formula. The larger it is,
@@ -117,19 +165,79 @@ namespace WZIMopoly.GUI
         /// </param>
         internal void SetButtonHoverArea(int factor, float scale, bool onlyIfInRect = true)
         {
+            // I hate this function - Wiktor
             _isInHoverArea = (Point p) =>
             {
+                bool InRoundedSquareArea(Point squareCenter, float radius)
+                {
+                    // The vector from squareCenter to the mouse position
+                    var vector = new Vector2(
+                        squareCenter.X - p.X,
+                        squareCenter.Y - p.Y);
+
+                    // The absolute values of the vector components
+                    // raised to the certain factor
+                    double x = Math.Abs(Math.Pow(vector.X, factor));
+                    double y = Math.Abs(Math.Pow(vector.Y, factor));
+
+                    // The border value based on the radius and scaling factor
+                    double border = Math.Pow(radius * scale, factor);
+
+                    // Check if the mouse cursor is in the rounded square area
+                    return x + y <= border;
+                }
+
                 Rectangle DestinationRect = Texture.DestinationRect;
+
+                // Check if the point is outside the destination rectangle
+                // when 'onlyIfInRect' flag is enabled
                 if (onlyIfInRect && !DestinationRect.Contains(p))
                 {
                     return false;
                 }
 
-                var vector = new Vector2(DestinationRect.Center.X - p.X, DestinationRect.Center.Y - p.Y);
-                double x = Math.Abs(Math.Pow(vector.X, factor));
-                double y = Math.Abs(Math.Pow(vector.Y, factor));
-                double border = Math.Pow(DestinationRect.Width / 2 * scale, factor);
-                return x + y <= border;
+                // Check if the destination rectangle is a square
+                if (DestinationRect.Width == DestinationRect.Height)
+                {
+                    // Check if the point is within the rounded square area
+                    // defined by the destination rectangle
+                    return InRoundedSquareArea(
+                        DestinationRect.Center,
+                        DestinationRect.Height / 2);
+                }
+
+                // The vector from the center of
+                // the button to the mouse position
+                var vector = new Vector2(
+                    DestinationRect.Center.X - p.X,
+                    DestinationRect.Center.Y - p.Y);
+
+                // The vector from the center of the button that simulates the 
+                // button's inner rectangle, where the left and right borders
+                // have been cut off by the half of the height of the button
+                var innerRectangle = new Vector2(
+                    (DestinationRect.Width - DestinationRect.Height / 2) / 2,
+                    DestinationRect.Height / 2);
+
+                // Check if the mouse cursor is within the inner rectangle area
+                if (Math.Abs(vector.X) <= Math.Abs(innerRectangle.X) * scale
+                    && Math.Abs(vector.Y) <= Math.Abs(innerRectangle.Y) * scale)
+                {
+                    return true;
+                }
+
+                // Define the extreme points on the sides of the button
+                var extremePointLeft = new Point(
+                    DestinationRect.Left + DestinationRect.Height / 2,
+                    DestinationRect.Center.Y);
+                var extremePointRight = new Point(
+                    DestinationRect.Right - DestinationRect.Height / 2,
+                    DestinationRect.Center.Y);
+
+                // Check if the point is within the rounded square
+                // areas around the extreme points
+                return InRoundedSquareArea(extremePointLeft, DestinationRect.Height / 2)
+                    || InRoundedSquareArea(extremePointRight, DestinationRect.Height / 2);                           
             };
         }
 
@@ -146,29 +254,29 @@ namespace WZIMopoly.GUI
         public override void Load(ContentManager content)
         {
             Texture.Load(content);
-            TextureHovered.Load(content);
-            TextureDisabled.Load(content);
+            TextureHovered?.Load(content);
+            TextureDisabled?.Load(content);
         }
 
         /// <inheritdoc/>
         public override void Recalculate()
         {
             Texture.Recalculate();
-            TextureHovered.Recalculate();
-            TextureDisabled.Recalculate();
+            TextureHovered?.Recalculate();
+            TextureDisabled?.Recalculate();
         }
 
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            GUITexture texture;
+            GUITexture? texture;
             if (!Model.IsActive)
             {
-                texture = Model.VisibleIfNotActive ? TextureDisabled : null;
+                texture = TextureDisabled;
             }
             else if (IsHovered)
             {
-                texture = TextureHovered;
+                texture = TextureHovered ?? Texture;
             }
             else
             {
@@ -191,8 +299,13 @@ namespace WZIMopoly.GUI
         /// Initializes a new instance of the <see cref="GUIButton{M}"/> class.
         /// </summary>
         /// <inheritdoc cref="GUIButton(ButtonModel, Rectangle, GUIStartPoint)"/>
-        internal GUIButton(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
-            : base(model, defDstRect, startPoint) { }
+        public GUIButton(
+            M model,
+            Rectangle defDstRect,
+            GUIStartPoint startPoint = GUIStartPoint.TopLeft,
+            bool hoverTexture = true,
+            bool disableTexture = true
+        ) : base(model, defDstRect, startPoint, hoverTexture, disableTexture) { }
 
         /// <summary>
         /// Gets the model of the button.
