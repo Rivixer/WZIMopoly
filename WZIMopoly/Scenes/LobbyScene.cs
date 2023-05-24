@@ -1,4 +1,4 @@
-using WZIMopoly.Controllers.LobbyScene;
+﻿using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.LobbyScene;
 using WZIMopoly.Models;
@@ -26,6 +26,7 @@ namespace WZIMopoly.Scenes
         /// <inheritdoc/>
         public override void Initialize()
         {
+            Model.InitializeChild<LobbyPlayersModel, GUILobbyPlayers, LobbyPlayersController>();
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
             Model.InitializeChild<StartGameButtonModel, GUIStartGameButton, StartGameButtonController>();
             Model.InitializeChild<LocalModeButtonModel, GUILocalModeButton, LocalModeButtonController>();
