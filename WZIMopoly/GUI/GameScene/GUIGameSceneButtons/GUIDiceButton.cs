@@ -55,6 +55,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             {
                 PlayerStatus.BeforeRollingDice => IsHovered ? TextureHovered : Texture,
                 PlayerStatus.DuringRollingDice => TextureDisabled,
+                PlayerStatus.UpgradingFields => TextureDisabled,
                 _ => null,
             };
             texture?.Draw(spriteBatch);
