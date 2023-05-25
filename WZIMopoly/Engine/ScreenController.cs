@@ -12,39 +12,39 @@ namespace WZIMopoly.Engine
         /// <summary>
         /// The graphics device manager provided by MonoGame.
         /// </summary>
-        private static GraphicsDeviceManager _graphics;
+        private static GraphicsDeviceManager s_graphics;
 
         /// <summary>
         /// The width of the screen.
         /// </summary>
-        private static int _width;
+        private static int s_width;
 
         /// <summary>
         /// The height of the screen.
         /// </summary>
-        private static int _height;
+        private static int s_height;
 
         /// <summary>
         /// Whether the screen is in fullscreen mode.
         /// </summary>
-        private static bool _fullScreen;
+        private static bool s_fullScreen;
         #endregion
 
         #region Properties
         /// <summary>
         /// Gets the width of the screen.
         /// </summary>
-        public static int Width => _width;
+        public static int Width => s_width;
 
         /// <summary>
         /// Gets the height of the screen.
         /// </summary>
-        public static int Height => _height;
+        public static int Height => s_height;
 
         /// <summary>
         /// Gets whether the screen is in fullscreen mode.
         /// </summary>
-        public static bool IsFullScreen => _fullScreen;
+        public static bool IsFullScreen => s_fullScreen;
         #endregion
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace WZIMopoly.Engine
         /// <param name="graphics"></param>
         public static void Initialize(GraphicsDeviceManager graphics)
         {
-            _graphics = graphics;
+            s_graphics = graphics;
         }
 
         /// <summary>
@@ -73,9 +73,9 @@ namespace WZIMopoly.Engine
         /// </param>
         public static void ChangeResolution(int width, int height, bool fullscreen)
         {
-            _width = width;
-            _height = height;
-            _fullScreen = fullscreen;
+            s_width = width;
+            s_height = height;
+            s_fullScreen = fullscreen;
         }
 
         /// <summary>
@@ -87,10 +87,10 @@ namespace WZIMopoly.Engine
         /// </remarks>
         public static void ApplyChanges()
         {
-            _graphics.PreferredBackBufferWidth = _width;
-            _graphics.PreferredBackBufferHeight = _height;
-            _graphics.IsFullScreen = _fullScreen;
-            _graphics.ApplyChanges();
+            s_graphics.PreferredBackBufferWidth = s_width;
+            s_graphics.PreferredBackBufferHeight = s_height;
+            s_graphics.IsFullScreen = s_fullScreen;
+            s_graphics.ApplyChanges();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace WZIMopoly.Engine
         {
             if (KeyboardController.WasClicked(Keys.F))
             {
-                if (_fullScreen)
+                if (s_fullScreen)
                 {
                     ChangeResolution(1280, 720, false);
                 }

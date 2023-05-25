@@ -12,17 +12,17 @@ namespace WZIMopoly.DebugUtils
         // Change if you want to show the cursor position
         public static ShowPlace ShowCursorPos = ShowPlace.None;
 
-        private readonly static List<DrawString> _toDraw = new();
-        private static SpriteFont _font;
+        private readonly static List<DrawString> s_toDraw = new();
+        private static SpriteFont s_font;
 
         private static Vector2 GetInfoPosition()
         {
-            return new Vector2(10, 10 + 30 * _toDraw.Count);
+            return new Vector2(10, 10 + 30 * s_toDraw.Count);
         }
 
         public static void Draw(SpriteBatch spriteBatch, ContentManager content)
         {
-            _font ??= content.Load<SpriteFont>("Fonts/DebugFont");
+            s_font ??= content.Load<SpriteFont>("Fonts/DebugFont");
 
             if (ShowCursorPos != ShowPlace.None)
             {
@@ -34,15 +34,15 @@ namespace WZIMopoly.DebugUtils
                 }
                 if (ShowCursorPos.HasFlag(ShowPlace.Screen))
                 {
-                    var cls = new DrawString(_font, info, GetInfoPosition(), Color.White);
-                    _toDraw.Add(cls);
+                    var cls = new DrawString(s_font, info, GetInfoPosition(), Color.White);
+                    s_toDraw.Add(cls);
                 }
             }
-            foreach (var cls in _toDraw)
+            foreach (var cls in s_toDraw)
             {
                 cls.Draw(spriteBatch);
             }
-            _toDraw.Clear();
+            s_toDraw.Clear();
         }
 
         [Flags]

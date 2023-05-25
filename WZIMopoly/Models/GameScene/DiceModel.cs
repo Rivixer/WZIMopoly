@@ -15,7 +15,7 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Pseudo-random numbers generator.
         /// </summary>
-        private readonly static Random _random = new();
+        private readonly static Random s_random = new();
 
         /// <summary>
         /// Gets the sum of the last dice roll.
@@ -33,7 +33,7 @@ namespace WZIMopoly.Models.GameScene
         /// </returns>
         public Tuple<int, int> RollDice()
         {
-            LastRoll = new Tuple<int, int>(_random.Next(1, 7), _random.Next(1, 7));
+            LastRoll = new Tuple<int, int>(s_random.Next(1, 7), s_random.Next(1, 7));
             return LastRoll;
         }
         /// <summary>
