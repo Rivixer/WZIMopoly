@@ -44,7 +44,7 @@ namespace WZIMopoly.Models.GameScene
 
                 TileModel tileModel = (TileModel)Activator.CreateInstance(
                     type: tileModelType,
-                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                    bindingAttr: BindingFlags.Instance | BindingFlags.Public,
                     binder: null,
                     args: new object[] { tileNode },
                     culture: null
@@ -54,7 +54,7 @@ namespace WZIMopoly.Models.GameScene
 
                 IControllerable tileController = (IControllerable)Activator.CreateInstance(
                     type: tileControllerType,
-                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                    bindingAttr: BindingFlags.Instance | BindingFlags.Public,
                     binder: null,
                     args: new object[] { tileModel, tileView },
                     culture: null
