@@ -21,6 +21,11 @@
         DuringRollingDice,
 
         /// <summary>
+        /// The player is upgrading his fields.
+        /// </summary>
+        UpgradingFields,
+
+        /// <summary>
         /// The player has already rolled the dice.
         /// </summary>
         AfterRollingDice,
