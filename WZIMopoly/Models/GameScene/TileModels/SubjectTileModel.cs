@@ -34,16 +34,19 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
         /// </summary>
+        /// <param name="node">
+        /// The XML node of the chance tile.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// Thrown if the XML file data is invalid.
         /// </exception>
-        internal SubjectTileModel() : base()
+        internal SubjectTileModel(XmlNode node) : base(node)
         {
             Grade = SubjectGrade.Two;
-            UpgradePrice = int.Parse(MapModel.XmlNode.SelectSingleNode("upgrade_price").InnerText);
+            UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
             TaxPrices = new Dictionary<SubjectGrade, int>();
 
-            foreach (XmlAttribute attribute in MapModel.XmlNode.SelectSingleNode("tax_prices").Attributes)
+            foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
             {
                 if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
                 {
@@ -53,7 +56,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
 
-            string rawColor = NamingConverter.ConvertSnakeCaseToPascalCase(MapModel.XmlNode.SelectSingleNode("color").InnerText);
+            string rawColor = NamingConverter.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
             if (!Enum.TryParse(rawColor, true, out Color))
             {
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");

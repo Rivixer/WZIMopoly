@@ -16,9 +16,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="StartTileModel"/> class.
         /// </summary>
-        internal StartTileModel() : base()
+        /// <param name="node">
+        /// The XML node of the chance tile.
+        /// </param>
+        internal StartTileModel(XmlNode node) : base(node)
         {
-            _reward = int.Parse(MapModel.XmlNode.SelectSingleNode("reward").InnerText);
+            _reward = int.Parse(node.SelectSingleNode("reward").InnerText);
         }
 
         /// <inheritdoc/>

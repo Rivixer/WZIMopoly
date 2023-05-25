@@ -32,17 +32,20 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// Initializes a new instance of the <see cref="GUITile"/> class.
         /// </summary>
+        /// <param name="node">
+        /// The XML node that contains the tile data.
+        /// </param>
         /// <param name="model">
         /// The model of the tile.
         /// </param>
         /// <exception cref="ArgumentException">
         /// The XML tile data is invalid.
         /// </exception>
-        internal GUITile(TileModel model)
+        internal GUITile(XmlNode node, TileModel model)
         {
             _model = model;
 
-            XmlNode position = MapModel.XmlNode.SelectSingleNode("position");
+            XmlNode position = node.SelectSingleNode("position");
             if (!Enum.TryParse(position.Attributes["orientation"].Value, true, out _orientation))
             {
                 throw new ArgumentException($"Invalid value of orientation attribute in position node " +

@@ -33,11 +33,14 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Initializes a new instance of the <see cref="TileModel"/> class.
         /// </summary>
-        protected TileModel()
+        /// <param name="node">
+        /// The XML node that contains the tile data.
+        /// </param>
+        protected TileModel(XmlNode node)
         {
-            EnName = MapModel.XmlNode.SelectSingleNode("en_name").InnerText;
-            PlName = MapModel.XmlNode.SelectSingleNode("pl_name").InnerText;
-            Id = int.Parse(MapModel.XmlNode.Attributes["id"].Value);
+            EnName = node.SelectSingleNode("en_name").InnerText;
+            PlName = node.SelectSingleNode("pl_name").InnerText;
+            Id = int.Parse(node.Attributes["id"].Value);
         }
 
         /// <summary>

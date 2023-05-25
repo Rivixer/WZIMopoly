@@ -17,7 +17,6 @@ namespace WZIMopoly.Models.GameScene
     /// </summary>
     internal sealed class MapModel : Model
     {
-        internal static XmlNode XmlNode { get; private set; }
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
@@ -51,9 +50,7 @@ namespace WZIMopoly.Models.GameScene
                     culture: null
                 );
 
-                XmlNode = tileNode;
-
-                var tileView = new GUITile(tileModel);
+                var tileView = new GUITile(tileNode, tileModel);
 
                 IControllerable tileController = (IControllerable)Activator.CreateInstance(
                     type: tileControllerType,

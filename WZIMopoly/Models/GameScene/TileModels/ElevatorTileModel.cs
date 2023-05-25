@@ -10,7 +10,10 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="ElevatorTileModel"/> class.
         /// </summary>
-        internal ElevatorTileModel() : base() { }
+        /// <param name="node">
+        /// The XML node of the chance tile.
+        /// </param>
+        internal ElevatorTileModel(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
         internal override void OnStand(PlayerModel player) { }

@@ -10,6 +10,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="VendingMachineTileModel"/> class.
         /// </summary>
-        internal VendingMachineTileModel() : base() { }
+        /// <param name="node">
+        /// The XML node of the chance tile.
+        /// </param>
+        internal VendingMachineTileModel(XmlNode node) : base(node) { }
     }
 }

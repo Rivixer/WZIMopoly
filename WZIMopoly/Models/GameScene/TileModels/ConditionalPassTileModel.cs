@@ -15,9 +15,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileModel"/> class.
         /// </summary>
-        internal ConditionalPassTileModel() : base()
+        /// <param name="node">
+        /// The XML node containing the tile data.
+        /// </param>
+        internal ConditionalPassTileModel(XmlNode node) : base(node)
         {
-            Tax = int.Parse(MapModel.XmlNode.SelectSingleNode("tax").InnerText);
+            Tax = int.Parse(node.SelectSingleNode("tax").InnerText);
         }
 
         /// <inheritdoc/>
