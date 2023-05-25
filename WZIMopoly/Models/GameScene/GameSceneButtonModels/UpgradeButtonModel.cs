@@ -1,7 +1,7 @@
 ﻿namespace WZIMopoly.Models.GameScene.GameButtonModels
 {
     /// <summary>
-    /// Represents the sell button model.
+    /// Represents the upgrade button model.
     /// </summary>
     internal sealed class UpgradeButtonModel : ButtonModel
     {
