@@ -19,16 +19,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="RestroomTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node of the chance tile.
-        /// </param>
         /// <exception cref="ArgumentException">
         /// Thrown if the XML file data is invalid.
         /// </exception>
-        internal RestroomTileModel(XmlNode node) : base(node)
+        internal RestroomTileModel() : base()
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();
-            foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
+            foreach (XmlAttribute attribute in MapModel.XmlNode.SelectSingleNode("tax_prices").Attributes)
             {
                 if (!Enum.TryParse(attribute.Name, true, out RestroomAmount temp))
                 {

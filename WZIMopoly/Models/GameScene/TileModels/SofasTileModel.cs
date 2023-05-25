@@ -10,10 +10,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="SofasTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node of the chance tile.
-        /// </param>
-        internal SofasTileModel(XmlNode node) : base(node) { }
+        internal SofasTileModel() : base() { }
 
         /// <inheritdoc/>
         internal override void OnStand(PlayerModel player) { }
