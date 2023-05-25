@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
+using WZIMopoly.Utils.PositionExtenstions;
 
 namespace WZIMopoly.GUI
 {
@@ -187,11 +188,7 @@ namespace WZIMopoly.GUI
         public override void Recalculate()
         {
             ShiftRectangle();
-            var x = UnscaledDestinationRect.X * ScreenController.Width / 1920;
-            var y = UnscaledDestinationRect.Y * ScreenController.Height / 1080;
-            var width = UnscaledDestinationRect.Width * ScreenController.Width / 1920;
-            var height = UnscaledDestinationRect.Height * ScreenController.Height / 1080;
-            DestinationRect = new Rectangle(x, y, width, height);
+            DestinationRect = UnscaledDestinationRect.ToCurrentResolution();
         }
 
         /// <summary>
