@@ -27,6 +27,9 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The position of the tile.
         /// </summary>
+        /// <remarks>
+        /// The position specified for 1920x1080 resolution.
+        /// </remarks>
         private readonly Rectangle _position;
 
         /// <summary>
@@ -58,6 +61,14 @@ namespace WZIMopoly.GUI.GameScene
             int height = int.Parse(position.Attributes["y2"].Value) - y1;
             _position = new Rectangle(x1, y1, width, height);
         }
+
+        /// <summary>
+        /// Gets the position of the tile.
+        /// </summary>
+        /// <remarks>
+        /// The position specified for 1920x1080 resolution.
+        /// </remarks>
+        public Rectangle Position => _position;
 
         /// <summary>
         /// Returns the list of points where the pawns should be placed on the tile.
