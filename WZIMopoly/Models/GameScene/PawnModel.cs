@@ -5,10 +5,10 @@
     /// </summary>
     internal class PawnModel : Model
     {
-        /// <summary>
+        /// <value>
         /// The color of pawn.
-        /// </summary>
-        public readonly string Color;
+        /// </value>
+        public string Color { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PawnModel"/> class.

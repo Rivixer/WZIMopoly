@@ -10,7 +10,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The amount of ECTS to be paid.
         /// </summary>
-        public readonly int Tax;
+        public int Tax { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileModel"/> class.

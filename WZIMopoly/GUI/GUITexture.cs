@@ -13,17 +13,17 @@ namespace WZIMopoly.GUI
     internal class GUITexture : GUIElement
     {
         #region Fields
-        /// <summary>
+        /// <value>
         /// The destination rectangle of the element scaled to the current screen resolution.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// The X and Y coordinates refer to the top-left corner of the element.
         /// </remarks>
-        public Rectangle DestinationRect;
+        public Rectangle DestinationRect { get; private set; }
 
-        /// <summary>
+        /// <value>
         /// The destination rectangle of the element unscaled to the current screen resolution.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// <para>
         /// The rectangle is specified for 1920x1080 resolution.
@@ -32,7 +32,7 @@ namespace WZIMopoly.GUI
         /// The X and Y coordinates refer to the top-left corner of the element.
         /// </para>
         /// </remarks>
-        public Rectangle UnscaledDestinationRect;
+        public Rectangle UnscaledDestinationRect { get; private set; }
 
         /// <summary>
         /// The texture of the element.

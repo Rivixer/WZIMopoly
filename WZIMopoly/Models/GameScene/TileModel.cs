@@ -9,20 +9,20 @@ namespace WZIMopoly.Models.GameScene
     internal abstract class TileModel : Model
     {
         #region Fields
-        /// <summary>
+        /// <value>
         /// The name of the tile in English.
-        /// </summary>
-        public readonly string EnName;
+        /// </value>
+        public string EnName { get; private set; }
 
-        /// <summary>
+        /// <value>
         /// The name of the tile in Polish.
-        /// </summary>
-        public readonly string PlName;
+        /// </svalue>
+        public string PlName { get; private set; }
 
-        /// <summary>
+        /// <value>
         /// The id of the tile.
-        /// </summary>
-        public readonly int Id;
+        /// </value>
+        public int Id { get; private set; }
 
         ///<summary>
         ///The list of players.

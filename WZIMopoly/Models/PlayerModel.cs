@@ -9,10 +9,10 @@ namespace WZIMopoly.Models
     /// </summary>
     internal sealed class PlayerModel : Model
     {
-        /// <summary>
+        /// <value>
         /// The color of the player.
-        /// </summary>
-        public readonly string Color;
+        /// </value>
+        public string Color { get; private set; }
 
         /// <summary>
         /// The amount of money player has.

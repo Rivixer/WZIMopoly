@@ -7,10 +7,10 @@ namespace WZIMopoly.Models.GameScene
     /// </summary>
     internal sealed class DiceModel : Model
     {
-        /// <summary>
+        /// <value>
         /// The result of the last dice roll.
-        /// </summary>
-        public Tuple<int, int> LastRoll;
+        /// </valuey>
+        public Tuple<int, int> LastRoll { get; private set; }
 
         /// <summary>
         /// Pseudo-random numbers generator.

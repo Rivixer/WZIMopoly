@@ -7,13 +7,13 @@ namespace WZIMopoly.Models
     /// </summary>
     internal class ButtonModel : Model
     {
-        /// <summary>
+        /// <value>
         /// The name of the button.
-        /// </summary>
+        /// </value>
         /// <remarks>
         /// It is used to identify the button and load the texture.
         /// </remarks>
-        public readonly string Name;
+        public string Name { get; private set; }
 
         /// <summary>
         /// Whether the button is active.
