@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
@@ -53,10 +53,20 @@ namespace WZIMopoly.GUI
         /// </summary>
         private GUIStartPoint _startPoint;
 
+        /// <summary>
+        /// The opacity of the element.
+        /// </summary>
+        /// <remarks>
+        /// Value between 0f and 1f.
+        /// </remarks>
+        private readonly float _opacity;
+
+        /// <summary>
+        /// The path to the texture that will be drawn.
+        /// </summary>
         private readonly string _path;
         #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of <see cref="GUITexture"/> class.
         /// </summary>
@@ -66,21 +76,21 @@ namespace WZIMopoly.GUI
         /// <param name="defDstRect">
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
-        internal GUITexture(string path, Rectangle defDstRect)
-            : this(path, defDstRect, GUIStartPoint.TopLeft) { }
-
-        /// <inheritdoc cref="GUITexture(string, Rectangle)"/>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.
+        /// Defaults to <see cref="GUIStartPoint.TopLeft"/>.
         /// </param>
-        internal GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint)
+        /// <param name="opacity">
+        /// The opacity of the element. Must be between 0f and 1f. Defaults to 1f.
+        /// </param>
+        internal GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft, float opacity = 1f)
         {
             _startPoint = startPoint;
             _defaultDestinationRect = defDstRect;
             _path = path;
+            _opacity = opacity;
             Recalculate();
         }
-        #endregion
 
         #region Properties
         /// <summary>
@@ -175,7 +185,7 @@ namespace WZIMopoly.GUI
         {
             if (Texture is not null)
             {
-                spriteBatch.Draw(Texture, DestinationRect, Color.White);
+                spriteBatch.Draw(Texture, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
             }
         }
 
