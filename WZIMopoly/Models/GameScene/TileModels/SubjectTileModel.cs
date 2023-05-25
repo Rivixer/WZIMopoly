@@ -62,5 +62,27 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
         }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the <see cref="Grade"/> of the subject
+        /// to <see cref="SubjectGrade.Three"/>.
+        /// </remarks>
+        internal override void Purchase(PlayerModel player)
+        {
+            base.Purchase(player);
+            Grade = SubjectGrade.Three;
+        }
+
+        /// <inheritdoc/>
+        internal override void OnStand(PlayerModel player)
+        {
+            if (Owner != null && player != Owner)
+            {
+                int tax = TaxPrices[Grade];
+                player.Money -= tax;
+                Owner.Money += tax;
+            }
+        }
     }
 }

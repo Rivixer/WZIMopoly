@@ -7,17 +7,19 @@ namespace WZIMopoly.Models
     /// <summary>
     /// Represents a player.
     /// </summary>
-    internal sealed class PlayerModel : Model
+    internal class PlayerModel : Model
     {
-        /// <value>
-        /// The color of the player.
-        /// </value>
-        public string Color { get; private set; }
+
 
         /// <summary>
-        /// The amount of money player has.
+        /// The list of tiles purchased by the player.
         /// </summary>
-        private int _money = 1500;
+        private readonly List<PurchasableTileModel> _purchasedTiles = new();
+
+        /// <summary>
+        /// The color of the player.
+        /// </summary>
+        private readonly string _color;
 
         /// <summary>
         /// The nick of the player.
@@ -25,9 +27,9 @@ namespace WZIMopoly.Models
         private string _nick;
 
         /// <summary>
-        /// The list of tiles purchased by the player.
+        /// The amount of money player has.
         /// </summary>
-        readonly private List<PurchasableTileModel> _purchasedTiles = new();
+        private int _money = 1500;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
@@ -41,13 +43,14 @@ namespace WZIMopoly.Models
         public PlayerModel(string nick, string color)
         {
             _nick = nick;
-            Color = color;
+            _color = color;
         }
 
         /// <summary>
-        /// Gets or sets the player status.
+        /// Gets the color of the player.
         /// </summary>
-        public PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+        public string Color => _color;
+
 
         /// <summary>
         /// Gets or sets the player type.
@@ -64,35 +67,23 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
+        /// Gets or sets the amount of money the player has.
+        /// </summary>
+        public int Money
+        {
+            get => _money;
+            set => _money = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the player status.
+        /// </summary>
+        public PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+
+
+        /// <summary>
         /// Gets pucharsed tiles by the player.
         /// </summary>
         public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
-
-        /// <summary>
-        /// Gets the amount of money the player has.
-        /// </summary>
-        public int Money => _money;
-
-        /// <summary>
-        /// Increases the amount of money the player has.
-        /// </summary>
-        /// <param name="amount">
-        /// Amount of money which the player receive.
-        /// </param>
-        public void ReceiveMoney(int amount)
-        {
-            _money += amount;
-        }
-
-        /// <summary>
-        /// Decreases the amount of money the player has.
-        /// </summary>
-        /// <param name="amount">
-        /// Amount of money which the player lose.
-        /// </param>
-        public void LoseMoney(int amount)
-        {
-            _money -= amount;
-        }
     }
 }

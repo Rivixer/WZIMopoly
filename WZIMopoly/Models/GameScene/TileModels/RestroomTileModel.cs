@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using WZIMopoly.Enums;
 
@@ -36,6 +37,41 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 }
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
+        }
+
+        /// <inheritdoc/>
+        internal override void OnStand(PlayerModel player)
+        {
+            if (Owner != null && Owner != player)
+            {
+                RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
+                int tax = TaxPrices[ownerRestroomAmount];
+                player.Money -= tax;
+                Owner.Money += tax;
+            }
+        }
+
+        /// <summary>
+        /// Returns the amount of restrooms the owner has.
+        /// </summary>
+        /// <returns>
+        /// The amount of restrooms the owner has 
+        /// as the <see cref="RestroomAmount"/> enum.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// The owner has an invalid amount of restrooms.
+        /// </exception>
+        private RestroomAmount GetOwnerRestroomAmonut()
+        {
+            int? amount = Owner?.PurchasedTiles.Where(x => x is RestroomTileModel).Count();
+            return amount switch
+            {
+                1 => RestroomAmount.One,
+                2 => RestroomAmount.Two,
+                3 => RestroomAmount.Three,
+                4 => RestroomAmount.Four,
+                _ => throw new ArgumentException($"RestroomAmount with specified amount not exist: {amount}"),
+            };
         }
     }
 }

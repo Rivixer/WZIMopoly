@@ -27,13 +27,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <inheritdoc/>
         public override void OnStand(PlayerModel player)
         {
-            player.ReceiveMoney(_reward);
+            player.Money += _reward;
         }
 
         /// <inheritdoc/>
         void ICrossable.OnCross(PlayerModel player)
         {
-            player.ReceiveMoney(_reward);
+            player.Money += _reward;
         }
     }
 }
