@@ -103,9 +103,6 @@ namespace WZIMopoly.GUI
         /// <param name="maxChars">
         /// The maximum number of characters that can be entered.
         /// </param>
-        /// <remarks>
-        /// The color of the text is set to white.
-        /// </remarks>
         public GUIEditableText(string fontPath, Vector2 defPosition, Color color, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1, int maxChars = int.MaxValue)
             : base(fontPath, defPosition, color, startPoint, text, scale)
         {
