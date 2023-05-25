@@ -50,7 +50,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The place where <see cref="_defaultDestinationRect"/> has been specified.
         /// </summary>
-        private readonly GUIStartPoint _startPoint;
+        private GUIStartPoint _startPoint;
 
         private readonly string _path;
         #endregion
@@ -97,6 +97,26 @@ namespace WZIMopoly.GUI
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Sets new <see cref="_defaultDestinationRect"/>
+        /// and recalculates <see cref="DestinationRect"/>
+        /// and <see cref="UnscaledDestinationRect"/> fields.
+        /// </summary>
+        /// <param name="defDstRect">
+        /// The destination rectangle of the element
+        /// specified for 1920x1080 resolution.
+        /// </param>
+        /// <param name="startPoint">
+        /// The starting position of the element for which
+        /// <paramref name="defDstRect"/> has been specified.
+        /// </param>
+        public void SetNewDefDstRectangle(Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft) 
+        {
+            _defaultDestinationRect = defDstRect;
+            _startPoint = startPoint;
+            Recalculate();
+        }
+
         /// <summary>
         /// Shifts <see cref="_defaultDestinationRect"/> according to <see cref="_startPoint"/> field.
         /// </summary>

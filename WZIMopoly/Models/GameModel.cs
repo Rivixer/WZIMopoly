@@ -20,14 +20,9 @@ namespace WZIMopoly.Models
         internal GameStatus GameStatus { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of players.
-        /// </summary>
-        internal List<PlayerModel> Players { get; set; } = new();
-
-        /// <summary>
         /// Gets the current player.
         /// </summary>
-        internal PlayerModel CurrentPlayer => Players[_currentPlayerIndex];
+        internal PlayerModel CurrentPlayer => GameSettings.Players[_currentPlayerIndex];
 
         /// <summary>
         /// Gets or privately sets the game start time.
@@ -44,7 +39,7 @@ namespace WZIMopoly.Models
         /// </summary>
         internal void NextPlayer()
         {
-            if (++_currentPlayerIndex >= Players.Count)
+            if (++_currentPlayerIndex >= GameSettings.ActivePlayers.Count)
             {
                 _currentPlayerIndex = 0;
             }

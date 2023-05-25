@@ -51,6 +51,8 @@ namespace WZIMopoly.Controllers
         /// </summary>
         public override void Update()
         {
+            base.Update();
+
             var canBeClicked = 
                 Model.IsActive
                 && Model.Conditions()

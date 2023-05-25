@@ -56,14 +56,9 @@ namespace WZIMopoly.Scenes
         /// <inheritdoc/>
         public override void Initialize()
         {
-            Model.Players.Add(new PlayerModel("Player1", "Red"));
-            Model.Players.Add(new PlayerModel("Player2", "Blue"));
-            Model.Players.Add(new PlayerModel("Player3", "Green"));
-            Model.Players.Add(new PlayerModel("Player4", "Yellow"));
-
             _mapController = Model.InitializeChild<MapModel, GUIMap, MapController>();
             _mapController.Model.LoadTiles();
-            _mapController.Model.CreatePawns(Model.Players);
+            _mapController.Model.CreatePawns(GameSettings.Players);
 
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
             _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
@@ -77,12 +72,12 @@ namespace WZIMopoly.Scenes
         /// </summary>
         internal void StartGame()
         {
-            _mapController.Model.SetPlayersOnStart(Model.Players);
+            _mapController.Model.SetPlayersOnStart();
             _mapController.Model.UpdatePawnPositions();
             
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
-            Model.Players[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
+            GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
 
         /// <inheritdoc/>
@@ -107,7 +102,7 @@ namespace WZIMopoly.Scenes
         {
             var infoWidth = 500;
             var infoHeight = 200;
-            var players = Model.Players;
+            var players = GameSettings.Players;
             var positions = new List<Tuple<PlayerModel, Rectangle, GUIStartPoint>>()
             {
                 new(players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
