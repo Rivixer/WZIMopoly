@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
-using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.TileControllers;
 using WZIMopoly.GUI.GameScene;
@@ -20,10 +19,10 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
-        internal void LoadTiles()
+        internal List<TileController> LoadTiles()
         {
+            var tiles = new List<TileController>();
             var tilesXml = new XmlDocument();
-
 #if WINDOWS
             var path = "../../../Properties/Tiles.xml";
 #elif LINUX
@@ -52,7 +51,7 @@ namespace WZIMopoly.Models.GameScene
 
                 var tileView = new GUITile(tileNode, tileModel);
 
-                IControllerable tileController = (IControllerable)Activator.CreateInstance(
+                TileController tileController = (TileController)Activator.CreateInstance(
                     type: tileControllerType,
                     bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                     binder: null,
@@ -60,7 +59,9 @@ namespace WZIMopoly.Models.GameScene
                     culture: null
                 );
                 AddChild(tileController);
+                tiles.Add(tileController);
             }
+            return tiles;
         }
 
         /// <summary>
