@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameSceneButtonControllers
         /// <param name="view">
         /// The view of the end turn button controller.
         /// </param>
-        internal EndTurnButtonController(EndTurnButtonModel model, GUIEndTurnButton view)
+        public EndTurnButtonController(EndTurnButtonModel model, GUIEndTurnButton view)
             : base(model, view) { }
     }
 }

@@ -36,7 +36,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Restroom tile.
         /// </param>
-        internal RestroomTileController(RestroomTileModel model, GUITile view) 
+        public RestroomTileController(RestroomTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

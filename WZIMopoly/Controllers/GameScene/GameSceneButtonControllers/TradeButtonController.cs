@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
         /// <param name="view">
         /// The view of the trade button controller.
         /// </param>
-        internal TradeButtonController(TradeButtonModel model, GUITradeButton view)
+        public TradeButtonController(TradeButtonModel model, GUITradeButton view)
             : base(model, view) { }
     }
 }

@@ -75,7 +75,7 @@ namespace WZIMopoly.Scenes
         /// <summary>
         /// Starts the game.
         /// </summary>
-        internal void StartGame()
+        public void StartGame()
         {
             _mapController.Model.SetPlayersOnStart(Model.Players);
             _mapController.Model.UpdatePawnPositions();

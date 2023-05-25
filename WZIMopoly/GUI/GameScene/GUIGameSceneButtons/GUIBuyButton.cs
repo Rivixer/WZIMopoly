@@ -14,7 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the buy button.
         /// </param>
-        internal GUIBuyButton(BuyButtonModel model)
+        public GUIBuyButton(BuyButtonModel model)
             : base(model, new Rectangle(1012, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);

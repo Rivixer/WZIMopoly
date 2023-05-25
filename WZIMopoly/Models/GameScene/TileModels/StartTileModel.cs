@@ -19,13 +19,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
-        internal StartTileModel(XmlNode node) : base(node)
+        public StartTileModel(XmlNode node) : base(node)
         {
             _reward = int.Parse(node.SelectSingleNode("reward").InnerText);
         }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
+        public override void OnStand(PlayerModel player)
         {
             player.ReceiveMoney(_reward);
         }

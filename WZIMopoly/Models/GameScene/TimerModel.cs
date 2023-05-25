@@ -13,7 +13,7 @@ namespace WZIMopoly.Models.GameScene
         /// <value>
         /// The time since the game started.
         /// </value>
-        internal TimeSpan Time { get; private set; } = TimeSpan.Zero;
+        public TimeSpan Time { get; private set; } = TimeSpan.Zero;
 
         /// <summary>
         /// Updates <see cref="Time"/> with the current game time.
@@ -21,7 +21,7 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="actualTime">
         /// The current time.
         /// </param>
-        internal void UpdateTime(TimeSpan actualTime)
+        public void UpdateTime(TimeSpan actualTime)
         {
             Time = actualTime;
         }

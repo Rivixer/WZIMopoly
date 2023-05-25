@@ -16,7 +16,7 @@ namespace WZIMopoly.Utils
         /// <returns>
         /// The converted text.
         /// </returns>
-        internal static string ConvertSnakeCaseToPascalCase(string text)
+        public static string ConvertSnakeCaseToPascalCase(string text)
         {
             string pattern = @"(^|_)(\w)";
             var regex = new Regex(pattern);

@@ -106,7 +106,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="startPoint">
         /// The place where <paramref name="defDstRect"/> has been specified.
         /// </param>
-        internal GUIPlayerInfo(PlayerInfoModel model, Rectangle defDstRect, GUIStartPoint startPoint)
+        public GUIPlayerInfo(PlayerInfoModel model, Rectangle defDstRect, GUIStartPoint startPoint)
         {
             _playerInfoModel = model;
             _defDstRect = defDstRect;

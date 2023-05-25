@@ -20,7 +20,7 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
-        internal void LoadTiles()
+        public void LoadTiles()
         {
             var tilesXml = new XmlDocument();
 
@@ -72,7 +72,7 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="players">
         /// The list of players to create pawns for.
         /// </param>
-        internal void CreatePawns(List<PlayerModel> players)
+        public void CreatePawns(List<PlayerModel> players)
         {
             foreach (PlayerModel player in players)
             {
@@ -89,7 +89,7 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="players">
         /// The list of players to be set on the start tile.
         /// </param>
-        internal void SetPlayersOnStart(List<PlayerModel> players)
+        public void SetPlayersOnStart(List<PlayerModel> players)
         {
             var tiles = GetAllControllers<TileController>();
             tiles.ForEach(x => x.Model.Players.Clear());
@@ -114,7 +114,7 @@ namespace WZIMopoly.Models.GameScene
         /// If the player crosses the <see cref="ICrossable"/> tile,
         /// the <see cref="ICrossable.OnCross"/> method is called.
         /// </remarks>
-        internal void MovePlayer(PlayerModel player, uint step)
+        public void MovePlayer(PlayerModel player, uint step)
         {
             if (step == 0)
             {
@@ -148,7 +148,7 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Updates positions of all pawns.
         /// </summary>
-        internal void UpdatePawnPositions()
+        public void UpdatePawnPositions()
         {
             foreach (var tile in GetAllControllers<TileController>())
             {

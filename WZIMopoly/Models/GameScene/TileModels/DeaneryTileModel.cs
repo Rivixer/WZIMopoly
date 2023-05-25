@@ -13,9 +13,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
-        internal DeaneryTileModel(XmlNode node) : base(node) { }
+        public DeaneryTileModel(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
+        public override void OnStand(PlayerModel player) { }
     }
 }

@@ -41,7 +41,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <exception cref="ArgumentException">
         /// The XML tile data is invalid.
         /// </exception>
-        internal GUITile(XmlNode node, TileModel model)
+        public GUITile(XmlNode node, TileModel model)
         {
             _model = model;
 
@@ -68,7 +68,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <returns>
         /// The list of points where the pawns should be placed.
         /// </returns>
-        internal List<Point> GetPawnPositions()
+        public List<Point> GetPawnPositions()
         {
             List<Point> positions = new();
             switch (_model.Players.Count)

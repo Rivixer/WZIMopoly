@@ -10,7 +10,7 @@ namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
         /// <summary>
         /// Initializes a new instance of the <see cref="EndTurnButtonModel"/> class.
         /// </summary>
-        internal EndTurnButtonModel()
+        public EndTurnButtonModel()
             : base("EndTurn") { }
 
         /// <inheritdoc/>

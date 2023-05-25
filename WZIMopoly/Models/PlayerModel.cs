@@ -12,7 +12,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The color of the player.
         /// </summary>
-        internal readonly string Color;
+        public readonly string Color;
 
         /// <summary>
         /// The amount of money player has.
@@ -38,7 +38,7 @@ namespace WZIMopoly.Models
         /// <param name="color">
         /// The color of the player.
         /// </param>
-        internal PlayerModel(string nick, string color)
+        public PlayerModel(string nick, string color)
         {
             _nick = nick;
             Color = color;
@@ -47,17 +47,17 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the player status.
         /// </summary>
-        internal PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+        public PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
 
         /// <summary>
         /// Gets or sets the player type.
         /// </summary>
-        internal PlayerType PlayerType { get; set; } = PlayerType.None;
+        public PlayerType PlayerType { get; set; } = PlayerType.None;
 
         /// <summary>
         /// Gets or sets the nick of the player.
         /// </summary>
-        internal string Nick
+        public string Nick
         {
             get => _nick;
             set => _nick = value;
@@ -66,12 +66,12 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets pucharsed tiles by the player.
         /// </summary>
-        internal List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
+        public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
 
         /// <summary>
         /// Gets the amount of money the player has.
         /// </summary>
-        internal int Money => _money;
+        public int Money => _money;
 
         /// <summary>
         /// Increases the amount of money the player has.
@@ -79,7 +79,7 @@ namespace WZIMopoly.Models
         /// <param name="amount">
         /// Amount of money which the player receive.
         /// </param>
-        internal void ReceiveMoney(int amount)
+        public void ReceiveMoney(int amount)
         {
             _money += amount;
         }
@@ -90,7 +90,7 @@ namespace WZIMopoly.Models
         /// <param name="amount">
         /// Amount of money which the player lose.
         /// </param>
-        internal void LoseMoney(int amount)
+        public void LoseMoney(int amount)
         {
             _money -= amount;
         }

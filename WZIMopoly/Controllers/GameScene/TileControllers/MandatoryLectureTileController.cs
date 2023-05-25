@@ -49,7 +49,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Mandatory Lecture tile.
         /// </param> 
-        internal MandatoryLectureTileController(MandatoryLectureTileModel model, GUITile view) 
+        public MandatoryLectureTileController(MandatoryLectureTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

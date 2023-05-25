@@ -53,7 +53,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Subject tile.
         /// </param>
-        internal SubjectTileController(SubjectTileModel model, GUITile view) 
+        public SubjectTileController(SubjectTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

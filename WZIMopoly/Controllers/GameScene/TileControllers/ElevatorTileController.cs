@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Elevator tile.
         /// </param>
-        internal ElevatorTileController(ElevatorTileModel model, GUITile view) 
+        public ElevatorTileController(ElevatorTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

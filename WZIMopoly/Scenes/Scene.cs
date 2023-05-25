@@ -24,7 +24,7 @@ namespace WZIMopoly.Scenes
         /// <param name="model">
         /// The model of the controller.
         /// </param>
-        internal Scene(_M model, _V view) : base(model, view) { }
+        public Scene(_M model, _V view) : base(model, view) { }
 
         /// <summary>
         /// Initializes the scene.

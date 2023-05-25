@@ -19,7 +19,7 @@ namespace WZIMopoly.GUI
         /// <remarks>
         /// The X and Y coordinates refer to the top-left corner of the element.
         /// </remarks>
-        internal Rectangle DestinationRect;
+        public Rectangle DestinationRect;
 
         /// <summary>
         /// The destination rectangle of the element unscaled to the current screen resolution.
@@ -32,7 +32,7 @@ namespace WZIMopoly.GUI
         /// The X and Y coordinates refer to the top-left corner of the element.
         /// </para>
         /// </remarks>
-        internal Rectangle UnscaledDestinationRect;
+        public Rectangle UnscaledDestinationRect;
 
         /// <summary>
         /// The texture of the element.
@@ -65,14 +65,14 @@ namespace WZIMopoly.GUI
         /// <param name="defDstRect">
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
-        internal GUITexture(string path, Rectangle defDstRect)
+        public GUITexture(string path, Rectangle defDstRect)
             : this(path, defDstRect, GUIStartPoint.TopLeft) { }
 
         /// <inheritdoc cref="GUITexture(string, Rectangle)"/>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.
         /// </param>
-        internal GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint)
+        public GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint)
         {
             _startPoint = startPoint;
             _defaultDestinationRect = defDstRect;

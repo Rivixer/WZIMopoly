@@ -14,22 +14,22 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The price for upgrading subject.
         /// </summary>
-        internal readonly int UpgradePrice;
+        public readonly int UpgradePrice;
 
         /// <summary>
         /// A dictionary containing the tax prices for each subject grade.
         /// </summary>
-        internal readonly Dictionary<SubjectGrade, int> TaxPrices;
+        public readonly Dictionary<SubjectGrade, int> TaxPrices;
 
         /// <summary>
         /// The color representing the section of the tile.
         /// </summary>
-        internal readonly SubjectColor Color;
+        public readonly SubjectColor Color;
 
         /// <summary>
         /// The grade of the subject.
         /// </summary>
-        internal SubjectGrade Grade;
+        public SubjectGrade Grade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
@@ -40,7 +40,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <exception cref="ArgumentException">
         /// Thrown if the XML file data is invalid.
         /// </exception>
-        internal SubjectTileModel(XmlNode node) : base(node)
+        public SubjectTileModel(XmlNode node) : base(node)
         {
             Grade = SubjectGrade.Two;
             UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);

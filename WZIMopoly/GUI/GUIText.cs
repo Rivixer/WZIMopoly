@@ -88,7 +88,7 @@ namespace WZIMopoly.GUI
         /// <remarks>
         /// The <see cref="Color"/> property is set to white and the <see cref="Text"/> property is empty by default.
         /// </remarks>
-        internal GUIText(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1.0f)
+        public GUIText(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1.0f)
             : this(fontPath, defPosition, Color.White, startPoint, text, scale) { }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace WZIMopoly.GUI
         /// The scale of the text. <br/>
         /// Defaults to 1.0f.
         /// </param>
-        internal GUIText(string fontPath, Vector2 defPosition, Color color, GUIStartPoint startPoint, string text = "", float scale = 1.0f)
+        public GUIText(string fontPath, Vector2 defPosition, Color color, GUIStartPoint startPoint, string text = "", float scale = 1.0f)
         {
             _fontPath = fontPath;
             _defaultPosition = defPosition;
@@ -132,7 +132,7 @@ namespace WZIMopoly.GUI
         /// <value>
         /// The text to display.
         /// </value>
-        internal string Text
+        public string Text
         {
             get => _text;
             set

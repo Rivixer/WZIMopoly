@@ -13,7 +13,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// A dictionary containing the tax prices for each restroom amount.
         /// </summary>
-        internal readonly Dictionary<RestroomAmount, int> TaxPrices;
+        public readonly Dictionary<RestroomAmount, int> TaxPrices;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RestroomTileModel"/> class.
@@ -24,7 +24,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <exception cref="ArgumentException">
         /// Thrown if the XML file data is invalid.
         /// </exception>
-        internal RestroomTileModel(XmlNode node) : base(node)
+        public RestroomTileModel(XmlNode node) : base(node)
         {
             TaxPrices = new Dictionary<RestroomAmount, int>();
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)

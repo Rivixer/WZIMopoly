@@ -14,7 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the sell button.
         /// </param>
-        internal GUIUpgradeButton(UpgradeButtonModel model)
+        public GUIUpgradeButton(UpgradeButtonModel model)
             : base(model, new Rectangle(752, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);

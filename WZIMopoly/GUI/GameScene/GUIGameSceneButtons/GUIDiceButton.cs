@@ -30,7 +30,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the dice button.
         /// </param>
-        internal GUIDiceButton(DiceButtonModel model)
+        public GUIDiceButton(DiceButtonModel model)
             : base(model, new Rectangle(882, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);

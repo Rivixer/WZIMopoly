@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="view">
         /// The view of the map controller.
         /// </param>
-        internal MapController(MapModel model, GUIMap view)
+        public MapController(MapModel model, GUIMap view)
             : base(model, view) { }
     }
 }

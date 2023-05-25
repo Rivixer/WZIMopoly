@@ -49,7 +49,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the timer.
         /// </param>
-        internal GUITimer(TimerModel model)
+        public GUITimer(TimerModel model)
         {
             _timerModel = model;
             _defRectangle = new Rectangle(960, 0, 170, 54);

@@ -8,7 +8,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="MortgageButtonModel"/> class.
         /// </summary>
-        internal MortgageButtonModel()
+        public MortgageButtonModel()
             : base("Mortgage") { }
     }
 }

@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameSceneButtonControllers
         /// <param name="view">
         /// The view of the settings button controller.
         /// </param>
-        internal SettingsButtonController(SettingsButtonModel model, GUISettingsButton view)
+        public SettingsButtonController(SettingsButtonModel model, GUISettingsButton view)
             : base(model, view) { }
     }
 }

@@ -11,7 +11,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         /// <summary>
         /// Initializes a new instance of the <see cref="BuyButtonModel"/> class.
         /// </summary>
-        internal BuyButtonModel()
+        public BuyButtonModel()
             : base("Buy") { }
 
         /// <inheritdoc/>

@@ -8,7 +8,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="TradeButtonModel"/> class.
         /// </summary>
-        internal TradeButtonModel()
+        public TradeButtonModel()
             : base("Trade") { }
     }
 }

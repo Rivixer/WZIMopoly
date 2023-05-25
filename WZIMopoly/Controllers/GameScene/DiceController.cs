@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="view">
         /// The view of the dice controller.
         /// </param>
-        internal DiceController(DiceModel model, GUIDice view) 
+        public DiceController(DiceModel model, GUIDice view) 
             : base(model, view) { }
     }
 }

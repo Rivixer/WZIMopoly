@@ -8,7 +8,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsButtonModel"/> class.
         /// </summary>
-        internal SettingsButtonModel()
+        public SettingsButtonModel()
             : base("Settings") { }
     }
 }

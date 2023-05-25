@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
         /// <param name="view">
         /// The view of the sell button controller.
         /// </param>
-        internal UpgradeButtonController(UpgradeButtonModel model, GUIUpgradeButton view)
+        public UpgradeButtonController(UpgradeButtonModel model, GUIUpgradeButton view)
             : base(model, view) { }
     }
 }

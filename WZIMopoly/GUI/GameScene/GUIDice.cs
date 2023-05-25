@@ -48,7 +48,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the dice.
         /// </param>
-        internal GUIDice(DiceModel model)
+        public GUIDice(DiceModel model)
         {
             _model = model;
             _firstDiceTextures = new List<GUITexture>();

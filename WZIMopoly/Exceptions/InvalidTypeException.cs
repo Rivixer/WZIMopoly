@@ -13,6 +13,6 @@ namespace WZIMopoly.Exceptions
         /// <param name="message">
         /// The message of the exception.
         /// </param>
-        internal InvalidTypeException(string message) : base(message) { }
+        public InvalidTypeException(string message) : base(message) { }
     }
 }

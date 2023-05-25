@@ -35,7 +35,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Vending Machine tile.
         /// </param>
-        internal VendingMachineTileController(VendingMachineTileModel model, GUITile view) 
+        public VendingMachineTileController(VendingMachineTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

@@ -32,7 +32,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Start tile.
         /// </param>
-        internal StartTileController(StartTileModel model, GUITile view) 
+        public StartTileController(StartTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

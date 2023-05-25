@@ -22,7 +22,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="view">
         /// The view of the timer information.
         /// </param>
-        internal TimerController(TimerModel model, GUITimer view)
+        public TimerController(TimerModel model, GUITimer view)
             : base(model, view) { }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="actualTime">
         /// The actual time in the game.
         /// </param>
-        internal void UpdateTime(TimeSpan actualTime)
+        public void UpdateTime(TimeSpan actualTime)
         {
             Model.UpdateTime(actualTime);
         }

@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets or privately sets the player model.
         /// </summary>
-        internal PlayerModel Player { get; private set; }
+        public PlayerModel Player { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerInfoModel"/> class.
@@ -16,7 +16,7 @@
         /// <param name="player">
         /// The player model.
         /// </param>
-        internal PlayerInfoModel(PlayerModel player)
+        public PlayerInfoModel(PlayerModel player)
         {
             Player = player;
         }

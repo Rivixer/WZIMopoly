@@ -14,7 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the mortgage button.
         /// </param>
-        internal GUIMortgageButton(MortgageButtonModel model)
+        public GUIMortgageButton(MortgageButtonModel model)
             : base(model, new Rectangle(622, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);

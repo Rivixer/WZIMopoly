@@ -18,10 +18,10 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="node">
         /// The XML node of the chance tile.
         /// </param>
-        internal ChanceTileModel(XmlNode node) : base(node) { }
+        public ChanceTileModel(XmlNode node) : base(node) { }
 
         /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
+        public override void OnStand(PlayerModel player) { }
 
         /// <summary>
         /// Draws a chance card.
@@ -29,7 +29,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <returns>
         /// The chance card drawn.
         /// </returns>
-        internal ChanceCard Draw()
+        public ChanceCard Draw()
         {
             throw new NotImplementedException();
         }

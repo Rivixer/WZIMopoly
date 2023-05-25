@@ -27,7 +27,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <sumary>
         /// Initializes a new instance of the <see cref="GUIMap"/> class.
         /// </summary>
-        internal GUIMap() { 
+        public GUIMap() { 
             _background = new GUITexture("Images/Board", new Rectangle(0, 0, 1920, 1080));
             _names = new GUITexture("Images/TileNamesPL", new Rectangle(0, 0, 1920, 1080));
             _prices = new GUITexture("Images/TilePrices", new Rectangle(0, 0, 1920, 1080));

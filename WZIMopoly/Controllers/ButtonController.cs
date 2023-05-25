@@ -27,12 +27,12 @@ namespace WZIMopoly.Controllers
         /// The delegate used to define the signature of methods 
         /// that can handle the ButtonClick event.
         /// </summary>
-        internal delegate void ButtonClickedHandler();
+        public delegate void ButtonClickedHandler();
 
         /// <summary>
         /// The event that is invoked when the button is clicked.
         /// </summary>
-        internal event ButtonClickedHandler OnButtonClicked;
+        public event ButtonClickedHandler OnButtonClicked;
 
         /// <summary>
         /// The method called when the button is clicked.
@@ -80,7 +80,7 @@ namespace WZIMopoly.Controllers
         /// <param name="model">
         /// The model of the button controller.
         /// </param>
-        internal ButtonController(M model, V view)
+        public ButtonController(M model, V view)
             : base(model, view) { }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace WZIMopoly.Controllers
         /// <value>
         /// The specified model of the button.
         /// </value>
-        internal new M Model => (M)base.Model;
+        public new M Model => (M)base.Model;
 
         /// <summary>
         /// Gets the view of the button.
@@ -97,6 +97,6 @@ namespace WZIMopoly.Controllers
         /// <value>
         /// The specified view of the button.
         /// </value>
-        internal new V View => (V)base.View;
+        public new V View => (V)base.View;
     }
 }

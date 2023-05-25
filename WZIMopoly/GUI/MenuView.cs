@@ -10,7 +10,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuView"/> class.
         /// </summary>
-        internal MenuView()
+        public MenuView()
             : base("Images/MenuScreen", new Rectangle(0, 0, 1920, 1080)) { }
     }
 }

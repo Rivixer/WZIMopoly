@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
         /// <param name="view">
         /// The view of the mortgage button controller.
         /// </param>
-        internal MortgageButtonController(MortgageButtonModel model, GUIMortgageButton view)
+        public MortgageButtonController(MortgageButtonModel model, GUIMortgageButton view)
             : base(model, view) { }
     }
 }

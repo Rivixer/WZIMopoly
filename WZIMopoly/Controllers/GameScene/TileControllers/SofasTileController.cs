@@ -28,7 +28,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Sofas tile.
         /// </param>
-        internal SofasTileController(SofasTileModel model, GUITile view) 
+        public SofasTileController(SofasTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

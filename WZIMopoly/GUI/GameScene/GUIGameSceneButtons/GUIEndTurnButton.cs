@@ -14,7 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the end turn button.
         /// </param>
-        internal GUIEndTurnButton(EndTurnButtonModel model)
+        public GUIEndTurnButton(EndTurnButtonModel model)
             : base(model, new Rectangle(882, 930, 160, 160), disableTexture: false)
         {
             SetButtonHoverArea(5, 0.8f);

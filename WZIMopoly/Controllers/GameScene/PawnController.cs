@@ -18,7 +18,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="view">
         /// The view of the pawn.
         /// </param>
-        internal PawnController(PawnModel model, GUIPawn view)
+        public PawnController(PawnModel model, GUIPawn view)
             : base(model, view) { }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// The new position of the pawn.<br/>
         /// It refers to the top-left corner.
         /// </param>
-        internal void UpdatePosition(Point position)
+        public void UpdatePosition(Point position)
         {
             View.UpdatePosition(position);
         }

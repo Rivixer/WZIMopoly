@@ -8,7 +8,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="UpgradeButtonModel"/> class.
         /// </summary>
-        internal UpgradeButtonModel()
+        public UpgradeButtonModel()
             : base("Upgrade") { }
     }
 }

@@ -17,7 +17,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
         /// <param name="view">
         /// The view of the buy button controller.
         /// </param>
-        internal BuyButtonController(BuyButtonModel model, GUIBuyButton view)
+        public BuyButtonController(BuyButtonModel model, GUIBuyButton view)
             : base(model, view) { }
     }
 }

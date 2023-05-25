@@ -21,7 +21,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <param name="view">
         /// The view of the player information.
         /// </param>
-        internal PlayerInfoController(PlayerInfoModel model, GUIPlayerInfo view)
+        public PlayerInfoController(PlayerInfoModel model, GUIPlayerInfo view)
             : base (model, view) { }
     }
 }

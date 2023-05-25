@@ -13,12 +13,12 @@ namespace WZIMopoly.Models
         /// <remarks>
         /// It is used to identify the button and load the texture.
         /// </remarks>
-        internal readonly string Name;
+        public readonly string Name;
 
         /// <summary>
         /// Whether the button is active.
         /// </summary>
-        internal bool IsActive = true;
+        public bool IsActive = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ButtonModel"/> class.
@@ -27,7 +27,7 @@ namespace WZIMopoly.Models
         /// The name of the button.<br/>
         /// Used to identify the button and load the texture.
         /// </param>
-        internal ButtonModel(string name)
+        public ButtonModel(string name)
         {
             Name = name;
         }

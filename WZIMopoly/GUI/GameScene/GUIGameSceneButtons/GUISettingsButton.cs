@@ -14,7 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <param name="model">
         /// The model of the settings button.
         /// </param>
-        internal GUISettingsButton(SettingsButtonModel model)
+        public GUISettingsButton(SettingsButtonModel model)
             : base(model, new Rectangle(60, 200, 160, 160))
         {
             SetButtonHoverArea(5, 0.7f);

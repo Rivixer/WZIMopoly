@@ -28,7 +28,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
         /// <param name="view">
         /// The view of the Deanery tile.
         /// </param>
-        internal DeaneryTileController(DeaneryTileModel model, GUITile view) 
+        public DeaneryTileController(DeaneryTileModel model, GUITile view) 
             : base(model, view) { }
     }
 }

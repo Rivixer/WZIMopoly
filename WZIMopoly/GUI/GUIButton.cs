@@ -114,7 +114,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// Whether the mouse cursor is in the button's hover area.
         /// </summary>
-        internal bool IsHovered => MouseController.IsHover(_isInHoverArea);
+        public bool IsHovered => MouseController.IsHover(_isInHoverArea);
 
         /// <summary>
         /// Creates a rounded rectangle hover area for the button
@@ -163,7 +163,7 @@ namespace WZIMopoly.GUI
         /// is in the destination rectangle and in the hover area.<br/>
         /// Defaults to <c>true</c>.
         /// </param>
-        internal void SetButtonHoverArea(int factor, float scale, bool onlyIfInRect = true)
+        public void SetButtonHoverArea(int factor, float scale, bool onlyIfInRect = true)
         {
             // I hate this function - Wiktor
             _isInHoverArea = (Point p) =>
@@ -245,7 +245,7 @@ namespace WZIMopoly.GUI
         /// Resets the hover area of the button
         /// to the <see cref="GUIElement.DestinationRect"/> of the button.
         /// </summary>
-        internal void ResetButtonHoverArea()
+        public void ResetButtonHoverArea()
         {
             _isInHoverArea = (Point p) => Texture.DestinationRect.Contains(p);
         }
