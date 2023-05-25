@@ -9,6 +9,9 @@
         /// Initializes a new instance of the <see cref="NewGameButtonModel"/> class.
         /// </summary>
         public NewGameButtonModel()
-            : base("MenuNew") { }
+            : base("MenuNew")
+        {
+            IsActive = true;
+        }
     }
 }

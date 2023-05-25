@@ -10,5 +10,11 @@
         /// </summary>
         public StartGameButtonModel()
             : base("LobbyStart") { }
+
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            IsActive = GameSettings.ActivePlayers.Count >= 2;
+        }
     }
 }

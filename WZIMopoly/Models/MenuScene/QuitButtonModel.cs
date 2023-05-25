@@ -9,6 +9,9 @@
         /// Initializes a new instance of the <see cref="QuitButtonModel"/> class.
         /// </summary>
         public QuitButtonModel()
-            : base("MenuQuit") { }
+            : base("MenuQuit")
+        {
+            IsActive = true;
+        }
     }
 }

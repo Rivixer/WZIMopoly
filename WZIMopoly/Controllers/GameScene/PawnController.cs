@@ -20,17 +20,5 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         internal PawnController(PawnModel model, GUIPawn view)
             : base(model, view) { }
-
-        /// <summary>
-        /// Updates the position of the pawn.
-        /// </summary>
-        /// <param name="position">
-        /// The new position of the pawn.<br/>
-        /// It refers to the top-left corner.
-        /// </param>
-        internal void UpdatePosition(Point position)
-        {
-            View.UpdatePosition(position);
-        }
     }
 }

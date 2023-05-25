@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.TileModels;
 
@@ -13,6 +13,11 @@ namespace WZIMopoly.Models
         /// The list of tiles purchased by the player.
         /// </summary>
         private readonly List<PurchasableTileModel> _purchasedTiles = new();
+
+        /// <summary>
+        /// The default nick of the player.
+        /// </summary>
+        private readonly string _defaultNick;
 
         /// <summary>
         /// The color of the player.
@@ -38,10 +43,12 @@ namespace WZIMopoly.Models
         /// <param name="color">
         /// The color of the player.
         /// </param>
-        internal PlayerModel(string nick, string color)
+        internal PlayerModel(string defaultNick, string color, PlayerType type = PlayerType.None)
         {
-            _nick = nick;
+            _defaultNick = defaultNick;
+            _nick = defaultNick;
             _color = color;
+            PlayerType = type;
         }
 
         /// <summary>
@@ -81,5 +88,13 @@ namespace WZIMopoly.Models
         /// Gets pucharsed tiles by the player.
         /// </summary>
         public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
+
+        /// <summary>
+        /// Resets the nick of the player to the default one.
+        /// </summary>
+        public void ResetNick()
+        {
+            _nick = _defaultNick;
+        }
     }
 }
