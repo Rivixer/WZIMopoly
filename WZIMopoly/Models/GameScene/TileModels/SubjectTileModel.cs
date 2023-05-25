@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using WZIMopoly.Enums;
@@ -48,7 +48,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
 
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
             {
-                if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
+                if (!Enum.TryParse(NamingConverter.ConvertSnakeCaseToPascalCase(attribute.Name), true, out SubjectGrade temp))
                 {
                     throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
                         $" in tile node with {Id} id");
