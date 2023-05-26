@@ -16,6 +16,30 @@ namespace WZIMopoly.Models.GameScene
     internal class MapModel : Model
     {
         /// <summary>
+        /// Activates all <see cref="ICrossable"/> tiles that the player has passed.
+        /// </summary>
+        /// <param name="player">
+        /// The player that has passed the tiles.
+        /// </param>
+        /// <param name="passedTiles">
+        /// The list of tiles that the player has passed.
+        /// </param>
+        public static void ActivateCrossableTiles(PlayerModel player, List<TileModel> passedTiles)
+        {
+            foreach (var tile in passedTiles)
+            {
+                (tile as ICrossable)?.OnCross(player);
+            }
+        }
+
+        /// <inheritdoc cref="ActivateCrossableTiles(PlayerModel, List{TileModel})"/>
+        public static void ActivateCrossableTiles(PlayerModel player, List<TileController> passedTiles)
+        {
+            var passedTileModels = passedTiles.Select(x => x.Model).ToList();
+            ActivateCrossableTiles(player, passedTileModels);
+        }
+
+        /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
         /// <returns>
@@ -82,7 +106,7 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="players">
         /// The list of players to create pawns for.
         /// </param>
-        internal void CreatePawns(List<PlayerModel> players)
+        public void CreatePawns(List<PlayerModel> players)
         {
             foreach (PlayerModel player in players)
             {
@@ -96,7 +120,7 @@ namespace WZIMopoly.Models.GameScene
         /// <remarks>
         /// Clears all players from other tiles.
         /// </remarks>
-        internal void SetPlayersOnStart()
+        public void SetPlayersOnStart()
         {
             var tiles = GetAllControllers<TileController>();
             tiles.ForEach(x => x.Model.Players.Clear());
@@ -124,7 +148,7 @@ namespace WZIMopoly.Models.GameScene
         /// If the player crosses the <see cref="ICrossable"/> tile,
         /// the <see cref="ICrossable.OnCross"/> method is called.
         /// </remarks>
-        internal List<TileController> MovePlayer(PlayerModel player, uint step)
+        public List<TileController> MovePlayer(PlayerModel player, uint step)
         {
             if (step == 0)
             {
@@ -162,30 +186,6 @@ namespace WZIMopoly.Models.GameScene
         {
             var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
             tile.Model.OnPlayerStand(player);
-        }
-
-        /// <summary>
-        /// Activates all <see cref="ICrossable"/> tiles that the player has passed.
-        /// </summary>
-        /// <param name="player">
-        /// The player that has passed the tiles.
-        /// </param>
-        /// <param name="passedTiles">
-        /// The list of tiles that the player has passed.
-        /// </param>
-        private static void ActivateCrossableTiles(PlayerModel player, List<TileModel> passedTiles)
-        {
-            foreach (var tile in passedTiles)
-            {
-                (tile as ICrossable)?.OnCross(player);
-            }
-        }
-
-        /// <inheritdoc cref="ActivateCrossableTiles(PlayerModel, List{TileModel})"/>
-        public static void ActivateCrossableTiles(PlayerModel player, List<TileController> passedTiles)
-        {
-            var passedTileModels = passedTiles.Select(x => x.Model).ToList();
-            ActivateCrossableTiles(player, passedTileModels);
         }
 
         /// <summary>
