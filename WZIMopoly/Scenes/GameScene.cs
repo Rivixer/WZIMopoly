@@ -81,7 +81,7 @@ namespace WZIMopoly.Scenes
         internal void StartGame()
         {
             _mapController.Model.SetPlayersOnStart();
-            _mapController.Model.UpdatePawnPositions();
+            _mapController.View.UpdatePawnPositions();
             
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
@@ -135,13 +135,13 @@ namespace WZIMopoly.Scenes
         {
             var diceModel = _diceController.Model;
             var mapModel = _mapController.Model;
+            var mapView = _mapController.View;
 
             // Mortage button
             Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
 
             // Upgrade button
-            var subjectTiles = Model.GetAllModelsRecursively<SubjectTileModel>();
-            var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>(subjectTiles);
+            var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
             upgradeButton.OnButtonClicked += () =>
             {
                 if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields)
@@ -168,7 +168,11 @@ namespace WZIMopoly.Scenes
                 await Task.Delay(350);
 
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
-                mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                mapView.UpdatePawnPositions();
+                
             };
             endTurnButton.OnButtonClicked += () =>
             {
