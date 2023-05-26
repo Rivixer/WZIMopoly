@@ -1,12 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using WZIMopoly.Engine;
 
-namespace WZIMopoly.Utils.PositionExtenstions
+namespace WZIMopoly.Utils.PositionExtensions
 {
     /// <summary>
     /// Provides extension methods for <see cref="Rectangle"/> and <see cref="Vector2"/>.
     /// </summary>
-    internal static class PositionExtenstions
+    internal static class PositionExtensions
     {
         /// <summary>
         /// Converts the rectangle to the current resolution.

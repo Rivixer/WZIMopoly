@@ -1,9 +1,9 @@
-﻿using WZIMopoly.Engine;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
-using WZIMopoly.Utils.PositionExtenstions;
+using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.Controllers.GameScene
 {

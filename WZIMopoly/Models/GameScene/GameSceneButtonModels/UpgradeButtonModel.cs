@@ -51,11 +51,6 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         {
             foreach(var tile in player.PurchasedTiles)
             {
-                if (tile is SubjectTileModel tt)
-                {
-                    Debug.WriteLine(tile.PlName + " " + tt.CanUpgrade(player, _subjectTiles));
-                }
-                
                 if (tile is SubjectTileModel t && t.CanUpgrade(player, _subjectTiles))
                 {
                     return true;

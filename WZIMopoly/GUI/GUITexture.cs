@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
-using WZIMopoly.Utils.PositionExtenstions;
+using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI
 {

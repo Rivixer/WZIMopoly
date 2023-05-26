@@ -9,7 +9,7 @@ using WZIMopoly.Enums;
 using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
-using WZIMopoly.Utils.PositionExtenstions;
+using WZIMopoly.Utils.PositionExtensions;
 
 #nullable enable
 
