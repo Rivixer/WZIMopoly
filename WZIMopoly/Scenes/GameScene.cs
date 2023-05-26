@@ -101,6 +101,34 @@ namespace WZIMopoly.Scenes
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+#if DEBUG
+            // Click a key on the keyboard to move the current player a certain number of steps.
+            List<Keys> clickedKeys = KeyboardController.GetAllClickedKeys();
+            if (clickedKeys.Count > 0)
+            {
+                int stepToMove = clickedKeys[0] switch
+                {
+                    Keys.D1 => 1,
+                    Keys.D2 => 2,
+                    Keys.D3 => 3,
+                    Keys.D4 => 4,
+                    Keys.D5 => 5,
+                    Keys.D6 => 6,
+                    Keys.D7 => 7,
+                    Keys.D8 => 8,
+                    Keys.D9 => 9,
+                    _ => 0,
+                };
+                if (stepToMove > 0)
+                {
+                    var passedTiles = _mapController.Model.MovePlayer(Model.CurrentPlayer, (uint)stepToMove);
+                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    _mapController.Model.ActivateOnStandTile(Model.CurrentPlayer);
+                    _mapController.View.UpdatePawnPositions();
+                }
+            }
+#endif
         }
 
         /// <summary>
