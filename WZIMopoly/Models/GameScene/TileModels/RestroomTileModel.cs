@@ -38,28 +38,15 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
 
-            OnStand += (player) => PayTaxToOwner(player);
-        }
-
-        /// <summary>
-        /// Pays the tax to the owner of the tile.
-        /// </summary>
-        /// <param name="player">
-        /// The player that stands on the tile.
-        /// </param>
-        /// <remarks>
-        /// If the owner is null or the owner is the player
-        /// that stands on the tile, do nothing.
-        /// </remarks>
-        private void PayTaxToOwner(PlayerModel player)
-        {
-            if (Owner != null && Owner != player)
+            OnStand += (player) =>
             {
-                RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
-                int tax = TaxPrices[ownerRestroomAmount];
-                player.Money -= tax;
-                Owner.Money += tax;
-            }
+                if (Owner != null && Owner != player)
+                {
+                    RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
+                    int tax = TaxPrices[ownerRestroomAmount];
+                    player.TransferMoneyTo(Owner, tax);
+                }
+            };
         }
 
         /// <summary>

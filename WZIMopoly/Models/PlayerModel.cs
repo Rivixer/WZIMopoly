@@ -90,6 +90,21 @@ namespace WZIMopoly.Models
         public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
 
         /// <summary>
+        /// Transfers money from the player to another player.
+        /// </summary>
+        /// <param name="player">
+        /// The player that will receive the money.
+        /// </param>
+        /// <param name="amount">
+        /// The amount of money to transfer.
+        /// </param>
+        public void TransferMoneyTo(PlayerModel player, int amount)
+        {
+            Money -= amount;
+            player.Money += amount;
+        }
+
+        /// <summary>
         /// Resets the nick of the player to the default one.
         /// </summary>
         public void ResetNick()

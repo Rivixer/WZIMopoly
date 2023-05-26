@@ -63,7 +63,14 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
 
-            OnStand += (player) => PayTaxToOwner(player);
+            OnStand += (player) =>
+            {
+                if (Owner != null && player != Owner)
+                {
+                    int tax = TaxPrices[Grade];
+                    player.TransferMoneyTo(Owner, tax);
+                }
+            };
         }
 
         /// <summary>
@@ -95,26 +102,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             base.Purchase(player);
             Grade = SubjectGrade.Three;
-        }
-
-        /// <summary>
-        /// Pays the tax to the owner of the subject.
-        /// </summary>
-        /// <param name="player">
-        /// The player who stands on the subject.
-        /// </param>
-        /// <remarks>
-        /// If the owner is null or the owner is the same
-        /// as the player, do nothing.
-        /// </remarks>
-        private void PayTaxToOwner(PlayerModel player)
-        {
-            if (Owner != null && player != Owner)
-            {
-                int tax = TaxPrices[Grade];
-                player.Money -= tax;
-                Owner.Money += tax;
-            }
         }
 
         /// <summary>
