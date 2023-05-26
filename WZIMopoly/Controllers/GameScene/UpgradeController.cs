@@ -1,4 +1,4 @@
-﻿using WZIMopoly.Engine;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
@@ -39,7 +39,7 @@ namespace WZIMopoly.Controllers.GameScene
                 foreach (TileController tile in Model.TileControllers)
                 {
                     if (tile.Model is SubjectTileModel t
-                        && t.CanUpgrade(Model.CurrentPlayer, Model.TileModels)
+                        && t.CanUpgrade(Model.CurrentPlayer)
                         && MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
                     {
                         t.Upgrade();

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
@@ -57,7 +57,7 @@ namespace WZIMopoly.Models.GameScene
             var result = new List<int>();
             foreach (TileModel tile in TileModels)
             {
-                if (tile is not SubjectTileModel t || !t.CanUpgrade(player, TileModels))
+                if (tile is not SubjectTileModel t || !t.CanUpgrade(player))
                 {
                     result.Add(tile.Id);
                 }

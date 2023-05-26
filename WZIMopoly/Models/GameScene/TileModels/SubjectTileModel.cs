@@ -123,17 +123,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="player">
         /// The player to check.
         /// </param>
-        /// <param name="allTiles">
-        /// The collection of all tiles to check
-        /// whether the player has all tiles of the same color.
-        /// </param>
         /// <returns>
         /// True if the player can upgrade the subject, otherwise false.
         /// </returns>
-        public bool CanUpgrade(PlayerModel player, IEnumerable<TileModel> allTiles)
+        public bool CanUpgrade(PlayerModel player)
         {
             return player.Money >= UpgradePrice
-                && PlayerHasSetOfColor(player, allTiles)
+                && PlayerHasSetOfColor(player)
                 && Grade != SubjectGrade.Exemption;
         }
 
@@ -143,15 +139,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="player">
         /// The player to check.
         /// </param>
-        /// <param name="allTiles">
-        /// The collection of all tiles.
-        /// </param>
         /// <returns>
         /// True if the player has all tiles of the same color, otherwise false.
         /// </returns>
-        private bool PlayerHasSetOfColor(PlayerModel player, IEnumerable<TileModel> allTiles)
+        private bool PlayerHasSetOfColor(PlayerModel player)
         {
-            var subjectTiles = allTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
+            var subjectTiles = AllTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
             var subjectTilesColor = subjectTiles.Where(x => x.Color == Color);
             var playerSubjectTiles = player.PurchasedTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
             var playerSubjectTilesWithColor = playerSubjectTiles.Where(x => x.Color == Color);

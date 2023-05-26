@@ -94,5 +94,16 @@ namespace WZIMopoly.Models.GameScene
         {
             OnStand?.Invoke(player);
         }
+
+        /// <summary>
+        /// Gives this class access to all tiles.
+        /// </summary>
+        /// <param name="tiles">
+        /// The list of all tiles.
+        /// </param>
+        public void SetAllTiles(IEnumerable<TileModel> tiles)
+        {
+            AllTiles = tiles;
+        }
     }
 }

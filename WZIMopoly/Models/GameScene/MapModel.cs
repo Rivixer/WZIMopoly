@@ -14,14 +14,16 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents a map model.
     /// </summary>
-    internal sealed class MapModel : Model
+    internal class MapModel : Model
     {
         /// <summary>
         /// Loads tiles from a xml file.
         /// </summary>
-        internal List<TileController> LoadTiles()
+        /// <returns>
+        /// The list of loaded tiles.
+        /// </returns>
+        public List<TileController> LoadTiles()
         {
-            var tiles = new List<TileController>();
             var tilesXml = new XmlDocument();
 #if WINDOWS
             var path = "../../../Properties/Tiles.xml";
@@ -31,6 +33,7 @@ namespace WZIMopoly.Models.GameScene
 
             tilesXml.Load(path);
 
+            var tiles = new List<TileController>();
             string controllerNamespace = "WZIMopoly.Controllers.GameScene.TileControllers";
             string modelNamespace = "WZIMopoly.Models.GameScene.TileModels";
             foreach (XmlNode tileNode in tilesXml.DocumentElement.ChildNodes)
@@ -39,7 +42,6 @@ namespace WZIMopoly.Models.GameScene
                 Type tileControllerType = Type.GetType($"{controllerNamespace}.{rawTileType}TileController");
                 Type tileGenericControllerType = Type.GetType($"{controllerNamespace}.TileController");
                 Type tileModelType = Type.GetType($"{modelNamespace}.{rawTileType}TileModel");
-
 
                 TileModel tileModel = (TileModel)Activator.CreateInstance(
                     type: tileModelType,
@@ -58,9 +60,13 @@ namespace WZIMopoly.Models.GameScene
                     args: new object[] { tileModel, tileView },
                     culture: null
                 );
-                AddChild(tileController);
+
                 tiles.Add(tileController);
             }
+
+            tiles.ForEach(AddChild);
+            tiles.ForEach(x => x.Model.SetAllTiles(tiles.Select(x => x.Model)));
+
             return tiles;
         }
 
@@ -105,6 +111,9 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="step">
         /// A positive number of tiles to pass.
         /// </param>
+        /// <returns>
+        /// The list of tiles that the player has passed.
+        /// </returns>
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="step"/> is not a positive number.
         /// </exception>
