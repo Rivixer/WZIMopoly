@@ -37,7 +37,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
         /// </summary>
-        /// <param name="nick">
+        /// <param name="defaultNick">
         /// The nick of the player.
         /// </param>
         /// <param name="color">
