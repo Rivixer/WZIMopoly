@@ -37,7 +37,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
         /// </summary>
-        /// <param name="nick">
+        /// <param name="defaultNick">
         /// The nick of the player.
         /// </param>
         /// <param name="color">
@@ -88,6 +88,21 @@ namespace WZIMopoly.Models
         /// Gets pucharsed tiles by the player.
         /// </summary>
         public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
+
+        /// <summary>
+        /// Transfers money from the player to another player.
+        /// </summary>
+        /// <param name="player">
+        /// The player that will receive the money.
+        /// </param>
+        /// <param name="amount">
+        /// The amount of money to transfer.
+        /// </param>
+        public void TransferMoneyTo(PlayerModel player, int amount)
+        {
+            Money -= amount;
+            player.Money += amount;
+        }
 
         /// <summary>
         /// Resets the nick of the player to the default one.

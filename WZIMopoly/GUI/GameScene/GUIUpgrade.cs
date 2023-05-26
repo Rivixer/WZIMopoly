@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -156,7 +156,7 @@ namespace WZIMopoly.GUI.GameScene
                 {
                     text = $"Nie stac Cie na ulepszenie pola {t.EnName}. (koszt {t.UpgradePrice}ECTS";
                 }
-                else if (!t.CanUpgrade(_model.CurrentPlayer, _model.TileControllers.Select(x => x.Model)))
+                else if (!t.CanUpgrade(_model.CurrentPlayer))
                 {
                     text = $"Musisz miec zakupione wszystkie pola koloru {t.Color}, aby ulepszyc {t.EnName}";
                 }

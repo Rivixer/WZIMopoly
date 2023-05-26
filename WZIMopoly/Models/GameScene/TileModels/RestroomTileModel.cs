@@ -37,18 +37,16 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 }
                 TaxPrices.Add(temp, int.Parse(attribute.Value));
             }
-        }
 
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            if (Owner != null && Owner != player)
+            OnStand += (player) =>
             {
-                RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
-                int tax = TaxPrices[ownerRestroomAmount];
-                player.Money -= tax;
-                Owner.Money += tax;
-            }
+                if (Owner != null && Owner != player)
+                {
+                    RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
+                    int tax = TaxPrices[ownerRestroomAmount];
+                    player.TransferMoneyTo(Owner, tax);
+                }
+            };
         }
 
         /// <summary>

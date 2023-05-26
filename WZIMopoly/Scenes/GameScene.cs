@@ -81,7 +81,7 @@ namespace WZIMopoly.Scenes
         internal void StartGame()
         {
             _mapController.Model.SetPlayersOnStart();
-            _mapController.Model.UpdatePawnPositions();
+            _mapController.View.UpdatePawnPositions();
             
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
@@ -101,6 +101,34 @@ namespace WZIMopoly.Scenes
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+#if DEBUG
+            // Click a key on the keyboard to move the current player a certain number of steps.
+            List<Keys> clickedKeys = KeyboardController.GetAllClickedKeys();
+            if (clickedKeys.Count > 0)
+            {
+                int stepToMove = clickedKeys[0] switch
+                {
+                    Keys.D1 => 1,
+                    Keys.D2 => 2,
+                    Keys.D3 => 3,
+                    Keys.D4 => 4,
+                    Keys.D5 => 5,
+                    Keys.D6 => 6,
+                    Keys.D7 => 7,
+                    Keys.D8 => 8,
+                    Keys.D9 => 9,
+                    _ => 0,
+                };
+                if (stepToMove > 0)
+                {
+                    var passedTiles = _mapController.Model.MovePlayer(Model.CurrentPlayer, (uint)stepToMove);
+                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    _mapController.Model.ActivateOnStandTile(Model.CurrentPlayer);
+                    _mapController.View.UpdatePawnPositions();
+                }
+            }
+#endif
         }
 
         /// <summary>
@@ -135,13 +163,13 @@ namespace WZIMopoly.Scenes
         {
             var diceModel = _diceController.Model;
             var mapModel = _mapController.Model;
+            var mapView = _mapController.View;
 
             // Mortage button
             Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
 
             // Upgrade button
-            var subjectTiles = Model.GetAllModelsRecursively<SubjectTileModel>();
-            var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>(subjectTiles);
+            var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
             upgradeButton.OnButtonClicked += () =>
             {
                 if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields)
@@ -168,7 +196,11 @@ namespace WZIMopoly.Scenes
                 await Task.Delay(350);
 
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
-                mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                mapView.UpdatePawnPositions();
+                
             };
             endTurnButton.OnButtonClicked += () =>
             {

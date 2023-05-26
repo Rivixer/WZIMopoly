@@ -22,12 +22,8 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal StartTileModel(XmlNode node) : base(node)
         {
             _reward = int.Parse(node.SelectSingleNode("reward").InnerText);
-        }
 
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            player.Money += _reward;
+            OnStand += (player) => player.Money += _reward;
         }
 
         /// <inheritdoc/>

@@ -14,8 +14,5 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// The XML node of the chance tile.
         /// </param>
         internal ElevatorTileModel(XmlNode node) : base(node) { }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
     }
 }

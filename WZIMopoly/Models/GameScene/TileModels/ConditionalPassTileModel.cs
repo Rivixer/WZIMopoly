@@ -21,12 +21,8 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal ConditionalPassTileModel(XmlNode node) : base(node)
         {
             Tax = int.Parse(node.SelectSingleNode("tax").InnerText);
-        }
 
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) 
-        {
-            player.Money -= Tax;
+            OnStand += (player) => player.Money -= Tax;
         }
     }
 }

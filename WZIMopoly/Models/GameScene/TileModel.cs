@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -45,6 +45,20 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
+        /// The action that should be performed when the player lands on the tile.
+        /// The delegate for the <see cref="OnStand"/> event.
+        /// </summary>
+        /// <param name="player">
+        /// The player that stands on the tile.
+        /// </param>
+        public delegate void OnStandHandler(PlayerModel player);
+        
+        /// <summary>
+        /// The event that is invoked when a player stands on the tile.
+        /// </summary>
+        public event OnStandHandler OnStand;
+
+        /// <summary>
         /// Compares the current instance with another one
         /// and returns an integer that indicates whether the current instance
         /// has a greater <see cref="Id"/> than the other one.
@@ -66,11 +80,30 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
-        /// The action that should be performed when the player lands on the tile.
+        /// Gets all the tiles.
+        /// </summary>
+        protected IEnumerable<TileModel> AllTiles { get; private set; }
+
+        /// <summary>
+        /// Activates <see cref="OnStand"/> event.
         /// </summary>
         /// <param name="player">
-        /// The player that landed on the tile.
+        /// The player that stands on the tile.
         /// </param>
-        internal abstract void OnStand(PlayerModel player);
+        public void OnPlayerStand(PlayerModel player)
+        {
+            OnStand?.Invoke(player);
+        }
+
+        /// <summary>
+        /// Gives this class access to all tiles.
+        /// </summary>
+        /// <param name="tiles">
+        /// The list of all tiles.
+        /// </param>
+        public void SetAllTiles(IEnumerable<TileModel> tiles)
+        {
+            AllTiles = tiles;
+        }
     }
 }
