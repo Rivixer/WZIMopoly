@@ -94,8 +94,8 @@ namespace WZIMopoly.GUI.GameScene
                 {
                     _tileTextures[id].Draw(spriteBatch);
                 }
+                _text.Draw(spriteBatch);
             }
-            _text.Draw(spriteBatch);
         }
 
         /// <inheritdoc/>
@@ -165,10 +165,6 @@ namespace WZIMopoly.GUI.GameScene
                     text = $"Ulepsz pole {t.EnName} (koszt {t.UpgradePrice}ECTS)";
                 }
                 _text.Text = text;
-            }
-            else
-            {
-                _text.Text = "";
             }
         }
     }
