@@ -14,8 +14,5 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// The XML node of the chance tile.
         /// </param>
         internal MandatoryLectureTileModel(XmlNode node) : base(node) { }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
     }
 }

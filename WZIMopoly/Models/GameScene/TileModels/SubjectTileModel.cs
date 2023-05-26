@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -62,6 +62,8 @@ namespace WZIMopoly.Models.GameScene.TileModels
             {
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
+
+            OnStand += (player) => PayTaxToOwner(player);
         }
 
         /// <summary>
@@ -95,8 +97,17 @@ namespace WZIMopoly.Models.GameScene.TileModels
             Grade = SubjectGrade.Three;
         }
 
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
+        /// <summary>
+        /// Pays the tax to the owner of the subject.
+        /// </summary>
+        /// <param name="player">
+        /// The player who stands on the subject.
+        /// </param>
+        /// <remarks>
+        /// If the owner is null or the owner is the same
+        /// as the player, do nothing.
+        /// </remarks>
+        private void PayTaxToOwner(PlayerModel player)
         {
             if (Owner != null && player != Owner)
             {
