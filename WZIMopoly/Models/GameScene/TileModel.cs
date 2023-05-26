@@ -53,9 +53,9 @@ namespace WZIMopoly.Models.GameScene
         /// The other instance of the <see cref="TileModel"/> class.
         /// </param>
         /// <returns>
-        /// Less than zero if the current instance has
+        /// More than zero if the current instance has
         /// a greater <see cref="Id"/> than the other one,<br/>
-        /// more than zero if the current instance has
+        /// less than zero if the current instance has
         /// a smaller <see cref="Id"/> than the other one,<br/>
         /// equal to zero if the current instance has
         /// the same <see cref="Id"/> as the other one.

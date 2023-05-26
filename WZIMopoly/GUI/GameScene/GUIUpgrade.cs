@@ -78,7 +78,7 @@ namespace WZIMopoly.GUI.GameScene
         /// </summary>
         /// <remarks>
         /// Based on this list, a mask is applied
-        /// to the fields that the player cannot buy.
+        /// to the fields that the player cannot upgrade.
         /// </remarks>
         public void UpdateMask()
         {
