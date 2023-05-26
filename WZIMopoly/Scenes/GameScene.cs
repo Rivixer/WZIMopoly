@@ -172,14 +172,14 @@ namespace WZIMopoly.Scenes
             var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
             upgradeButton.OnButtonClicked += () =>
             {
-                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields)
+                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingTiles)
                 {
                     Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 }
                 else if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
                 {
                     _upgradeController.View.UpdateMask();
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.UpgradingFields;
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.UpgradingTiles;
                 }
             };
 

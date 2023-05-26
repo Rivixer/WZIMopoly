@@ -88,7 +88,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_player?.PlayerStatus == PlayerStatus.UpgradingFields)
+            if (_player?.PlayerStatus == PlayerStatus.UpgradingTiles)
             {
                 foreach (var id in _nonUpgradeableTileIds)
                 {
@@ -129,7 +129,7 @@ namespace WZIMopoly.GUI.GameScene
         /// </summary>
         private void UpdateText()
         {
-            if (_player?.PlayerStatus == PlayerStatus.UpgradingFields)
+            if (_player?.PlayerStatus == PlayerStatus.UpgradingTiles)
             {
                 string text;
                 SubjectTileModel? t = null;
