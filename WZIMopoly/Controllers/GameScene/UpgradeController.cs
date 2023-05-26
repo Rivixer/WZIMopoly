@@ -1,4 +1,4 @@
-using WZIMopoly.Engine;
+﻿using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
@@ -33,7 +33,8 @@ namespace WZIMopoly.Controllers.GameScene
         public override void Update()
         {
             base.Update();
-            if (MouseController.WasLeftBtnClicked())
+            if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields
+                && MouseController.WasLeftBtnClicked())
             {
                 foreach (TileController tile in Model.TileControllers)
                 {
