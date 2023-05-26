@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Text;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
+using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI
 {
@@ -176,8 +177,9 @@ namespace WZIMopoly.GUI
             Scale = _defaultScale * ScreenController.Height / 1080;
             int textWidth = (int)(Font.MeasureString(Text).X * Scale);
             int textHeight = (int)(Font.MeasureString(Text).Y * Scale);
-            float x = _defaultPosition.X * ScreenController.Width / 1920;
-            float y = _defaultPosition.Y * ScreenController.Height / 1080;
+            Vector2 scaledDefPosition = _defaultPosition.ToCurrentResolution();
+            float x = scaledDefPosition.X;
+            float y = scaledDefPosition.Y;
 
             switch (_startPoint)
             {

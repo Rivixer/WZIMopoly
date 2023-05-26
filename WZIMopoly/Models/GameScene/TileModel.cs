@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace WZIMopoly.Models.GameScene
@@ -6,7 +7,7 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents a base class for a tile model.
     /// </summary>
-    internal abstract class TileModel : Model
+    internal abstract class TileModel : Model, IComparable<TileModel>
     {
         #region Fields
         /// <summary>
@@ -41,6 +42,27 @@ namespace WZIMopoly.Models.GameScene
             EnName = node.SelectSingleNode("en_name").InnerText;
             PlName = node.SelectSingleNode("pl_name").InnerText;
             Id = int.Parse(node.Attributes["id"].Value);
+        }
+
+        /// <summary>
+        /// Compares the current instance with another one
+        /// and returns an integer that indicates whether the current instance
+        /// has a greater <see cref="Id"/> than the other one.
+        /// </summary>
+        /// <param name="other">
+        /// The other instance of the <see cref="TileModel"/> class.
+        /// </param>
+        /// <returns>
+        /// More than zero if the current instance has
+        /// a greater <see cref="Id"/> than the other one,<br/>
+        /// less than zero if the current instance has
+        /// a smaller <see cref="Id"/> than the other one,<br/>
+        /// equal to zero if the current instance has
+        /// the same <see cref="Id"/> as the other one.
+        /// </returns>
+        public int CompareTo(TileModel other)
+        {
+            return Id - other.Id;
         }
 
         /// <summary>

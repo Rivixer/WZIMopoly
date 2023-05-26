@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Utils;
@@ -48,7 +49,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
 
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
             {
-                if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
+                if (!Enum.TryParse(NamingConverter.ConvertSnakeCaseToPascalCase(attribute.Name), true, out SubjectGrade temp))
                 {
                     throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
                         $" in tile node with {Id} id");
@@ -61,6 +62,26 @@ namespace WZIMopoly.Models.GameScene.TileModels
             {
                 throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
             }
+        }
+
+        /// <summary>
+        /// Upgrades the subject tile.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown if the subject cannot be upgraded.
+        /// </exception>
+        public void Upgrade()
+        {
+            Owner.Money -= UpgradePrice;
+            Grade = Grade switch
+            {
+                SubjectGrade.Three => SubjectGrade.ThreeHalf,
+                SubjectGrade.ThreeHalf => SubjectGrade.Four,
+                SubjectGrade.Four => SubjectGrade.FourHalf,
+                SubjectGrade.FourHalf => SubjectGrade.Five,
+                SubjectGrade.Five => SubjectGrade.Exemption,
+                _ => throw new InvalidOperationException("Cannot upgrade subject with grade: " + Grade),
+            };
         }
 
         /// <inheritdoc/>
@@ -83,6 +104,47 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 player.Money -= tax;
                 Owner.Money += tax;
             }
+        }
+
+        /// <summary>
+        /// Checks if the player can upgrade the subject.
+        /// </summary>
+        /// <param name="player">
+        /// The player to check.
+        /// </param>
+        /// <param name="allTiles">
+        /// The collection of all tiles to check
+        /// whether the player has all tiles of the same color.
+        /// </param>
+        /// <returns>
+        /// True if the player can upgrade the subject, otherwise false.
+        /// </returns>
+        public bool CanUpgrade(PlayerModel player, IEnumerable<TileModel> allTiles)
+        {
+            return player.Money >= UpgradePrice
+                && PlayerHasSetOfColor(player, allTiles)
+                && Grade != SubjectGrade.Exemption;
+        }
+
+        /// <summary>
+        /// Checks if the player has all tiles of the same color.
+        /// </summary>
+        /// <param name="player">
+        /// The player to check.
+        /// </param>
+        /// <param name="allTiles">
+        /// The collection of all tiles.
+        /// </param>
+        /// <returns>
+        /// True if the player has all tiles of the same color, otherwise false.
+        /// </returns>
+        private bool PlayerHasSetOfColor(PlayerModel player, IEnumerable<TileModel> allTiles)
+        {
+            var subjectTiles = allTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
+            var subjectTilesColor = subjectTiles.Where(x => x.Color == Color);
+            var playerSubjectTiles = player.PurchasedTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
+            var playerSubjectTilesWithColor = playerSubjectTiles.Where(x => x.Color == Color);
+            return subjectTilesColor.SequenceEqual(playerSubjectTilesWithColor);
         }
     }
 }

@@ -7,9 +7,9 @@
     {
         Two,
         Three,
-        Three_half,
+        ThreeHalf,
         Four,
-        Four_half,
+        FourHalf,
         Five,
         Exemption
     }

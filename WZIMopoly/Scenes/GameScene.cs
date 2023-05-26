@@ -1,10 +1,12 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.GameButtonControllers;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.GameScene;
@@ -41,6 +43,11 @@ namespace WZIMopoly.Scenes
         private DiceController _diceController;
 
         /// <summary>
+        /// The upgrade tiles controller.
+        /// </summary>
+        private UpgradeController _upgradeController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -57,11 +64,12 @@ namespace WZIMopoly.Scenes
         public override void Initialize()
         {
             _mapController = Model.InitializeChild<MapModel, GUIMap, MapController>();
-            _mapController.Model.LoadTiles();
+            List<TileController> tileControllers = _mapController.Model.LoadTiles();
             _mapController.Model.CreatePawns(GameSettings.Players);
 
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
             _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
+            _upgradeController = Model.InitializeChild<UpgradeModel, GUIUpgrade, UpgradeController>(tileControllers);
 
             InitializePlayerInfo();
             InitializeButtons();
@@ -132,7 +140,20 @@ namespace WZIMopoly.Scenes
             Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
 
             // Upgrade button
-            Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
+            var subjectTiles = Model.GetAllModelsRecursively<SubjectTileModel>();
+            var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>(subjectTiles);
+            upgradeButton.OnButtonClicked += () =>
+            {
+                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields)
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                else if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
+                {
+                    _upgradeController.View.UpdateMask();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.UpgradingFields;
+                }
+            };
 
             // Dice and EndTurn button
             var diceButton = Model.InitializeChild<DiceButtonModel, GUIDiceButton, DiceButtonController>();
