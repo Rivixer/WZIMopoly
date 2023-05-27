@@ -16,12 +16,35 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="StartTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node of the chance tile.
+        /// <param name="id">
+        /// The id of the tile.
         /// </param>
-        internal StartTileModel(XmlNode node) : base(node)
+        /// <param name="reward">
+        /// The amount of ECTS points that the player receives
+        /// after passing through the start line.
+        /// </param>
+        public StartTileModel(int id, int reward) : base(id)
         {
-            _reward = int.Parse(node.SelectSingleNode("reward").InnerText);
+            _reward = reward;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StartTileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="StartTileModel"/> instance.
+        /// </returns>
+        public static StartTileModel LoadFromXml(XmlNode node)
+        {
+            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int reward = int.Parse(node.SelectSingleNode("reward").InnerText);
+            var tile = new StartTileModel(id, reward);
+            tile.LoadNamesFromXml(node);
+            return tile;
         }
 
         /// <inheritdoc/>

@@ -30,13 +30,35 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see  cref="PurchasableTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="id">
+        /// The id of the tile.
         /// </param>
-        internal PurchasableTileModel(XmlNode node) : base(node)
+        /// <param name="price">
+        /// The price of the tile.
+        /// </param>
+        internal PurchasableTileModel(int id, int price) : base(id)
         {
-            Price = int.Parse(node.SelectSingleNode("price").InnerText);
+            Price = price;
             Owner = null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PurchasableTileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="PurchasableTileModel"/> instance.
+        /// </returns>
+        public static PurchasableTileModel LoadFromXml(XmlNode node)
+        {
+            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int price = int.Parse(node.SelectSingleNode("price").InnerText);
+            var tile = new PurchasableTileModel(id);
+            tile.LoadNamesFromXml(node, price);
+            return tile;
         }
 
         /// <summary>

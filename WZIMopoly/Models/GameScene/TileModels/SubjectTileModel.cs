@@ -34,33 +34,66 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node of the chance tile.
+        /// <param name="id">
+        /// The id of the tile.
         /// </param>
+        /// <param name="price">
+        /// The price of the tile.
+        /// </param>
+        /// <param name="upgradedPrice">
+        /// The price of the tile after upgrade.
+        /// </param>
+        /// <param name="taxPrices">
+        /// The prices of the subjects.
+        /// </param>
+        /// <param name="rawColor">
+        /// The color as a string.
+        /// </param>
+        internal SubjectTileModel(int id, int price, int upgradedPrice, Dictionary<SubjectGrade, int> taxPrices, string rawColor) : base(id, price)
+        {
+            Grade = SubjectGrade.Two;
+            UpgradePrice = upgradedPrice;
+            if (!Enum.TryParse(rawColor, true, out Color))
+            {
+                throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {id} id");
+            }
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SubjectTileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="SubjectTileModel"/> instance.
+        /// </returns>
         /// <exception cref="ArgumentException">
         /// Thrown if the XML file data is invalid.
         /// </exception>
-        internal SubjectTileModel(XmlNode node) : base(node)
+        public static SubjectTileModel LoadFromXml(XmlNode node)
         {
-            Grade = SubjectGrade.Two;
-            UpgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
-            TaxPrices = new Dictionary<SubjectGrade, int>();
+            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int price = int.Parse(node.SelectSingleNode("price").InnerText);
+            int upgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
+            var taxPrices = new Dictionary<SubjectGrade, int>();
 
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
             {
                 if (!Enum.TryParse(attribute.Name, true, out SubjectGrade temp))
                 {
                     throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
-                        $" in tile node with {Id} id");
+                        $" in tile node with {id} id");
                 }
-                TaxPrices.Add(temp, int.Parse(attribute.Value));
+                taxPrices.Add(temp, int.Parse(attribute.Value));
             }
 
             string rawColor = NamingConverter.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
-            if (!Enum.TryParse(rawColor, true, out Color))
-            {
-                throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {Id} id");
-            }
+            var tile = new SubjectTileModel(id, price, upgradePrice, taxPrices, rawColor);
+            tile.LoadNamesFromXml(node);
+            return tile;
         }
 
         /// <inheritdoc/>

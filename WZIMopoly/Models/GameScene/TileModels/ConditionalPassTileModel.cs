@@ -15,12 +15,33 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node containing the tile data.
+        /// <param name="id">
+        /// The id of the tile.
         /// </param>
-        internal ConditionalPassTileModel(XmlNode node) : base(node)
+        /// <param name="tax">
+        /// The tax for stepping no tile.
+        /// </param>
+        internal ConditionalPassTileModel(int id, int tax) : base(id)
         {
-            Tax = int.Parse(node.SelectSingleNode("tax").InnerText);
+            Tax = tax;
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConditionalPassTileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="ConditionalPassTileModel"/> instance.
+        /// </returns>
+        public static ConditionalPassTileModel LoadFromXml(XmlNode node)
+        {
+            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int tax = int.Parse(node.SelectSingleNode("tax").InnerText);
+            var tile = new ConditionalPassTileModel(id, tax);
+            tile.LoadNamesFromXml(node);
+            return tile;
         }
 
         /// <inheritdoc/>
