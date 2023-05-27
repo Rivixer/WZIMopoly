@@ -40,6 +40,18 @@ namespace WZIMopoly.Models.GameScene
         {
             Id = id;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TileModel"/> instance.
+        /// </returns>
+
         /// <summary>
         /// Loads the names from the xml node.
         /// </summary>

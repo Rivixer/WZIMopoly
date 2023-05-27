@@ -40,15 +40,17 @@ namespace WZIMopoly.Models.GameScene
                 Type tileControllerType = Type.GetType($"{controllerNamespace}.{rawTileType}TileController");
                 Type tileGenericControllerType = Type.GetType($"{controllerNamespace}.TileController");
                 Type tileModelType = Type.GetType($"{modelNamespace}.{rawTileType}TileModel");
+                int id = int.Parse(tileNode.Attributes["id"].Value);
 
+                TileModel tileModel = null;// = (tileModelType as typeof(TileModel))?.GetMethod("LoadFromXml")?.Invoke(tileNode);
 
-                TileModel tileModel = (TileModel)Activator.CreateInstance(
-                    type: tileModelType,
-                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                    binder: null,
-                    args: new object[] { tileNode },
-                    culture: null
-                );
+                if (tileModelType == typeof(TileModel))
+                {
+                    var tileModelObject = tileModelType.GetMethod("LoadFromXml")?.Invoke(null, new object[] { tileNode } );
+                    tileModel = (TileModel)tileModelObject;
+                }
+
+                //if (tileModel == null) continue;
 
                 var tileView = new GUITile(tileNode, tileModel);
 
