@@ -28,8 +28,7 @@ namespace WZIMopoly.Controllers.GameScene
         /// <inheritdoc/>
         /// <remarks>
         /// Checks if the player wants to mortgage the tile or sell its grade,
-        /// and if the player can mortgage the tile or sell its grade, 
-        /// it mortgages the tile or sells its grade.
+        /// and if they can, it does so.
         /// </remarks>
         public override void Update()
         {
