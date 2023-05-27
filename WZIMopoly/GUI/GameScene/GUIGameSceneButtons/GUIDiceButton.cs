@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -56,6 +56,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 PlayerStatus.BeforeRollingDice => IsHovered ? TextureHovered : Texture,
                 PlayerStatus.DuringRollingDice => TextureDisabled,
                 PlayerStatus.UpgradingTiles => TextureDisabled,
+                PlayerStatus.MortgagingTiles => TextureDisabled,
                 _ => null,
             };
             texture?.Draw(spriteBatch);
