@@ -48,7 +48,7 @@ namespace WZIMopoly.Controllers.GameScene
                     continue;
                 }
 
-                if (t.IsMortgaged)
+                if (t.CanUnmortgage(player))
                 {
                     t.Unmortgage();
                 }
@@ -59,6 +59,10 @@ namespace WZIMopoly.Controllers.GameScene
                 else if (t.CanSellGrade(player))
                 {
                     t.SellGrade();
+                }
+                else
+                {
+                    return;
                 }
 
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;

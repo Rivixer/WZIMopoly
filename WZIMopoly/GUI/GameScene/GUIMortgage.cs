@@ -202,8 +202,7 @@ namespace WZIMopoly.GUI.GameScene
                 }
                 else
                 {
-                    // Probably should never happen
-                    text = "";
+                    text = $"Nie stac Cie na odkupienie pola {t.EnName}. (koszt {t.MortgagePrice}ECTS)";
                 }
                 _text.Text = text;
             }
