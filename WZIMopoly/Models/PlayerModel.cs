@@ -15,6 +15,11 @@ namespace WZIMopoly.Models
         private readonly List<PurchasableTileModel> _purchasedTiles = new();
 
         /// <summary>
+        /// The list of mortgaged tiles by the player.
+        /// </summary>
+        private readonly List<PurchasableTileModel> _mortgagedTiles = new();
+
+        /// <summary>
         /// The default nick of the player.
         /// </summary>
         private readonly string _defaultNick;
@@ -88,6 +93,11 @@ namespace WZIMopoly.Models
         /// Gets pucharsed tiles by the player.
         /// </summary>
         public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
+
+        /// <summary>
+        /// Gets mortgaged tiles by the player.
+        /// </summary>
+        public List<PurchasableTileModel> MortgagedTiles => _mortgagedTiles;
 
         /// <summary>
         /// Transfers money from the player to another player.
