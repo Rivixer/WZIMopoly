@@ -32,7 +32,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         public static ChanceTileModel LoadFromXml(XmlNode node)
         {
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             var tile = new ChanceTileModel(id);
             tile.LoadNamesFromXml(node);
             return tile;

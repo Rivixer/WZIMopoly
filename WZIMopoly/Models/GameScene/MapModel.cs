@@ -7,6 +7,7 @@ using System.Xml;
 using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.TileControllers;
+using WZIMopoly.Exceptions;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 
@@ -40,17 +41,18 @@ namespace WZIMopoly.Models.GameScene
                 Type tileControllerType = Type.GetType($"{controllerNamespace}.{rawTileType}TileController");
                 Type tileGenericControllerType = Type.GetType($"{controllerNamespace}.TileController");
                 Type tileModelType = Type.GetType($"{modelNamespace}.{rawTileType}TileModel");
-                int id = int.Parse(tileNode.Attributes["id"].Value);
 
-                TileModel tileModel = null;// = (tileModelType as typeof(TileModel))?.GetMethod("LoadFromXml")?.Invoke(tileNode);
-
-                if (tileModelType == typeof(TileModel))
+                TileModel tileModel;
+                if (tileModelType.IsAssignableTo(typeof(TileModel)))
                 {
-                    var tileModelObject = tileModelType.GetMethod("LoadFromXml")?.Invoke(null, new object[] { tileNode } );
-                    tileModel = (TileModel)tileModelObject;
+                    MethodInfo loadMethod = tileModelType.GetMethod("LoadFromXml");
+                    tileModel = (TileModel)loadMethod.Invoke(null, new object[] { tileNode });
                 }
-
-                //if (tileModel == null) continue;
+                else
+                {
+                    throw new InvalidTypeException(
+                        $"Tile model type {tileModelType} is not assignable to {typeof(TileModel)}");
+                }
 
                 var tileView = new GUITile(tileNode, tileModel);
 

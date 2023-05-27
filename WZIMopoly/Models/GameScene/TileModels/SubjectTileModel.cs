@@ -75,7 +75,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </exception>
         public static SubjectTileModel LoadFromXml(XmlNode node)
         {
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             int price = int.Parse(node.SelectSingleNode("price").InnerText);
             int upgradePrice = int.Parse(node.SelectSingleNode("upgrade_price").InnerText);
             var taxPrices = new Dictionary<SubjectGrade, int>();

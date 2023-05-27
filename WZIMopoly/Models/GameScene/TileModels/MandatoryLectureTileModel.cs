@@ -27,7 +27,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         public static MandatoryLectureTileModel LoadFromXml(XmlNode node)
         {
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             var tile = new MandatoryLectureTileModel(id);
             tile.LoadNamesFromXml(node);
             return tile;

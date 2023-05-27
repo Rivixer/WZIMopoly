@@ -49,7 +49,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public static RestroomTileModel LoadFromXml(XmlNode node)
         {
             var taxPrices = new Dictionary<RestroomAmount, int>();
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
             {
                 if (!Enum.TryParse(attribute.Name, true, out RestroomAmount temp))

@@ -27,7 +27,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         public static DeaneryTileModel LoadFromXml(XmlNode node)
         {
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             var tile = new DeaneryTileModel(id);
             tile.LoadNamesFromXml(node);
             return tile;

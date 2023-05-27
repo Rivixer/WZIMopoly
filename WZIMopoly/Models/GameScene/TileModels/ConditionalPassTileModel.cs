@@ -37,7 +37,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         public static ConditionalPassTileModel LoadFromXml(XmlNode node)
         {
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             int tax = int.Parse(node.SelectSingleNode("tax").InnerText);
             var tile = new ConditionalPassTileModel(id, tax);
             tile.LoadNamesFromXml(node);

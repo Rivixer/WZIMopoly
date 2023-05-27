@@ -40,7 +40,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         public static StartTileModel LoadFromXml(XmlNode node)
         {
-            int id = int.Parse(node.SelectSingleNode("id").InnerText);
+            int id = int.Parse(node.Attributes["id"].InnerText);
             int reward = int.Parse(node.SelectSingleNode("reward").InnerText);
             var tile = new StartTileModel(id, reward);
             tile.LoadNamesFromXml(node);
