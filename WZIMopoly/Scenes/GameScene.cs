@@ -82,7 +82,7 @@ namespace WZIMopoly.Scenes
         {
             _mapController.Model.SetPlayersOnStart();
             _mapController.View.UpdatePawnPositions();
-            
+
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
             GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
@@ -200,14 +200,22 @@ namespace WZIMopoly.Scenes
                 MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
                 mapModel.ActivateOnStandTile(Model.CurrentPlayer);
                 mapView.UpdatePawnPositions();
-                
+
             };
             endTurnButton.OnButtonClicked += () =>
             {
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                Model.NextPlayer();
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
-                diceModel.Reset();
+                if (diceModel.IfDouble)
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    diceModel.Reset();
+                }
+                else
+                {
+                    Model.NextPlayer();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    diceModel.Reset();
+                }
             };
 
             // Buy button

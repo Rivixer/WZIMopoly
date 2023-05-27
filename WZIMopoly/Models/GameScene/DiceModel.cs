@@ -23,6 +23,11 @@ namespace WZIMopoly.Models.GameScene
         internal ushort Sum => (ushort)(LastRoll.Item1 + LastRoll.Item2);
 
         /// <summary>
+        /// 
+        /// </summary>
+        internal bool IfDouble => LastRoll.Item1 == LastRoll.Item2;
+
+        /// <summary>
         /// Simulates the roll of two dice.
         /// </summary>
         /// <remarks>
