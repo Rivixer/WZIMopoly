@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
+using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI
 {
@@ -50,12 +51,22 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The place where <see cref="_defaultDestinationRect"/> has been specified.
         /// </summary>
-        private readonly GUIStartPoint _startPoint;
+        private GUIStartPoint _startPoint;
 
+        /// <summary>
+        /// The opacity of the element.
+        /// </summary>
+        /// <remarks>
+        /// Value between 0f and 1f.
+        /// </remarks>
+        private readonly float _opacity;
+
+        /// <summary>
+        /// The path to the texture that will be drawn.
+        /// </summary>
         private readonly string _path;
         #endregion
 
-        #region Constructors
         /// <summary>
         /// Initializes a new instance of <see cref="GUITexture"/> class.
         /// </summary>
@@ -65,21 +76,21 @@ namespace WZIMopoly.GUI
         /// <param name="defDstRect">
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </param>
-        internal GUITexture(string path, Rectangle defDstRect)
-            : this(path, defDstRect, GUIStartPoint.TopLeft) { }
-
-        /// <inheritdoc cref="GUITexture(string, Rectangle)"/>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="defDstRect"/> has been specified.
+        /// Defaults to <see cref="GUIStartPoint.TopLeft"/>.
         /// </param>
-        internal GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint)
+        /// <param name="opacity">
+        /// The opacity of the element. Must be between 0f and 1f. Defaults to 1f.
+        /// </param>
+        internal GUITexture(string path, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft, float opacity = 1f)
         {
             _startPoint = startPoint;
             _defaultDestinationRect = defDstRect;
             _path = path;
+            _opacity = opacity;
             Recalculate();
         }
-        #endregion
 
         #region Properties
         /// <summary>
@@ -97,6 +108,26 @@ namespace WZIMopoly.GUI
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Sets new <see cref="_defaultDestinationRect"/>
+        /// and recalculates <see cref="DestinationRect"/>
+        /// and <see cref="UnscaledDestinationRect"/> fields.
+        /// </summary>
+        /// <param name="defDstRect">
+        /// The destination rectangle of the element
+        /// specified for 1920x1080 resolution.
+        /// </param>
+        /// <param name="startPoint">
+        /// The starting position of the element for which
+        /// <paramref name="defDstRect"/> has been specified.
+        /// </param>
+        public void SetNewDefDstRectangle(Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft) 
+        {
+            _defaultDestinationRect = defDstRect;
+            _startPoint = startPoint;
+            Recalculate();
+        }
+
         /// <summary>
         /// Shifts <see cref="_defaultDestinationRect"/> according to <see cref="_startPoint"/> field.
         /// </summary>
@@ -154,7 +185,7 @@ namespace WZIMopoly.GUI
         {
             if (Texture is not null)
             {
-                spriteBatch.Draw(Texture, DestinationRect, Color.White);
+                spriteBatch.Draw(Texture, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
             }
         }
 
@@ -167,11 +198,7 @@ namespace WZIMopoly.GUI
         public override void Recalculate()
         {
             ShiftRectangle();
-            var x = UnscaledDestinationRect.X * ScreenController.Width / 1920;
-            var y = UnscaledDestinationRect.Y * ScreenController.Height / 1080;
-            var width = UnscaledDestinationRect.Width * ScreenController.Width / 1920;
-            var height = UnscaledDestinationRect.Height * ScreenController.Height / 1080;
-            DestinationRect = new Rectangle(x, y, width, height);
+            DestinationRect = UnscaledDestinationRect.ToCurrentResolution();
         }
 
         /// <summary>

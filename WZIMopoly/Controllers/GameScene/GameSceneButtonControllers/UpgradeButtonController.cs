@@ -4,7 +4,7 @@ using WZIMopoly.Models.GameScene.GameButtonModels;
 namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
 {
     /// <summary>
-    /// Represents the sell button controller.
+    /// Represents the upgrade button controller.
     /// </summary>
     internal sealed class UpgradeButtonController : ButtonController<UpgradeButtonModel, GUIUpgradeButton>
     {
@@ -12,10 +12,10 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
         /// Initializes a new instance of the <see cref="UpgradeButtonController"/> class.
         /// </summary>
         /// <param name="model">
-        /// The model of the sell button controller.
+        /// The model of the upgrade button controller.
         /// </param>
         /// <param name="view">
-        /// The view of the sell button controller.
+        /// The view of the upgrade button controller.
         /// </param>
         internal UpgradeButtonController(UpgradeButtonModel model, GUIUpgradeButton view)
             : base(model, view) { }

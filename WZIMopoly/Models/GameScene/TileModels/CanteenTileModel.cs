@@ -14,6 +14,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// The id of the tile.
         /// </param>
         internal CanteenTileModel(int id) : base(id) { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CanteenTileModel"/> class,
         /// loading the data from the xml node.

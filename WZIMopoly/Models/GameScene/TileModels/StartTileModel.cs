@@ -1,4 +1,4 @@
-﻿using System.Xml;
+using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -45,12 +45,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
             var tile = new StartTileModel(id, reward);
             tile.LoadNamesFromXml(node);
             return tile;
-        }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            player.Money += _reward;
         }
 
         /// <inheritdoc/>

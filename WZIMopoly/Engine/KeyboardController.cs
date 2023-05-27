@@ -1,4 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WZIMopoly.Engine
 {
@@ -91,6 +93,25 @@ namespace WZIMopoly.Engine
             bool wasPressed = _oldKeyboard.IsKeyDown(key);
             bool isReleased = _keyboard.IsKeyUp(key);
             return wasPressed && isReleased;
+        }
+
+        /// <summary>
+        /// Returns all the keys that have been clicked.
+        /// </summary>
+        /// <returns>
+        /// The keys that have been clicked.
+        /// </returns>
+        public static List<Keys> GetAllClickedKeys()
+        {
+            List<Keys> result = new();
+            foreach (var key in _keyboard.GetPressedKeys())
+            {
+                if (WasClicked(key))
+                {
+                    result.Add(key);
+                }
+            }
+            return result;
         }
 
         /// <summary>

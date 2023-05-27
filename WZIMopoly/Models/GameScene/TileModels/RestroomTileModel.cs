@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -28,9 +28,19 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="taxPrices">
         /// The dictiopnary of prices for restrooms.
         /// </param>
-        internal RestroomTileModel(int id, int price, Dictionary<RestroomAmount, int> taxPrices) : base(id,price)
+        internal RestroomTileModel(int id, int price, Dictionary<RestroomAmount, int> taxPrices)
+            : base(id, price)
         {
             TaxPrices = taxPrices;
+            OnStand += (player) =>
+            {
+                if (Owner != null && Owner != player)
+                {
+                    RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
+                    int tax = TaxPrices[ownerRestroomAmount];
+                    player.TransferMoneyTo(Owner, tax);
+                }
+            };
         }
 
         /// <summary>
@@ -60,21 +70,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 taxPrices.Add(temp, int.Parse(attribute.Value));
             }
             int price = int.Parse(node.SelectSingleNode("price").InnerText);
-            var tile = new RestroomTileModel(id, price,taxPrices);
+            var tile = new RestroomTileModel(id, price, taxPrices);
             tile.LoadNamesFromXml(node);
             return tile;
-        }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player)
-        {
-            if (Owner != null && Owner != player)
-            {
-                RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
-                int tax = TaxPrices[ownerRestroomAmount];
-                player.Money -= tax;
-                Owner.Money += tax;
-            }
         }
 
         /// <summary>

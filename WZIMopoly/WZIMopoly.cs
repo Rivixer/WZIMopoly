@@ -8,6 +8,7 @@ using WZIMopoly.Controllers;
 using WZIMopoly.Scenes;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
+using WZIMopoly.Enums;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -106,6 +107,11 @@ namespace WZIMopoly
             ScreenController.Initialize(_graphics);
             ScreenController.ChangeResolution(1280, 720, false);
             ScreenController.ApplyChanges();
+
+            GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
+            GameSettings.Players.Add(new PlayerModel("Player2", "Blue"));
+            GameSettings.Players.Add(new PlayerModel("Player3", "Green"));
+            GameSettings.Players.Add(new PlayerModel("Player4", "Yellow"));
 
             _menuScene.Initialize();
             var newGameButton = _menuScene.Model.GetController<NewGameButtonController>();

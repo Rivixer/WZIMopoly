@@ -1,10 +1,12 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.GameButtonControllers;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.GameScene;
@@ -41,6 +43,11 @@ namespace WZIMopoly.Scenes
         private DiceController _diceController;
 
         /// <summary>
+        /// The upgrade tiles controller.
+        /// </summary>
+        private UpgradeController _upgradeController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -56,17 +63,13 @@ namespace WZIMopoly.Scenes
         /// <inheritdoc/>
         public override void Initialize()
         {
-            Model.Players.Add(new PlayerModel("Player1", "Red"));
-            Model.Players.Add(new PlayerModel("Player2", "Blue"));
-            Model.Players.Add(new PlayerModel("Player3", "Green"));
-            Model.Players.Add(new PlayerModel("Player4", "Yellow"));
-
             _mapController = Model.InitializeChild<MapModel, GUIMap, MapController>();
-            _mapController.Model.LoadTiles();
-            _mapController.Model.CreatePawns(Model.Players);
+            List<TileController> tileControllers = _mapController.Model.LoadTiles();
+            _mapController.Model.CreatePawns(GameSettings.Players);
 
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
             _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
+            _upgradeController = Model.InitializeChild<UpgradeModel, GUIUpgrade, UpgradeController>(tileControllers);
 
             InitializePlayerInfo();
             InitializeButtons();
@@ -77,12 +80,12 @@ namespace WZIMopoly.Scenes
         /// </summary>
         internal void StartGame()
         {
-            _mapController.Model.SetPlayersOnStart(Model.Players);
-            _mapController.Model.UpdatePawnPositions();
-            
+            _mapController.Model.SetPlayersOnStart();
+            _mapController.View.UpdatePawnPositions();
+
             Model.SetStartTime();
             Model.GameStatus = GameStatus.Running;
-            Model.Players[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
+            GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
 
         /// <inheritdoc/>
@@ -98,6 +101,34 @@ namespace WZIMopoly.Scenes
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+
+#if DEBUG
+            // Click a key on the keyboard to move the current player a certain number of steps.
+            List<Keys> clickedKeys = KeyboardController.GetAllClickedKeys();
+            if (clickedKeys.Count > 0)
+            {
+                int stepToMove = clickedKeys[0] switch
+                {
+                    Keys.D1 => 1,
+                    Keys.D2 => 2,
+                    Keys.D3 => 3,
+                    Keys.D4 => 4,
+                    Keys.D5 => 5,
+                    Keys.D6 => 6,
+                    Keys.D7 => 7,
+                    Keys.D8 => 8,
+                    Keys.D9 => 9,
+                    _ => 0,
+                };
+                if (stepToMove > 0)
+                {
+                    var passedTiles = _mapController.Model.MovePlayer(Model.CurrentPlayer, (uint)stepToMove);
+                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    _mapController.Model.ActivateOnStandTile(Model.CurrentPlayer);
+                    _mapController.View.UpdatePawnPositions();
+                }
+            }
+#endif
         }
 
         /// <summary>
@@ -107,7 +138,7 @@ namespace WZIMopoly.Scenes
         {
             var infoWidth = 500;
             var infoHeight = 200;
-            var players = Model.Players;
+            var players = GameSettings.Players;
             var positions = new List<Tuple<PlayerModel, Rectangle, GUIStartPoint>>()
             {
                 new(players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
@@ -132,12 +163,25 @@ namespace WZIMopoly.Scenes
         {
             var diceModel = _diceController.Model;
             var mapModel = _mapController.Model;
+            var mapView = _mapController.View;
 
             // Mortage button
             Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
 
             // Upgrade button
-            Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
+            var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
+            upgradeButton.OnButtonClicked += () =>
+            {
+                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields)
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                else if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
+                {
+                    _upgradeController.View.UpdateMask();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.UpgradingFields;
+                }
+            };
 
             // Dice and EndTurn button
             var diceButton = Model.InitializeChild<DiceButtonModel, GUIDiceButton, DiceButtonController>();
@@ -152,12 +196,19 @@ namespace WZIMopoly.Scenes
                 await Task.Delay(350);
 
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
-                mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                mapView.UpdatePawnPositions();
+
             };
             endTurnButton.OnButtonClicked += () =>
             {
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                Model.NextPlayer();
+                if (!diceModel.LastRollWasDouble)
+                {
+                    Model.NextPlayer();
+                }
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 diceModel.Reset();
             };

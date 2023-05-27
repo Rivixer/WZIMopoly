@@ -1,4 +1,4 @@
-﻿using System.Xml;
+using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -16,14 +16,14 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal DeaneryTileModel(int id) : base(id) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StartTileModel"/> class,
+        /// Initializes a new instance of the <see cref="DeaneryTileModel"/> class,
         /// loading the data from the xml node.
         /// </summary>
         /// <param name="node">
         /// The XML node to load the data from.
         /// </param>
         /// <returns>
-        /// The <see cref="StartTileModel"/> instance.
+        /// The <see cref="DeaneryTileModel"/> instance.
         /// </returns>
         public static DeaneryTileModel LoadFromXml(XmlNode node)
         {
@@ -32,8 +32,5 @@ namespace WZIMopoly.Models.GameScene.TileModels
             tile.LoadNamesFromXml(node);
             return tile;
         }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) { }
     }
 }

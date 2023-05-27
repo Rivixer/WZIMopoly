@@ -1,4 +1,4 @@
-﻿using System.Xml;
+using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -24,7 +24,9 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal ConditionalPassTileModel(int id, int tax) : base(id)
         {
             Tax = tax;
+            OnStand += (player) => player.Money -= Tax;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConditionalPassTileModel"/> class,
         /// loading the data from the xml node.
@@ -42,12 +44,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
             var tile = new ConditionalPassTileModel(id, tax);
             tile.LoadNamesFromXml(node);
             return tile;
-        }
-
-        /// <inheritdoc/>
-        internal override void OnStand(PlayerModel player) 
-        {
-            player.Money -= Tax;
         }
     }
 }

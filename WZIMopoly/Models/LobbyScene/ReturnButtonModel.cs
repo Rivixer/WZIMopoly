@@ -9,6 +9,9 @@
         /// Initializes a new instance of the <see cref="ReturnButtonModel"/> class.
         /// </summary>
         public ReturnButtonModel()
-            : base("Return") { }
+            : base("Return")
+        {
+            IsActive = true;
+        }
     }
 }

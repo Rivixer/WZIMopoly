@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Text;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
+using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI
 {
@@ -30,15 +32,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The text to display.
         /// </summary>
-        private string _text;
-
-        /// <summary>
-        /// The vector that represents the position scaled to the current screen resolution.
-        /// </summary>
-        /// <remarks>
-        /// The X and Y coordinates refer to the position <see cref="_startPoint"/> of the element.
-        /// </remarks>
-        private Vector2 _position;
+        private StringBuilder _text;
 
         /// <summary>
         /// The path to the font.
@@ -82,7 +76,7 @@ namespace WZIMopoly.GUI
         /// Defaults to empty string.
         /// </param>
         /// <param name="scale">
-        /// The scale of the text. <br/>
+        /// The scale of the text.<br/>
         /// Defaults to 1.0f.
         /// </param>
         /// <remarks>
@@ -132,23 +126,29 @@ namespace WZIMopoly.GUI
         /// <value>
         /// The text to display.
         /// </value>
-        internal string Text
+        public string Text
         {
-            get => _text;
+            get => _text.ToString();
             set
             {
-                _text = value;
+                _text = new StringBuilder(value);
                 Recalculate();
             }
         }
 
         /// <summary>
-        /// Gets the position of the text.
+        /// Gets or sets the position of the text.
         /// </summary>
         /// <value>
-        /// The position of the text relative to the top-left corner.
+        /// The position of the text relative to the top-left corner
+        /// and scaled to the current screen resolution.
         /// </value>
-        protected Vector2 Position => _position;
+        public Vector2 Position { get; protected set; }
+
+        /// <summary>
+        /// Gets the StringBuilder that contains the text.
+        /// </summary>
+        protected StringBuilder TextBuilder => _text;
         #endregion
 
         #region GUIElement Methods
@@ -157,7 +157,7 @@ namespace WZIMopoly.GUI
         {
             if (Font is not null)
             {
-                spriteBatch.DrawString(Font, Text, _position, Color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(Font, Text, Position, Color, 0, Vector2.Zero, Scale, SpriteEffects.None, 0f);
             }
         }
 
@@ -177,8 +177,9 @@ namespace WZIMopoly.GUI
             Scale = _defaultScale * ScreenController.Height / 1080;
             int textWidth = (int)(Font.MeasureString(Text).X * Scale);
             int textHeight = (int)(Font.MeasureString(Text).Y * Scale);
-            float x = _defaultPosition.X * ScreenController.Width / 1920;
-            float y = _defaultPosition.Y * ScreenController.Height / 1080;
+            Vector2 scaledDefPosition = _defaultPosition.ToCurrentResolution();
+            float x = scaledDefPosition.X;
+            float y = scaledDefPosition.Y;
 
             switch (_startPoint)
             {
@@ -214,7 +215,7 @@ namespace WZIMopoly.GUI
                     break;
             }
 
-            _position = new Vector2(x, y);
+            Position = new Vector2(x, y);
         }
 
         /// <summary>
