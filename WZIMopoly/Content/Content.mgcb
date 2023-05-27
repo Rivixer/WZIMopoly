@@ -2259,6 +2259,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/PlayerFlagYellowHovered.png
 
+#begin Images/Red.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Red.png
+
 #begin Images/SettingsBackgroundInGame.png
 /importer:TextureImporter
 /processor:TextureProcessor

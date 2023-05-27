@@ -33,7 +33,7 @@ namespace WZIMopoly.Controllers.GameScene
         public override void Update()
         {
             base.Update();
-            if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingFields
+            if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingTiles
                 && MouseController.WasLeftBtnClicked())
             {
                 foreach (TileController tile in Model.TileControllers)

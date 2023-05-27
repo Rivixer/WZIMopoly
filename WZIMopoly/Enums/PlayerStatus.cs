@@ -21,9 +21,14 @@
         DuringRollingDice,
 
         /// <summary>
-        /// The player is upgrading his fields.
+        /// The player is upgrading his tiles.
         /// </summary>
-        UpgradingFields,
+        UpgradingTiles,
+
+        /// <summary>
+        /// The player is mortgaging his tiles.
+        /// </summary>
+        MortgagingTiles,
 
         /// <summary>
         /// The player has already rolled the dice.
