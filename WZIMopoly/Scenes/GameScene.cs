@@ -48,6 +48,11 @@ namespace WZIMopoly.Scenes
         private UpgradeController _upgradeController;
 
         /// <summary>
+        /// The mortgage tiles controller.
+        /// </summary>
+        private MortgageController _mortgageController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -70,6 +75,7 @@ namespace WZIMopoly.Scenes
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
             _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
             _upgradeController = Model.InitializeChild<UpgradeModel, GUIUpgrade, UpgradeController>(tileControllers);
+            _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
 
             InitializePlayerInfo();
             InitializeButtons();
@@ -166,7 +172,19 @@ namespace WZIMopoly.Scenes
             var mapView = _mapController.View;
 
             // Mortage button
-            Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
+            var mortgageButton = Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
+            mortgageButton.OnButtonClicked += () =>
+            {
+                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.MortgagingTiles)
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                else if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
+                {
+                    _mortgageController.View.UpdateMask();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.MortgagingTiles;
+                }
+            };
 
             // Upgrade button
             var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
