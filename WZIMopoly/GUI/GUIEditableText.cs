@@ -247,13 +247,13 @@ namespace WZIMopoly.GUI
         /// </summary>
         private void ChangeCursorRect()
         {
-            int offset = 0;
+            float offset = 0;
             for (int i = 0; i < _cursorPosition; i++)
             {
-                offset += GetTextCharLenght(i);
+                offset += GetTextCharLength(i);
             }
             Vector2 pos = _cursorStartPos;
-            var newRect = new Rectangle((int)pos.X + offset, (int)pos.Y, (int)(5 * Scale), (int)(100 * Scale));
+            var newRect = new Rectangle((int)(pos.X + offset) - 4, (int)pos.Y, (int)(5 * Scale), (int)(100 * Scale));
             _cursor.SetNewDefDstRectangle(newRect, _cursorStartPoint);
         }
 
@@ -266,9 +266,9 @@ namespace WZIMopoly.GUI
         /// <returns>
         /// The length of the character in pixels, scaled to the current resolution.
         /// </returns>
-        private int GetTextCharLenght(int index)
+        private float GetTextCharLength(int index)
         {
-            return (int)(Font.MeasureString(Text[index].ToString()).X * Scale * 1920) / ScreenController.Width;
+            return (Font.MeasureString(Text[index].ToString()).X * Scale * 1920) / ScreenController.Width;
         }
     }
 }
