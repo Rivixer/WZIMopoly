@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -19,25 +19,19 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Initializes a new instance of the <see cref="RestroomTileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node of the chance tile.
+        /// <param name="id">
+        /// The id of the tile.
         /// </param>
-        /// <exception cref="ArgumentException">
-        /// Thrown if the XML file data is invalid.
-        /// </exception>
-        internal RestroomTileModel(XmlNode node) : base(node)
+        /// <param name="price">
+        /// The price of the tile.
+        /// </param>
+        /// <param name="taxPrices">
+        /// The dictiopnary of prices for restrooms.
+        /// </param>
+        internal RestroomTileModel(int id, int price, Dictionary<RestroomAmount, int> taxPrices)
+            : base(id, price)
         {
-            TaxPrices = new Dictionary<RestroomAmount, int>();
-            foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
-            {
-                if (!Enum.TryParse(attribute.Name, true, out RestroomAmount temp))
-                {
-                    throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
-                        $" in tile node with {Id} id");
-                }
-                TaxPrices.Add(temp, int.Parse(attribute.Value));
-            }
-
+            TaxPrices = taxPrices;
             OnStand += (player) =>
             {
                 if (Owner != null && Owner != player)
@@ -47,6 +41,38 @@ namespace WZIMopoly.Models.GameScene.TileModels
                     player.TransferMoneyTo(Owner, tax);
                 }
             };
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RestroomTileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="RestroomTileModel"/> instance.
+        /// </returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown if the XML file data is invalid.
+        /// </exception>
+        public static RestroomTileModel LoadFromXml(XmlNode node)
+        {
+            var taxPrices = new Dictionary<RestroomAmount, int>();
+            int id = int.Parse(node.Attributes["id"].InnerText);
+            foreach (XmlAttribute attribute in node.SelectSingleNode("tax_prices").Attributes)
+            {
+                if (!Enum.TryParse(attribute.Name, true, out RestroomAmount temp))
+                {
+                    throw new ArgumentException($"Invalid attribute name in tax_prices node: {attribute.Name};" +
+                        $" in tile node with {id} id");
+                }
+                taxPrices.Add(temp, int.Parse(attribute.Value));
+            }
+            int price = int.Parse(node.SelectSingleNode("price").InnerText);
+            var tile = new RestroomTileModel(id, price, taxPrices);
+            tile.LoadNamesFromXml(node);
+            return tile;
         }
 
         /// <summary>

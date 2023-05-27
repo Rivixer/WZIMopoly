@@ -13,12 +13,12 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// The name of the tile in English.
         /// </summary>
-        internal readonly string EnName;
+        internal string EnName;
 
         /// <summary>
         /// The name of the tile in Polish.
         /// </summary>
-        internal readonly string PlName;
+        internal string PlName;
 
         /// <summary>
         /// The id of the tile.
@@ -34,14 +34,35 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Initializes a new instance of the <see cref="TileModel"/> class.
         /// </summary>
-        /// <param name="node">
-        /// The XML node that contains the tile data.
+        /// <param name="id">
+        /// The id of the tile.
         /// </param>
-        protected TileModel(XmlNode node)
+        protected TileModel(int id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TileModel"/> class,
+        /// loading the data from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node to load the data from.
+        /// </param>
+        /// <returns>
+        /// The <see cref="TileModel"/> instance.
+        /// </returns>
+
+        /// <summary>
+        /// Loads the names from the xml node.
+        /// </summary>
+        /// <param name="node">
+        /// The node to load names from.
+        /// </param>
+        protected void LoadNamesFromXml(XmlNode node)
         {
             EnName = node.SelectSingleNode("en_name").InnerText;
             PlName = node.SelectSingleNode("pl_name").InnerText;
-            Id = int.Parse(node.Attributes["id"].Value);
         }
 
         /// <summary>
