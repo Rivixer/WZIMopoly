@@ -205,17 +205,12 @@ namespace WZIMopoly.Scenes
             endTurnButton.OnButtonClicked += () =>
             {
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                if (diceModel.IfDouble)
-                {
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
-                    diceModel.Reset();
-                }
-                else
+                if (!diceModel.LastRollWasDouble)
                 {
                     Model.NextPlayer();
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
-                    diceModel.Reset();
                 }
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                diceModel.Reset();
             };
 
             // Buy button

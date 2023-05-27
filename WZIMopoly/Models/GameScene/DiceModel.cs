@@ -23,9 +23,9 @@ namespace WZIMopoly.Models.GameScene
         internal ushort Sum => (ushort)(LastRoll.Item1 + LastRoll.Item2);
 
         /// <summary>
-        /// 
+        /// Gets a value indicating whether the last roll was a double.
         /// </summary>
-        internal bool IfDouble => LastRoll.Item1 == LastRoll.Item2;
+        internal bool LastRollWasDouble => LastRoll != null && LastRoll.Item1 == LastRoll.Item2;
 
         /// <summary>
         /// Simulates the roll of two dice.
