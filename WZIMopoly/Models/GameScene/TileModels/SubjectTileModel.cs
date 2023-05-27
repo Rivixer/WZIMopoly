@@ -74,23 +74,28 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <summary>
+        /// Gets the price for selling the subject grade.
+        /// </summary>
+        public int SellGradePrice => UpgradePrice / 2;
+
+        /// <summary>
+        /// Gets the price for mortgaging the subject.
+        /// </summary>
+        public int MortgagePrice => Price / 2;
+
+        /// <summary>
+        /// Gets the value indicating whether
+        /// the subject is currently mortgaged.
+        /// </summary>
+        public bool IsMortgaged { get; private set; } = false;
+
+        /// <summary>
         /// Upgrades the subject tile.
         /// </summary>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown if the subject cannot be upgraded.
-        /// </exception>
         public void Upgrade()
         {
+            Grade += 1;
             Owner.Money -= UpgradePrice;
-            Grade = Grade switch
-            {
-                SubjectGrade.Three => SubjectGrade.ThreeHalf,
-                SubjectGrade.ThreeHalf => SubjectGrade.Four,
-                SubjectGrade.Four => SubjectGrade.FourHalf,
-                SubjectGrade.FourHalf => SubjectGrade.Five,
-                SubjectGrade.Five => SubjectGrade.Exemption,
-                _ => throw new InvalidOperationException("Cannot upgrade subject with grade: " + Grade),
-            };
         }
 
         /// <inheritdoc/>
@@ -116,8 +121,92 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public bool CanUpgrade(PlayerModel player)
         {
             return player.Money >= UpgradePrice
+                && !IsMortgaged
                 && PlayerHasSetOfColor(player)
                 && Grade != SubjectGrade.Exemption;
+        }
+
+        /// <summary>
+        /// Checks if the player can mortgage the subject tile.
+        /// </summary>
+        /// <param name="player">
+        /// The player to check if can mortgage the subject tile.
+        /// </param>
+        /// <returns>
+        /// True if the player can mortgage the subject tile, otherwise false.
+        /// </returns>
+        /// <remarks>
+        /// The player can mortgage the subject tile if the player owns the tile
+        /// and the grade is <see cref="SubjectGrade.Three"/>.
+        /// </remarks>
+        public bool CanMortgage(PlayerModel player)
+        {
+            return player == Owner && !IsMortgaged && Grade == SubjectGrade.Three;
+        }
+
+        /// <summary>
+        /// Checks if the player can unmortgage the subject tile.
+        /// </summary>
+        /// <param name="player">
+        /// The player to check if can unmortgage the subject tile.
+        /// </param>
+        /// <returns>
+        /// True if the player can unmortgage the subject tile, otherwise false.
+        /// </returns>
+        /// <remarks>
+        /// The player can unmortgage the subject tile if the player owns the tile,
+        /// the tile is mortgaged and the player has enough money to pay the mortgage price.
+        /// </remarks>
+        public bool CanUnmortgage(PlayerModel player)
+        {
+            return player == Owner && IsMortgaged && player.Money >= MortgagePrice;
+        }
+
+        /// <summary>
+        /// Checks if the player can sell the subject tile grade.
+        /// </summary>
+        /// <param name="player">
+        /// The player to check if can sell the subject tile grade.
+        /// </param>
+        /// <returns>
+        /// True if the player can sell the subject tile grade, otherwise false.
+        /// </returns>
+        /// <remarks>
+        /// The player can sell the subject tile grade if the player owns the tile
+        /// and the grade is greater than <see cref="SubjectGrade.Three"/>.
+        /// </remarks>
+        public bool CanSellGrade(PlayerModel player)
+        {
+            return player == Owner && Grade > SubjectGrade.Three;
+        }
+
+        /// <summary>
+        /// Mortgages the subject tile.
+        /// </summary>
+        public void Mortgage()
+        {
+            Owner.MortgagedTiles.Add(this);
+            Owner.Money += MortgagePrice;
+            IsMortgaged = true;
+        }
+
+        /// <summary>
+        /// Unmortages the subject tile.
+        /// </summary>
+        public void Unmortgage()
+        {
+            Owner.Money -= MortgagePrice;
+            Owner.MortgagedTiles.Remove(this);
+            IsMortgaged = false;
+        }
+
+        /// <summary>
+        /// Sells the subject tile grade.
+        /// </summary>
+        public void SellGrade()
+        {
+            Grade -= 1;
+            Owner.Money += SellGradePrice;
         }
 
         /// <summary>
