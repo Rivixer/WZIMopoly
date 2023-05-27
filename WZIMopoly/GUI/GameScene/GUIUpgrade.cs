@@ -143,20 +143,25 @@ namespace WZIMopoly.GUI.GameScene
                     }
                 }
 
+                PlayerModel player = _model.CurrentPlayer;
                 // TODO: Add localization
                 if (t == null)
                 {
                     text = "Wybierz pole do ulepszenia.";
                 }
-                else if (!_model.CurrentPlayer.PurchasedTiles.Contains(t))
+                else if (!player.PurchasedTiles.Contains(t))
                 {
                     text = $"Nie jestes wlascicielem pola {t.EnName}.";
                 }
-                else if (t.UpgradePrice > _model.CurrentPlayer.Money)
+                else if (t.UpgradePrice > player.Money)
                 {
                     text = $"Nie stac Cie na ulepszenie pola {t.EnName}. (koszt {t.UpgradePrice}ECTS";
                 }
-                else if (!t.CanUpgrade(_model.CurrentPlayer))
+                else if (t.IsMortgaged)
+                {
+                    text = $"Nie mozesz ulepszyc pola {t.EnName}, poniewaz jest zastawione.";
+                }
+                else if (!t.CanUpgrade(player))
                 {
                     text = $"Musisz miec zakupione wszystkie pola koloru {t.Color}, aby ulepszyc {t.EnName}";
                 }
