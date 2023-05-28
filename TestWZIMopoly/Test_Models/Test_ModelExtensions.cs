@@ -7,7 +7,7 @@ using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
 #nullable disable
-
+#pragma warning disable CS0184
 
 namespace TestWZIMopoly.Test_Models
 {
@@ -32,16 +32,15 @@ namespace TestWZIMopoly.Test_Models
 
     internal class View1_1 : GUIText
     {
-        internal View1_1(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1) : base(fontPath, defPosition, startPoint, text, scale)
-        {
-        }
+        internal View1_1()
+            : base(null, Vector2.Zero) { }
     }
 
     internal class View1_2 : GUITexture
     {
-        internal View1_2(string path, Rectangle defDstRect) : base(path, defDstRect)
-        {
-        }
+        internal View1_2()
+            : base(null, Rectangle.Empty) { }
+
     }
 
     internal class View2 : GUIElement
@@ -55,9 +54,9 @@ namespace TestWZIMopoly.Test_Models
 
     internal class ViewX : GUIText
     {
-        internal ViewX(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1) : base(fontPath, defPosition, startPoint, text, scale)
-        {
-        }
+        internal ViewX()
+            : base(null,Vector2.Zero) { }
+
     }
 
     internal class Controller0 : Controller<Model0, View0>
@@ -105,23 +104,6 @@ namespace TestWZIMopoly.Test_Models
         private Controller2 _controller2;
         private ControllerX _controllerX;
 
-        private Rectangle _rectangle = new Rectangle(100, 200, 300, 400);
-        private Vector2 _vector2 = new Vector2(1, 2);
-        private string _path = "TestTestTest";
-
-        internal static bool FindController0(IControllerable controller)
-        {
-            return controller.View is GUIText;
-
-        }
-        internal static bool FindController1(IControllerable controller)
-        {
-            return controller.View is GUITexture;
-        }
-
-        Predicate<IControllerable> _predicate0 = FindController0;
-        Predicate<IControllerable> _predicate1 = FindController1;
-
         [TestInitialize]
         public void Setup()
         {
@@ -132,10 +114,10 @@ namespace TestWZIMopoly.Test_Models
             _modelX = new ModelX();
 
             _view0 = new View0();
-            _view1_1 = new View1_1(_path, _vector2);
-            _view1_2 = new View1_2(_path, _rectangle);
+            _view1_1 = new View1_1();
+            _view1_2 = new View1_2();
             _view2 = new View2();
-            _viewX = new ViewX(_path, _vector2);
+            _viewX = new ViewX();
 
             _controller0 = new Controller0(_model0, _view0);
             _controller1_1 = new Controller1_1(_model1_1, _view1_1);
@@ -163,40 +145,35 @@ namespace TestWZIMopoly.Test_Models
 
         [TestMethod]
         public void Test_GetController_ReturnNULL()
-        {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
-
+        { 
             // Act
             var Result = _model0.GetController<ControllerX>();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
-        public void Test_GetControllerPredicate_ReturnController()
+        public void Test_GetController_PredicateViewIsGUIText_ReturnController()
         {
             // Arrange
             var ExpectedResult = _controller1_1;
 
             // Act
-            var Result = _model0.GetController<Controller1_1>(_predicate0);
+            var Result = _model0.GetController<Controller1_1>(x => x.View is GUIText);
 
             // Assert
             Assert.AreEqual(ExpectedResult, Result);
         }
 
         [TestMethod]
-        public void Test_GetControllerPredicate_ReturnNULL()
+        public void Test_GetController_PredicateViewIsGUITexture_ReturnNULL()
         {
             // Arrange
-            string x = null;
-            var ExpectedResult = x;
+            object ExpectedResult = null;
 
             // Act
-            var Result = _model0.GetController<Controller1_1>(_predicate1);
+            var Result = _model0.GetController<Controller1_1>(x => x.View is GUITexture);
 
             // Assert
             Assert.AreEqual(ExpectedResult, Result);
@@ -218,52 +195,45 @@ namespace TestWZIMopoly.Test_Models
         [TestMethod]
         public void Test_GetControllerRecursively_ReturnNULL()
         {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
-
             // Act
             var Result = _model0.GetControllerRecursively<ControllerX>();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
-        public void Test_GetControllerRecursivelyPredicate_ReturnController()
+        public void Test_GetControllerRecursively_PredicateViewIsGUIText_ReturnController()
         {
             // Arrange
             var ExpectedResult = _controller1_1;
 
             // Act
-            var Result = _model0.GetControllerRecursively<Controller1_1>(_predicate0);
+            var Result = _model0.GetControllerRecursively<Controller1_1>(x => x.View is GUIText);
 
             // Assert
             Assert.AreEqual(ExpectedResult, Result);
         }
 
         [TestMethod]
-        public void Test_GetControllerRecursivelyPredicate_ReturnNULL()
+        public void Test_GetControllerRecursively_PredicateViewIsGUITexture_ReturnNULL()
         {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
-
             // Act
-            var Result = _model0.GetControllerRecursively<Controller1_1>(_predicate1);
+            var Result = _model0.GetControllerRecursively<Controller1_1>(x => x.View is GUITexture);
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
         public void Test_GetAllControllers_ReturnControllers()
         {
             // Arrange
-            List<IControllerable> controllers = new List<IControllerable>();
-            controllers.Add(_controller1_1);
-            controllers.Add(_controller1_2);
-            var ExpectedResult = controllers;
+            var ExpectedResult = new List<IControllerable>
+            {
+                _controller1_1,
+                _controller1_2
+            };
 
             // Act
             var Result = _model0.GetAllControllers<IControllerable>();
@@ -273,15 +243,16 @@ namespace TestWZIMopoly.Test_Models
         }
 
         [TestMethod]
-        public void Test_GetAllControllersPredicate_ReturnControllers()
+        public void Test_GetAllControllers_PredicateViewIsGUITexture_ReturnControllers()
         {
             // Arrange
-            List<IControllerable> controllers = new List<IControllerable>();
-            controllers.Add(_controller1_2);
-            var ExpectedResult = controllers;
+            var ExpectedResult = new List<IControllerable>
+            {
+                _controller1_2
+            };
 
             // Act
-            var Result = _model0.GetAllControllers(_predicate1);
+            var Result = _model0.GetAllControllers<IControllerable>(x => x.View is GUITexture);
 
             // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
@@ -291,11 +262,12 @@ namespace TestWZIMopoly.Test_Models
         public void Test_GetAllControllersRecursively_ReturnControllers()
         {
             // Arrange
-            List<IControllerable> controllers = new List<IControllerable>();
-            controllers.Add(_controller1_1);
-            controllers.Add(_controller1_2);
-            controllers.Add(_controller2);
-            var ExpectedResult = controllers;
+            var ExpectedResult = new List<IControllerable> 
+            {
+                _controller1_1,
+                _controller1_2,
+                _controller2 
+            };
 
             // Act
             var Result = _model0.GetAllControllersRecursively<IControllerable>();
@@ -305,16 +277,16 @@ namespace TestWZIMopoly.Test_Models
         }
 
         [TestMethod]
-        public void Test_GetAllControllersRecursivelyPredicate_ReturnControllers()
+        public void Test_GetAllControllersRecursively_PredicateViewIsGUITexture_ReturnControllers()
         {
             // Arrange
-            List<IControllerable> controllers = new List<IControllerable>();
-            controllers.Add(_controller1_2);
-
-            var ExpectedResult = controllers;
+            var ExpectedResult = new List<IControllerable>
+            {
+                _controller1_2
+            };
 
             // Act
-            var Result = _model0.GetAllControllersRecursively(_predicate1);
+            var Result = _model0.GetAllControllersRecursively<IControllerable>(x => x.View is GUITexture);
 
             // Assert
             CollectionAssert.AreEqual(ExpectedResult, Result);
@@ -336,15 +308,11 @@ namespace TestWZIMopoly.Test_Models
         [TestMethod]
         public void Test_GetModel_ReturnNULL()
         {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
-
             // Act
             var Result = _model0.GetModel<ModelX>();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
@@ -363,25 +331,23 @@ namespace TestWZIMopoly.Test_Models
         [TestMethod]
         public void Test_GetModelRecursively_ReturnNULL()
         {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
 
             // Act
             var Result = _model0.GetModelRecursively<ModelX>();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
         public void Test_GetAllModels_ReturnModels()
         {
             // Arrange
-            List<IModelable> models = new List<IModelable>();
-            models.Add(_model1_1);
-            models.Add(_model1_2);
-            var ExpectedResult = models;
+            var ExpectedResult = new List<IModelable>
+            {
+                _model1_1,
+                _model1_2
+            };
 
             // Act
             var Result = _model0.GetAllModels<IModelable>();
@@ -394,11 +360,12 @@ namespace TestWZIMopoly.Test_Models
         public void Test_GetAllModelsRecursively_ReturnModels()
         {
             // Arrange
-            List<IModelable> models = new List<IModelable>();
-            models.Add(_model1_1);
-            models.Add(_model1_2);
-            models.Add(_model2);
-            var ExpectedResult = models;
+            var ExpectedResult = new List<IModelable>
+            {
+                _model1_1,
+                _model1_2,
+                _model2
+            };
 
             // Act
             var Result = _model0.GetAllModelsRecursively<IModelable>();
@@ -423,15 +390,11 @@ namespace TestWZIMopoly.Test_Models
         [TestMethod]
         public void Test_GetView_ReturnNULL()
         {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
-
             // Act
             var Result = _model0.GetView<ViewX>();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
@@ -450,25 +413,22 @@ namespace TestWZIMopoly.Test_Models
         [TestMethod]
         public void Test_GetViewRecursively_ReturnNULL()
         {
-            // Arrange
-            string x = null;
-            var ExpectedResult = x;
-
             // Act
             var Result = _model0.GetViewRecursively<ViewX>();
 
             // Assert
-            Assert.AreEqual(ExpectedResult, Result);
+            Assert.IsNull(Result);
         }
 
         [TestMethod]
         public void Test_GetAllViews_ReturnViews()
         {
             // Arrange
-            List<IGUIable> views = new List<IGUIable>();
-            views.Add(_view1_1);
-            views.Add(_view1_2);
-            var ExpectedResult = views;
+            var ExpectedResult = new List<IGUIable>
+            {
+                _view1_1,
+                _view1_2
+            };
 
             // Act
             var Result = _model0.GetAllViews<IGUIable>();
@@ -481,11 +441,12 @@ namespace TestWZIMopoly.Test_Models
         public void Test_GetAllViewsRecursively()
         {
             // Arrange
-            List<IGUIable> views = new List<IGUIable>();
-            views.Add(_view1_1);
-            views.Add(_view1_2);
-            views.Add(_view2);
-            var ExpectedResult = views;
+            var ExpectedResult = new List<IGUIable>
+            {
+                _view1_1,
+                _view1_2,
+                _view2
+            };
 
             // Act
             var Result = _model0.GetAllViewsRecursively<IGUIable>();
