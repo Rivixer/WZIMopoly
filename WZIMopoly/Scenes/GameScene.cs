@@ -1,8 +1,11 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.GameButtonControllers;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
@@ -25,7 +28,7 @@ namespace WZIMopoly.Scenes
     /// <remarks>
     /// Act as the primary controller.
     /// </remarks>
-    internal class GameScene : Scene<GameModel, GameView>
+    internal class GameScene : Scene<GameModel, GameView>, ICoverableScene
     {
         /// <summary>
         /// The timer controller.
@@ -53,6 +56,16 @@ namespace WZIMopoly.Scenes
         private MortgageController _mortgageController;
 
         /// <summary>
+        /// The settings controller.
+        /// </summary>
+        private SettingsController _settingsController;
+
+#nullable enable
+        public IPrimaryController? SecondScene { get; set; }
+#nullable disable
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -77,8 +90,13 @@ namespace WZIMopoly.Scenes
             _upgradeController = Model.InitializeChild<UpgradeModel, GUIUpgrade, UpgradeController>(tileControllers);
             _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
 
+            var settingsModel = new SettingsModel();
+            var settingsView = new GUISettings(settingsModel);
+            _settingsController = new SettingsController(settingsModel, settingsView);
+            _settingsController.Initialize();
+
             InitializePlayerInfo();
-            InitializeButtons();
+            InitializeButtons();            
         }
 
         /// <summary>
@@ -243,7 +261,18 @@ namespace WZIMopoly.Scenes
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
 
             // Settings button
-            Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
+            var settingsButton = Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
+            settingsButton.OnButtonClicked += () =>
+            {
+                if (SecondScene != _settingsController)
+                {
+                    SecondScene = _settingsController;
+                }
+                else
+                {
+                    SecondScene = null;
+                }
+            };
         }
     }
 }

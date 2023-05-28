@@ -68,6 +68,7 @@ namespace WZIMopoly.Scenes
         {
             controller.Load(content);
             controller.Model.Children.ForEach(child => LoadAll(content, child));
+            (controller as ICoverableScene)?.SecondScene?.LoadAll(content);
         }
 
         /// <summary>
@@ -81,6 +82,7 @@ namespace WZIMopoly.Scenes
         {
             controller.BeforeUpdate();
             controller.Model.Children.ForEach(child => BeforeUpdateAll(child));
+            (controller as ICoverableScene)?.SecondScene?.BeforeUpdateAll();
         }
 
         /// <summary>
@@ -93,6 +95,7 @@ namespace WZIMopoly.Scenes
         {
             controller.Update();
             controller.Model.Children.ForEach(child => UpdateAll(child));
+            (controller as ICoverableScene)?.SecondScene?.UpdateAll();
         }
 
         /// <summary>
@@ -105,6 +108,7 @@ namespace WZIMopoly.Scenes
         {
             controller.AfterUpdate();
             controller.Model.Children.ForEach(child => AfterUpdateAll(child));
+            (controller as ICoverableScene)?.SecondScene?.AfterUpdateAll();
         }
 
 
@@ -121,6 +125,7 @@ namespace WZIMopoly.Scenes
         {
             controller.Draw(spriteBatch);
             controller.Model.Children.ForEach(child => DrawAll(spriteBatch, child));
+            (controller as ICoverableScene)?.SecondScene?.DrawAll(spriteBatch);
         }
 
         /// <summary>
@@ -133,6 +138,7 @@ namespace WZIMopoly.Scenes
         {
             controller.Recalculate();
             controller.Model.Children.ForEach(child => RecalculateAll(child));
+            (controller as ICoverableScene)?.SecondScene?.RecalculateAll();
         }
         #endregion
     }
