@@ -223,12 +223,27 @@ namespace WZIMopoly.Scenes
             endTurnButton.OnButtonClicked += () =>
             {
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                bool resetCounter = true;
                 if (!diceModel.LastRollWasDouble)
                 {
                     Model.NextPlayer();
                 }
+                else
+                {
+                    diceModel.DoubleCounter++;
+                    if (diceModel.DoubleCounter == 3)
+                    {
+                        mapModel.TeleportPlayer(Model.CurrentPlayer, mapModel.GetModel<MandatoryLectureTileModel>());
+                        mapView.UpdatePawnPositions();
+                        Model.NextPlayer();
+                    }
+                    else
+                    {
+                        resetCounter = false;
+                    }
+                }
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
-                diceModel.Reset();
+                diceModel.Reset(resetCounter);
             };
 
             // Buy button

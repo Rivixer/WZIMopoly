@@ -13,6 +13,11 @@ namespace WZIMopoly.Models.GameScene
         internal Tuple<int, int> LastRoll;
 
         /// <summary>
+        /// Count of the previous doubles.
+        /// </summary>
+        internal int DoubleCounter = 0;
+
+        /// <summary>
         /// Pseudo-random numbers generator.
         /// </summary>
         private readonly static Random _random = new();
@@ -44,9 +49,10 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Resets data about the last roll.
         /// </summary>
-        internal void Reset()
+        internal void Reset(bool resetCounter = true)
         {
             LastRoll = null;
+            if(resetCounter) DoubleCounter = 0;
         }
     }
 }
