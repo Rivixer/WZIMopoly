@@ -213,12 +213,23 @@ namespace WZIMopoly.Scenes
 
                 await Task.Delay(350);
 
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
-                List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
-                MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
-                mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                if (diceModel.DoubleCounter == 3)
+                {
+                    var mandatoryLectureTile = mapModel.GetModel<MandatoryLectureTileModel>();
+                    mapModel.TeleportPlayer(Model.CurrentPlayer, mandatoryLectureTile);
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                    Model.NextPlayer();
+                    diceModel.ResetDoubleCounter();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                else
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                    List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                }
                 mapView.UpdatePawnPositions();
-
             };
             endTurnButton.OnButtonClicked += () =>
             {
@@ -226,6 +237,7 @@ namespace WZIMopoly.Scenes
                 if (!diceModel.LastRollWasDouble)
                 {
                     Model.NextPlayer();
+                    diceModel.ResetDoubleCounter();
                 }
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 diceModel.Reset();
