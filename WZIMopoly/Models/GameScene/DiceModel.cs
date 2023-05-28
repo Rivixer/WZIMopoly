@@ -47,7 +47,7 @@ namespace WZIMopoly.Models.GameScene
         /// </remarks>
         public Tuple<int, int> RollDice()
         {
-            LastRoll = new Tuple<int, int>(s_random.Next(1, 2), s_random.Next(1, 2));
+            LastRoll = new Tuple<int, int>(s_random.Next(1, 7), s_random.Next(1, 7));
             if (LastRollWasDouble)
             {
                 DoubleCounter++;
