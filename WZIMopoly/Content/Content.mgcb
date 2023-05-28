@@ -1215,7 +1215,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/UseCardPL.png
 
-#begin Images/Cards/AlghoritmsAndDataStruct.png
+#begin Images/Cards/AlgorithmsAndDataStructures.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1225,9 +1225,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/AlghoritmsAndDataStruct.png
+/build:Images/Cards/AlgorithmsAndDataStructures.png
 
-#begin Images/Cards/AlghoritmsAndDataStructPL.png
+#begin Images/Cards/AlgorithmsAndDataStructuresPL.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1237,7 +1237,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/AlghoritmsAndDataStructPL.png
+/build:Images/Cards/AlgorithmsAndDataStructuresPL.png
+
+#begin Images/Cards/BuildingWebsites.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/BuildingWebsites.png
+
+#begin Images/Cards/BuildingWebsitesPL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/BuildingWebsitesPL.png
 
 #begin Images/Cards/ComputerArchitecture.png
 /importer:TextureImporter
@@ -1311,30 +1335,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/Cards/DiscreteMathematicsPL.png
 
-#begin Images/Cards/ElectronicsExercises.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ElectronicsExercises.png
-
-#begin Images/Cards/ElectronicsExercisesPL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ElectronicsExercisesPL.png
-
 #begin Images/Cards/ElectronicsLaboratory.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1358,6 +1358,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Cards/ElectronicsLaboratoryPL.png
+
+#begin Images/Cards/ExerciseElectronics.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/ExerciseElectronics.png
+
+#begin Images/Cards/ExerciseElectronicsPL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/ExerciseElectronicsPL.png
 
 #begin Images/Cards/Faculty.png
 /importer:TextureImporter
@@ -1455,7 +1479,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/Cards/HigherMathematicsPL.png
 
-#begin Images/Cards/IntellectualPropProtect.png
+#begin Images/Cards/IntellectualPropertyProtection.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1465,9 +1489,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/IntellectualPropProtect.png
+/build:Images/Cards/IntellectualPropertyProtection.png
 
-#begin Images/Cards/IntellectualPropProtectPL.png
+#begin Images/Cards/IntellectualPropertyProtectionPL.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1477,7 +1501,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/IntellectualPropProtectPL.png
+/build:Images/Cards/IntellectualPropertyProtectionPL.png
 
 #begin Images/Cards/IntroductionToProgramming.png
 /importer:TextureImporter
@@ -1551,7 +1575,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/Cards/MathematicalAnalysisPL.png
 
-#begin Images/Cards/ObjectOrientProgramming.png
+#begin Images/Cards/Object-orientedProgramming.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1561,9 +1585,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/ObjectOrientProgramming.png
+/build:Images/Cards/Object-orientedProgramming.png
 
-#begin Images/Cards/ObjectOrientProgrammingPL.png
+#begin Images/Cards/Object-orientedProgrammingPL.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1573,9 +1597,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/ObjectOrientProgrammingPL.png
+/build:Images/Cards/Object-orientedProgrammingPL.png
 
-#begin Images/Cards/OccupHealthAndSafety.png
+#begin Images/Cards/OccupationalHealthAndSafety.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1585,9 +1609,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/OccupHealthAndSafety.png
+/build:Images/Cards/OccupationalHealthAndSafety.png
 
-#begin Images/Cards/OccupHealthAndSafetyPL.png
+#begin Images/Cards/OccupationalHealthAndSafetyPL.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1597,7 +1621,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Cards/OccupHealthAndSafetyPL.png
+/build:Images/Cards/OccupationalHealthAndSafetyPL.png
 
 #begin Images/Cards/OperatingSystems.png
 /importer:TextureImporter
@@ -1695,6 +1719,102 @@
 /processorParam:TextureFormat=Color
 /build:Images/Cards/ProbabilityAndStatisticsPL.png
 
+#begin Images/Cards/RestroomI.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomI.png
+
+#begin Images/Cards/RestroomII.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomII.png
+
+#begin Images/Cards/RestroomIII.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomIII.png
+
+#begin Images/Cards/RestroomIIIPL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomIIIPL.png
+
+#begin Images/Cards/RestroomIIPL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomIIPL.png
+
+#begin Images/Cards/RestroomIPL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomIPL.png
+
+#begin Images/Cards/RestroomIV.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomIV.png
+
+#begin Images/Cards/RestroomIVPL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Cards/RestroomIVPL.png
+
 #begin Images/Cards/SoftwareEngineering.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1718,126 +1838,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Cards/SoftwareEngineeringPL.png
-
-#begin Images/Cards/ToiletI.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletI.png
-
-#begin Images/Cards/ToiletII.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletII.png
-
-#begin Images/Cards/ToiletIII.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletIII.png
-
-#begin Images/Cards/ToiletIIIPL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletIIIPL.png
-
-#begin Images/Cards/ToiletIIPL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletIIPL.png
-
-#begin Images/Cards/ToiletIPL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletIPL.png
-
-#begin Images/Cards/ToiletIV.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletIV.png
-
-#begin Images/Cards/ToiletIVPL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/ToiletIVPL.png
-
-#begin Images/Cards/WebsiteDevelopment.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/WebsiteDevelopment.png
-
-#begin Images/Cards/WebsiteDevelopmentPL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Cards/WebsiteDevelopmentPL.png
 
 #begin Images/Dice1.png
 /importer:TextureImporter
@@ -2318,18 +2318,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/TextCursor.png
-
-#begin Images/TileNames.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/TileNames.png
 
 #begin Images/TileNames.png
 /importer:TextureImporter

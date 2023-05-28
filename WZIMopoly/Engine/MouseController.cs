@@ -29,6 +29,11 @@ namespace WZIMopoly.Engine
             _mouse = Mouse.GetState();
         }
 
+        /// <summary>
+        /// Gets position of the cursor on the screen.
+        /// </summary>
+        public static Point Position => _mouse.Position;
+
         #region Left Button Methods
         /// <summary>Checks if the left mouse button has been clicked.</summary>
         /// <remarks>

@@ -5,7 +5,7 @@ namespace WZIMopoly.Models
     /// <summary>
     /// Represents a button model.
     /// </summary>
-    internal class ButtonModel : Model
+    internal class ButtonModel : Model, IClickable
     {
         /// <summary>
         /// The name of the button.
@@ -45,6 +45,18 @@ namespace WZIMopoly.Models
         /// Gets or sets whether the button has been clicked in this frame.
         /// </summary>
         public bool WasClickedInThisFrame { get; set; }
+
+        /// <inheritdoc/>
+        public void Activate()
+        {
+            IsActive = true;
+        }
+
+        /// <inheritdoc/>
+        public void Deactivate()
+        {
+            IsActive = false;
+        }
 
         /// <inheritdoc/>
         public override void BeforeUpdate()

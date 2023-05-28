@@ -23,5 +23,13 @@ namespace WZIMopoly.Utils
             var result = regex.Replace(text.ToLower(), match => match.Groups[2].Value.ToUpper());
             return result;
         }
+
+        internal static string ConvertShitToFileNames(string text)
+        {
+            string pattern = @" (\w)";
+            var regex = new Regex(pattern);
+            var result = regex.Replace(text, match => match.Groups[1].Value.ToUpper());
+            return result;
+        }
     }
 }

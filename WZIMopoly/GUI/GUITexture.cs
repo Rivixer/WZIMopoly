@@ -38,7 +38,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The texture of the element.
         /// </summary>
-        private Texture2D _texture;
+        public Texture2D _texture;
 
         /// <summary>
         /// The destination rectangle of the element specified for 1920x1080 resolution.
@@ -65,6 +65,8 @@ namespace WZIMopoly.GUI
         /// The path to the texture that will be drawn.
         /// </summary>
         private readonly string _path;
+
+        public bool IsVisible = true;
         #endregion
 
         /// <summary>
@@ -183,7 +185,7 @@ namespace WZIMopoly.GUI
         /// <inheritdoc/> 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Texture is not null)
+            if (Texture is not null && IsVisible)
             {
                 spriteBatch.Draw(Texture, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
             }

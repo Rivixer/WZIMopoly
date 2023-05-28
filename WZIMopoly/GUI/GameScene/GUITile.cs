@@ -4,8 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene;
+using WZIMopoly.Utils.PositionExtensions;
+using WZIMopoly.Utils;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.GUI.GameScene
 {
@@ -31,6 +35,8 @@ namespace WZIMopoly.GUI.GameScene
         /// The position specified for 1920x1080 resolution.
         /// </remarks>
         private readonly Rectangle _position;
+
+        private GUITexture? _card;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUITile"/> class.
@@ -60,6 +66,12 @@ namespace WZIMopoly.GUI.GameScene
             int width = int.Parse(position.Attributes["x2"].Value) - x1;
             int height = int.Parse(position.Attributes["y2"].Value) - y1;
             _position = new Rectangle(x1, y1, width, height);
+
+            if (_model is PurchasableTileModel)
+            {
+                var fileName = NamingConverter.ConvertShitToFileNames(_model.EnName);
+                //_card = new GUITexture($"Images/Cards/{fileName}", new(0, 0, 550, 900));
+            }
         }
 
         /// <summary>
@@ -69,6 +81,11 @@ namespace WZIMopoly.GUI.GameScene
         /// The position specified for 1920x1080 resolution.
         /// </remarks>
         public Rectangle Position => _position;
+
+        /// <summary>
+        /// Whether the mouse cursor is in the tile's area.
+        /// </summary>
+        public bool IsHovered => MouseController.IsHover(_position.ToCurrentResolution());
 
         /// <summary>
         /// Returns the list of points where the pawns should be placed on the tile.
@@ -166,13 +183,50 @@ namespace WZIMopoly.GUI.GameScene
             return positions;
         }
 
-        /// <inheritdoc/>
-        public override void Draw(SpriteBatch spriteBatch) { }
+        public void DrawCard()
+        {
+            var rect = new Rectangle(MouseController.Position.X, MouseController.Position.Y, 275, 450);
+
+            if (rect.X + rect.Width <= ScreenController.Width)
+            {
+                if (rect.Y + rect.Height <= ScreenController.Height)
+                {
+                    _card.SetNewDefDstRectangle(rect, GUIStartPoint.TopLeft);
+                }
+                else
+                {
+                    _card.SetNewDefDstRectangle(rect, GUIStartPoint.BottomLeft);
+                }
+            }
+            else
+            {
+                if (rect.Y + rect.Height <= ScreenController.Height)
+                {
+                    _card.SetNewDefDstRectangle(rect, GUIStartPoint.TopRight);
+                }
+                else
+                {
+                    _card.SetNewDefDstRectangle(rect, GUIStartPoint.BottomRight);
+                }
+            }
+        }
 
         /// <inheritdoc/>
-        public override void Load(ContentManager content) { }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            _card?.Draw(spriteBatch);
+        }
 
         /// <inheritdoc/>
-        public override void Recalculate() { }
+        public override void Load(ContentManager content)
+        {
+             _card?.Load(content);
+        }
+
+        /// <inheritdoc/>
+        public override void Recalculate()
+        {
+            _card?.Recalculate();
+        }
     }
 }

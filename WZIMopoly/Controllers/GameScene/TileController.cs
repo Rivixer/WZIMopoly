@@ -1,4 +1,5 @@
-﻿using WZIMopoly.GUI.GameScene;
+﻿using WZIMopoly.Engine;
+using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.Controllers.GameScene
@@ -23,6 +24,25 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         protected TileController(TileModel model, GUITile view)
             : base(model, view) { }
+
+        /// <summary>
+        /// The method called when the tile is clicked.
+        /// </summary>
+        /*protected virtual void OnClick()
+        {
+            View.DrawCard();
+            Debug.WriteLine("dupa");
+        }*/
+
+        /*public override void Update()
+        {
+            base.Update();       
+
+            if (Model.IsActive && MouseController.WasLeftBtnClicked() && View.IsHovered)
+            {
+                OnClick();
+            }
+        }*/
     }
 
     /// <summary>
