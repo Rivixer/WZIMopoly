@@ -145,9 +145,10 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public bool CanUpgrade(PlayerModel player)
         {
             return player.Money >= UpgradePrice
+                && Grade != SubjectGrade.Exemption
                 && !IsMortgaged
-                && PlayerHasSetOfColor(player)
-                && Grade != SubjectGrade.Exemption;
+                && NoMortgagedTilesInColorSet()
+                && PlayerHasSetOfColor(player);
         }
 
         /// <summary>
@@ -244,11 +245,21 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         private bool PlayerHasSetOfColor(PlayerModel player)
         {
-            var subjectTiles = AllTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
-            var subjectTilesColor = subjectTiles.Where(x => x.Color == Color);
-            var playerSubjectTiles = player.PurchasedTiles.Where(x => x is SubjectTileModel).Cast<SubjectTileModel>();
-            var playerSubjectTilesWithColor = playerSubjectTiles.Where(x => x.Color == Color);
-            return subjectTilesColor.SequenceEqual(playerSubjectTilesWithColor);
+            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
+            var playerTiles = player.PurchasedTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
+            return subjectTiles.SequenceEqual(playerTiles);
+        }
+
+        /// <summary>
+        /// Checks if there are no mortgaged tiles in the color set.
+        /// </summary>
+        /// <returns>
+        /// True if there are no mortgaged tiles in the color set, otherwise false.
+        /// </returns>
+        private bool NoMortgagedTilesInColorSet()
+        {
+            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
+            return !subjectTiles.Any(x => x.IsMortgaged);
         }
     }
 }
