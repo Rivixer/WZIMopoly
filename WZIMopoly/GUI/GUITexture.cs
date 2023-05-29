@@ -43,9 +43,6 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The destination rectangle of the element specified for 1920x1080 resolution.
         /// </summary>
-        /// <remarks>
-        /// The X and Y coordinates refer to the top-left corner of the element.
-        /// </remarks>
         private Rectangle _defaultDestinationRect;
 
         /// <summary>
@@ -65,8 +62,6 @@ namespace WZIMopoly.GUI
         /// The path to the texture that will be drawn.
         /// </summary>
         private readonly string _path;
-
-        public bool IsVisible = true;
         #endregion
 
         /// <summary>
@@ -123,9 +118,34 @@ namespace WZIMopoly.GUI
         /// The starting position of the element for which
         /// <paramref name="defDstRect"/> has been specified.
         /// </param>
-        public void SetNewDefDstRectangle(Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft) 
+        public void SetNewDefDstRectangle(Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
         {
             _defaultDestinationRect = defDstRect;
+            _startPoint = startPoint;
+            Recalculate();
+        }
+
+        /// <summary>
+        /// Sets new <see cref="_defaultDestinationRect"/>
+        /// and recalculates <see cref="DestinationRect"/>
+        /// and <see cref="UnscaledDestinationRect"/> fields,
+        /// based on <paramref name="dstRect"/> scaled to 
+        /// the current resolution.
+        /// </summary>
+        /// <param name="dstRect">
+        /// The rectangle scaled to the current resolution.
+        /// </param>
+        /// <param name="startPoint">
+        /// The starting position of the element for which
+        /// <paramref name="dstRect"/> has been specified.
+        /// </param>
+        public void SetNewDstRectangle(Rectangle dstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+        {
+            int posX = dstRect.X * 1920 / ScreenController.Width;
+            int posY = dstRect.Y * 1080 / ScreenController.Height;
+            int width = dstRect.Width * 1920 / ScreenController.Width;
+            int height = dstRect.Height * 1080 / ScreenController.Height;
+            _defaultDestinationRect = new Rectangle(posX, posY, width, height);
             _startPoint = startPoint;
             Recalculate();
         }
@@ -185,7 +205,7 @@ namespace WZIMopoly.GUI
         /// <inheritdoc/> 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Texture is not null && IsVisible)
+            if (Texture is not null)
             {
                 spriteBatch.Draw(Texture, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
             }
@@ -222,105 +242,10 @@ namespace WZIMopoly.GUI
             }
             catch (ContentLoadException)
             {
-               Texture = content.Load<Texture2D>(_path);
+                Texture = content.Load<Texture2D>(_path);
             }
 
             Recalculate();
-        }
-        #endregion
-
-        #region IGUIDynamicPosition Static Methods
-        /// <summary>
-        /// Updates <see cref="_defaultDestinationRect"/> of a GUIElement
-        /// and recalculates <see cref="DestinationRect"/> based on the new values.
-        /// </summary>
-        /// <para>
-        /// Replaces the default destination rectangle with a new one.<br/>
-        /// The X and Y coordinates of rectangle refer to the top left corner of the element.
-        /// </para>
-        /// <para>
-        /// The GUIElement must implement <see cref="IGUIDynamicPosition"/> interface.
-        /// </para>
-        /// <param name="view">
-        /// The GUIElement instance to be updated.
-        /// </param>
-        /// <param name="defDstRect">
-        /// A new default destination rectangle to be set.
-        /// </param>
-        /// <exception cref="InvalidTypeException">
-        /// Thrown if the GUIElement does not implement <see cref="IGUIDynamicPosition"/> interface.
-        /// </exception>
-        protected static void UpdateDefaultDestinationRect(GUITexture view, Rectangle defDstRect)
-        {
-            if (view is not IGUIDynamicPosition)
-            {
-                throw new InvalidTypeException(
-                    $"{view.GetType()} must implements IGUIDynamicPosition"
-                    + " to change the default destination rectangle.");
-            }
-
-            view._defaultDestinationRect = defDstRect;
-            view.Recalculate();
-        }
-
-        /// <summary>
-        /// Updates <see cref="_defaultDestinationRect"/> of a GUIElement
-        /// and recalculates <see cref="DestinationRect"/> based on the new values.
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Updates only the X and Y coordinates of the default destination rectangle.<br/>
-        /// The X and Y coordinates refer to the top left corner of the element.<br/>
-        /// The width and height of the default destination rectangle are not changed.
-        /// </para>
-        /// <para>
-        /// The GUIElement must implement <see cref="IGUIDynamicPosition"/> interface.
-        /// </para>
-        /// </remarks>
-        /// <param name="view">
-        /// The GUIElement instance to be updated.
-        /// </param>
-        /// <param name="point">
-        /// A point to be set as the new X and Y coordinates of the default destination rectangle.
-        /// </param>
-        /// <exception cref="InvalidTypeException">
-        /// Thrown if the GUIElement does not implement <see cref="IGUIDynamicPosition"/> interface.
-        /// </exception>
-        protected static void UpdateDefaultDestinationRect(GUITexture view, Point point)
-        {
-            var defDstRect = view._defaultDestinationRect;
-            var rectangle = new Rectangle(point.X, point.Y, defDstRect.Width, defDstRect.Height);
-            UpdateDefaultDestinationRect(view, rectangle);
-        }
-
-        /// <summary>
-        /// Updates <see cref="_defaultDestinationRect"/> of a GUIElement
-        /// and recalculates <see cref="DestinationRect"/> based on the new values.
-        /// </summary>
-        /// <para>
-        /// Moves the default destination rectangle by the specified vector.<br/>
-        /// The width and height of the default destination rectangle are not changed.
-        /// </para>
-        /// <para>
-        /// The GUIElement must implement <see cref="IGUIDynamicPosition"/> interface.
-        /// </para>
-        /// <param name="view">
-        /// The GUIElement instance to be updated.
-        /// </param>
-        /// <param name="vector">
-        /// A vector to move the default destination rectangle.
-        /// </param>
-        /// <exception cref="InvalidTypeException">
-        /// Thrown if the GUIElement does not implement <see cref="IGUIDynamicPosition"/> interface.
-        /// </exception>
-        protected static void UpdateDefaultDestinationRect(GUITexture view, Vector2 vector)
-        {
-            var defDstRect = view._defaultDestinationRect;
-            var rectangle = new Rectangle(
-                defDstRect.X + (int)vector.X,
-                defDstRect.Y + (int)vector.Y,
-                defDstRect.Width, defDstRect.Height);
-            UpdateDefaultDestinationRect(view, rectangle);
         }
         #endregion
     }

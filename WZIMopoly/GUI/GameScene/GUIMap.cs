@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using WZIMopoly.Controllers.GameScene;
+using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.GUI.GameScene
@@ -76,10 +77,11 @@ namespace WZIMopoly.GUI.GameScene
             foreach (var tile in _model.GetAllControllers<TileController>())
             {
                 List<Point> pawnPosition = tile.View.GetPawnPositions();
-                foreach (var (Player, Position) in tile.Model.Players.Zip(pawnPosition, (p1, p2) => (p1, p2)))
+                foreach (var (player, position) in tile.Model.Players.Zip(pawnPosition, (p1, p2) => (p1, p2)))
                 {
-                    var ctrl = _model.GetController<PawnController>((x) => x.Model.Color == Player.Color);
-                    ctrl.View.UpdatePosition(Position);
+                    var ctrl = _model.GetController<PawnController>((x) => x.Model.Color == player.Color);
+                    var rect = new Rectangle(position, ctrl.View.UnscaledDestinationRect.Size);
+                    ctrl.View.SetNewDefDstRectangle(rect, GUIStartPoint.Center);
                 }
             }
         }

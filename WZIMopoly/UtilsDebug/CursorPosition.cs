@@ -10,7 +10,7 @@ namespace WZIMopoly.DebugUtils
     static class ShowCursorPosition
     {
         // Change if you want to show the cursor position
-        public static ShowPlace ShowCursorPos = ShowPlace.None;
+        public static ShowPlace ShowCursorPos = ShowPlace.Screen;
 
         private readonly static List<DrawString> _toDraw = new();
         private static SpriteFont _font;

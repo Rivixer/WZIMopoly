@@ -129,7 +129,10 @@ namespace WZIMopoly.Models.GameScene
         {
             foreach (PlayerModel player in players)
             {
-                InitializeChild<PawnModel, GUIPawn, PawnController>(player.Color);
+                var model = new PawnModel(player.Color);
+                var view = new GUIPawn(model);
+                var controller = new PawnController(model, view);
+                AddChildBefore<TileController>(controller);
             }
         }
 
