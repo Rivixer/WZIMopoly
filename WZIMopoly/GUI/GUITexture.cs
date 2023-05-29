@@ -38,7 +38,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The texture of the element.
         /// </summary>
-        public Texture2D _texture;
+        private Texture2D _texture;
 
         /// <summary>
         /// The destination rectangle of the element specified for 1920x1080 resolution.

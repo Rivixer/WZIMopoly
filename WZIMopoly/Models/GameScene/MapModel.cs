@@ -80,14 +80,28 @@ namespace WZIMopoly.Models.GameScene
                 }
 
                 var tileView = new GUITile(tileNode, tileModel);
-
-                TileController tileController = (TileController)Activator.CreateInstance(
-                    type: tileControllerType,
-                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                    binder: null,
-                    args: new object[] { tileModel, tileView },
-                    culture: null
-                );
+                TileController tileController;
+                if (tileModel is PurchasableTileModel)
+                {
+                    Debug.WriteLine("kupa");
+                    tileController = (TileController)Activator.CreateInstance(
+                        type: tileControllerType,
+                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                        binder: null,
+                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel) },
+                        culture: null
+                    );
+                }
+                else
+                {
+                    tileController = (TileController)Activator.CreateInstance(
+                        type: tileControllerType,
+                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                        binder: null,
+                        args: new object[] { tileModel, tileView },
+                        culture: null
+                    );
+                }
 
                 tiles.Add(tileController);
             }
