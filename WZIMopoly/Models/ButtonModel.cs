@@ -5,7 +5,7 @@ namespace WZIMopoly.Models
     /// <summary>
     /// Represents a button model.
     /// </summary>
-    internal class ButtonModel : Model, IClickable
+    internal class ButtonModel : Model
     {
         /// <summary>
         /// The name of the button.

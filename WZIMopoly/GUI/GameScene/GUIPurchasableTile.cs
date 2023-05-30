@@ -6,6 +6,7 @@ using System.Xml;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Utils;
 using WZIMopoly.Utils.PositionExtensions;
 
@@ -17,6 +18,11 @@ namespace WZIMopoly.GUI.GameScene
         /// The card info texture.
         /// </summary>
         private readonly GUITexture _card;
+
+        /// <summary>
+        /// The text on card which represents the owner of the tile.
+        /// </summary>
+        private GUIText _ownerOnCard;
 
 #nullable enable
         /// <summary>
@@ -34,6 +40,8 @@ namespace WZIMopoly.GUI.GameScene
         {
             var fileName = NamingConverter.ConvertShitToFileNames(model.EnName);
             _card = new GUITexture($"Images/Cards/{fileName}", new(0, 0, 550, 900));
+
+            _ownerOnCard = new GUIText("Fonts/WZIMFont", new Vector2(0), Color.Black, GUIStartPoint.Center, scale: 0.3f);
         }
 
         /// <summary>
@@ -53,6 +61,7 @@ namespace WZIMopoly.GUI.GameScene
         public override void Load(ContentManager content)
         {
             _card.Load(content);
+            _ownerOnCard.Load(content);
         }
 
         /// <inheritdoc/>
@@ -61,6 +70,7 @@ namespace WZIMopoly.GUI.GameScene
             if (InfoVisible)
             {
                 _card.Draw(spriteBatch);
+                _ownerOnCard.Draw(spriteBatch);
             }
         }
 
@@ -73,6 +83,9 @@ namespace WZIMopoly.GUI.GameScene
             {
                 _hoverTime ??= DateTime.Now;
                 UpdateCardPosition();
+                UpdateOwnerOnCard();
+                var pos = new Vector2(_card.UnscaledDestinationRect.Center.X, _card.UnscaledDestinationRect.Bottom - 35);
+                _ownerOnCard.SetNewDefPosition(pos, GUIStartPoint.Center);
             }
             else
             {
@@ -84,6 +97,7 @@ namespace WZIMopoly.GUI.GameScene
         public override void Recalculate()
         {
             _card.Recalculate();
+            _ownerOnCard.Recalculate();
         }
 
         /// <summary>
@@ -102,6 +116,22 @@ namespace WZIMopoly.GUI.GameScene
                 _ => GUIStartPoint.Center,
             };
             _card.SetNewDstRectangle(rect, startPoint);
+            _card.Recalculate();
+        }
+
+        /// <summary>
+        /// Updates the text in <see cref="_ownerOnCard"/> which represents a owner name.
+        /// </summary>
+        private void UpdateOwnerOnCard()
+        {
+            if ((_model as PurchasableTileModel).Owner is not null)
+            {
+                _ownerOnCard.Text = $"Wlasciciel: {(_model as PurchasableTileModel).Owner.Nick}";
+            }
+            else
+            {
+                _ownerOnCard.Text = "";
+            }
         }
     }
 }

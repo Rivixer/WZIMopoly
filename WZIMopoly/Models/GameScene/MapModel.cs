@@ -79,11 +79,9 @@ namespace WZIMopoly.Models.GameScene
                         $"Tile model type {tileModelType} is not assignable to {typeof(TileModel)}");
                 }
 
-                var tileView = new GUITile(tileNode, tileModel);
                 TileController tileController;
                 if (tileModel is PurchasableTileModel)
                 {
-                    Debug.WriteLine("kupa");
                     tileController = (TileController)Activator.CreateInstance(
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
@@ -98,7 +96,7 @@ namespace WZIMopoly.Models.GameScene
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                         binder: null,
-                        args: new object[] { tileModel, tileView },
+                        args: new object[] { tileModel, new GUITile(tileNode, tileModel)},
                         culture: null
                     );
                 }

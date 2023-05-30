@@ -7,7 +7,7 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents a base class for a tile model.
     /// </summary>
-    internal abstract class TileModel : Model, IComparable<TileModel>, IClickable
+    internal abstract class TileModel : Model, IComparable<TileModel>
     {
         #region Fields
         /// <summary>

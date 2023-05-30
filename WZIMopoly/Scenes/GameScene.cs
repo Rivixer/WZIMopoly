@@ -235,8 +235,8 @@ namespace WZIMopoly.Scenes
             var buyButton = Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
             buyButton.OnButtonClicked += () =>
             {
-                var currentPlayerTile = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-                currentPlayerTile.Purchase(Model.CurrentPlayer);
+                var currentPlayerTileModel = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+                currentPlayerTileModel.Purchase(Model.CurrentPlayer);
             };
 
             // Trade button
