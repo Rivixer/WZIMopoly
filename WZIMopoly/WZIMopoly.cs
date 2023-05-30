@@ -118,7 +118,7 @@ namespace WZIMopoly
         protected override void Initialize()
         {
             ScreenController.Initialize(_graphics);
-            ScreenController.ChangeResolution(1280, 720, false);
+            ScreenController.ChangeResolution(1366, 768, false);
             ScreenController.ApplyChanges();
 
             GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
@@ -133,15 +133,22 @@ namespace WZIMopoly
             var quitButton = _menuScene.Model.GetController<QuitButtonController>();
             quitButton.OnButtonClicked += Exit;
 
+            var settingsButton = _menuScene.Model.GetController<SettingsButtonController>();
+            settingsButton.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
+
             _lobbyScene.Initialize();
-            var returnButton = _lobbyScene.Model.GetController<ReturnButtonController>();
-            returnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
+            var lobbyReturnButton = _lobbyScene.Model.GetController<Controllers.LobbyScene.ReturnButtonController>();
+            lobbyReturnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
             var startGameButton = _lobbyScene.Model.GetController<StartGameButtonController>();
             startGameButton.OnButtonClicked += () =>
             {
                 ChangeCurrentScene(_gameScene);
                 _gameScene.StartGame();
             };
+
+            _settingsScene.Initialize();
+            var settingsReturnButton = _settingsScene.Model.GetController<Controllers.SettingsScene.ReturnButtonController>();
+            settingsReturnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
 
             _gameScene.Initialize();
 
