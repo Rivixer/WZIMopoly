@@ -52,4 +52,36 @@ namespace WZIMopoly.Controllers.GameScene
         protected TileController(M model, GUITile view)
             : base(model, view) { }
     }
+
+    /// <summary>
+    /// TODO: ZROBIĆ KOMENTARZ
+    /// </summary>
+    /// <typeparam name="M"></typeparam>
+    /// <typeparam name="V"></typeparam>
+    internal abstract class TileController<M, V> : TileController
+        where M : TileModel
+        where V : GUITile
+    {
+        /// <summary>
+        /// Gets the model of the tile.
+        /// </summary>
+        /// <value>
+        /// The specified model of the tile.
+        /// </value>
+        internal new M Model => (M)base.Model;
+
+        internal new V View => (V)base.View;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TileController{M}"/> class.
+        /// </summary>
+        /// <param name="model">
+        /// The model of the tile.
+        /// </param>
+        /// <param name="view">
+        /// The view of the tile.
+        /// </param>
+        protected TileController(M model, V view)
+            : base(model, view) { }
+    }
 }

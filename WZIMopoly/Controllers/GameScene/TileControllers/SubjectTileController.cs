@@ -42,7 +42,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// in Monopoly. 
     /// </para>
     /// </remarks>
-    internal sealed class SubjectTileController : TileController<SubjectTileModel>
+    internal class SubjectTileController : TileController<SubjectTileModel, GUIPurchasableTile>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileController"/> class.
