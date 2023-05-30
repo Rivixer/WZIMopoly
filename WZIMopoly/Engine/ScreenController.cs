@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace WZIMopoly.Engine
 {
@@ -91,29 +90,6 @@ namespace WZIMopoly.Engine
             _graphics.PreferredBackBufferHeight = _height;
             _graphics.IsFullScreen = _fullScreen;
             _graphics.ApplyChanges();
-        }
-
-        /// <summary>
-        /// Updates the controller.
-        /// </summary>
-        /// <remarks>
-        /// Checks if the <c>F</c> key has been pressed and changes the resolution
-        /// from 1280x720 to 1920x1080(fullscreen) and vice versa.
-        /// </remarks>
-        public static void Update()
-        {
-            if (KeyboardController.WasClicked(Keys.F))
-            {
-                if (_fullScreen)
-                {
-                    ChangeResolution(1280, 720, false);
-                }
-                else
-                {
-                    ChangeResolution(1920, 1080, true);
-                }
-                ApplyChanges();
-            }
         }
     }
 }
