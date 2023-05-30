@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
@@ -44,6 +43,11 @@ namespace WZIMopoly
         /// The game scene.
         /// </summary>
         private readonly GameScene _gameScene;
+
+        /// <summary>
+        /// The settings scene.
+        /// </summary>
+        private readonly SettingsScene _settingsScene;
         #endregion
 
         /// <summary>
@@ -84,7 +88,16 @@ namespace WZIMopoly
             var gameView = new GameView();
             var gameModel = new GameModel();
             _gameScene = new GameScene(gameModel, gameView);
+
+            var settingsView = new SettingsView();
+            var settingsModel = new SettingsModel();
+            _settingsScene = new SettingsScene(settingsModel, settingsView);
         }
+
+        /// <summary>
+        /// Gets or sets the game language.
+        /// </summary>
+        internal static Language Language { get; set; } = Language.English;
 
         /// <summary>
         /// Changes the current scene to the specified one
@@ -149,6 +162,7 @@ namespace WZIMopoly
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
+            _settingsScene.LoadAll(Content);
 
             base.LoadContent();
         }
