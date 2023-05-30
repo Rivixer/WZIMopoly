@@ -97,7 +97,7 @@ namespace WZIMopoly
         /// <summary>
         /// Gets or sets the game language.
         /// </summary>
-        internal static Language Language { get; set; } = Language.English;
+        internal static Language Language { get; set; } = Language.Polish;
 
         /// <summary>
         /// Changes the current scene to the specified one
