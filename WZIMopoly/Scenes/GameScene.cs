@@ -64,7 +64,6 @@ namespace WZIMopoly.Scenes
         public GameScene(GameModel model, GameView view)
             : base(model, view) { }
 
-
         /// <inheritdoc/>
         public override void Initialize()
         {
@@ -253,9 +252,6 @@ namespace WZIMopoly.Scenes
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
-
-            // Settings button
-            Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
         }
     }
 }
