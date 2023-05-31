@@ -16,6 +16,6 @@ namespace WZIMopoly.GUI.SettingsScene
         /// The model of the return button.
         /// </param>
         public GUIReturnButton(ButtonModel model)
-            : base(model, new Rectangle(960, 700, 456, 110), GUIStartPoint.Center, disableTexture: false) { }
+            : base(model, new Rectangle(960, 1000, 456, 110), GUIStartPoint.Center, disableTexture: false) { }
     }
 }
