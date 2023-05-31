@@ -999,7 +999,7 @@
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/SettingsExitPL.png
 
-#begin Images/Buttons/SettingsFulscreen.png
+#begin Images/Buttons/SettingsFullscreen.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1009,9 +1009,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Buttons/SettingsFulscreen.png
+/build:Images/Buttons/SettingsFullscreen.png
 
-#begin Images/Buttons/SettingsFulscreenPL.png
+#begin Images/Buttons/SettingsFullscreenPL.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1021,7 +1021,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Images/Buttons/SettingsFulscreenPL.png
+/build:Images/Buttons/SettingsFullscreenPL.png
 
 #begin Images/Buttons/SettingsHovered.png
 /importer:TextureImporter
@@ -2318,18 +2318,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/TextCursor.png
-
-#begin Images/TileNames.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/TileNames.png
 
 #begin Images/TileNames.png
 /importer:TextureImporter

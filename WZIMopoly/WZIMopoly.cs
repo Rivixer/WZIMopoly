@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
@@ -44,6 +43,11 @@ namespace WZIMopoly
         /// The game scene.
         /// </summary>
         private readonly GameScene _gameScene;
+
+        /// <summary>
+        /// The settings scene.
+        /// </summary>
+        private readonly SettingsScene _settingsScene;
         #endregion
 
         /// <summary>
@@ -84,7 +88,16 @@ namespace WZIMopoly
             var gameView = new GameView();
             var gameModel = new GameModel();
             _gameScene = new GameScene(gameModel, gameView);
+
+            var settingsView = new SettingsView();
+            var settingsModel = new SettingsModel();
+            _settingsScene = new SettingsScene(settingsModel, settingsView);
         }
+
+        /// <summary>
+        /// Gets or sets the game language.
+        /// </summary>
+        internal static Language Language { get; set; } = Language.Polish;
 
         /// <summary>
         /// Changes the current scene to the specified one
@@ -105,7 +118,7 @@ namespace WZIMopoly
         protected override void Initialize()
         {
             ScreenController.Initialize(_graphics);
-            ScreenController.ChangeResolution(1280, 720, false);
+            ScreenController.ChangeResolution(1366, 768, false);
             ScreenController.ApplyChanges();
 
             GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
@@ -120,15 +133,22 @@ namespace WZIMopoly
             var quitButton = _menuScene.Model.GetController<QuitButtonController>();
             quitButton.OnButtonClicked += Exit;
 
+            var settingsButton = _menuScene.Model.GetController<SettingsButtonController>();
+            settingsButton.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
+
             _lobbyScene.Initialize();
-            var returnButton = _lobbyScene.Model.GetController<ReturnButtonController>();
-            returnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
+            var lobbyReturnButton = _lobbyScene.Model.GetController<Controllers.LobbyScene.ReturnButtonController>();
+            lobbyReturnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
             var startGameButton = _lobbyScene.Model.GetController<StartGameButtonController>();
             startGameButton.OnButtonClicked += () =>
             {
                 ChangeCurrentScene(_gameScene);
                 _gameScene.StartGame();
             };
+
+            _settingsScene.Initialize();
+            var settingsReturnButton = _settingsScene.Model.GetController<Controllers.SettingsScene.ReturnButtonController>();
+            settingsReturnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
 
             _gameScene.Initialize();
 
@@ -149,6 +169,7 @@ namespace WZIMopoly
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
+            _settingsScene.LoadAll(Content);
 
             base.LoadContent();
         }
@@ -168,12 +189,6 @@ namespace WZIMopoly
 
             KeyboardController.Update();
             MouseController.Update();
-
-            if (KeyboardController.WasClicked(Keys.F))
-            {
-                ScreenController.Update();
-                _currentScene.RecalculateAll();
-            }
 
             _currentScene.UpdateAll();
             _currentScene.AfterUpdateAll();

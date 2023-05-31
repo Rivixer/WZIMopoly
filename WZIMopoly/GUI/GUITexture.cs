@@ -36,9 +36,14 @@ namespace WZIMopoly.GUI
         internal Rectangle UnscaledDestinationRect;
 
         /// <summary>
-        /// The texture of the element.
+        /// The texture of the element in English language.
         /// </summary>
         private Texture2D _texture;
+
+        /// <summary>
+        /// The texture of the element in Polish language.
+        /// </summary>
+        private Texture2D _texturePL;
 
         /// <summary>
         /// The destination rectangle of the element specified for 1920x1080 resolution.
@@ -185,7 +190,16 @@ namespace WZIMopoly.GUI
         {
             if (Texture is not null)
             {
-                spriteBatch.Draw(Texture, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
+                Texture2D toDraw;
+                if (WZIMopoly.Language == Language.Polish)
+                {
+                    toDraw = _texturePL;
+                }
+                else
+                {
+                    toDraw = _texture;
+                }
+                spriteBatch.Draw(toDraw, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
             }
         }
 
@@ -202,25 +216,25 @@ namespace WZIMopoly.GUI
         }
 
         /// <summary>
-        /// Loads the texture of the element.
+        /// Loads textures of the element.
         /// </summary>
         /// <param name="content">
         /// The ContentManager used to load the texture.
         /// </param>
         /// <remarks>
-        /// After loading the texture, <see cref="Recalculate"/> is called
-        /// to scale and shift the element to the current screen resolution.
+        /// After loading the textures, <see cref="Recalculate"/> is called
+        /// to scale and shift the elements to the current screen resolution.
         /// </remarks>
         public override void Load(ContentManager content)
         {
-            // TODO: Standardize this after creating the game language selection
+            _texture = content.Load<Texture2D>(_path);
             try
             {
-                Texture = content.Load<Texture2D>(_path + "PL");
+                _texturePL = content.Load<Texture2D>(_path + "PL");
             }
             catch (ContentLoadException)
             {
-               Texture = content.Load<Texture2D>(_path);
+                _texturePL = _texture;
             }
 
             Recalculate();
