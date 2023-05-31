@@ -26,6 +26,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public StartTileModel(int id, int reward) : base(id)
         {
             _reward = reward;
+            OnStand += (player) => player.Money += _reward;
         }
 
         /// <summary>
