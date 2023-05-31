@@ -79,15 +79,27 @@ namespace WZIMopoly.Models.GameScene
                         $"Tile model type {tileModelType} is not assignable to {typeof(TileModel)}");
                 }
 
-                var tileView = new GUITile(tileNode, tileModel);
-
-                TileController tileController = (TileController)Activator.CreateInstance(
-                    type: tileControllerType,
-                    bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                    binder: null,
-                    args: new object[] { tileModel, tileView },
-                    culture: null
-                );
+                TileController tileController;
+                if (tileModel is PurchasableTileModel)
+                {
+                    tileController = (TileController)Activator.CreateInstance(
+                        type: tileControllerType,
+                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                        binder: null,
+                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel) },
+                        culture: null
+                    );
+                }
+                else
+                {
+                    tileController = (TileController)Activator.CreateInstance(
+                        type: tileControllerType,
+                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                        binder: null,
+                        args: new object[] { tileModel, new GUITile(tileNode, tileModel)},
+                        culture: null
+                    );
+                }
 
                 tiles.Add(tileController);
             }
@@ -115,7 +127,10 @@ namespace WZIMopoly.Models.GameScene
         {
             foreach (PlayerModel player in players)
             {
-                InitializeChild<PawnModel, GUIPawn, PawnController>(player.Color);
+                var model = new PawnModel(player.Color);
+                var view = new GUIPawn(model);
+                var controller = new PawnController(model, view);
+                AddChildBefore<TileController>(controller);
             }
         }
 
