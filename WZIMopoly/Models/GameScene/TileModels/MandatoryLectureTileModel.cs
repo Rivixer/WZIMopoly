@@ -8,12 +8,23 @@ namespace WZIMopoly.Models.GameScene.TileModels
     internal class MandatoryLectureTileModel : TileModel
     {
         /// <summary>
+        /// The amount of money that the player has to pay to leave the jail.
+        /// </summary>
+        private readonly int _payForLeave;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MandatoryLectureTileModel"/> class.
         /// </summary>
         /// <param name="id">
         /// The id of the tile.
         /// </param>
         internal MandatoryLectureTileModel(int id) : base(id) { }
+            _payForLeave = payForLeave;
+
+        /// <summary>
+        /// Gets the amount of money that the player has to pay to leave the jail.
+        /// </summary>
+        public int PayForLeave => _payForLeave;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MandatoryLectureTileModel"/> class,
@@ -28,7 +39,8 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public static MandatoryLectureTileModel LoadFromXml(XmlNode node)
         {
             int id = int.Parse(node.Attributes["id"].InnerText);
-            var tile = new MandatoryLectureTileModel(id);
+            int payForLeave = int.Parse(node["pay_for_leave"].InnerText);
+            var tile = new MandatoryLectureTileModel(id, payForLeave);
             tile.LoadNamesFromXml(node);
             return tile;
         }

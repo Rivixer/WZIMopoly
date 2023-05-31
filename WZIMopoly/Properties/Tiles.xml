@@ -153,6 +153,7 @@
 	<tile id="20" type="MandatoryLecture">
 		<en_name>Lecture</en_name>
 		<pl_name>Wykład</pl_name>
+		<pay_for_leave>50</pay_for_leave>
 		<position x1="897" y1="211" x2="1023" y2="335" orientation="square"/>
 	</tile>
 	<tile id="21" type="Subject">
