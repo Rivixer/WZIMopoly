@@ -25,7 +25,7 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// <see href="https://monopoly.fandom.com/wiki/Railroads">'Railroads'</see>.
     /// </para>
     /// </remarks>
-    internal sealed class RestroomTileController : TileController<RestroomTileModel, GUIPurchasableTile>
+    internal class RestroomTileController : TileController<RestroomTileModel, GUIPurchasableTile>
     {
         /// <summary>
         /// Initializes a new instance of the <see  cref="RestroomTileController"/> class.

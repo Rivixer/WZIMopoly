@@ -156,7 +156,7 @@ namespace WZIMopoly.GUI
         /// Sets a new default position of the text.
         /// </summary>
         /// <param name="newDefPos">
-        /// A new default position for the text.
+        /// A new default position for the text specified for 1920x1080 resolution
         /// </param>
         /// <param name="startPoint">
         /// The starting position of the element for which <paramref name="newDefPos"/> has been specified.

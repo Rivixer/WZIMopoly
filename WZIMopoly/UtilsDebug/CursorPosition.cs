@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using WZIMopoly.Engine;
 
 namespace WZIMopoly.DebugUtils
 {
@@ -26,7 +26,7 @@ namespace WZIMopoly.DebugUtils
 
             if (ShowCursorPos != ShowPlace.None)
             {
-                var cursorPosition = Mouse.GetState().Position;
+                var cursorPosition = MouseController.Position;
                 var info = $"Cursor position: {cursorPosition}";
                 if (ShowCursorPos.HasFlag(ShowPlace.Console))
                 {

@@ -47,18 +47,6 @@ namespace WZIMopoly.Models
         public bool WasClickedInThisFrame { get; set; }
 
         /// <inheritdoc/>
-        public void Activate()
-        {
-            IsActive = true;
-        }
-
-        /// <inheritdoc/>
-        public void Deactivate()
-        {
-            IsActive = false;
-        }
-
-        /// <inheritdoc/>
         public override void BeforeUpdate()
         {
             WasClickedInThisFrame = false;

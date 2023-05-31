@@ -12,10 +12,13 @@ using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI.GameScene
 {
+    /// <summary>
+    /// Represents a view of the purchasable tile.
+    /// </summary>
     internal class GUIPurchasableTile : GUITile
     {
         /// <summary>
-        /// The card info texture.
+        /// The info card texture.
         /// </summary>
         private readonly GUITexture _card;
 
@@ -38,7 +41,7 @@ namespace WZIMopoly.GUI.GameScene
         internal GUIPurchasableTile(XmlNode node, TileModel model)
             : base(node, model)
         {
-            var fileName = NamingConverter.ConvertShitToFileNames(model.EnName);
+            var fileName = NamingConverter.ConvertXMLNamesToFileNames(model.EnName);
             _card = new GUITexture($"Images/Cards/{fileName}", new(0, 0, 550, 900));
 
             _ownerOnCard = new GUIText("Fonts/WZIMFont", new Vector2(0), Color.Black, GUIStartPoint.Center, scale: 0.3f);

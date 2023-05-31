@@ -7,7 +7,7 @@ namespace WZIMopoly.GUI.GameScene
     /// <summary>
     /// Represents a pawn view.
     /// </summary>
-    internal sealed class GUIPawn : GUITexture
+    internal class GUIPawn : GUITexture
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIPawn"/> class.

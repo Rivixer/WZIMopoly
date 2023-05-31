@@ -29,11 +29,6 @@ namespace WZIMopoly.Models.GameScene
         ///The list of players.
         ///</summary>
         internal readonly List<PlayerModel> Players = new();
-
-        /// <summary>
-        /// Whether the tile can be clicked.
-        /// </summary>
-        internal bool IsActive = true;
         #endregion
 
         /// <summary>
@@ -130,18 +125,6 @@ namespace WZIMopoly.Models.GameScene
         public void SetAllTiles(IEnumerable<TileModel> tiles)
         {
             AllTiles = tiles;
-        }
-
-        /// <inheritdoc/>
-        public void Activate()
-        {
-            IsActive = true;
-        }
-
-        /// <inheritdoc/>
-        public void Deactivate()
-        {
-            IsActive = false;
         }
     }
 }

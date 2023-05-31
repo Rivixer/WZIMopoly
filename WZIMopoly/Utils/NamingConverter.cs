@@ -24,7 +24,16 @@ namespace WZIMopoly.Utils
             return result;
         }
 
-        internal static string ConvertShitToFileNames(string text)
+        /// <summary>
+        /// Converts the xml file tile naming convention to the images naming convention.
+        /// </summary>
+        /// <param name="text">
+        /// The name to convert.
+        /// </param>
+        /// <returns>
+        /// Converted name.
+        /// </returns>
+        internal static string ConvertXMLNamesToFileNames(string text)
         {
             string pattern = @" (\w)";
             var regex = new Regex(pattern);

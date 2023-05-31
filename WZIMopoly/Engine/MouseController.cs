@@ -20,6 +20,11 @@ namespace WZIMopoly.Engine
         private static MouseState _oldMouse;
 
         /// <summary>
+        /// Gets position of the cursor on the screen.
+        /// </summary>
+        public static Point Position => _mouse.Position;
+
+        /// <summary>
         /// Updates the state of the mouse.<br/>
         /// Saves the current state as the old state and gets the new state.
         /// </summary>
@@ -28,11 +33,6 @@ namespace WZIMopoly.Engine
             _oldMouse = _mouse;
             _mouse = Mouse.GetState();
         }
-
-        /// <summary>
-        /// Gets position of the cursor on the screen.
-        /// </summary>
-        public static Point Position => _mouse.Position;
 
         #region Left Button Methods
         /// <summary>Checks if the left mouse button has been clicked.</summary>
@@ -85,7 +85,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool IsHover(Rectangle rect)
         {
-            return rect.Contains(_mouse.Position);
+            return rect.Contains(Position);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace WZIMopoly.Engine
         /// </returns>
         public static bool IsHover(Func<Point, bool> func)
         {
-            return func(_mouse.Position);
+            return func(Position);
         }
         #endregion
     }

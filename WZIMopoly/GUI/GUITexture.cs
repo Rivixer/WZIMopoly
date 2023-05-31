@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
-using WZIMopoly.Exceptions;
 using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI

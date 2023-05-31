@@ -1,6 +1,4 @@
-﻿using System.Xml;
-
-namespace WZIMopoly.Models.GameScene.TileModels
+﻿namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Represents a base class for tile classes that

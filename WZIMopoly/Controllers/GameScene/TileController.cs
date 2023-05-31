@@ -54,10 +54,15 @@ namespace WZIMopoly.Controllers.GameScene
     }
 
     /// <summary>
-    /// TODO: ZROBIĆ KOMENTARZ
+    /// Represents a base class for a tile controller
+    /// with a specific model and view type.
     /// </summary>
-    /// <typeparam name="M"></typeparam>
-    /// <typeparam name="V"></typeparam>
+    /// <typeparam name="M">
+    /// The model type.
+    /// </typeparam>
+    /// <typeparam name="V">
+    /// The view type.
+    /// </typeparam>
     internal abstract class TileController<M, V> : TileController
         where M : TileModel
         where V : GUITile
@@ -70,6 +75,12 @@ namespace WZIMopoly.Controllers.GameScene
         /// </value>
         internal new M Model => (M)base.Model;
 
+        /// <summary>
+        /// Gets the view of the tile.
+        /// </summary>
+        /// <value>
+        /// The specidfied view of the tile.
+        /// </value>
         internal new V View => (V)base.View;
 
         /// <summary>
