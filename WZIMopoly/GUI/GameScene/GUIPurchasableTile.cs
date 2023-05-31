@@ -129,12 +129,15 @@ namespace WZIMopoly.GUI.GameScene
         {
             if ((_model as PurchasableTileModel).Owner is not null)
             {
-                _ownerOnCard.Text = $"Wlasciciel: {(_model as PurchasableTileModel).Owner.Nick}";
+                _ownerOnCard.Text = WZIMopoly.Language switch
+                {
+                    Language.Polish => $"Wlasciciel: {(_model as PurchasableTileModel).Owner.Nick}",
+                    Language.English => $"Owner: {(_model as PurchasableTileModel).Owner.Nick}",
+                    _ => throw new ArgumentException($"{WZIMopoly.Language} is not implemented on card.")
+                };
             }
             else
-            {
                 _ownerOnCard.Text = "";
-            }
         }
     }
 }
