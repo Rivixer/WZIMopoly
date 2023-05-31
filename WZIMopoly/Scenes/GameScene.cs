@@ -252,6 +252,15 @@ namespace WZIMopoly.Scenes
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
+
+            // Leave jail button
+            var leaveJailButton = Model.InitializeChild<LeaveJailButtonModel, GUILeaveJailButton, LeaveJailButtonController>();
+            leaveJailButton.OnButtonClicked += () =>
+            {
+                var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
+                jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                Model.CurrentPlayer.Money -= 50;
+            };
         }
     }
 }
