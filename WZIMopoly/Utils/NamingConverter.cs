@@ -31,7 +31,7 @@ namespace WZIMopoly.Utils
         /// The name to convert.
         /// </param>
         /// <returns>
-        /// Converted name.
+        /// The converted name.
         /// </returns>
         internal static string ConvertXMLNamesToFileNames(string text)
         {

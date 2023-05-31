@@ -20,7 +20,7 @@ namespace WZIMopoly.Engine
         private static MouseState _oldMouse;
 
         /// <summary>
-        /// Gets position of the cursor on the screen.
+        /// Gets the position of the cursor on the screen.
         /// </summary>
         public static Point Position => _mouse.Position;
 

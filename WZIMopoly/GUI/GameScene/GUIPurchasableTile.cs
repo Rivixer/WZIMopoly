@@ -110,7 +110,7 @@ namespace WZIMopoly.GUI.GameScene
         {
             var size = new Point(275, 450).ToCurrentResolution();
             var rect = new Rectangle(MouseController.Position, size);
-            var startPoint = (_model.Id / 10) switch
+            var startPoint = (Model.Id / 10) switch
             {
                 0 => GUIStartPoint.BottomLeft,
                 1 => GUIStartPoint.TopLeft,
@@ -123,17 +123,17 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Updates the text in <see cref="_ownerOnCard"/> which represents a owner name.
+        /// Updates the text in <see cref="_ownerOnCard"/> which represents an owner name.
         /// </summary>
         private void UpdateOwnerOnCard()
         {
-            if ((_model as PurchasableTileModel).Owner is not null)
+            if ((Model as PurchasableTileModel).Owner is not null)
             {
                 _ownerOnCard.Text = WZIMopoly.Language switch
                 {
-                    Language.Polish => $"Wlasciciel: {(_model as PurchasableTileModel).Owner.Nick}",
-                    Language.English => $"Owner: {(_model as PurchasableTileModel).Owner.Nick}",
-                    _ => throw new ArgumentException($"{WZIMopoly.Language} is not implemented on card.")
+                    Language.Polish => $"Wlasciciel: {(Model as PurchasableTileModel).Owner.Nick}",
+                    Language.English => $"Owner: {(Model as PurchasableTileModel).Owner.Nick}",
+                    _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
                 };
             }
             else
