@@ -55,6 +55,24 @@ namespace WZIMopoly.Models
         /// </param>
         void AddChild(IControllerable child);
 
+        /// <summary>
+        /// Adds a controller to the list of children before
+        /// the first controller of type <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The controller type before which 
+        /// the child controller will be added.
+        /// </typeparam>
+        /// <param name="child">
+        /// The controller to be added.
+        /// </param>
+        /// <remarks>
+        /// If there is no controller of type <typeparamref name="T"/>,
+        /// the child controller is added to the end of the list.
+        /// </remarks>
+        void AddChildBefore<T>(IControllerable child)
+            where T : IControllerable;
+
         #region InitializeChild Methods
         /// <summary>
         /// Initializes a child controller and
