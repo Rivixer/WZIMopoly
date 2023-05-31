@@ -41,7 +41,7 @@ namespace WZIMopoly.GUI.GameScene
         {
             _model = model;
             _background = new GUITexture("Images/Board", new Rectangle(0, 0, 1920, 1080));
-            _names = new GUITexture("Images/TileNamesPL", new Rectangle(0, 0, 1920, 1080));
+            _names = new GUITexture("Images/TileNames", new Rectangle(0, 0, 1920, 1080));
             _prices = new GUITexture("Images/TilePrices", new Rectangle(0, 0, 1920, 1080));
         }
 

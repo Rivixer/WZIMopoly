@@ -64,7 +64,6 @@ namespace WZIMopoly.Scenes
         public GameScene(GameModel model, GameView view)
             : base(model, view) { }
 
-
         /// <inheritdoc/>
         public override void Initialize()
         {
@@ -213,12 +212,23 @@ namespace WZIMopoly.Scenes
 
                 await Task.Delay(350);
 
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
-                List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
-                MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
-                mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                if (diceModel.DoubleCounter == 3)
+                {
+                    var mandatoryLectureTile = mapModel.GetModel<MandatoryLectureTileModel>();
+                    mapModel.TeleportPlayer(Model.CurrentPlayer, mandatoryLectureTile);
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                    Model.NextPlayer();
+                    diceModel.ResetDoubleCounter();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                else
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                    List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                }
                 mapView.UpdatePawnPositions();
-
             };
             endTurnButton.OnButtonClicked += () =>
             {
@@ -226,6 +236,7 @@ namespace WZIMopoly.Scenes
                 if (!diceModel.LastRollWasDouble)
                 {
                     Model.NextPlayer();
+                    diceModel.ResetDoubleCounter();
                 }
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 diceModel.Reset();
@@ -241,9 +252,6 @@ namespace WZIMopoly.Scenes
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
-
-            // Settings button
-            Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
         }
     }
 }

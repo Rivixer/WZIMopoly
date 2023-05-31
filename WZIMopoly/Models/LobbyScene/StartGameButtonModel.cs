@@ -1,4 +1,6 @@
-﻿namespace WZIMopoly.Models.LobbyScene
+﻿using System.Linq;
+
+namespace WZIMopoly.Models.LobbyScene
 {
     /// <summary>
     /// Represents the start game button model.
@@ -14,7 +16,10 @@
         /// <inheritdoc/>
         public override void Update()
         {
-            IsActive = GameSettings.ActivePlayers.Count >= 2;
+            IsActive = 
+                GameSettings.ActivePlayers.Count >= 2
+                && GameSettings.ActivePlayers.Select(x=>x.Nick).Distinct().Count() == GameSettings.ActivePlayers.Count
+                && GameSettings.ActivePlayers.Where(x=>x.Nick=="").Select(x => x.Nick).Count() == 0;
         }
     }
 }

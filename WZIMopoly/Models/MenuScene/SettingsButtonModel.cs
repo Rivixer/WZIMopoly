@@ -9,6 +9,9 @@
         /// Initializes a new instance of the <see cref="SettingsButtonModel"/> class.
         /// </summary>
         public SettingsButtonModel()
-            : base("MenuSettings") { }
+            : base("MenuSettings")
+        {
+            IsActive = true;
+        }
     }
 }
