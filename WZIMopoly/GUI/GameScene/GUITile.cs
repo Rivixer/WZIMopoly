@@ -17,7 +17,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The model of the tile.
         /// </summary>
-        private readonly TileModel _model;
+        protected readonly TileModel _model;
 
         /// <summary>
         /// The orientation of the tile.

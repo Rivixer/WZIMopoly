@@ -30,8 +30,8 @@
 		<position x1="651" y1="749" x2="729" y2="873" orientation="vertical"/>
 	</tile>
 	<tile id="4" type="Restroom">
-		<en_name>Restroom</en_name>
-		<pl_name>Toaleta</pl_name>
+		<en_name>Restroom I</en_name>
+		<pl_name>Toaleta I</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
 		<position x1="569" y1="749" x2="647" y2="873" orientation="vertical"/>
@@ -117,7 +117,7 @@
 		<position x1="487" y1="211" x2="565" y2="335" orientation="vertical"/>
 	</tile>
 	<tile id="16" type="Subject">
-		<en_name>Operating Systems</en_name>
+		<en_name>Operating systems</en_name>
 		<pl_name>Systemy operacyjne</pl_name>
 		<color>orange</color>
 		<price>180</price>
@@ -135,8 +135,8 @@
 		<position x1="651" y1="211" x2="729" y2="335" orientation="vertical"/>
 	</tile>
 	<tile id="18" type="Restroom">
-		<en_name>Restroom</en_name>
-		<pl_name>Toaleta</pl_name>
+		<en_name>Restroom II</en_name>
+		<pl_name>Toaleta II</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
 		<position x1="733" y1="211" x2="811" y2="335" orientation="vertical"/>
@@ -165,8 +165,8 @@
 		<position x1="1027" y1="211" x2="1105" y2="335" orientation="vertical"/>
 	</tile>
 	<tile id="22" type="Restroom">
-		<en_name>Restroom</en_name>
-		<pl_name>Toaleta</pl_name>
+		<en_name>Restroom III</en_name>
+		<pl_name>Toaleta III</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
 		<position x1="1109" y1="211" x2="1187" y2="335" orientation="vertical"/>
@@ -270,8 +270,8 @@
 		<position x1="1355" y1="749" x2="1433" y2="873" orientation="vertical"/>
 	</tile>
 	<tile id="36" type="Restroom">
-		<en_name>Restroom</en_name>
-		<pl_name>Toaleta</pl_name>
+		<en_name>Restroom IV</en_name>
+		<pl_name>Toaleta IV</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
 		<position x1="1273" y1="749" x2="1351" y2="873" orientation="vertical"/>
