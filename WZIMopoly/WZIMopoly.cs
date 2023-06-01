@@ -100,6 +100,11 @@ namespace WZIMopoly
         internal static Language Language { get; set; } = Language.Polish;
 
         /// <summary>
+        /// Gets or sets the game type.
+        /// </summary>
+        internal static GameType GameType { get; set; } = GameType.Local;
+
+        /// <summary>
         /// Changes the current scene to the specified one
         /// and recalculates all the elements.
         /// </summary>
