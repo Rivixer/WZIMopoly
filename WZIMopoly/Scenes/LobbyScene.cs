@@ -1,4 +1,4 @@
-﻿using WZIMopoly.Controllers.LobbyScene;
+using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.LobbyScene;
 using WZIMopoly.Models;
@@ -30,6 +30,27 @@ namespace WZIMopoly.Scenes
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
             Model.InitializeChild<StartGameButtonModel, GUIStartGameButton, StartGameButtonController>();
             Model.InitializeChild<LocalModeButtonModel, GUILocalModeButton, LocalModeButtonController>();
+            // Online mode button
+            var onlineButton = Model.InitializeChild<OnlineModeButtonModel, GUIOnlineModeButton, OnlineModeButtonController>();
+            onlineButton.OnButtonClicked += () =>
+            {
+                if (WZIMopoly.Network != null)
+                {
+                    WZIMopoly.Network.Send(new byte[] { (byte)WZIMopolyNetworkingLibrary.PacketType.NewLobby });
+                    WZIMopoly.Network.OnMessage += (sender, e) =>
+                    {
+                        var code = System.Text.Encoding.ASCII.GetString(e.RawData);
+                        lobbyCode.Model.Code = code;
+                        NetworkService.SwitchToLobby(code);
+                    };
+                }
+                
+                for (int i = 1; i <= 3; i++)
+                {
+                    GameSettings.Players[i].PlayerType = PlayerType.None;
+                    GameSettings.Players[i].ResetNick();
+                };
+            };
         }
     }
 }
