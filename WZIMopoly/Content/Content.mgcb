@@ -315,18 +315,6 @@
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/LeaveJailPL.png
 
-#begin Images/Buttons/LobbyCode.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Images/Buttons/LobbyCode.png
-
 #begin Images/Buttons/LobbyLocal.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1934,6 +1922,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/JoinScreenPL.png
+
+#begin Images/LobbyCode.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/LobbyCode.png
 
 #begin Images/LobbyScreen.png
 /importer:TextureImporter
