@@ -125,15 +125,27 @@ namespace WZIMopoly
         /// </returns>
         private static string LoadAddress()
         {
-            var xml = new XmlDocument();
-#if WINDOWS
-            xml.Load("../../../Properties/Config.xml");
-#elif LINUX
-            xml.Load("WZIMopoly/Properties/Config.xml");
+#if RELEASE
+            try
+            {
 #endif
-            XmlNode addressNode = xml.DocumentElement.SelectSingleNode("/Config/WebSocketAddress");
-            _wsAddress = $"ws://{addressNode.InnerText}";
-            return _wsAddress;
+                var xml = new XmlDocument();
+#if WINDOWS
+                xml.Load("../../../Properties/Config.xml");
+#elif LINUX
+                xml.Load("WZIMopoly/Properties/Config.xml");
+#endif
+                XmlNode addressNode = xml.DocumentElement.SelectSingleNode("/Config/WebSocketAddress");
+                _wsAddress = $"ws://{addressNode.InnerText}";
+                return _wsAddress;
+#if RELEASE
+            }
+            catch (Exception)
+            {
+                WZIMopoly.Network = null;
+                return null;
+            }
+#endif
         }
     }
 }
