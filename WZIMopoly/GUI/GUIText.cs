@@ -50,12 +50,12 @@ namespace WZIMopoly.GUI
         /// <remarks>
         /// The X and Y coordinates refer to the position <see cref="_startPoint"/> of the element.
         /// </remarks>
-        private readonly Vector2 _defaultPosition;
+        private Vector2 _defaultPosition;
 
         /// <summary>
         /// The place where <see cref="_defaultPosition"/> has been specified.
         /// </summary>
-        private readonly GUIStartPoint _startPoint;
+        private GUIStartPoint _startPoint;
         #endregion
 
         #region Constructors
@@ -149,6 +149,25 @@ namespace WZIMopoly.GUI
         /// Gets the StringBuilder that contains the text.
         /// </summary>
         protected StringBuilder TextBuilder => _text;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Sets a new default position of the text.
+        /// </summary>
+        /// <param name="newDefPos">
+        /// A new default position for the text specified for 1920x1080 resolution.
+        /// </param>
+        /// <param name="startPoint">
+        /// The starting position of the element for which <paramref name="newDefPos"/> has been specified.
+        /// Defaults to <see cref="GUIStartPoint.TopLeft"/>.
+        /// </param>
+        public void SetNewDefPosition(Vector2 newDefPos, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
+        {
+            _defaultPosition = newDefPos;
+            _startPoint = startPoint;
+            Recalculate();
+        }
         #endregion
 
         #region GUIElement Methods

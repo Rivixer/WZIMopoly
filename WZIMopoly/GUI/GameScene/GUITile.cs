@@ -17,7 +17,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The model of the tile.
         /// </summary>
-        private readonly TileModel _model;
+        protected readonly TileModel Model;
 
         /// <summary>
         /// The orientation of the tile.
@@ -46,13 +46,13 @@ namespace WZIMopoly.GUI.GameScene
         /// </exception>
         internal GUITile(XmlNode node, TileModel model)
         {
-            _model = model;
+            Model = model;
 
             XmlNode position = node.SelectSingleNode("position");
             if (!Enum.TryParse(position.Attributes["orientation"].Value, true, out _orientation))
             {
                 throw new ArgumentException($"Invalid value of orientation attribute in position node " +
-                    $"in tile node with {_model.Id} id");
+                    $"in tile node with {Model.Id} id");
             }
 
             int x1 = int.Parse(position.Attributes["x1"].Value);
@@ -82,7 +82,7 @@ namespace WZIMopoly.GUI.GameScene
         internal List<Point> GetPawnPositions()
         {
             List<Point> positions = new();
-            switch (_model.Players.Count)
+            switch (Model.Players.Count)
             {
                 case 1:
                     positions.Add(_position.Center);

@@ -55,5 +55,27 @@ namespace WZIMopoly.Utils.PositionExtensions
             var y = vector.Y * ScreenController.Height / defaultHeight;
             return new Vector2(x, y);
         }
+
+        /// <summary>
+        /// Converts the point to the current resolution.
+        /// </summary>
+        /// <param name="point">
+        /// The point to convert.
+        /// </param>
+        /// <param name="defaultWidth">
+        /// The width of the screen for which the point is specified.
+        /// </param>
+        /// <param name="defaultHeight">
+        /// The height of the screen for which the point is specified.
+        /// </param>
+        /// <returns>
+        /// The converted point.
+        /// </returns>
+        public static Point ToCurrentResolution(this Point point, int defaultWidth = 1920, int defaultHeight = 1080)
+        {
+            var x = point.X * ScreenController.Width / defaultWidth;
+            var y = point.Y * ScreenController.Height / defaultHeight;
+            return new Point(x, y);
+        }
     }
 }

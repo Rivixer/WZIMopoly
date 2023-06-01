@@ -71,8 +71,12 @@ namespace WZIMopoly.Scenes
             List<TileController> tileControllers = _mapController.Model.LoadTiles();
             _mapController.Model.CreatePawns(GameSettings.Players);
 
+            var model = new DiceModel();
+            var view = new GUIDice(model);
+            _diceController = new DiceController(model, view);
+
+            Model.AddChildBefore<MapController>(_diceController);
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
-            _diceController = Model.InitializeChild<DiceModel, GUIDice, DiceController>();
             _upgradeController = Model.InitializeChild<UpgradeModel, GUIUpgrade, UpgradeController>(tileControllers);
             _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
 
@@ -162,7 +166,7 @@ namespace WZIMopoly.Scenes
                 var model = new PlayerInfoModel(player);
                 var view = new GUIPlayerInfo(model, position, startPoint);
                 var controller = new PlayerInfoController(model, view);
-                Model.AddChild(controller);
+                Model.AddChildBefore<MapController>(controller);
             }
         }
 
@@ -264,8 +268,8 @@ namespace WZIMopoly.Scenes
             var buyButton = Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
             buyButton.OnButtonClicked += () =>
             {
-                var currentPlayerTile = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-                currentPlayerTile.Purchase(Model.CurrentPlayer);
+                var currentPlayerTileModel = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+                currentPlayerTileModel.Purchase(Model.CurrentPlayer);
             };
 
             // Trade button

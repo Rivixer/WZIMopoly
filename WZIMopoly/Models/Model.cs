@@ -112,7 +112,21 @@ namespace WZIMopoly.Models
                     culture: null
                 );
             }
-            
+        }
+
+        /// <inheritdoc/>
+        public void AddChildBefore<T>(IControllerable child)
+            where T : IControllerable
+        {
+            int index = _children.FindIndex(x => x is T);
+            if (index == -1)
+            {
+                AddChild(child);
+            }
+            else
+            {
+                _children.Insert(index, child);
+            }
         }
     }
 }

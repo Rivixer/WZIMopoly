@@ -23,5 +23,22 @@ namespace WZIMopoly.Utils
             var result = regex.Replace(text.ToLower(), match => match.Groups[2].Value.ToUpper());
             return result;
         }
+
+        /// <summary>
+        /// Converts the xml file tile naming convention to the images naming convention.
+        /// </summary>
+        /// <param name="text">
+        /// The name to convert.
+        /// </param>
+        /// <returns>
+        /// The converted name.
+        /// </returns>
+        internal static string ConvertXMLNamesToFileNames(string text)
+        {
+            string pattern = @" (\w)";
+            var regex = new Regex(pattern);
+            var result = regex.Replace(text, match => match.Groups[1].Value.ToUpper());
+            return result;
+        }
     }
 }
