@@ -97,8 +97,11 @@ namespace WZIMopoly.Models.GameScene
 
             var deaneryTile = tiles.First(x => x.Model is DeaneryTileModel);
             var mandatoryLectureTile = tiles.First(x => x.Model is MandatoryLectureTileModel);
-            deaneryTile.Model.OnStand += (player) => TeleportPlayer(player, mandatoryLectureTile);
-
+            deaneryTile.Model.OnStand += (player) =>
+            {
+                TeleportPlayer(player, mandatoryLectureTile);
+                ActivateOnStandTile(player);
+            };
             return tiles;
         }
 

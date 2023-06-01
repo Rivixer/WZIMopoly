@@ -127,6 +127,11 @@ namespace WZIMopoly.Scenes
                 };
                 if (stepToMove > 0)
                 {
+                    var jailModel = Model.GetModelRecursively<MandatoryLectureTileModel>();
+                    if (jailModel.IsPrisoner(Model.CurrentPlayer))
+                    {
+                        jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                    }
                     var passedTiles = _mapController.Model.MovePlayer(Model.CurrentPlayer, (uint)stepToMove);
                     MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
                     _mapController.Model.ActivateOnStandTile(Model.CurrentPlayer);
@@ -212,28 +217,41 @@ namespace WZIMopoly.Scenes
 
                 await Task.Delay(350);
 
-                if (diceModel.DoubleCounter == 3)
+                var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
+                if (jailModel.IsPrisoner(Model.CurrentPlayer) && diceModel.LastRollWasDouble)
                 {
-                    var mandatoryLectureTile = mapModel.GetModel<MandatoryLectureTileModel>();
-                    mapModel.TeleportPlayer(Model.CurrentPlayer, mandatoryLectureTile);
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                    Model.NextPlayer();
-                    diceModel.ResetDoubleCounter();
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    jailModel.ReleasePrisoner(Model.CurrentPlayer);
                 }
-                else
+                if (!jailModel.IsPrisoner(Model.CurrentPlayer))
                 {
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
-                    List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
-                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    if (diceModel.DoubleCounter == 3)
+                    {
+                        mapModel.TeleportPlayer(Model.CurrentPlayer, jailModel);
+                    }
+                    else
+                    {
+                        List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
+                        MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                    }
                     mapModel.ActivateOnStandTile(Model.CurrentPlayer);
                 }
+                Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 mapView.UpdatePawnPositions();
             };
             endTurnButton.OnButtonClicked += () =>
             {
+                var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
+                if (jailModel.IsPrisoner(Model.CurrentPlayer))
+                {
+                    jailModel.AddPrisonerTurn(Model.CurrentPlayer);
+                    if (jailModel.CanPrisonerRelease(Model.CurrentPlayer))
+                    {
+                        jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                    }
+                }
+
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                if (!diceModel.LastRollWasDouble)
+                if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(Model.CurrentPlayer))
                 {
                     Model.NextPlayer();
                     diceModel.ResetDoubleCounter();
@@ -252,6 +270,15 @@ namespace WZIMopoly.Scenes
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
+
+            // Leave jail button
+            var leaveJailButton = Model.InitializeChild<LeaveJailButtonModel, GUILeaveJailButton, LeaveJailButtonController>();
+            leaveJailButton.OnButtonClicked += () =>
+            {
+                var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
+                jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                Model.CurrentPlayer.Money -= 50;
+            };
         }
     }
 }
