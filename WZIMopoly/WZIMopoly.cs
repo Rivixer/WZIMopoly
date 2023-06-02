@@ -8,6 +8,7 @@ using WZIMopoly.Scenes;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Enums;
+using WebSocketSharp;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -100,6 +101,18 @@ namespace WZIMopoly
         internal static Language Language { get; set; } = Language.Polish;
 
         /// <summary>
+        /// Gets or sets the game type.
+        /// </summary>
+        internal static GameType GameType { get; set; } = GameType.Local;
+
+#nullable enable
+        /// <summary>
+        /// The network connection.
+        /// </summary>
+        internal static WebSocket? Network { get; set; }
+#nullable disable
+
+        /// <summary>
         /// Changes the current scene to the specified one
         /// and recalculates all the elements.
         /// </summary>
@@ -120,6 +133,8 @@ namespace WZIMopoly
             ScreenController.Initialize(_graphics);
             ScreenController.ChangeResolution(1366, 768, false);
             ScreenController.ApplyChanges();
+
+            NetworkService.ConnectToRoot();
 
             GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
             GameSettings.Players.Add(new PlayerModel("Player2", "Blue"));

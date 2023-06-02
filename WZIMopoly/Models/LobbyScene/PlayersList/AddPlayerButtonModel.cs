@@ -28,7 +28,8 @@ namespace WZIMopoly.Models.LobbyScene.PlayersList
         public override void Update()
         {
             var playerIsNone = Player.PlayerType == PlayerType.None;
-            IsActive = playerIsNone && !PreviousPlayerIsNone();
+            var gameIsLocal = WZIMopoly.GameType == GameType.Local;
+            IsActive = playerIsNone && gameIsLocal && !PreviousPlayerIsNone();
             base.Update();
         }
 
