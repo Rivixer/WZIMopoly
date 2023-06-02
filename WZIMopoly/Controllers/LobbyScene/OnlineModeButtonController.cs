@@ -6,23 +6,23 @@ using WZIMopoly.Models.LobbyScene;
 namespace WZIMopoly.Controllers.LobbyScene
 {
     /// <summary>
-    /// Represents the local mode button controller.
+    /// Represents the online mode button controller.
     /// </summary>
-    internal class LocalModeButtonController : ButtonController<LocalModeButtonModel, GUILocalModeButton>
+    internal class OnlineModeButtonController : ButtonController<OnlineModeButtonModel, GUIOnlineModeButton>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LocalModeButtonController"/> class.
+        /// Initializes a new instance of the <see cref="OnlineModeButtonController"/> class.
         /// </summary>
         /// <param name="model">
-        /// The model of the local mode button.
+        /// The model of the online mode button.
         /// </param>
         /// <param name="view">
-        /// The view of the local mode button.
+        /// The view of the online mode button.
         /// </param>
-        public LocalModeButtonController(LocalModeButtonModel model, GUILocalModeButton view)
+        public OnlineModeButtonController(OnlineModeButtonModel model, GUIOnlineModeButton view)
             : base(model, view)
         {
-            OnButtonClicked += () => WZIMopoly.GameType = GameType.Local;
+            OnButtonClicked += () => WZIMopoly.GameType = GameType.Online;
         }
 
         /// <inheritdoc/>
