@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
@@ -68,6 +69,11 @@ namespace WZIMopoly
         /// The scene must implement the <see cref="IPrimaryController"/> interface.
         /// </remarks>
         private IPrimaryController _currentScene;
+
+        /// <summary>
+        /// The song played in the background.
+        /// </summary>
+        private Song _song;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WZIMopoly"/> class.
@@ -181,6 +187,9 @@ namespace WZIMopoly
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            this._song = Content.Load<Song>("Songs/menu_song");
+            MediaPlayer.Play(_song);
+            MediaPlayer.IsRepeating = true;
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
