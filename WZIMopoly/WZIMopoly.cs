@@ -8,6 +8,7 @@ using WZIMopoly.Scenes;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Enums;
+using Microsoft.Xna.Framework.Media;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -67,6 +68,11 @@ namespace WZIMopoly
         /// The scene must implement the <see cref="IPrimaryController"/> interface.
         /// </remarks>
         private IPrimaryController _currentScene;
+
+        /// <summary>
+        /// The Song object resposible for rendering song in Monogame.
+        /// </summary>
+        private Song _song;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WZIMopoly"/> class.
@@ -166,12 +172,22 @@ namespace WZIMopoly
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            this._song = Content.Load<Song>("Songs/menu_song");
+            MediaPlayer.Play(_song);
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
             _settingsScene.LoadAll(Content);
 
             base.LoadContent();
+        }
+
+        void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
+        {
+            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(_song);
         }
 
         /// <summary>

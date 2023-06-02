@@ -2367,6 +2367,12 @@
 /processorParam:TextureFormat=Color
 /build:Images/Timer.png
 
+#begin Songs/menu_song.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Songs/menu_song.mp3
+
 #begin Sounds/Dice.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
