@@ -66,7 +66,7 @@ namespace WZIMopoly.GUI.GameScene
             foreach (TileController tile in _model.TileControllers)
             {
                 var pos = tile.View.Position;
-                var rect = new Rectangle(pos.X, pos.Y - 1, pos.Width + 1, pos.Height + 1);
+                var rect = new Rectangle(pos.X, pos.Y, pos.Width, pos.Height);
                 var texture = new GUITexture("Images/Black", rect, opacity: 0.5f);
                 _tileTextures.Add(texture);
             }

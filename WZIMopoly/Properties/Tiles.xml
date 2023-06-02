@@ -4,7 +4,7 @@
 		<en_name>Start</en_name>
 		<pl_name>Start</pl_name>
 		<reward>200</reward>
-		<position x1="897" y1="749" x2="1023" y2="873" orientation="square"/>
+		<position x1="897" y1="748" x2="1023" y2="874" orientation="square"/>
 	</tile>
 	<tile id="1" type="Subject">
 		<en_name>Occupational Health and Safety</en_name>
@@ -13,12 +13,12 @@
 		<price>60</price>
 		<upgrade_price>50</upgrade_price>
 		<tax_prices three="2" three_half="10" four="30" four_half="90" five="160" exemption="250"/>
-		<position x1="815" y1="749" x2="893" y2="873" orientation="vertical"/>
+		<position x1="815" y1="748" x2="894" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="2" type="VendingMachine">
 		<en_name>Snack vending machine</en_name>
 		<pl_name>Automat z przekąskami</pl_name>
-		<position x1="733" y1="749" x2="811" y2="873" orientation="vertical"/>
+		<position x1="733" y1="748" x2="812" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="3" type="Subject">
 		<en_name>Intellectual property protection</en_name>
@@ -27,14 +27,14 @@
 		<price>60</price>
 		<upgrade_price>50</upgrade_price>
 		<tax_prices three="4" three_half="20" four="60" four_half="180" five="320" exemption="450"/>
-		<position x1="651" y1="749" x2="729" y2="873" orientation="vertical"/>
+		<position x1="651" y1="748" x2="730" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="4" type="Restroom">
 		<en_name>Restroom I</en_name>
 		<pl_name>Toaleta I</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
-		<position x1="569" y1="749" x2="647" y2="873" orientation="vertical"/>
+		<position x1="569" y1="748" x2="648" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="5" type="Subject">
 		<en_name>Physical education</en_name>
@@ -43,7 +43,7 @@
 		<price>100</price>
 		<upgrade_price>50</upgrade_price>
 		<tax_prices three="6" three_half="30" four="90" four_half="270" five="400" exemption="550"/>
-		<position x1="487" y1="749" x2="565" y2="873" orientation="vertical"/>
+		<position x1="487" y1="748" x2="566" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="6" type="Subject">
 		<en_name>Foreign language</en_name>
@@ -52,12 +52,12 @@
 		<price>100</price>
 		<upgrade_price>50</upgrade_price>
 		<tax_prices three="6" three_half="30" four="90" four_half="270" five="400" exemption="550"/>
-		<position x1="405" y1="749" x2="483" y2="873" orientation="vertical"/>
+		<position x1="405" y1="748" x2="484" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="7" type="Canteen">
 		<en_name>Canteen</en_name>
 		<pl_name>"Kartka"</pl_name>
-		<position x1="277" y1="749" x2="401" y2="873" orientation="square"/>
+		<position x1="277" y1="748" x2="402" y2="874" orientation="square"/>
 	</tile>
 	<tile id="8" type="Subject">
 		<en_name>Faculty</en_name>
@@ -66,12 +66,12 @@
 		<price>120</price>
 		<upgrade_price>50</upgrade_price>
 		<tax_prices three="8" three_half="40" four="100" four_half="300" five="450" exemption="600"/>
-		<position x1="277" y1="667" x2="401" y2="745" orientation="horizontalLeft"/>
+		<position x1="277" y1="666" x2="402" y2="746" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="9" type="Elevator">
 		<en_name>Elevator</en_name>
 		<pl_name>Winda</pl_name>
-		<position x1="277" y1="585" x2="401" y2="663" orientation="horizontalLeft"/>
+		<position x1="277" y1="584" x2="402" y2="664" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="10" type="Subject">
 		<en_name>Physics</en_name>
@@ -80,13 +80,13 @@
 		<price>140</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="10" three_half="50" four="150" four_half="450" five="625" exemption="750"/>
-		<position x1="277" y1="503" x2="401" y2="581" orientation="horizontalLeft"/>
+		<position x1="277" y1="502" x2="402" y2="582" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="11" type="ConditionalPass">
 		<en_name>Conditional pass</en_name>
 		<pl_name>Warunek</pl_name>
 		<tax>200</tax>
-		<position x1="277" y1="421" x2="401" y2="499" orientation="horizontalLeft"/>
+		<position x1="277" y1="420" x2="402" y2="500" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="12" type="Subject">
 		<en_name>Exercise electronics</en_name>
@@ -95,12 +95,12 @@
 		<price>140</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="10" three_half="50" four="150" four_half="450" five="625" exemption="750"/>
-		<position x1="277" y1="339" x2="401" y2="417" orientation="horizontalLeft"/>
+		<position x1="277" y1="338" x2="402" y2="418" orientation="horizontalLeft"/>
 	</tile>
 	<tile id="13" type="Sofas">
 		<en_name>Sofas</en_name>
 		<pl_name>Sofy</pl_name>
-		<position x1="277" y1="211" x2="401" y2="335" orientation="square"/>
+		<position x1="277" y1="210" x2="402" y2="336" orientation="square"/>
 	</tile>
 	<tile id="14" type="Subject">
 		<en_name>Electronics laboratory</en_name>
@@ -109,12 +109,12 @@
 		<price>160</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="12" three_half="60" four="180" four_half="500" five="700" exemption="900"/>
-		<position x1="405" y1="211" x2="483" y2="335" orientation="vertical"/>
+		<position x1="405" y1="210" x2="484" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="15" type="VendingMachine">
 		<en_name>Drink vending machine</en_name>
 		<pl_name>Automat z napojami</pl_name>
-		<position x1="487" y1="211" x2="565" y2="335" orientation="vertical"/>
+		<position x1="487" y1="210" x2="565" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="16" type="Subject">
 		<en_name>Operating systems</en_name>
@@ -123,7 +123,7 @@
 		<price>180</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="14" three_half="70" four="200" four_half="550" five="750" exemption="950"/>
-		<position x1="569" y1="211" x2="647" y2="335" orientation="vertical"/>
+		<position x1="569" y1="210" x2="648" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="17" type="Subject">
 		<en_name>Database technologies</en_name>
@@ -132,14 +132,14 @@
 		<price>180</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="14" three_half="70" four="200" four_half="550" five="750" exemption="950"/>
-		<position x1="651" y1="211" x2="729" y2="335" orientation="vertical"/>
+		<position x1="651" y1="210" x2="730" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="18" type="Restroom">
 		<en_name>Restroom II</en_name>
 		<pl_name>Toaleta II</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
-		<position x1="733" y1="211" x2="811" y2="335" orientation="vertical"/>
+		<position x1="733" y1="210" x2="812" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="19" type="Subject">
 		<en_name>Building websites</en_name>
@@ -148,13 +148,13 @@
 		<price>200</price>
 		<upgrade_price>100</upgrade_price>
 		<tax_prices three="16" three_half="80" four="220" four_half="600" five="800" exemption="1000"/>
-		<position x1="815" y1="211" x2="893" y2="335" orientation="vertical"/>
+		<position x1="815" y1="210" x2="894" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="20" type="MandatoryLecture">
 		<en_name>Lecture</en_name>
 		<pl_name>Wykład</pl_name>
 		<pay_for_leave>50</pay_for_leave>
-		<position x1="897" y1="211" x2="1023" y2="335" orientation="square"/>
+		<position x1="897" y1="210" x2="1024" y2="336" orientation="square"/>
 	</tile>
 	<tile id="21" type="Subject">
 		<en_name>Algorithms and data structures</en_name>
@@ -163,14 +163,14 @@
 		<price>220</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="18" three_half="90" four="250" four_half="700" five="875" exemption="1050"/>
-		<position x1="1027" y1="211" x2="1105" y2="335" orientation="vertical"/>
+		<position x1="1027" y1="210" x2="1106" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="22" type="Restroom">
 		<en_name>Restroom III</en_name>
 		<pl_name>Toaleta III</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
-		<position x1="1109" y1="211" x2="1187" y2="335" orientation="vertical"/>
+		<position x1="1109" y1="210" x2="1188" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="23" type="Subject">
 		<en_name>Graphs and networks</en_name>
@@ -179,7 +179,7 @@
 		<price>220</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="18" three_half="90" four="250" four_half="700" five="875" exemption="1050"/>
-		<position x1="1191" y1="211" x2="1269" y2="335" orientation="vertical"/>
+		<position x1="1191" y1="210" x2="1270" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="24" type="Subject">
 		<en_name>Discrete mathematics</en_name>
@@ -188,12 +188,12 @@
 		<price>240</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="20" three_half="100" four="300" four_half="750" five="925" exemption="1100"/>
-		<position x1="1273" y1="211" x2="1351" y2="335" orientation="vertical"/>
+		<position x1="1273" y1="210" x2="1352" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="25" type="VendingMachine">
 		<en_name>Drink vending machine</en_name>
 		<pl_name>Automat z napojami</pl_name>
-		<position x1="1355" y1="211" x2="1433" y2="335" orientation="vertical"/>
+		<position x1="1355" y1="210" x2="1434" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="26" type="Subject">
 		<en_name>Higher mathematics</en_name>
@@ -202,12 +202,12 @@
 		<price>260</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="22" three_half="110" four="330" four_half="800" five="975" exemption="1150"/>
-		<position x1="1437" y1="211" x2="1515" y2="335" orientation="vertical"/>
+		<position x1="1437" y1="210" x2="1516" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="27" type="Canteen">
 		<en_name>Canteen</en_name>
 		<pl_name>"Kartka"</pl_name>
-		<position x1="1519" y1="211" x2="1643" y2="335" orientation="square"/>
+		<position x1="1519" y1="210" x2="1644" y2="336" orientation="square"/>
 	</tile>
 	<tile id="28" type="Subject">
 		<en_name>Probability and statistics</en_name>
@@ -216,12 +216,12 @@
 		<price>260</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="22" three_half="110" four="330" four_half="800" five="975" exemption="1150"/>
-		<position x1="1519" y1="339" x2="1643" y2="417" orientation="horizontalRight"/>
+		<position x1="1519" y1="338" x2="1644" y2="418" orientation="horizontalRight"/>
 	</tile>
 	<tile id="29" type="Elevator">
 		<en_name>Elevator</en_name>
 		<pl_name>Winda</pl_name>
-		<position x1="1519" y1="421" x2="1643" y2="499" orientation="horizontalRight"/>
+		<position x1="1519" y1="420" x2="1644" y2="500" orientation="horizontalRight"/>
 	</tile>
 	<tile id="30" type="Subject">
 		<en_name>Mathematical analysis</en_name>
@@ -230,13 +230,13 @@
 		<price>280</price>
 		<upgrade_price>150</upgrade_price>
 		<tax_prices three="24" three_half="120" four="360" four_half="850" five="1025" exemption="1200"/>
-		<position x1="1519" y1="503" x2="1643" y2="581" orientation="horizontalRight"/>
+		<position x1="1519" y1="502" x2="1644" y2="582" orientation="horizontalRight"/>
 	</tile>
 	<tile id="31" type="ConditionalPass">
 		<en_name>Conditional pass</en_name>
 		<pl_name>Warunek</pl_name>
 		<tax>100</tax>
-		<position x1="1519" y1="585" x2="1643" y2="663" orientation="horizontalRight"/>
+		<position x1="1519" y1="586" x2="1644" y2="664" orientation="horizontalRight"/>
 	</tile>
 	<tile id="32" type="Subject">
 		<en_name>Introduction to programming</en_name>
@@ -245,12 +245,12 @@
 		<price>300</price>
 		<upgrade_price>200</upgrade_price>
 		<tax_prices three="26" three_half="130" four="390" four_half="900" five="1100" exemption="1275"/>
-		<position x1="1519" y1="667" x2="1643" y2="745" orientation="horizontalRight"/>
+		<position x1="1519" y1="666" x2="1644" y2="746" orientation="horizontalRight"/>
 	</tile>
 	<tile id="33" type="Deanery">
 		<en_name>Go to the lecture</en_name>
 		<pl_name>Idź na wykład</pl_name>
-		<position x1="1519" y1="749" x2="1643" y2="873" orientation="square"/>
+		<position x1="1519" y1="748" x2="1644" y2="874" orientation="square"/>
 	</tile>
 	<tile id="34" type="Subject">
 		<en_name>Software engineering</en_name>
@@ -259,7 +259,7 @@
 		<price>300</price>
 		<upgrade_price>200</upgrade_price>
 		<tax_prices three="26" three_half="130" four="390" four_half="900" five="1100" exemption="1275"/>
-		<position x1="1437" y1="749" x2="1515" y2="873" orientation="vertical"/>
+		<position x1="1437" y1="748" x2="1516" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="35" type="Subject">
 		<en_name>Object-oriented programming</en_name>
@@ -268,14 +268,14 @@
 		<price>320</price>
 		<upgrade_price>200</upgrade_price>
 		<tax_prices three="28" three_half="150" four="450" four_half="1000" five="1200" exemption="1400"/>
-		<position x1="1355" y1="749" x2="1433" y2="873" orientation="vertical"/>
+		<position x1="1355" y1="748" x2="1434" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="36" type="Restroom">
 		<en_name>Restroom IV</en_name>
 		<pl_name>Toaleta IV</pl_name>
 		<price>200</price>
 		<tax_prices one="25" two="50" three="100" four="200"/>
-		<position x1="1273" y1="749" x2="1351" y2="873" orientation="vertical"/>
+		<position x1="1273" y1="748" x2="1352" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="37" type="Subject">
 		<en_name>Computer architecture</en_name>
@@ -284,12 +284,12 @@
 		<price>350</price>
 		<upgrade_price>200</upgrade_price>
 		<tax_prices three="35" three_half="175" four="500" four_half="1100" five="1300" exemption="1500"/>
-		<position x1="1191" y1="749" x2="1269" y2="873" orientation="vertical"/>
+		<position x1="1191" y1="748" x2="1270" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="38" type="VendingMachine">
 		<en_name>Snack vending machine</en_name>
 		<pl_name>Automat z przekąskami</pl_name>
-		<position x1="1109" y1="749" x2="1187" y2="873" orientation="vertical"/>
+		<position x1="1109" y1="748" x2="1188" y2="874" orientation="vertical"/>
 	</tile>
 	<tile id="39" type="Subject">
 		<en_name>Linear algebra</en_name>
@@ -298,6 +298,6 @@
 		<price>400</price>
 		<upgrade_price>200</upgrade_price>
 		<tax_prices three="50" three_half="200" four="600" four_half="1400" five="1700" exemption="2000"/>
-		<position x1="1027" y1="749" x2="1105" y2="873" orientation="vertical"/>
+		<position x1="1027" y1="748" x2="1106" y2="874" orientation="vertical"/>
 	</tile>
 </tiles>
