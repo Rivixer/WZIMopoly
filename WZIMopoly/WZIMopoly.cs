@@ -175,7 +175,6 @@ namespace WZIMopoly
             this._song = Content.Load<Song>("Songs/menu_song");
             MediaPlayer.Play(_song);
             MediaPlayer.IsRepeating = true;
-            MediaPlayer.MediaStateChanged += MediaPlayer_MediaStateChanged;
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
@@ -184,11 +183,7 @@ namespace WZIMopoly
             base.LoadContent();
         }
 
-        void MediaPlayer_MediaStateChanged(object sender, System.EventArgs e)
-        {
-            MediaPlayer.Volume -= 0.1f;
-            MediaPlayer.Play(_song);
-        }
+        
 
         /// <summary>
         /// Updates the game.
