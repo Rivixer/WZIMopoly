@@ -41,9 +41,9 @@ namespace WZIMopoly.GUI.LobbyScene
         public GUILobbyCode(LobbyCodeModel model)
         {
             _model = model;
-            _background = new GUITexture("Images/LobbyCode", new Rectangle(960, 822, 321, 74), GUIStartPoint.Center);
-            _text = new GUIText("Fonts/WZIMFont", new Vector2(960, 822), Color.Black, GUIStartPoint.Center, scale: 0.45f);
-            _infoText = new GUIText("Fonts/WZIMFont", new Vector2(960, 795), Color.Black, GUIStartPoint.Center, scale: 0.35f);
+            _background = new GUITexture("Images/LobbyCode", new Rectangle(960, 872, 321, 74), GUIStartPoint.Center);
+            _text = new GUIText("Fonts/WZIMFont", new Vector2(960, 872), Color.Black, GUIStartPoint.Center, scale: 0.45f);
+            _infoText = new GUIText("Fonts/WZIMFont", new Vector2(960, 810), Color.Black, GUIStartPoint.Center, scale: 0.35f);
         }
 
         /// <inheritdoc/>
