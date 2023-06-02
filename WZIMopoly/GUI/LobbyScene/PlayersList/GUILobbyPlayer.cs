@@ -63,10 +63,10 @@ namespace WZIMopoly.GUI.LobbyScene.PlayersList
         /// </remarks>
         public static Dictionary<string, Point> Position { get; } = new()
         {
-            { "Red", new Point(750, 450) },
-            { "Blue", new Point(1170, 450) },
-            { "Green", new Point(750, 550) },
-            { "Yellow", new Point(1170, 550) },
+            { "Red", new Point(750, 432) },
+            { "Blue", new Point(1170, 432) },
+            { "Green", new Point(750, 532) },
+            { "Yellow", new Point(1170, 532) },
         };
 
         /// <summary>
