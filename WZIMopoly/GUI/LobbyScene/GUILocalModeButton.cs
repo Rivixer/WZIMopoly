@@ -16,7 +16,7 @@ namespace WZIMopoly.GUI.LobbyScene
         /// The model of the local mode button.
         /// </param>
         public GUILocalModeButton(LocalModeButtonModel model)
-            : base(model, new Rectangle(827, 269, 249, 73), GUIStartPoint.Center, hoverTexture: false, disableTexture: false)
+            : base(model, new Rectangle(826, 250, 249, 73), GUIStartPoint.Center, hoverTexture: false, disableTexture: false)
         {
             SetButtonHoverArea(5, 0.85f);
         }

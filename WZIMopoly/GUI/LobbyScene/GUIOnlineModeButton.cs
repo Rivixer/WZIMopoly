@@ -16,7 +16,7 @@ namespace WZIMopoly.GUI.LobbyScene
         /// The model of the online mode button.
         /// </param>
         public GUIOnlineModeButton(OnlineModeButtonModel model)
-            : base(model, new Rectangle(1093, 269, 249, 73), GUIStartPoint.Center, hoverTexture: false, disableTexture: false)
+            : base(model, new Rectangle(1092, 250, 249, 73), GUIStartPoint.Center, hoverTexture: false, disableTexture: false)
         {
             SetButtonHoverArea(5, 0.85f);
         }
