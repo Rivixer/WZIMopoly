@@ -1,7 +1,9 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.GUI.LobbyScene.PlayersList;
+using WZIMopoly.Models;
 using WZIMopoly.Models.LobbyScene.PlayersList;
 
 namespace WZIMopoly.Controllers.LobbyScene.PlayersList
@@ -38,10 +40,37 @@ namespace WZIMopoly.Controllers.LobbyScene.PlayersList
             Model.AddChild(removePlayerController);
         }
 
+        /// <summary>
+        /// Updates the player in model,
+        /// <see cref="AddPlayerButtonModel"/>
+        /// and <see cref="RemovePlayerButtonModel"/>
+        /// </summary>
+        /// <param name="player">
+        /// The new player.
+        /// </param>
+        public void UpdatePlayer(PlayerModel player)
+        {
+            Model.Player = player;
+
+            var addPlayerModel = Model.GetModel<AddPlayerButtonModel>();
+            addPlayerModel.Player = player;
+
+            var removePlayerModel = Model.GetModel<RemovePlayerButtonModel>();
+            removePlayerModel.Player = player;
+        }
+
         /// <inheritdoc/>
         public override void Update()
         {
             base.Update();
+
+            if (Model.Player.PlayerType != PlayerType.Local
+                && Model.Player.PlayerType !=  PlayerType.OnlineHostPlayer
+                || GameSettings.Players[0].PlayerType != PlayerType.OnlineHostPlayer)
+            {
+                return;
+            }
+            
             if (MouseController.WasLeftBtnClicked() && View.IsHovered && !View.NickText.IsSelected)
             {
                 View.NickText.IsSelected = true;

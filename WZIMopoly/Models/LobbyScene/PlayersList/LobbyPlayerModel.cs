@@ -17,8 +17,8 @@
         }
 
         /// <summary>
-        /// Gets the player model.
+        /// Gets or sets the player model.
         /// </summary>
-        public PlayerModel Player { get; private set; }
+        public PlayerModel Player { get; set; }
     }
 }
