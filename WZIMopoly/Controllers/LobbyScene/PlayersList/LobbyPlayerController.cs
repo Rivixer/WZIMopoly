@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI.LobbyScene.PlayersList;
@@ -56,17 +56,12 @@ namespace WZIMopoly.Controllers.LobbyScene.PlayersList
             // Some day this mess will be refactored...
             if (View.NickText.IsSelected)
             {
-                // TODO: Add caps lock support
-                bool shift = KeyboardController.IsPressed(Keys.LeftShift)
-                    || KeyboardController.IsPressed(Keys.RightShift);
-
                 var clickedKeys = KeyboardController.GetAllClickedKeys();
                 if (clickedKeys.Count == 0)
                 {
                     return;
                 }
 
-                // TODO: Add support to other languages
                 switch (clickedKeys[0])
                 {
                     case Keys.Left:
@@ -87,113 +82,12 @@ namespace WZIMopoly.Controllers.LobbyScene.PlayersList
                     case Keys.Delete:
                         View.NickText.RemoveNextChar();
                         break;
-                    case Keys.A:
-                        View.NickText.AddChar(shift ? 'A' : 'a');
-                        break;
-                    case Keys.B:
-                        View.NickText.AddChar(shift ? 'B' : 'b');
-                        break;
-                    case Keys.C:
-                        View.NickText.AddChar(shift ? 'C' : 'c');
-                        break;
-                    case Keys.D:
-                        View.NickText.AddChar(shift ? 'D' : 'd');
-                        break;
-                    case Keys.E:
-                        View.NickText.AddChar(shift ? 'E' : 'e');
-                        break;
-                    case Keys.F:
-                        View.NickText.AddChar(shift ? 'F' : 'f');
-                        break;
-                    case Keys.G:
-                        View.NickText.AddChar(shift ? 'G' : 'g');
-                        break;
-                    case Keys.H:
-                        View.NickText.AddChar(shift ? 'H' : 'h');
-                        break;
-                    case Keys.I:
-                        View.NickText.AddChar(shift ? 'I' : 'i');
-                        break;
-                    case Keys.J:
-                        View.NickText.AddChar(shift ? 'J' : 'j');
-                        break;
-                    case Keys.K:
-                        View.NickText.AddChar(shift ? 'K' : 'k');
-                        break;
-                    case Keys.L:
-                        View.NickText.AddChar(shift ? 'L' : 'l');
-                        break;
-                    case Keys.M:
-                        View.NickText.AddChar(shift ? 'M' : 'm');
-                        break;
-                    case Keys.N:
-                        View.NickText.AddChar(shift ? 'N' : 'n');
-                        break;
-                    case Keys.O:
-                        View.NickText.AddChar(shift ? 'O' : 'o');
-                        break;
-                    case Keys.P:
-                        View.NickText.AddChar(shift ? 'P' : 'p');
-                        break;
-                    case Keys.Q:
-                        View.NickText.AddChar(shift ? 'Q' : 'q');
-                        break;
-                    case Keys.R:
-                        View.NickText.AddChar(shift ? 'R' : 'r');
-                        break;
-                    case Keys.S:
-                        View.NickText.AddChar(shift ? 'S' : 's');
-                        break;
-                    case Keys.T:
-                        View.NickText.AddChar(shift ? 'T' : 't');
-                        break;
-                    case Keys.U:
-                        View.NickText.AddChar(shift ? 'U' : 'u');
-                        break;
-                    case Keys.V:
-                        View.NickText.AddChar(shift ? 'V' : 'v');
-                        break;
-                    case Keys.W:
-                        View.NickText.AddChar(shift ? 'W' : 'w');
-                        break;
-                    case Keys.X:
-                        View.NickText.AddChar(shift ? 'X' : 'x');
-                        break;
-                    case Keys.Y:
-                        View.NickText.AddChar(shift ? 'Y' : 'y');
-                        break;
-                    case Keys.Z:
-                        View.NickText.AddChar(shift ? 'Z' : 'z');
-                        break;
-                    case Keys.D0:
-                        View.NickText.AddChar('0');
-                        break;
-                    case Keys.D1:
-                        View.NickText.AddChar('1');
-                        break;
-                    case Keys.D2:
-                        View.NickText.AddChar('2');
-                        break;
-                    case Keys.D3:
-                        View.NickText.AddChar('3');
-                        break;
-                    case Keys.D4:
-                        View.NickText.AddChar('4');
-                        break;
-                    case Keys.D5:
-                        View.NickText.AddChar('5');
-                        break;
-                    case Keys.D6:
-                        View.NickText.AddChar('6');
-                        break;
-                    case Keys.D7:
-                        View.NickText.AddChar('7');
-                        break;
-                    case Keys.D8:
-                        View.NickText.AddChar('8');
-                        break;
-                    case Keys.D9:
-                        View.NickText.AddChar('9');
+                    default:
+                        char? c = KeyboardController.GetClickedKey();
+                        if (c != null)
+                        {
+                            View.NickText.AddChar((char)c);
+                        }
                         break;
                 }
             }

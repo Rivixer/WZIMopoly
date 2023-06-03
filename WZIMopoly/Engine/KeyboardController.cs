@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace WZIMopoly.Engine
 {
@@ -126,6 +125,155 @@ namespace WZIMopoly.Engine
                     Debug.WriteLine($"Key '{key}' has been clicked");
                 }
             }
+        }
+
+#nullable enable
+
+        /// <summary>
+        /// Returns the first key that has been clicked.
+        /// </summary>
+        /// <returns>
+        /// The first key that has been clicked.
+        /// </returns>
+        public static char? GetClickedKey()
+        {
+            GetClickedKey(out char? c);
+            return c;
+        }
+
+        /// <summary>
+        /// Retrieves the currently pressed key and determines the corresponding character.
+        /// </summary>
+        /// <param name="c">
+        /// The output parameter that will contain the retrieved character
+        /// if a valid key is pressed, or null if no key is pressed.
+        /// </param>
+        public static void GetClickedKey(out char? c)
+        {
+            // TODO: Add caps lock support
+            bool shift = IsPressed(Keys.LeftShift) || IsPressed(Keys.RightShift);
+
+            var clickedKeys = GetAllClickedKeys();
+            if (clickedKeys.Count == 0)
+            {
+                c = null;
+                return;
+            }
+
+            char? letter = null;
+            // TODO: Add support to other languages
+            switch (clickedKeys[0])
+            {
+                case Keys.A:
+                    letter = shift ? 'A' : 'a';
+                    break;
+                case Keys.B:
+                    letter = shift ? 'B' : 'b';
+                    break;
+                case Keys.C:
+                    letter = shift ? 'C' : 'c';
+                    break;
+                case Keys.D:
+                    letter = shift ? 'D' : 'd';
+                    break;
+                case Keys.E:
+                    letter = shift ? 'E' : 'e';
+                    break;
+                case Keys.F:
+                    letter = shift ? 'F' : 'f';
+                    break;
+                case Keys.G:
+                    letter = shift ? 'G' : 'g';
+                    break;
+                case Keys.H:
+                    letter = shift ? 'H' : 'h';
+                    break;
+                case Keys.I:
+                    letter = shift ? 'I' : 'i';
+                    break;
+                case Keys.J:
+                    letter = shift ? 'J' : 'j';
+                    break;
+                case Keys.K:
+                    letter = shift ? 'K' : 'k';
+                    break;
+                case Keys.L:
+                    letter = shift ? 'L' : 'l';
+                    break;
+                case Keys.M:
+                    letter = shift ? 'M' : 'm';
+                    break;
+                case Keys.N:
+                    letter = shift ? 'N' : 'n';
+                    break;
+                case Keys.O:
+                    letter = shift ? 'O' : 'o';
+                    break;
+                case Keys.P:
+                    letter = shift ? 'P' : 'p';
+                    break;
+                case Keys.Q:
+                    letter = shift ? 'Q' : 'q';
+                    break;
+                case Keys.R:
+                    letter = shift ? 'R' : 'r';
+                    break;
+                case Keys.S:
+                    letter = shift ? 'S' : 's';
+                    break;
+                case Keys.T:
+                    letter = shift ? 'T' : 't';
+                    break;
+                case Keys.U:
+                    letter = shift ? 'U' : 'u';
+                    break;
+                case Keys.V:
+                    letter = shift ? 'V' : 'v';
+                    break;
+                case Keys.W:
+                    letter = shift ? 'W' : 'w';
+                    break;
+                case Keys.X:
+                    letter = shift ? 'X' : 'x';
+                    break;
+                case Keys.Y:
+                    letter = shift ? 'Y' : 'y';
+                    break;
+                case Keys.Z:
+                    letter = shift ? 'Z' : 'z';
+                    break;
+                case Keys.D0:
+                    letter = '0';
+                    break;
+                case Keys.D1:
+                    letter = '1';
+                    break;
+                case Keys.D2:
+                    letter = '2';
+                    break;
+                case Keys.D3:
+                    letter = '3';
+                    break;
+                case Keys.D4:
+                    letter = '4';
+                    break;
+                case Keys.D5:
+                    letter = '5';
+                    break;
+                case Keys.D6:
+                    letter = '6';
+                    break;
+                case Keys.D7:
+                    letter = '7';
+                    break;
+                case Keys.D8:
+                    letter = '8';
+                    break;
+                case Keys.D9:
+                    letter = '9';
+                    break;
+            }
+            c = letter;
         }
     }
 }
