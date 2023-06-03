@@ -217,6 +217,18 @@ namespace WZIMopoly
             _currentScene.UpdateAll();
             _currentScene.AfterUpdateAll();
 
+#if DEBUG
+            if (KeyboardController.WasClicked(Microsoft.Xna.Framework.Input.Keys.F11))
+            {
+                if (ScreenController.IsFullScreen)
+                    ScreenController.ChangeResolution(1366, 768, false);
+                else
+                    ScreenController.ChangeResolution(1920, 1080, true);
+
+                ScreenController.ApplyChanges();
+                _currentScene.RecalculateAll();
+            }
+#endif
             base.Update(gameTime);
         }
 
