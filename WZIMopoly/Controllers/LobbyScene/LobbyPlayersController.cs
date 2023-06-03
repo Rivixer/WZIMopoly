@@ -28,6 +28,8 @@ namespace WZIMopoly.Controllers.LobbyScene
             {
                 Model.InitializeChild<LobbyPlayerModel, GUILobbyPlayer, LobbyPlayerController>(player);
             }
+
+            Model.InitializeChild<HostLabelModel, GUIHostLabel, HostLabelController>();
         }
     }
 }
