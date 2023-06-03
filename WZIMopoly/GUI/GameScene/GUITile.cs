@@ -22,7 +22,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The orientation of the tile.
         /// </summary>
-        private readonly TileOrientation _orientation;
+        protected readonly TileOrientation _orientation;
 
         /// <summary>
         /// The position of the tile.
