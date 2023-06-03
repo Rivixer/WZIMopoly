@@ -114,7 +114,7 @@
 	<tile id="15" type="VendingMachine">
 		<en_name>Drink vending machine</en_name>
 		<pl_name>Automat z napojami</pl_name>
-		<position x1="487" y1="210" x2="565" y2="336" orientation="vertical"/>
+		<position x1="487" y1="210" x2="566" y2="336" orientation="vertical"/>
 	</tile>
 	<tile id="16" type="Subject">
 		<en_name>Operating systems</en_name>
@@ -236,7 +236,7 @@
 		<en_name>Conditional pass</en_name>
 		<pl_name>Warunek</pl_name>
 		<tax>100</tax>
-		<position x1="1519" y1="586" x2="1644" y2="664" orientation="horizontalRight"/>
+		<position x1="1519" y1="584" x2="1644" y2="664" orientation="horizontalRight"/>
 	</tile>
 	<tile id="32" type="Subject">
 		<en_name>Introduction to programming</en_name>
