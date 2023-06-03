@@ -106,7 +106,7 @@ namespace WZIMopoly.GUI.LobbyScene.PlayersList
         /// <inheritdoc/>
         public override void Update()
         {
-            if (!NickText.IsSelected)
+            if (!NickText.IsSelected || _model.Player.PlayerType.HasFlag(PlayerType.Online))
             {
                 NickText.Text = _model.Player.Nick;
             }

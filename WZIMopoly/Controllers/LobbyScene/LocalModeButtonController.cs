@@ -35,7 +35,9 @@ namespace WZIMopoly.Controllers.LobbyScene
 
             if (Model.Conditions()
                 && MouseController.WasLeftBtnClicked()
-                && View.IsHovered)
+                && View.IsHovered
+                && !Model.IsActive
+                && GameSettings.Players[0].PlayerType != PlayerType.OnlinePlayer)
             {
                 OnClick();
             }
