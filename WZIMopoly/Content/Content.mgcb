@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/bahnschrift.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/bahnschrift.spritefont
+
 #begin Fonts/DebugFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

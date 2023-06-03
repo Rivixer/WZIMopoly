@@ -97,7 +97,7 @@ namespace WZIMopoly.GUI.LobbyScene
             {
                 _infoText.Text = WZIMopoly.Language switch
                 {
-                    Language.Polish => "Nie udalo sie polaczyc z serwerem WZIMopoly!",
+                    Language.Polish => "Nie udało się połączyć z serwerem WZIMopoly!",
                     Language.English => "Cannot connect to the WZIMopoly's server!",
                     _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}"),
                 };
