@@ -210,6 +210,7 @@ namespace WZIMopoly.GUI
                 TextBuilder.Insert(_cursorPosition, c);
                 _cursorPosition++;
                 ChangeCursorRect();
+                Recalculate();
             }
         }
 
@@ -228,6 +229,7 @@ namespace WZIMopoly.GUI
                 }
             }
             ChangeCursorRect();
+            Recalculate();
         }
 
         /// <summary>
@@ -239,6 +241,7 @@ namespace WZIMopoly.GUI
             {
                 TextBuilder.Remove(_cursorPosition, 1);
                 ChangeCursorRect();
+                Recalculate();
             }
         }
 
@@ -248,12 +251,32 @@ namespace WZIMopoly.GUI
         private void ChangeCursorRect()
         {
             float offset = 0;
-            for (int i = 0; i < _cursorPosition; i++)
+            switch (_cursorStartPoint)
             {
-                offset += GetTextCharLength(i);
+                case GUIStartPoint.TopLeft:
+                case GUIStartPoint.Left:
+                case GUIStartPoint.BottomLeft:
+                    for (int i = 0; i < _cursorPosition; i++)
+                    {
+                        offset += GetTextCharLength(i);
+                    }
+                    break;
+                case GUIStartPoint.Top:
+                case GUIStartPoint.Center:
+                case GUIStartPoint.Bottom:
+                    for (int i = 0; i < _cursorPosition; i++)
+                    {
+                        offset += GetTextCharLength(i) / 2;
+                    }
+                    break;
+                case GUIStartPoint.TopRight:
+                case GUIStartPoint.Right:
+                case GUIStartPoint.BottomRight:
+                    offset = 0f;
+                    break;
             }
             Vector2 pos = _cursorStartPos;
-            var newRect = new Rectangle((int)(pos.X + offset) - 4, (int)pos.Y, (int)(5 * Scale), (int)(100 * Scale));
+            var newRect = new Rectangle((int)(pos.X + offset), (int)pos.Y, (int)(5 * Scale), (int)(100 * Scale));
             _cursor.SetNewDefDstRectangle(newRect, _cursorStartPoint);
         }
 
@@ -268,7 +291,7 @@ namespace WZIMopoly.GUI
         /// </returns>
         private float GetTextCharLength(int index)
         {
-            return (Font.MeasureString(Text[index].ToString()).X * Scale * 1920) / ScreenController.Width;
+            return Font.MeasureString(Text[index].ToString()).X * Scale * 1920 / ScreenController.Width;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using WZIMopoly.Controllers.LobbyScene.PlayersList;
+﻿using System.Linq;
+using WZIMopoly.Controllers.LobbyScene.PlayersList;
 using WZIMopoly.GUI.LobbyScene;
 using WZIMopoly.GUI.LobbyScene.PlayersList;
 using WZIMopoly.Models;
@@ -27,6 +28,22 @@ namespace WZIMopoly.Controllers.LobbyScene
             foreach (PlayerModel player in GameSettings.Players)
             {
                 Model.InitializeChild<LobbyPlayerModel, GUILobbyPlayer, LobbyPlayerController>(player);
+            }
+            Model.InitializeChild<HostLabelModel, GUIHostLabel, HostLabelController>();
+        }
+
+        /// <summary>
+        /// Resets the players list.
+        /// </summary>
+        /// <remarks>
+        /// Creates a new players list based on <see cref="GameSettings.Players"/>.
+        /// </remarks>
+        public void Reset()
+        {
+            var lobbyPlayerControllers = Model.GetAllControllers<LobbyPlayerController>();
+            foreach (var (ctrl, player) in lobbyPlayerControllers.Zip(GameSettings.Players))
+            {
+                ctrl.UpdatePlayer(player);
             }
         }
     }

@@ -1,39 +1,64 @@
-﻿#region Using Statements
-using System.Text;
+﻿using System.Text;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using WZIMopolyNetworkingLibrary;
-#endregion
 
 namespace WZIMopolyServer
 {
-    class Root : WebSocketBehavior
+    /// <summary>
+    /// Represents the root behavior class.
+    /// </summary>
+    class RootBehavior : WebSocketBehavior
     {
         /// <summary>
         /// Represents the <see cref="Random"/> class instance.
         /// </summary>
         private static readonly Random random = new();
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Called when the <see cref="WebSocket"/> used
+        /// in a session has been established.
+        /// </summary>
+        /// <remarks>
+        /// Adds the client to the lobby.
+        /// </remarks>
         protected override void OnOpen()
         {
             Console.WriteLine($"Connection opened on root: {ID}");
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Called when the <see cref="WebSocket"/> connection
+        /// used in a session has been closed.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="CloseEventArgs"/> class.
+        /// </param>
         protected override void OnClose(CloseEventArgs e)
         {
             Console.WriteLine($"Connection closed on root: {ID} ({e.Code})");
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Called when the <see cref="WebSocket"/> used
+        /// in a session gets an error.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="WebSocketSharp.ErrorEventArgs"/> class.
+        /// </param>
         protected override void OnError(WebSocketSharp.ErrorEventArgs e)
         {
             Console.WriteLine($"Connection errored on root: {ID}");
             Console.WriteLine(e.Message);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Called when the <see cref="WebSocket"/> used
+        /// in a session receives a message.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="MessageEventArgs"/> class.
+        /// </param>
         protected override void OnMessage(MessageEventArgs e)
         {
             var type = (PacketType)e.RawData[0];
@@ -43,7 +68,6 @@ namespace WZIMopolyServer
                 CreateNewLobby(code);
                 SendLobbyCode(code);
             }
-            
         }
 
         /// <summary>
@@ -71,21 +95,28 @@ namespace WZIMopolyServer
         }
 
         /// <summary>
-        /// Creates a new lobby.<br/>
-        /// Adds a new <c>WebSocketService</c> to <see cref="Server.wssv"/> with the given code.<br/>
-        /// Adds the lobby code to <see cref="Server.LobbyCodes"/> list.
+        /// Creates a new lobby.
         /// </summary>
         /// <param name="code">
         /// The lobby code.
         /// </param>
+        /// <remarks>
+        /// <para>
+        /// Adds a new <c>WebSocketService</c> to <see cref="Server.wssv"/>
+        /// with the given code.
+        /// </para>
+        /// <para>
+        /// Adds the lobby code to <see cref="Server.LobbyCodes"/> list.
+        /// </para>
+        /// </remarks>
         private static void CreateNewLobby(string code)
         {
-            Server.wssv.AddWebSocketService<Lobby>($"/{code}");
+            Server.wssv.AddWebSocketService<LobbyBehavior>($"/{code}");
             Server.LobbyCodes.Add(code);
         }
 
         /// <summary>
-        /// Sends the lobby's code to the client.
+        /// Sends the lobby code to the client.
         /// </summary>
         /// <param name="code">
         /// The lobby code.

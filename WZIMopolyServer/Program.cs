@@ -1,6 +1,4 @@
-﻿#region Using Statements
-using WebSocketSharp.Server;
-#endregion
+﻿using WebSocketSharp.Server;
 
 namespace WZIMopolyServer
 {
@@ -22,9 +20,27 @@ namespace WZIMopolyServer
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            wssv.AddWebSocketService<Root>("/");
+            wssv.AddWebSocketService<RootBehavior>("/");
             wssv.Start();
-            Console.WriteLine("Server started. Press any key to stop.");
+            string logo = @"
+$$\      $$\ $$$$$$$$\ $$$$$$\ $$\      $$\                               $$\           
+$$ | $\  $$ |\____$$  |\_$$  _|$$$\    $$$ |                              $$ |          
+$$ |$$$\ $$ |    $$  /   $$ |  $$$$\  $$$$ | $$$$$$\   $$$$$$\   $$$$$$\  $$ |$$\   $$\ 
+$$ $$ $$\$$ |   $$  /    $$ |  $$\$$\$$ $$ |$$  __$$\ $$  __$$\ $$  __$$\ $$ |$$ |  $$ |
+$$$$  _$$$$ |  $$  /     $$ |  $$ \$$$  $$ |$$ /  $$ |$$ /  $$ |$$ /  $$ |$$ |$$ |  $$ |
+$$$  / \$$$ | $$  /      $$ |  $$ |\$  /$$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |$$ |  $$ |
+$$  /   \$$ |$$$$$$$$\ $$$$$$\ $$ | \_/ $$ |\$$$$$$  |$$$$$$$  |\$$$$$$  |$$ |\$$$$$$$ |
+\__/     \__|\________|\______|\__|     \__| \______/ $$  ____/  \______/ \__| \____$$ |
+                                                      $$ |                    $$\   $$ |
+                                                      $$ |                    \$$$$$$  |
+ $$$$$$$\  $$$$$$\   $$$$$$\ $$\    $$\  $$$$$$\   $$$$$$\                     \______/ 
+$$  _____|$$  __$$\ $$  __$$\\$$\  $$  |$$  __$$\ $$  __$$\                             
+\$$$$$$\  $$$$$$$$ |$$ |  \__|\$$\$$  / $$$$$$$$ |$$ |  \__|                            
+ \____$$\ $$   ____|$$ |       \$$$  /  $$   ____|$$ |                                  
+$$$$$$$  |\$$$$$$$\ $$ |        \$  /   \$$$$$$$\ $$ |                                  
+\_______/  \_______|\__|         \_/     \_______|\__|";
+            Console.WriteLine(logo);
+            Console.WriteLine("\nServer started. Press any key to stop.");
             Console.ReadKey(true);
             wssv.Stop();
         }

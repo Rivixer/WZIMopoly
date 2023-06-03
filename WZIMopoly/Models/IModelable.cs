@@ -44,16 +44,18 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Adds a controller to the list of children.
         /// </summary>
-        /// <typeparam name="M">
-        /// The type of the model of the child controller.
-        /// </typeparam>
-        /// <typeparam name="V">
-        /// The type of the view of the child controller.
-        /// </typeparam>
         /// <param name="child">
         /// The controller to be added.
         /// </param>
         void AddChild(IControllerable child);
+
+        /// <summary>
+        /// Removes a controller from the list of children.
+        /// </summary>
+        /// <param name="child">
+        /// The controller to be removed.
+        /// </param>
+        void RemoveChild(IControllerable child);
 
         /// <summary>
         /// Adds a controller to the list of children before

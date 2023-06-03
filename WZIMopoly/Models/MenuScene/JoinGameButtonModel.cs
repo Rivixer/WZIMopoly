@@ -9,10 +9,11 @@
         /// Initializes a new instance of the <see cref="JoinGameButtonModel"/> class.
         /// </summary>
         public JoinGameButtonModel()
-            : base("MenuJoin")
+            : base("MenuJoin") { }
+
+        public override void Update()
         {
-            // TODO: Remove after implement the join game button.
-            IsActive = false;
+            IsActive = NetworkService.Type == ConnectionType.Root;
         }
     }
 }

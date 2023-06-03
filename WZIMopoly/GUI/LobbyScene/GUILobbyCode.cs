@@ -51,7 +51,7 @@ namespace WZIMopoly.GUI.LobbyScene
         {
             if (WZIMopoly.GameType == GameType.Online)
             {
-                if (_model.Code != string.Empty)
+                if (_model.Code != string.Empty && NetworkService.Type == ConnectionType.Lobby)
                 {
                     _background.Draw(spriteBatch);
                     _text.Draw(spriteBatch);
@@ -84,7 +84,7 @@ namespace WZIMopoly.GUI.LobbyScene
                 _text.Text = _model.Code;
             }
 
-            if (WZIMopoly.Network != null)
+            if (NetworkService.Type == ConnectionType.Lobby)
             {
                 _infoText.Text = WZIMopoly.Language switch
                 {
@@ -93,7 +93,16 @@ namespace WZIMopoly.GUI.LobbyScene
                     _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}"),
                 };
             }
-            else
+            else if (NetworkService.Type == ConnectionType.ConnectingToLobby)
+            {
+                _infoText.Text = WZIMopoly.Language switch
+                {
+                    Language.Polish => "Łączenie z serwerem WZIMopoly...",
+                    Language.English => "Connecting to the WZIMopoly's server...",
+                    _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}"),
+                };
+            }
+            else if (NetworkService.Type == ConnectionType.None)
             {
                 _infoText.Text = WZIMopoly.Language switch
                 {

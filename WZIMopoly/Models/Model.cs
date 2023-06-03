@@ -12,6 +12,7 @@ namespace WZIMopoly.Models
     /// <remarks>
     /// Contains methods for managing children.
     /// </remarks>
+    [Serializable]
     internal abstract partial class Model : IModelable
     {
         /// <summary>
@@ -35,6 +36,12 @@ namespace WZIMopoly.Models
         public void AddChild(IControllerable child)
         {
             _children.Add(child);
+        }
+
+        /// <inheritdoc/>
+        public void RemoveChild(IControllerable child)
+        {
+            _children.Remove(child);
         }
 
         /// <inheritdoc/>

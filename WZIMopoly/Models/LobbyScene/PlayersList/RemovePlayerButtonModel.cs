@@ -20,16 +20,16 @@ namespace WZIMopoly.Models.LobbyScene.PlayersList
         }
 
         /// <summary>
-        /// Gets the player model.
+        /// Gets or sets the player model.
         /// </summary>
-        public PlayerModel Player { get; private set; }
+        public PlayerModel Player { get; set; }
 
         /// <inheritdoc/>
         public override void Update()
         {
-            bool playerIsNone = Player.PlayerType == PlayerType.None;
+            bool playerIsNotLocal = Player.PlayerType != PlayerType.Local;
             bool playerIsHost = GameSettings.Players.IndexOf(Player) == 0;
-            IsActive = !playerIsNone && !playerIsHost && PlayerIsLast();
+            IsActive = !playerIsNotLocal && !playerIsHost && PlayerIsLast();
         }
 
         /// <summary>

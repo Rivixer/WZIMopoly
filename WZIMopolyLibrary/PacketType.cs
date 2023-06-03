@@ -1,15 +1,13 @@
 ﻿namespace WZIMopolyNetworkingLibrary
 {
     /// <summary>
-    /// Represents an enumeration of packet types.<br/><br/>
-    /// 
-    /// <see cref="NewLobby"/>: used to create a new lobby.<br/>
-    /// Parameters: <c>none</c><br/>
-    /// Returns: <c>LobbyCode (string)</c><br/><br/>
-    /// 
+    /// Represents the packet types.
     /// </summary>
     public enum PacketType
     {
-        NewLobby
+        NewLobby,
+        NewPlayer,
+        LobbyData,
+        Close,
     }
 }
