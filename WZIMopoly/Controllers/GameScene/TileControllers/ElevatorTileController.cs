@@ -6,6 +6,16 @@ namespace WZIMopoly.Controllers.GameScene.TileControllers
     /// <summary>
     /// Represents an 'Elevator' tile.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// After stopping on this tile, the player ca teleport to another
+    /// <see cref="ElevatorTileController">Elevator</see> 
+    /// for free if they want.
+    /// </para>
+    /// <para>
+    /// This tile does not have an equivalent in Monopoly.
+    /// </para>
+    /// </remarks>
     internal sealed class ElevatorTileController : TileController<ElevatorTileModel>
     {
         /// <summary>
