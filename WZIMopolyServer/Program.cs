@@ -1,4 +1,4 @@
-﻿#region Using Statements
+#region Using Statements
 using WebSocketSharp.Server;
 #endregion
 
@@ -22,7 +22,7 @@ namespace WZIMopolyServer
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            wssv.AddWebSocketService<Root>("/");
+            wssv.AddWebSocketService<RootBehavior>("/");
             wssv.Start();
             Console.WriteLine("Server started. Press any key to stop.");
             Console.ReadKey(true);
