@@ -80,13 +80,23 @@ namespace WZIMopoly.Models.GameScene
                 }
 
                 TileController tileController;
-                if (tileModel is PurchasableTileModel)
+                if (tileModel is SubjectTileModel)
                 {
                     tileController = (TileController)Activator.CreateInstance(
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                         binder: null,
-                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel) },
+                        args: new object[] { tileModel, new GUISubjectTile(tileNode, tileModel as SubjectTileModel) },
+                        culture: null
+                    );
+                }
+                else if (tileModel is PurchasableTileModel)
+                {
+                    tileController = (TileController)Activator.CreateInstance(
+                        type: tileControllerType,
+                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
+                        binder: null,
+                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel as PurchasableTileModel) },
                         culture: null
                     );
                 }
