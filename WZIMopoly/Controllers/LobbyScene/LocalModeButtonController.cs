@@ -1,4 +1,6 @@
-﻿using WZIMopoly.GUI.LobbyScene;
+﻿using WZIMopoly.Engine;
+using WZIMopoly.Enums;
+using WZIMopoly.GUI.LobbyScene;
 using WZIMopoly.Models.LobbyScene;
 
 namespace WZIMopoly.Controllers.LobbyScene
@@ -18,6 +20,25 @@ namespace WZIMopoly.Controllers.LobbyScene
         /// The view of the local mode button.
         /// </param>
         public LocalModeButtonController(LocalModeButtonModel model, GUILocalModeButton view)
-            : base(model, view) { }
+            : base(model, view)
+        {
+            OnButtonClicked += () => WZIMopoly.GameType = GameType.Local;
+        }
+
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            base.Update();
+
+            // We have to override this, because we want to make
+            // this button clickable even if it is inactive.
+
+            if (Model.Conditions()
+                && MouseController.WasLeftBtnClicked()
+                && View.IsHovered)
+            {
+                OnClick();
+            }
+        }
     }
 }

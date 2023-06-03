@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
@@ -8,6 +9,7 @@ using WZIMopoly.Scenes;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Enums;
+using WebSocketSharp;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -69,6 +71,11 @@ namespace WZIMopoly
         private IPrimaryController _currentScene;
 
         /// <summary>
+        /// The song played in the background.
+        /// </summary>
+        private Song _song;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WZIMopoly"/> class.
         /// </summary>
         public WZIMopoly()
@@ -100,6 +107,18 @@ namespace WZIMopoly
         internal static Language Language { get; set; } = Language.Polish;
 
         /// <summary>
+        /// Gets or sets the game type.
+        /// </summary>
+        internal static GameType GameType { get; set; } = GameType.Local;
+
+#nullable enable
+        /// <summary>
+        /// The network connection.
+        /// </summary>
+        internal static WebSocket? Network { get; set; }
+#nullable disable
+
+        /// <summary>
         /// Changes the current scene to the specified one
         /// and recalculates all the elements.
         /// </summary>
@@ -120,6 +139,8 @@ namespace WZIMopoly
             ScreenController.Initialize(_graphics);
             ScreenController.ChangeResolution(1366, 768, false);
             ScreenController.ApplyChanges();
+
+            NetworkService.ConnectToRoot();
 
             GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
             GameSettings.Players.Add(new PlayerModel("Player2", "Blue"));
@@ -166,6 +187,9 @@ namespace WZIMopoly
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            this._song = Content.Load<Song>("Songs/menu_song");
+            MediaPlayer.Play(_song);
+            MediaPlayer.IsRepeating = true;
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);

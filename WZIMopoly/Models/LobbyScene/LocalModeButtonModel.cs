@@ -1,4 +1,7 @@
-﻿namespace WZIMopoly.Models.LobbyScene
+﻿using System.Runtime.CompilerServices;
+using WZIMopoly.Enums;
+
+namespace WZIMopoly.Models.LobbyScene
 {
     /// <summary>
     /// Represents the local model button model.
@@ -9,9 +12,12 @@
         /// Initializes a new instance of the <see cref="LocalModeButtonModel"/> class.
         /// </summary>
         public LocalModeButtonModel()
-            : base("LobbyLocal")
+            : base("LobbyLocal") { }
+
+        /// <inheritdoc/>
+        public override void Update()
         {
-            IsActive = true;
+            IsActive = WZIMopoly.GameType == GameType.Local;
         }
     }
 }
