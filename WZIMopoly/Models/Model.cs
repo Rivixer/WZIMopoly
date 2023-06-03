@@ -12,6 +12,7 @@ namespace WZIMopoly.Models
     /// <remarks>
     /// Contains methods for managing children.
     /// </remarks>
+    [Serializable]
     internal abstract partial class Model : IModelable
     {
         /// <summary>
