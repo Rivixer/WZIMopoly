@@ -61,8 +61,6 @@ namespace WZIMopoly.GUI
         /// The rotation of the text.
         /// </summary>
         private float _rotation;
-
-        private Vector2 _origin;
         #endregion
 
         #region Constructors
@@ -86,11 +84,15 @@ namespace WZIMopoly.GUI
         /// The scale of the text.<br/>
         /// Defaults to 1.0f.
         /// </param>
+        /// <param name="rotation">
+        /// The rotation of the text in radians.<br/>
+        /// Defaults to 0.0f.
+        /// </param>
         /// <remarks>
         /// The <see cref="Color"/> property is set to white and the <see cref="Text"/> property is empty by default.
         /// </remarks>
-        internal GUIText(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1.0f)
-            : this(fontPath, defPosition, Color.White, startPoint, text, scale) { }
+        internal GUIText(string fontPath, Vector2 defPosition, GUIStartPoint startPoint = GUIStartPoint.TopLeft, string text = "", float scale = 1.0f, float rotation = 0.0f)
+            : this(fontPath, defPosition, Color.White, startPoint, text, scale, rotation) { }
 
         /// <summary>
         /// Initializes a new instance of <see cref="GUIText"/> class.
@@ -112,10 +114,14 @@ namespace WZIMopoly.GUI
         /// Defaults to empty string.
         /// </param>
         /// <param name="scale">
-        /// The scale of the text. <br/>
+        /// The scale of the text.<br/>
         /// Defaults to 1.0f.
         /// </param>
-        internal GUIText(string fontPath, Vector2 defPosition, Color color, GUIStartPoint startPoint, string text = "", float scale = 1.0f, float rotation = 0)
+        /// <param name="rotation">
+        /// The rotation of the text in radians.<br/>
+        /// Defaults to 0.0f.
+        /// </param>
+        internal GUIText(string fontPath, Vector2 defPosition, Color color, GUIStartPoint startPoint, string text = "", float scale = 1.0f, float rotation = 0.0f)
         {
             _fontPath = fontPath;
             _defaultPosition = defPosition;
@@ -184,7 +190,7 @@ namespace WZIMopoly.GUI
         {
             if (Font is not null)
             {
-                spriteBatch.DrawString(Font, Text, Position, Color, _rotation, _origin, Scale, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(Font, Text, Position, Color, _rotation, Vector2.Zero, Scale, SpriteEffects.None, 0f);
             }
         }
 

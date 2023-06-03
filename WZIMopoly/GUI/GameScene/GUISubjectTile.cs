@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml;
 using WZIMopoly.Enums;
-using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.GUI.GameScene
 {
@@ -15,29 +15,90 @@ namespace WZIMopoly.GUI.GameScene
         /// </summary>
         private GUIText _grade;
 
-        internal GUISubjectTile(XmlNode node, TileModel model) : base(node, model)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GUISubjectTile"/> class.
+        /// </summary>
+        /// <param name="node">
+        /// The XML node that contains the tile data.
+        /// </param>
+        /// <param name="model">
+        /// The model of the tile.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// The XML tile data is invalid.
+        /// </exception>
+        internal GUISubjectTile(XmlNode node, SubjectTileModel model) : base(node, model)
         {
             _grade = _orientation switch
             {
-                TileOrientation.Vertical => new GUIText("Fonts/WZIMFont", new Vector2(Position.Center.X, Position.Top + 11), Color.Black, GUIStartPoint.Center, "3", 0.3f),
-                TileOrientation.HorizontalLeft => new GUIText("Fonts/WZIMFont", new Vector2(Position.Right - 12, Position.Center.Y), Color.Black, GUIStartPoint.Center, "3", 0.3f, 1.57f),
-                TileOrientation.HorizontalRight => new GUIText("Fonts/WZIMFont", new Vector2(Position.Left + 14, Position.Center.Y), Color.Black, GUIStartPoint.Center, "3", 0.3f, 1.57f),
+                TileOrientation.Vertical => new GUIText("Fonts/WZIMFont", new Vector2(Position.Center.X, Position.Top + 11), Color.Black, GUIStartPoint.Center, "", 0.3f),
+                TileOrientation.HorizontalLeft => new GUIText("Fonts/WZIMFont", new Vector2(Position.Right + 18, Position.Center.Y - 2), Color.Black, GUIStartPoint.Center, "", 0.3f, MathHelper.ToRadians(90)),
+                TileOrientation.HorizontalRight => new GUIText("Fonts/WZIMFont", new Vector2(Position.Left + 16, Position.Center.Y + 27), Color.Black, GUIStartPoint.Center, "", 0.3f, MathHelper.ToRadians(270)),
                 _ => throw new ArgumentException($"Displaying a grade is implemented only for vertical and horizontal tiles.")
             };
         }
 
+        /// <summary>
+        /// Gets the subject tile model.
+        /// </summary>
+        protected new SubjectTileModel Model => (SubjectTileModel)base.Model;
+
+        /// <inheritdoc/>
         public override void Load(ContentManager content)
         {
             base.Load(content);
             _grade.Load(content);
         }
 
+        /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (Model.Owner is not null)
+            {
+                _grade.Draw(spriteBatch);
+            }
             base.Draw(spriteBatch);
-            _grade.Draw(spriteBatch);
         }
 
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            base.Update();
+
+            _grade.Text = Model.Grade switch
+            {
+                SubjectGrade.Two => "2.0",
+                SubjectGrade.Three => "3.0",
+                SubjectGrade.ThreeHalf => "3.5",
+                SubjectGrade.Four => "4.0",
+                SubjectGrade.FourHalf => "4.5",
+                SubjectGrade.Five => "5.0",
+                SubjectGrade.Exemption => WZIMopoly.Language switch
+                {
+                    Language.English => "Exem.",
+                    Language.Polish => "Zwol.",
+                    _ => throw new ArgumentException("Language not implemented.")
+                },
+                _ => throw new ArgumentException("Invalid grade.")
+            };
+
+            if (_grade.Text.Length == 3)
+            {
+                if (_orientation == TileOrientation.HorizontalLeft)
+                    _grade.SetNewDefPosition(new Vector2(Position.Right + 18, Position.Center.Y - 2), GUIStartPoint.Center);
+                else if (_orientation == TileOrientation.HorizontalRight)
+                    _grade.SetNewDefPosition(new Vector2(Position.Left + 16, Position.Center.Y + 27), GUIStartPoint.Center);
+            }
+            else
+            {
+                if (_orientation == TileOrientation.HorizontalLeft)
+                    _grade.SetNewDefPosition(new Vector2(Position.Right + 32, Position.Center.Y - 16), GUIStartPoint.Center);
+                else if (_orientation == TileOrientation.HorizontalRight)
+                    _grade.SetNewDefPosition(new Vector2(Position.Left + 30, Position.Center.Y + 42), GUIStartPoint.Center);
+            }
+        }
+
+        /// <inheritdoc/>
         public override void Recalculate()
         {
             base.Recalculate();

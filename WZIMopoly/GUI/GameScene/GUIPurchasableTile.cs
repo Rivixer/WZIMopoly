@@ -5,7 +5,6 @@ using System;
 using System.Xml;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
-using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Utils;
 using WZIMopoly.Utils.PositionExtensions;
@@ -37,8 +36,16 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIPurchasableTile"/> class.
         /// </summary>
-        /// <inheritdoc/>
-        internal GUIPurchasableTile(XmlNode node, TileModel model)
+        /// <param name="node">
+        /// The XML node that contains the tile data.
+        /// </param>
+        /// <param name="model">
+        /// The model of the tile.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// The XML tile data is invalid.
+        /// </exception>
+        internal GUIPurchasableTile(XmlNode node, PurchasableTileModel model)
             : base(node, model)
         {
             var fileName = NamingConverter.ConvertXMLNamesToFileNames(model.EnName);
@@ -46,6 +53,11 @@ namespace WZIMopoly.GUI.GameScene
 
             _ownerOnCard = new GUIText("Fonts/WZIMFont", new Vector2(0), Color.Black, GUIStartPoint.Center, scale: 0.3f);
         }
+
+        /// <summary>
+        /// Gets the purchasable tile model.
+        /// </summary>
+        protected new PurchasableTileModel Model => (PurchasableTileModel)base.Model;
 
         /// <summary>
         /// Gets the value whether the tile is hovered.
@@ -127,12 +139,12 @@ namespace WZIMopoly.GUI.GameScene
         /// </summary>
         private void UpdateOwnerOnCard()
         {
-            if ((Model as PurchasableTileModel).Owner is not null)
+            if (Model.Owner is not null)
             {
                 _ownerOnCard.Text = WZIMopoly.Language switch
                 {
-                    Language.Polish => $"Wlasciciel: {(Model as PurchasableTileModel).Owner.Nick}",
-                    Language.English => $"Owner: {(Model as PurchasableTileModel).Owner.Nick}",
+                    Language.Polish => $"Wlasciciel: {Model.Owner.Nick}",
+                    Language.English => $"Owner: {Model.Owner.Nick}",
                     _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
                 };
             }
