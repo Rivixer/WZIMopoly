@@ -171,6 +171,30 @@
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/EndTurnHovered.png
 
+#begin Images/Buttons/Exit.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Buttons/Exit.png
+
+#begin Images/Buttons/ExitHovered.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Buttons/ExitHovered.png
+
 #begin Images/Buttons/JoinGame.png
 /importer:TextureImporter
 /processor:TextureProcessor
