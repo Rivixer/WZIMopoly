@@ -65,22 +65,7 @@ namespace WZIMopoly.GUI.GameScene
         {
             base.Update();
 
-            _grade.Text = Model.Grade switch
-            {
-                SubjectGrade.Two => "2.0",
-                SubjectGrade.Three => "3.0",
-                SubjectGrade.ThreeHalf => "3.5",
-                SubjectGrade.Four => "4.0",
-                SubjectGrade.FourHalf => "4.5",
-                SubjectGrade.Five => "5.0",
-                SubjectGrade.Exemption => WZIMopoly.Language switch
-                {
-                    Language.English => "Exem.",
-                    Language.Polish => "Zwol.",
-                    _ => throw new ArgumentException("Language not implemented.")
-                },
-                _ => throw new ArgumentException("Invalid grade.")
-            };
+            _grade.Text = Model.Grade.ConvertToString();
 
             if (_grade.Text.Length == 3)
             {

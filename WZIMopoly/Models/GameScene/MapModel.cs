@@ -86,7 +86,7 @@ namespace WZIMopoly.Models.GameScene
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                         binder: null,
-                        args: new object[] { tileModel, new GUISubjectTile(tileNode, tileModel) },
+                        args: new object[] { tileModel, new GUISubjectTile(tileNode, tileModel as SubjectTileModel) },
                         culture: null
                     );
                 }
@@ -96,7 +96,7 @@ namespace WZIMopoly.Models.GameScene
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                         binder: null,
-                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel) },
+                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel as PurchasableTileModel) },
                         culture: null
                     );
                 }

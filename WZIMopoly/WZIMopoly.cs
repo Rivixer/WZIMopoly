@@ -217,6 +217,7 @@ namespace WZIMopoly
             _currentScene.UpdateAll();
             _currentScene.AfterUpdateAll();
 
+#if DEBUG
             if (KeyboardController.WasClicked(Microsoft.Xna.Framework.Input.Keys.F11))
             {
                 if (ScreenController.IsFullScreen)
@@ -227,7 +228,7 @@ namespace WZIMopoly
                 ScreenController.ApplyChanges();
                 _currentScene.RecalculateAll();
             }
-
+#endif
             base.Update(gameTime);
         }
 
