@@ -1,17 +1,60 @@
-﻿using System.Xml;
-using WebSocketSharp;
+﻿using System;
+using System.Xml;
+using WebSocket4Net;
 
 namespace WZIMopoly
 {
+    /// <summary>
+    /// Represents the type of connection.
+    /// </summary>
+    internal enum ConnectionType
+    {
+        /// <summary>
+        /// The connection is not established.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The connection is established to the server root.
+        /// </summary>
+        Root,
+
+        /// <summary>
+        /// The connection is established to the server lobby.
+        /// </summary>
+        Lobby,
+
+        /// <summary>
+        /// The connection is being established to the server root.
+        /// </summary>
+        ConnectingToRoot,
+
+        /// <summary>
+        /// The connection is being established to the server lobby.
+        /// </summary>
+        ConnectingToLobby,
+    }
+
     /// <summary>
     /// Provides methods for connecting to the server.
     /// </summary>
     internal static class NetworkService
     {
+
         /// <summary>
         /// The address of the server root.
         /// </summary>
         private static string _wsAddress;
+
+        /// <summary>
+        /// Gets the current connection.
+        /// </summary>
+        public static WebSocket Connection { get; private set; }
+
+        /// <summary>
+        /// Gets the type of the current connection.
+        /// </summary>
+        public static ConnectionType Type { get; private set; }
 
         /// <summary>
         /// Gets the address of the server root.
@@ -19,36 +62,17 @@ namespace WZIMopoly
         private static string WSAddress => _wsAddress ?? LoadAddress();
 
         /// <summary>
-        /// Connects to the server root.
-        /// </summary>
-        /// <remarks>
-        /// If the connection cannot be established,
-        /// <see cref="WZIMopoly.Network"/> will be set to null.
-        /// </remarks>
-        internal static void ConnectToRoot()
-        {
-            WZIMopoly.Network = new WebSocket(WSAddress);
-            Connect();
-        }
-
-        /// <summary>
         /// Closes the current connection.
         /// </summary>
+        /// <remarks>
+        /// Sets <see cref="Connection"/> to null
+        /// and <see cref="Type"/> to <see cref="ConnectionType.None"/>.
+        /// </remarks>
         internal static void CloseCurrentConnection()
         {
-            WZIMopoly.Network.Close();
-        }
-
-        /// <summary>
-        /// Connects to the server lobby.
-        /// </summary>
-        /// <param name="code">
-        /// The code of the lobby to connect to.
-        /// </param>
-        internal static void ConnectToLobby(string code)
-        {
-            WZIMopoly.Network = new WebSocket($"{WSAddress}/{code}");
-            Connect();
+            Connection.Close();
+            Type = ConnectionType.None;
+            Connection = null;
         }
 
         /// <summary>
@@ -60,17 +84,31 @@ namespace WZIMopoly
         /// it will be closed before switching.
         /// </para>
         /// <para>
+        /// While connecting, <see cref="Type"/> will be set to
+        /// <see cref="ConnectionType.ConnectingToRoot"/>.
+        /// </para>
+        /// <para>
+        /// After connecting, <see cref="Type"/> will be set to
+        /// <see cref="ConnectionType.Root"/>.
+        /// </para>
+        /// <para>
         /// If the connection cannot be established,
-        /// <see cref="WZIMopoly.Network"/> will be set to null.
+        /// <see cref="Connection"/> will be set to null
+        /// and <see cref="Type"/> will be set
+        /// to <see cref="ConnectionType.None"/>.
         /// </para>
         /// </remarks>
         internal static void SwitchToRoot()
         {
-            if (WZIMopoly.Network != null)
+            if (Connection != null)
             {
                 CloseCurrentConnection();
             }
-            ConnectToRoot();
+            Type = ConnectionType.ConnectingToRoot;
+            if (Connect(WSAddress))
+            {
+                Type = ConnectionType.Root;
+            }
         }
 
         /// <summary>
@@ -81,36 +119,66 @@ namespace WZIMopoly
         /// </param>
         /// <remarks>
         /// <para>
-        /// If other connections are open,
-        /// it will be closed before switching.
+        /// While connecting, <see cref="Type"/> will be set to
+        /// <see cref="ConnectionType.ConnectingToLobby"/>.
+        /// </para>
+        /// <para>
+        /// After connecting, <see cref="Type"/> will be set to
+        /// <see cref="ConnectionType.Lobby"/>.
         /// </para>
         /// <para>
         /// If the connection cannot be established,
-        /// <see cref="WZIMopoly.Network"/> will be set to null.
+        /// <see cref="Connection"/> will be set to null
+        /// and <see cref="Type"/> will be set
+        /// to <see cref="ConnectionType.None"/>.
         /// </para>
         /// </remarks>
         internal static void SwitchToLobby(string code)
         {
-            if (WZIMopoly.Network != null)
+            if (Connection != null)
             {
                 CloseCurrentConnection();
             }
-            ConnectToLobby(code);
+            Type = ConnectionType.ConnectingToLobby;
+            if (Connect($"{WSAddress}/{code}"))
+            {
+                Type = ConnectionType.Lobby;
+            }
         }
 
         /// <summary>
-        /// Connects to the server initialized in <see cref="WZIMopoly.Network"/>.
+        /// Connects to the websocket server.
         /// </summary>
+        /// <param name="address">
+        /// The address of the server to connect to.
+        /// </param>
+        /// <returns>
+        /// True if the connection was established successfully,
+        /// otherwise false.
+        /// </returns>
         /// <remarks>
         /// If the connection cannot be established,
-        /// <see cref="WZIMopoly.Network"/> will be set to null.
+        /// <see cref="Connection"/> will be set to null
+        /// and <see cref="Type"/> will be set
+        /// to <see cref="ConnectionType.None"/>.
         /// </remarks>
-        private static void Connect()
+        private static bool Connect(string address)
         {
-            WZIMopoly.Network.Connect();
-            if (!WZIMopoly.Network.IsAlive)
+            Connection = new WebSocket(address);
+            Connection.Open();
+            var now = DateTime.Now;
+            while (true)
             {
-                WZIMopoly.Network = null;
+                if (Connection.State == WebSocketState.Open)
+                {
+                    return true;
+                }
+                if (DateTime.Now > now.AddSeconds(3))
+                {
+                    Connection = null;
+                    Type = ConnectionType.None;
+                    return false;
+                }
             }
         }
 
