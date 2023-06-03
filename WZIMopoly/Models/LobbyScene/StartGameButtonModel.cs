@@ -21,7 +21,7 @@ namespace WZIMopoly.Models.LobbyScene
                 GameSettings.ActivePlayers.Count >= 2
                 && GameSettings.ActivePlayers.Select(x=>x.Nick).Distinct().Count() == GameSettings.ActivePlayers.Count
                 && !GameSettings.ActivePlayers.Where(x => x.Nick == "").Select(x => x.Nick).Any()
-                && GameSettings.Players[0].PlayerType != PlayerType.OnlinePlayer;
+                && GameSettings.Client.PlayerType != PlayerType.OnlinePlayer;
         }
     }
 }

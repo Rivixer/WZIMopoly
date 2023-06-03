@@ -28,16 +28,16 @@ namespace WZIMopoly.Controllers.LobbyScene
         /// <inheritdoc/>
         public override void Update()
         {
-            base.Update();
-
             // We have to override this, because we want to make
             // this button clickable even if it is inactive.
+
+            Model.Update();
 
             if (Model.Conditions()
                 && MouseController.WasLeftBtnClicked()
                 && View.IsHovered
                 && !Model.IsActive
-                && GameSettings.Players[0].PlayerType != PlayerType.OnlinePlayer)
+                && GameSettings.Client.PlayerType != PlayerType.OnlinePlayer)
             {
                 OnClick();
             }

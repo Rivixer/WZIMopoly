@@ -37,7 +37,7 @@ namespace WZIMopoly.Controllers.LobbyScene
                 && MouseController.WasLeftBtnClicked()
                 && View.IsHovered
                 && !Model.IsActive
-                && GameSettings.Players[0].PlayerType == PlayerType.Local)
+                && GameSettings.Client.PlayerType == PlayerType.Local)
             {
                 OnClick();
             }

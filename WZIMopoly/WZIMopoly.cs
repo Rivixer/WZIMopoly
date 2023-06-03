@@ -300,14 +300,7 @@ namespace WZIMopoly
                             GameSettings.Players[i].Nick = players[i].Nick;
                             GameSettings.Players[i].PlayerType = players[i].PlayerType;
                         }
-                        var you = GameSettings.ActivePlayers.Find(x => x.Nick == playerNickModel.Model.PlayerNick);
-                        int youIndex = GameSettings.Players.IndexOf(you);
-                        if (youIndex != 0)
-                        {
-                            PlayerModel temp = GameSettings.Players[0];
-                            GameSettings.Players[0] = you;
-                            GameSettings.Players[youIndex] = temp;
-                        }
+                        GameSettings.ClientIndex ??= players.Count - 1;
                         GameType = GameType.Online;
                         var lobbyCodeModel = _lobbyScene.Model.GetModel<Models.LobbyScene.LobbyCodeModel>();
                         lobbyCodeModel.Code = lobbyCode;
@@ -406,6 +399,7 @@ namespace WZIMopoly
         {
             // Reset players
             InitializePlayers();
+            GameSettings.ClientIndex = 0;
 
             // Reset lobby scene
             GameType = GameType.Local;

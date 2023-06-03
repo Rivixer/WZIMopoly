@@ -66,7 +66,7 @@ namespace WZIMopoly.Controllers.LobbyScene.PlayersList
 
             if (Model.Player.PlayerType != PlayerType.Local
                 && Model.Player.PlayerType !=  PlayerType.OnlineHostPlayer
-                || GameSettings.Players[0].PlayerType != PlayerType.OnlineHostPlayer)
+                || GameSettings.Client.PlayerType != PlayerType.OnlineHostPlayer)
             {
                 return;
             }
