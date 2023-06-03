@@ -39,6 +39,12 @@ namespace WZIMopoly.Models
         }
 
         /// <inheritdoc/>
+        public void RemoveChild(IControllerable child)
+        {
+            _children.Remove(child);
+        }
+
+        /// <inheritdoc/>
         public C InitializeChild<M, V, C>(params object[] modelArgs)
             where M : class, IModelable
             where V : class, IGUIable
