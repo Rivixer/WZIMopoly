@@ -1,15 +1,19 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
+using System.Linq;
+using System.Text;
 using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 using WZIMopoly.Controllers;
 using WZIMopoly.Scenes;
+using WZIMopoly.Enums;
+using WZIMopolyNetworkingLibrary;
+using WZIMopoly.NetworkData;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
-using WZIMopoly.Enums;
-using WebSocketSharp;
+using WZIMopoly.Controllers.JoinScene;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -50,6 +54,11 @@ namespace WZIMopoly
         /// The settings scene.
         /// </summary>
         private readonly SettingsScene _settingsScene;
+
+        /// <summary>
+        /// The join scene.
+        /// </summary>
+        private readonly JoinScene _joinScene;
         #endregion
 
         /// <summary>
@@ -99,6 +108,10 @@ namespace WZIMopoly
             var settingsView = new SettingsView();
             var settingsModel = new SettingsModel();
             _settingsScene = new SettingsScene(settingsModel, settingsView);
+
+            var joinView = new JoinView();
+            var joinModel = new JoinModel();
+            _joinScene = new JoinScene(joinModel, joinView);
         }
 
         /// <summary>
@@ -110,13 +123,6 @@ namespace WZIMopoly
         /// Gets or sets the game type.
         /// </summary>
         internal static GameType GameType { get; set; } = GameType.Local;
-
-#nullable enable
-        /// <summary>
-        /// The network connection.
-        /// </summary>
-        internal static WebSocket? Network { get; set; }
-#nullable disable
 
         /// <summary>
         /// Changes the current scene to the specified one
@@ -140,41 +146,191 @@ namespace WZIMopoly
             ScreenController.ChangeResolution(1366, 768, false);
             ScreenController.ApplyChanges();
 
-            NetworkService.ConnectToRoot();
+            NetworkService.SwitchToRoot();
 
-            GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
-            GameSettings.Players.Add(new PlayerModel("Player2", "Blue"));
-            GameSettings.Players.Add(new PlayerModel("Player3", "Green"));
-            GameSettings.Players.Add(new PlayerModel("Player4", "Yellow"));
+            InitializePlayers();
 
+            InitializeMenuScene();
+            InitializeLobbyScene();
+            InitializeGameScene();
+            InitializeSettingsScene();
+            InitializeJoinScene();
+
+            ReturnToMenu();
+            base.Initialize();
+        }
+
+        private void InitializeMenuScene()
+        {
             _menuScene.Initialize();
-            var newGameButton = _menuScene.Model.GetController<NewGameButtonController>();
-            newGameButton.OnButtonClicked += () => ChangeCurrentScene(_lobbyScene);
 
-            var quitButton = _menuScene.Model.GetController<QuitButtonController>();
-            quitButton.OnButtonClicked += Exit;
+            var newGameBtn = _menuScene.Model.GetController<NewGameButtonController>();
+            newGameBtn.OnButtonClicked += () => ChangeCurrentScene(_lobbyScene);
 
-            var settingsButton = _menuScene.Model.GetController<SettingsButtonController>();
-            settingsButton.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
+            var quitBtn = _menuScene.Model.GetController<QuitButtonController>();
+            quitBtn.OnButtonClicked += Exit;
 
+            var settingsBtn = _menuScene.Model.GetController<SettingsButtonController>();
+            settingsBtn.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
+
+            var joinBtn = _menuScene.Model.GetController<JoinGameButtonController>();
+            joinBtn.OnButtonClicked += () => ChangeCurrentScene(_joinScene);
+        }
+
+        private void InitializeLobbyScene()
+        {
             _lobbyScene.Initialize();
-            var lobbyReturnButton = _lobbyScene.Model.GetController<Controllers.LobbyScene.ReturnButtonController>();
-            lobbyReturnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
+
+            var returnBtn = _lobbyScene.Model.GetController<Controllers.LobbyScene.ReturnButtonController>();
+            returnBtn.OnButtonClicked += ReturnToMenu;
+
+            var localModeBtn = _lobbyScene.Model.GetController<LocalModeButtonController>();
+            localModeBtn.OnButtonClicked += () =>
+            {
+                GameSettings.Players[0].PlayerType = PlayerType.Local;
+                ResetGameSettings();
+            };
+
+            var onlineModeBtn = _lobbyScene.Model.GetController<OnlineModeButtonController>();
+            onlineModeBtn.OnButtonClicked += () =>
+            {
+                GameSettings.Players[0].PlayerType = PlayerType.OnlineHostPlayer;
+                if (NetworkService.Type == ConnectionType.Root)
+                {
+                    NetworkService.Connection.Send(new byte[] { (byte)PacketType.NewLobby }, 0, 1);
+                    NetworkService.Connection.DataReceived += (sender, e) =>
+                    {
+                        var code = Encoding.ASCII.GetString(e.Data);
+                        var lobbyCode = _lobbyScene.Model.GetController<Controllers.LobbyScene.LobbyCodeController>();
+                        lobbyCode.Model.Code = code;
+                        NetworkService.SwitchToLobby(code);
+                        NetworkService.Connection.DataReceived += (sender, e) =>
+                        {
+                            PacketType type = (PacketType)e.Data[0];
+                            if (type == PacketType.NewPlayer)
+                            {
+                                string playerNick = Encoding.UTF8.GetString(e.Data.Skip(1).ToArray());
+                                int playerIndex = GameSettings.ActivePlayers.Count;
+                                GameSettings.Players[playerIndex].Nick = playerNick;
+                                GameSettings.Players[playerIndex].PlayerType = PlayerType.OnlinePlayer;
+
+                                var lobbyData = new LobbyData { Players = GameSettings.ActivePlayers };
+                                byte[] data = new byte[] { (byte)PacketType.LobbyData }.Concat(lobbyData.ToByteArray()).ToArray();
+                                NetworkService.Connection.Send(data, 0, data.Length);
+                            }
+                            if ((PacketType)e.Data[0] == PacketType.Close)
+                            {
+                                GameSettings.Players[0].ResetNick();
+                                for (int i = 1; i <= 3; i++)
+                                {
+                                    GameSettings.Players[i].PlayerType = PlayerType.None;
+                                    GameSettings.Players[i].ResetNick();
+                                }
+                                ReturnToMenu();
+                            };
+                        };
+                    };
+                }
+
+                for (int i = 1; i <= 3; i++)
+                {
+                    GameSettings.Players[i].PlayerType = PlayerType.None;
+                    GameSettings.Players[i].ResetNick();
+                };
+
+            };
+
             var startGameButton = _lobbyScene.Model.GetController<StartGameButtonController>();
             startGameButton.OnButtonClicked += () =>
             {
                 ChangeCurrentScene(_gameScene);
                 _gameScene.StartGame();
             };
+        }
 
+        private void InitializeSettingsScene()
+        {
             _settingsScene.Initialize();
+
             var settingsReturnButton = _settingsScene.Model.GetController<Controllers.SettingsScene.ReturnButtonController>();
-            settingsReturnButton.OnButtonClicked += () => ChangeCurrentScene(_menuScene);
+            settingsReturnButton.OnButtonClicked += ReturnToMenu;
+        }
 
+        private void InitializeJoinScene()
+        {
+            _joinScene.Initialize();
+            var joinJoinButton = _joinScene.Model.GetController<JoinButtonController>();
+            joinJoinButton.OnButtonClicked += () =>
+            {
+                var codeController = _joinScene.Model.GetController<Controllers.JoinScene.LobbyCodeController>();
+                var lobbyCode = codeController.Model.LobbyCode;
+                var playerNickModel = _joinScene.Model.GetController<PlayerNickController>();
+                NetworkService.SwitchToLobby(lobbyCode);
+                if (NetworkService.Type == ConnectionType.None)
+                {
+                    codeController.Model.LobbyCode = "ERROR";
+                    return;
+                }
+                NetworkService.Connection.DataReceived += (sender, e) =>
+                {
+                    if ((PacketType)e.Data[0] == PacketType.Close)
+                    {
+                        GameSettings.Players[0].ResetNick();
+                        for (int i = 1; i <= 3; i++)
+                        {
+                            GameSettings.Players[i].PlayerType = PlayerType.None;
+                            GameSettings.Players[i].ResetNick();
+                        }
+                        ReturnToMenu();
+                    }
+                };
+                var playerNick = Encoding.ASCII.GetBytes(playerNickModel.Model.PlayerNick);
+                byte[] data = new byte[] { (byte)PacketType.NewPlayer }.Concat(playerNick).ToArray();
+                NetworkService.Connection.Send(data, 0, data.Length);
+                NetworkService.Connection.DataReceived += (sender, e) =>
+                {
+                    var packetType = (PacketType)e.Data[0];
+                    if (packetType == PacketType.LobbyData)
+                    {
+                        var lobbyRawData = e.Data.Skip(1).ToArray();
+                        var lobbyData = NetData.FromByteArray<LobbyData>(lobbyRawData);
+                        var players = lobbyData.Players;
+                        for (int i = 0; i < players.Count; i++)
+                        {
+                            GameSettings.Players[i].Nick = players[i].Nick;
+                            GameSettings.Players[i].PlayerType = players[i].PlayerType;
+                        }
+                        var you = GameSettings.ActivePlayers.Find(x => x.Nick == playerNickModel.Model.PlayerNick);
+                        int youIndex = GameSettings.Players.IndexOf(you);
+                        if (youIndex != 0)
+                        {
+                            PlayerModel temp = GameSettings.Players[0];
+                            GameSettings.Players[0] = you;
+                            GameSettings.Players[youIndex] = temp;
+                        }
+                        GameType = GameType.Online;
+                        var lobbyCodeModel = _lobbyScene.Model.GetModel<Models.LobbyScene.LobbyCodeModel>();
+                        lobbyCodeModel.Code = lobbyCode;
+                        ChangeCurrentScene(_lobbyScene);
+                    }
+                };
+            };
+            var joinReturnButton = _joinScene.Model.GetController<Controllers.JoinScene.ReturnButtonController>();
+            joinReturnButton.OnButtonClicked += ReturnToMenu;
+        }
+
+        private void InitializeGameScene()
+        {
             _gameScene.Initialize();
+        }
 
-            ChangeCurrentScene(_menuScene);
-            base.Initialize();
+        private static void InitializePlayers()
+        {
+            GameSettings.Players.Clear();
+            GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
+            GameSettings.Players.Add(new PlayerModel("Player2", "Blue"));
+            GameSettings.Players.Add(new PlayerModel("Player3", "Green"));
+            GameSettings.Players.Add(new PlayerModel("Player4", "Yellow"));
         }
 
         /// <summary>
@@ -187,13 +343,15 @@ namespace WZIMopoly
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            this._song = Content.Load<Song>("Songs/menu_song");
+            _song = Content.Load<Song>("Songs/menu_song");
             MediaPlayer.Play(_song);
             MediaPlayer.IsRepeating = true;
+
             _menuScene.LoadAll(Content);
             _lobbyScene.LoadAll(Content);
             _gameScene.LoadAll(Content);
             _settingsScene.LoadAll(Content);
+            _joinScene.LoadAll(Content);
 
             base.LoadContent();
         }
@@ -242,6 +400,45 @@ namespace WZIMopoly
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void ResetGameSettings()
+        {
+            // Reset players
+            InitializePlayers();
+
+            // Reset lobby scene
+            GameType = GameType.Local;
+            var playersList = _lobbyScene.Model.GetController<LobbyPlayersController>();
+            playersList.Reset();
+
+            // Reset join scene
+            var codeJoin = _joinScene.Model.GetController<Controllers.JoinScene.LobbyCodeController>();
+            codeJoin.Model.LobbyCode = "";
+            var nickJoin = _joinScene.Model.GetController<PlayerNickController>();
+            nickJoin.Model.PlayerNick = "";
+
+            // Reset players
+            for (int i = 1; i < 4; i++)
+            {
+                GameSettings.Players[i].ResetNick();
+                GameSettings.Players[i].PlayerType = PlayerType.None;
+            }
+            GameSettings.Players[0].PlayerType = PlayerType.Local;
+
+            // Swtich to root
+            if (NetworkService.Type != ConnectionType.Root
+                && NetworkService.Type != ConnectionType.ConnectingToRoot
+                && NetworkService.Type != ConnectionType.None)
+            {
+                NetworkService.SwitchToRoot();
+            }
+        }
+
+        private void ReturnToMenu()
+        {
+            ResetGameSettings();
+            ChangeCurrentScene(_menuScene);
         }
     }
 }
