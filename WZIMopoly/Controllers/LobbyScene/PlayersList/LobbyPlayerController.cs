@@ -40,25 +40,6 @@ namespace WZIMopoly.Controllers.LobbyScene.PlayersList
             Model.AddChild(removePlayerController);
         }
 
-        /// <summary>
-        /// Updates the player in model,
-        /// <see cref="AddPlayerButtonModel"/>
-        /// and <see cref="RemovePlayerButtonModel"/>
-        /// </summary>
-        /// <param name="player">
-        /// The new player.
-        /// </param>
-        public void UpdatePlayer(PlayerModel player)
-        {
-            Model.Player = player;
-
-            var addPlayerModel = Model.GetModel<AddPlayerButtonModel>();
-            addPlayerModel.Player = player;
-
-            var removePlayerModel = Model.GetModel<RemovePlayerButtonModel>();
-            removePlayerModel.Player = player;
-        }
-
         /// <inheritdoc/>
         public override void Update()
         {

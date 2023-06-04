@@ -81,6 +81,8 @@ namespace WZIMopoly.Models
             _money = player.Money;
             _purchasedTiles = player.PurchasedTiles;
             _mortgagedTiles = player.MortgagedTiles;
+            _defaultNick = player._defaultNick;
+            _color = player._color;
         }
 
         /// <summary>
@@ -151,6 +153,18 @@ namespace WZIMopoly.Models
         public void ResetNick()
         {
             _nick = _defaultNick;
+        }
+
+        /// <summary>
+        /// Resets the player to the default state.
+        /// </summary>
+        public void Reset()
+        {
+            _nick = _defaultNick;
+            _money = 1500;
+            _playerType = PlayerType.None;
+            _purchasedTiles.Clear();
+            _mortgagedTiles.Clear();
         }
     }
 }

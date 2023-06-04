@@ -10,6 +10,17 @@ namespace WZIMopoly
     internal static class GameSettings
     {
         /// <summary>
+        /// The array of default player models.
+        /// </summary>
+        private static readonly PlayerModel[] s_defaultPlayers = new PlayerModel[4]
+        {
+            new PlayerModel("Player1", "Red", PlayerType.Local),
+            new PlayerModel("Player2", "Blue", PlayerType.None),
+            new PlayerModel("Player3", "Green", PlayerType.None),
+            new PlayerModel("Player4", "Yellow", PlayerType.None),
+        };
+
+        /// <summary>
         /// Gets the players.
         /// </summary>
         /// <value>
@@ -48,5 +59,30 @@ namespace WZIMopoly
         /// Gets the client.
         /// </summary>
         public static PlayerModel? Client => ClientIndex.HasValue ? Players[ClientIndex.Value] : Players[0];
+
+#nullable disable
+
+        /// <summary>
+        /// Creates the players with default values.
+        /// </summary>
+        public static void CreatePlayers()
+        {
+            Players.Clear();
+            foreach(var defPlayer in s_defaultPlayers)
+            {
+                Players.Add(new PlayerModel(defPlayer));
+            }
+        }
+
+        /// <summary>
+        /// Resets the players to default values.
+        /// </summary>
+        public static void ResetPlayers()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Players[i].Reset();
+            }
+        }
     }
 }

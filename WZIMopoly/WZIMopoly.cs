@@ -93,6 +93,8 @@ namespace WZIMopoly
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
+            GameSettings.CreatePlayers();
+
             var menuModel = new MenuModel();
             var menuView = new MenuView();
             _menuScene = new MenuScene(menuModel, menuView);
@@ -148,8 +150,6 @@ namespace WZIMopoly
 
             NetworkService.SwitchToRoot();
 
-            InitializePlayers();
-
             InitializeMenuScene();
             InitializeLobbyScene();
             InitializeGameScene();
@@ -160,6 +160,9 @@ namespace WZIMopoly
             base.Initialize();
         }
 
+        /// <summary>
+        /// Initializes the menu scene.
+        /// </summary>
         private void InitializeMenuScene()
         {
             _menuScene.Initialize();
@@ -177,6 +180,9 @@ namespace WZIMopoly
             joinBtn.OnButtonClicked += () => ChangeCurrentScene(_joinScene);
         }
 
+        /// <summary>
+        /// Initializes the lobby scene.
+        /// </summary>
         private void InitializeLobbyScene()
         {
             _lobbyScene.Initialize();
@@ -220,12 +226,6 @@ namespace WZIMopoly
                             }
                             if ((PacketType)e.Data[0] == PacketType.Close)
                             {
-                                GameSettings.Players[0].ResetNick();
-                                for (int i = 1; i <= 3; i++)
-                                {
-                                    GameSettings.Players[i].PlayerType = PlayerType.None;
-                                    GameSettings.Players[i].ResetNick();
-                                }
                                 ReturnToMenu();
                             };
                         };
@@ -240,27 +240,33 @@ namespace WZIMopoly
 
             };
 
-            var startGameButton = _lobbyScene.Model.GetController<StartGameButtonController>();
-            startGameButton.OnButtonClicked += () =>
+            var startGameBtn = _lobbyScene.Model.GetController<StartGameButtonController>();
+            startGameBtn.OnButtonClicked += () =>
             {
                 ChangeCurrentScene(_gameScene);
                 _gameScene.StartGame();
             };
         }
 
+        /// <summary>
+        /// Initializes the settings scene.
+        /// </summary>
         private void InitializeSettingsScene()
         {
             _settingsScene.Initialize();
 
-            var settingsReturnButton = _settingsScene.Model.GetController<Controllers.SettingsScene.ReturnButtonController>();
-            settingsReturnButton.OnButtonClicked += ReturnToMenu;
+            var returnBtn = _settingsScene.Model.GetController<Controllers.SettingsScene.ReturnButtonController>();
+            returnBtn.OnButtonClicked += ReturnToMenu;
         }
 
+        /// <summary>
+        /// Initializes the join scene.
+        /// </summary>
         private void InitializeJoinScene()
         {
             _joinScene.Initialize();
-            var joinJoinButton = _joinScene.Model.GetController<JoinButtonController>();
-            joinJoinButton.OnButtonClicked += () =>
+            var joinBtn = _joinScene.Model.GetController<JoinButtonController>();
+            joinBtn.OnButtonClicked += () =>
             {
                 var codeController = _joinScene.Model.GetController<Controllers.JoinScene.LobbyCodeController>();
                 var lobbyCode = codeController.Model.LobbyCode;
@@ -275,12 +281,6 @@ namespace WZIMopoly
                 {
                     if ((PacketType)e.Data[0] == PacketType.Close)
                     {
-                        GameSettings.Players[0].ResetNick();
-                        for (int i = 1; i <= 3; i++)
-                        {
-                            GameSettings.Players[i].PlayerType = PlayerType.None;
-                            GameSettings.Players[i].ResetNick();
-                        }
                         ReturnToMenu();
                     }
                 };
@@ -308,22 +308,16 @@ namespace WZIMopoly
                     }
                 };
             };
-            var joinReturnButton = _joinScene.Model.GetController<Controllers.JoinScene.ReturnButtonController>();
-            joinReturnButton.OnButtonClicked += ReturnToMenu;
+            var returnBtn = _joinScene.Model.GetController<Controllers.JoinScene.ReturnButtonController>();
+            returnBtn.OnButtonClicked += ReturnToMenu;
         }
 
+        /// <summary>
+        /// Initializes the game scene.
+        /// </summary>
         private void InitializeGameScene()
         {
             _gameScene.Initialize();
-        }
-
-        private static void InitializePlayers()
-        {
-            GameSettings.Players.Clear();
-            GameSettings.Players.Add(new PlayerModel("Player1", "Red", PlayerType.Local));
-            GameSettings.Players.Add(new PlayerModel("Player2", "Blue"));
-            GameSettings.Players.Add(new PlayerModel("Player3", "Green"));
-            GameSettings.Players.Add(new PlayerModel("Player4", "Yellow"));
         }
 
         /// <summary>
@@ -410,27 +404,17 @@ namespace WZIMopoly
         private void ResetGameSettings()
         {
             // Reset players
-            InitializePlayers();
-            GameSettings.ClientIndex = 0;
+            GameSettings.ResetPlayers();
+            GameSettings.ClientIndex = null;
+            GameSettings.Players[0].PlayerType = PlayerType.Local;
 
-            // Reset lobby scene
             GameType = GameType.Local;
-            var playersList = _lobbyScene.Model.GetController<LobbyPlayersController>();
-            playersList.Reset();
 
             // Reset join scene
             var codeJoin = _joinScene.Model.GetController<Controllers.JoinScene.LobbyCodeController>();
             codeJoin.Model.LobbyCode = "";
             var nickJoin = _joinScene.Model.GetController<PlayerNickController>();
             nickJoin.Model.PlayerNick = "";
-
-            // Reset players
-            for (int i = 1; i < 4; i++)
-            {
-                GameSettings.Players[i].ResetNick();
-                GameSettings.Players[i].PlayerType = PlayerType.None;
-            }
-            GameSettings.Players[0].PlayerType = PlayerType.Local;
 
             // Swtich to root
             if (NetworkService.Type != ConnectionType.Root
@@ -441,6 +425,10 @@ namespace WZIMopoly
             }
         }
 
+        /// <summary>
+        /// Changes the current scene to the menu scene
+        /// and resets the game settings.
+        /// </summary>
         private void ReturnToMenu()
         {
             ResetGameSettings();

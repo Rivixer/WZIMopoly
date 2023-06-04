@@ -31,20 +31,5 @@ namespace WZIMopoly.Controllers.LobbyScene
             }
             Model.InitializeChild<HostLabelModel, GUIHostLabel, HostLabelController>();
         }
-
-        /// <summary>
-        /// Resets the players list.
-        /// </summary>
-        /// <remarks>
-        /// Creates a new players list based on <see cref="GameSettings.Players"/>.
-        /// </remarks>
-        public void Reset()
-        {
-            var lobbyPlayerControllers = Model.GetAllControllers<LobbyPlayerController>();
-            foreach (var (ctrl, player) in lobbyPlayerControllers.Zip(GameSettings.Players))
-            {
-                ctrl.UpdatePlayer(player);
-            }
-        }
     }
 }
