@@ -50,15 +50,21 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="rawColor">
         /// The color as a string.
         /// </param>
-        internal SubjectTileModel(int id, int price, int upgradedPrice, Dictionary<SubjectGrade, int> taxPrices, string rawColor) : base(id, price)
+        internal SubjectTileModel(int id, int price, int upgradedPrice, Dictionary<SubjectGrade, int> taxPrices, SubjectColor color)
+            : base(id, price)
         {
             Grade = SubjectGrade.Two;
             UpgradePrice = upgradedPrice;
-            if (!Enum.TryParse(rawColor, true, out Color))
-            {
-                throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {id} id");
-            }
+            TaxPrices = taxPrices;
+            Color = color;
 
+            OnStand += (player) =>
+            {
+                if (Owner != null)
+                {
+                    player.TransferMoneyTo(Owner, TaxPrices[Grade]);
+                }
+            };
         }
 
         /// <summary>
@@ -92,7 +98,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
             }
 
             string rawColor = NamingConverter.ConvertSnakeCaseToPascalCase(node.SelectSingleNode("color").InnerText);
-            var tile = new SubjectTileModel(id, price, upgradePrice, taxPrices, rawColor);
+            if (!Enum.TryParse(rawColor, true, out SubjectColor color))
+            {
+                throw new ArgumentException($"Invalid contents of color node: {rawColor}; in tile node with {id} id");
+            }
+
+            var tile = new SubjectTileModel(id, price, upgradePrice, taxPrices, color);
             tile.LoadNamesFromXml(node);
             return tile;
         }
