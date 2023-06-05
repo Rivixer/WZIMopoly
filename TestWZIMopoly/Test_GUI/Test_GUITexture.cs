@@ -1,13 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WZIMopoly.Enums;
+﻿using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using Microsoft.Xna.Framework;
-using System.Security.Cryptography.X509Certificates;
 using WZIMopoly.Engine;
 
 namespace TestWZIMopoly.Test_GUI
