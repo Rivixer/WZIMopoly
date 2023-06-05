@@ -100,7 +100,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                     {
                         _text.Text = WZIMopoly.Language switch
                         {
-                            Language.Polish => $"Zapłać {t.PayForLeave}ECTS, aby wymknaąć się z wykładu.",
+                            Language.Polish => $"Zapłać {t.PayForLeave}ECTS, aby wymknąć się z wykładu.",
                             Language.English => $"Pay {t.PayForLeave}ECTS to get out of mandatory lecture.",
                             _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                         };
