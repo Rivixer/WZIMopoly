@@ -91,7 +91,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                     {
                         _text.Text = WZIMopoly.Language switch
                         {
-                            Language.Polish => $"Biednego studenta nie stac, potrzebujesz {t.PayForLeave}ECTS.",
+                            Language.Polish => $"Biednego studenta nie stać, potrzebujesz {t.PayForLeave}ECTS.",
                             Language.English => $"You cannot afford the deposit, you need {t.PayForLeave}ECTS.",
                             _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                         };
@@ -100,7 +100,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                     {
                         _text.Text = WZIMopoly.Language switch
                         {
-                            Language.Polish => $"Zaplac {t.PayForLeave}ECTS, aby wymknac sie z wykladu.",
+                            Language.Polish => $"Zapłać {t.PayForLeave}ECTS, aby wymknąć się z wykładu.",
                             Language.English => $"Pay {t.PayForLeave}ECTS to get out of mandatory lecture.",
                             _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                         };
@@ -111,13 +111,13 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                     var turnsLeft = t.GetRemainingTurns(_currentPlayer);
                     _text.Text = WZIMopoly.Language switch
                     {
-                        Language.Polish => turnsLeft == 1 ? "Zostala 1 kolejka czekania." : $"Zostaly {turnsLeft} kolejki czekania.",
+                        Language.Polish => turnsLeft == 1 ? "Została 1 kolejka czekania." : $"Zostały {turnsLeft} kolejki czekania.",
                         Language.English => $"{turnsLeft} turns left.",
                         _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                     };
                     _text.Text += WZIMopoly.Language switch
                     {
-                        Language.Polish => " Wyrzuc dublet, aby wyjsc wczesniej.",
+                        Language.Polish => " Wyrzuć dublet, aby wyjść wcześniej.",
                         Language.English => " Roll a double to leave early.",
                         _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                     };
@@ -126,7 +126,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 {
                     _text.Text = WZIMopoly.Language switch
                     {
-                        Language.Polish => "Koniec wykladu!",
+                        Language.Polish => "Koniec wykładu!",
                         Language.English => $"The lecture has been ended!",
                         _ => string.Empty,
                     };

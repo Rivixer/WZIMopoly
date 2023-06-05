@@ -143,7 +143,7 @@ namespace WZIMopoly.GUI.GameScene
             {
                 _ownerOnCard.Text = WZIMopoly.Language switch
                 {
-                    Language.Polish => $"Wlasciciel: {Model.Owner.Nick}",
+                    Language.Polish => $"Właściciel: {Model.Owner.Nick}",
                     Language.English => $"Owner: {Model.Owner.Nick}",
                     _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
                 };
