@@ -151,19 +151,19 @@ namespace WZIMopoly.GUI.GameScene
                 }
                 else if (!player.PurchasedTiles.Contains(t))
                 {
-                    text = $"Nie jestes wlascicielem pola {t.EnName}.";
+                    text = $"Nie jesteœ w³aœcicielem pola {t.EnName}.";
                 }
                 else if (t.UpgradePrice > player.Money)
                 {
-                    text = $"Nie stac Cie na ulepszenie pola {t.EnName}. (koszt {t.UpgradePrice}ECTS";
+                    text = $"Nie staæ Ciê na ulepszenie pola {t.EnName}. (koszt {t.UpgradePrice}ECTS";
                 }
                 else if (t.IsMortgaged)
                 {
-                    text = $"Nie mozesz ulepszyc pola {t.EnName}, poniewaz jest zastawione.";
+                    text = $"Nie mo¿esz ulepszyc pola {t.EnName}, poniewa¿ jest zastawione.";
                 }
                 else if (!t.CanUpgrade(player))
                 {
-                    text = $"Musisz miec zakupione wszystkie pola koloru {t.Color}, aby ulepszyc {t.EnName}";
+                    text = $"Musisz mieæ zakupione wszystkie pola koloru {t.Color}, aby ulepszyæ {t.EnName}";
                 }
                 else
                 {

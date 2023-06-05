@@ -182,7 +182,7 @@ namespace WZIMopoly.GUI.GameScene
                 }
                 else if (!player.PurchasedTiles.Contains(t))
                 {
-                    text = $"Nie jestes wlascicielem pola {t.EnName}.";
+                    text = $"Nie jesteś wlaścicielem pola {t.EnName}.";
                 }
                 else if (t.CanUnmortgage(player))
                 {
@@ -194,7 +194,7 @@ namespace WZIMopoly.GUI.GameScene
                     SubjectGrade lowerGrade = grade - 1;
                     // TODO: Convert SubjectGrade to a number
                     var sellPrice = t.SellGradePrice;
-                    text = $"Obniz ocene {t.EnName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.";
+                    text = $"Obniż ocenę {t.EnName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.";
                 }
                 else if (t.CanMortgage(player))
                 {
@@ -202,7 +202,7 @@ namespace WZIMopoly.GUI.GameScene
                 }
                 else
                 {
-                    text = $"Nie stac Cie na odkupienie pola {t.EnName}. (koszt {t.MortgagePrice}ECTS)";
+                    text = $"Nie stać Cię na odkupienie pola {t.EnName}. (koszt {t.MortgagePrice}ECTS)";
                 }
                 _text.Text = text;
             }
