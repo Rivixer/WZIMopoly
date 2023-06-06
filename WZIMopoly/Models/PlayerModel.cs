@@ -143,6 +143,12 @@ namespace WZIMopoly.Models
         /// </param>
         public void TransferMoneyTo(PlayerModel player, int amount)
         {
+            var previousStatus = this.PlayerStatus;
+            if (Money < 1000000000)
+            {
+                this.PlayerStatus = PlayerStatus.MortgagingTiles;
+            }
+            this.PlayerStatus = previousStatus;
             Money -= amount;
             player.Money += amount;
         }
