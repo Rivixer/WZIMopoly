@@ -1,7 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Engine;
@@ -144,30 +146,60 @@ namespace WZIMopoly.GUI.GameScene
                 }
 
                 PlayerModel player = _model.CurrentPlayer;
-                // TODO: Add localization
                 if (t == null)
                 {
-                    text = "Wybierz pole do ulepszenia.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => "Wybierz pole do ulepszenia.",
+                        Language.English => "Choose tile to upgrade",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (!player.PurchasedTiles.Contains(t))
                 {
-                    text = $"Nie jesteœ w³aœcicielem pola {t.EnName}.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Nie jesteœ w³aœcicielem pola {t.PlName}.",
+                        Language.English => $"You are not an owner of {t.EnName}",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (t.UpgradePrice > player.Money)
                 {
-                    text = $"Nie staæ Ciê na ulepszenie pola {t.EnName}. (koszt {t.UpgradePrice}ECTS";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Nie staæ Ciê na ulepszenie pola {t.PlName}. (koszt {t.UpgradePrice}ECTS)",
+                        Language.English => $"You can not afford to upgrade tile {t.EnName}. (price {t.UpgradePrice}ECTS",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (t.IsMortgaged)
                 {
-                    text = $"Nie mo¿esz ulepszyc pola {t.EnName}, poniewa¿ jest zastawione.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Nie mo¿esz ulepszyc pola {t.PlName}, poniewa¿ jest zastawione.",
+                        Language.English => $"You can not upgrade tile {t.EnName},becasue it has beed pawned.",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (!t.CanUpgrade(player))
                 {
-                    text = $"Musisz mieæ zakupione wszystkie pola koloru {t.Color}, aby ulepszyæ {t.EnName}";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Musisz mieæ zakupione wszystkie pola koloru {t.Color}, aby ulepszyæ {t.PlName}",
+                        Language.English => $"You have to buy every tile of color {t.Color} to upgrade {t.EnName}",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else
                 {
                     text = $"Ulepsz pole {t.EnName} (koszt {t.UpgradePrice}ECTS)";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Ulepsz pole {t.PlName} (koszt {t.UpgradePrice}ECTS)",
+                        Language.English => $"Upgrade tile {t.EnName}(price {t.UpgradePrice}ECTS)",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 _text.Text = text;
             }

@@ -177,7 +177,6 @@ namespace WZIMopoly.GUI.GameScene
                 }
 
                 PlayerModel player = _model.CurrentPlayer;
-                // TODO: Add localization
                 if (t == null)
                 {
                     text = WZIMopoly.Language switch
@@ -193,7 +192,7 @@ namespace WZIMopoly.GUI.GameScene
                     text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Nie jesteś wlaścicielem pola {t.PlName}.",
-                        Language.English => $"You are not the owner of {t.EnName} tile.",
+                        Language.English => $"You are not an owner of {t.EnName} tile.",
                         _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
                     };
                 }
@@ -234,7 +233,7 @@ namespace WZIMopoly.GUI.GameScene
                     text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Nie stać Cię na odkupienie pola {t.PlName}. (koszt {t.MortgagePrice}ECTS)",
-                        Language.English => $"You can not afford repurchasing tile {t.EnName}. (price {t.MortgagePrice}ECTS",
+                        Language.English => $"You can not afford to repurchase tile {t.EnName}. (price {t.MortgagePrice}ECTS",
                         _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
                     };
                 }
