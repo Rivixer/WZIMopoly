@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
 
 namespace WZIMopoly.Engine
@@ -151,7 +150,6 @@ namespace WZIMopoly.Engine
         /// </param>
         public static void GetClickedKey(out char? c)
         {
-            // TODO: Add caps lock support
             bool caps = Keyboard.GetState().CapsLock;
             bool shift = IsPressed(Keys.LeftShift) || IsPressed(Keys.RightShift);
             bool isUp = caps ^ shift;
