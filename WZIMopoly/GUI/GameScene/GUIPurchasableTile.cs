@@ -2,8 +2,6 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Xml;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
@@ -12,7 +10,6 @@ using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Utils;
 using WZIMopoly.Utils.PositionExtensions;
-
 
 namespace WZIMopoly.GUI.GameScene
 {
@@ -39,7 +36,7 @@ namespace WZIMopoly.GUI.GameScene
 #nullable disable
 
         /// <summary>
-        /// Represents a player.
+        /// The player that is currently playing.
         /// </summary>
         private PlayerModel _player;
 
@@ -127,6 +124,12 @@ namespace WZIMopoly.GUI.GameScene
             _ownerOnCard.Recalculate();
         }
 
+        /// <inheritdoc/>
+        public void Update(PlayerModel player, TileModel tile)
+        {
+            _player = player;
+        }
+
         /// <summary>
         /// Updates the card position.
         /// </summary>
@@ -162,11 +165,6 @@ namespace WZIMopoly.GUI.GameScene
             }
             else
                 _ownerOnCard.Text = "";
-        }
-
-        public void Update(PlayerModel player, TileModel tile) 
-        {
-            _player = player;
         }
     }
 }
