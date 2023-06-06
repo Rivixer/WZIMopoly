@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Engine;
@@ -178,15 +180,31 @@ namespace WZIMopoly.GUI.GameScene
                 // TODO: Add localization
                 if (t == null)
                 {
-                    text = "Wybierz pole do zastawienia lub sprzedania oceny.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => "Wybierz pole do zastawienia lub sprzedania oceny.",
+                        Language.English => "Choose tile to pledge or sell grade",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
+                        
                 }
                 else if (!player.PurchasedTiles.Contains(t))
                 {
-                    text = $"Nie jesteś wlaścicielem pola {t.EnName}.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Nie jesteś wlaścicielem pola {t.PlName}.",
+                        Language.English => $"You are not the owner of {t.EnName} tile.",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (t.CanUnmortgage(player))
                 {
-                    text = $"Odkup {t.EnName} za {t.MortgagePrice}ECTS.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Odkup {t.PlName} za {t.MortgagePrice}ECTS.",
+                        Language.English => $"Repurchase {t.EnName} for {t.MortgagePrice}ECTS.",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (t.CanSellGrade(player))
                 {
@@ -194,15 +212,31 @@ namespace WZIMopoly.GUI.GameScene
                     SubjectGrade lowerGrade = grade - 1;
                     // TODO: Convert SubjectGrade to a number
                     var sellPrice = t.SellGradePrice;
-                    text = $"Obniż ocenę {t.EnName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Obniż ocenę {t.PlName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.",
+                        Language.English => $"Lower grade of {t.EnName} from {grade} to {lowerGrade} and get {sellPrice}ECTS.",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 else if (t.CanMortgage(player))
                 {
-                    text = $"Zastaw {t.EnName} za {t.MortgagePrice}ECTS.";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Zastaw {t.PlName} za {t.MortgagePrice}ECTS.",
+                        Language.English => $"Pledge {t.EnName} for {t.MortgagePrice}ECTS.",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
+                        
                 }
                 else
                 {
-                    text = $"Nie stać Cię na odkupienie pola {t.EnName}. (koszt {t.MortgagePrice}ECTS)";
+                    text = WZIMopoly.Language switch
+                    {
+                        Language.Polish => $"Nie stać Cię na odkupienie pola {t.PlName}. (koszt {t.MortgagePrice}ECTS)",
+                        Language.English => $"You can not afford repurchasing tile {t.EnName}. (price {t.MortgagePrice}ECTS",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                    };
                 }
                 _text.Text = text;
             }
