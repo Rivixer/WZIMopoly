@@ -12,7 +12,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The amount of ECTS to be paid.
         /// </summary>
-        [NonSerialized]
         internal readonly int Tax;
 
         /// <summary>

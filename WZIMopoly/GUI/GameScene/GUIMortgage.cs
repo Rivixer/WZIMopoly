@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using WZIMopoly.Controllers.GameScene;
@@ -146,7 +147,14 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Update()
         {
-            UpdateText();
+            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles)
+            {
+                UpdateText();
+                if (WZIMopoly.GameType == GameType.Online)
+                {
+                    UpdateMask();
+                }
+            }
         }
 
         /// <inheritdoc/>
@@ -163,46 +171,58 @@ namespace WZIMopoly.GUI.GameScene
             if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles)
             {
                 string text;
-                SubjectTileModel? t = null;
-                foreach (TileController tile in _model.TileControllers)
+                if (!(_player?.Equals(GameSettings.Client) ?? true))
                 {
-                    if (tile.Model is SubjectTileModel
-                        && MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
+                    text = WZIMopoly.Language switch
                     {
-                        t = tile.Model as SubjectTileModel;
-                        break;
-                    }
-                }
-
-                PlayerModel player = _model.CurrentPlayer;
-                // TODO: Add localization
-                if (t == null)
-                {
-                    text = "Wybierz pole do zastawienia lub sprzedania oceny.";
-                }
-                else if (!player.PurchasedTiles.Contains(t))
-                {
-                    text = $"Nie jesteś wlaścicielem pola {t.EnName}.";
-                }
-                else if (t.CanUnmortgage(player))
-                {
-                    text = $"Odkup {t.EnName} za {t.MortgagePrice}ECTS.";
-                }
-                else if (t.CanSellGrade(player))
-                {
-                    var grade = t.Grade;
-                    SubjectGrade lowerGrade = grade - 1;
-                    // TODO: Convert SubjectGrade to a number
-                    var sellPrice = t.SellGradePrice;
-                    text = $"Obniż ocenę {t.EnName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.";
-                }
-                else if (t.CanMortgage(player))
-                {
-                    text = $"Zastaw {t.EnName} za {t.MortgagePrice}ECTS.";
+                        Language.Polish => $"{_player.Nick} zastawia pole lub sprzedaje jego oceny...",
+                        Language.English => $"{_player.Nick} mortgaging a tile or selling its grades...",
+                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not supported."),
+                    };
                 }
                 else
                 {
-                    text = $"Nie stać Cię na odkupienie pola {t.EnName}. (koszt {t.MortgagePrice}ECTS)";
+                    SubjectTileModel? t = null;
+                    foreach (TileController tile in _model.TileControllers)
+                    {
+                        if (tile.Model is SubjectTileModel
+                            && MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
+                        {
+                            t = tile.Model as SubjectTileModel;
+                            break;
+                        }
+                    }
+
+                    PlayerModel player = _model.CurrentPlayer;
+                    // TODO: Add localization
+                    if (t == null)
+                    {
+                        text = "Wybierz pole do zastawienia lub sprzedania oceny.";
+                    }
+                    else if (!player.PurchasedTiles.Contains(t))
+                    {
+                        text = $"Nie jesteś wlaścicielem pola {t.EnName}.";
+                    }
+                    else if (t.CanUnmortgage(player))
+                    {
+                        text = $"Odkup {t.EnName} za {t.MortgagePrice}ECTS.";
+                    }
+                    else if (t.CanSellGrade(player))
+                    {
+                        var grade = t.Grade;
+                        SubjectGrade lowerGrade = grade - 1;
+                        // TODO: Convert SubjectGrade to a number
+                        var sellPrice = t.SellGradePrice;
+                        text = $"Obniż ocenę {t.EnName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.";
+                    }
+                    else if (t.CanMortgage(player))
+                    {
+                        text = $"Zastaw {t.EnName} za {t.MortgagePrice}ECTS.";
+                    }
+                    else
+                    {
+                        text = $"Nie stać Cię na odkupienie pola {t.EnName}. (koszt {t.MortgagePrice}ECTS)";
+                    }                    
                 }
                 _text.Text = text;
             }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Xml;
 using WZIMopoly.Enums;
 using WZIMopoly.Utils;
@@ -16,19 +17,16 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The price for upgrading subject.
         /// </summary>
-        [NonSerialized]
         internal readonly int UpgradePrice;
 
         /// <summary>
         /// A dictionary containing the tax prices for each subject grade.
         /// </summary>
-        [NonSerialized]
         internal readonly Dictionary<SubjectGrade, int> TaxPrices;
 
         /// <summary>
         /// The color representing the section of the tile.
         /// </summary>
-        [NonSerialized]
         internal readonly SubjectColor Color;
 
         /// <summary>
@@ -186,7 +184,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanMortgage(PlayerModel player)
         {
-            return player == Owner && !IsMortgaged && Grade == SubjectGrade.Three;
+            return player.Equals(Owner) && !IsMortgaged && Grade == SubjectGrade.Three;
         }
 
         /// <summary>
@@ -204,7 +202,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanUnmortgage(PlayerModel player)
         {
-            return player == Owner && IsMortgaged && player.Money >= MortgagePrice;
+            return player.Equals(Owner) && IsMortgaged && player.Money >= MortgagePrice;
         }
 
         /// <summary>
@@ -222,7 +220,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanSellGrade(PlayerModel player)
         {
-            return player == Owner && Grade > SubjectGrade.Three;
+            return player.Equals(Owner) && Grade > SubjectGrade.Three;
         }
 
         /// <summary>
@@ -278,8 +276,10 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         private bool NoMortgagedTilesInColorSet()
         {
-            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
-            return !subjectTiles.Any(x => x.IsMortgaged);
+            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>().ToList();
+            bool x = !subjectTiles.Any(x => x.IsMortgaged);
+            Debug.WriteLine(x);
+            return x;
         }
         
         /// <inheritdoc/>

@@ -16,7 +16,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The price of the tile.
         /// </summary>
-        [NonSerialized]
         internal readonly int Price;
 
 #nullable enable
@@ -80,7 +79,17 @@ namespace WZIMopoly.Models.GameScene.TileModels
             if (model is PurchasableTileModel t)
             {
                 base.Update(model);
+
                 Owner = t.Owner;
+
+                /*if (t.Owner != null)
+                {
+                    Debug.WriteLine(Owner?.Nick + "-" + t.Owner.Nick);
+                    Debug.WriteLine(Owner?.Color + "-" + t.Owner.Color);
+                    Debug.WriteLine(Owner?.Money + "-" + t.Owner.Money);
+                    Debug.WriteLine(Owner == t.Owner);
+                }*/
+
             }
         }
     }

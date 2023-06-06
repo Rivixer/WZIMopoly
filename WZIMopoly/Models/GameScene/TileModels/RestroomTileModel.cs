@@ -15,7 +15,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// A dictionary containing the tax prices for each restroom amount.
         /// </summary>
-        [NonSerialized]
         internal readonly Dictionary<RestroomAmount, int> TaxPrices;
 
         /// <summary>

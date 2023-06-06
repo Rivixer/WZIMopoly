@@ -144,9 +144,17 @@ namespace WZIMopoly
 
             // Update tiles on the map
             var tiles = model.GetAllModelsRecursively<TileModel>();
-            foreach (var (t1, t2) in tiles.Zip(data.Tiles))
+            for(int i = 0; i < 40; i++)
             {
-                t1.Update(t2);
+                tiles[i].Update(data.Tiles[i]);
+                tiles[i].AllTiles = tiles;
+            }
+            tiles = model.GetAllModelsRecursively<TileModel>();
+
+            foreach (var tile in tiles)
+            {
+                tile.SetAllTiles(model.GetAllModelsRecursively<TileModel>());
+                Debug.WriteLine(1);
             }
 
             // Refresh pawns on the map

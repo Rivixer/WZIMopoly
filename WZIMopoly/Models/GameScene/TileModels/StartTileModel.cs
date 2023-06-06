@@ -13,7 +13,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// The amount of ECTS points that the player receives
         /// after passing through the tile.
         /// </summary>
-        [NonSerialized]
         private readonly int _reward;
 
         /// <summary>

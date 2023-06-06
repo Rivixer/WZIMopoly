@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Config>
-	<WebSocketAddress>localhost:8765</WebSocketAddress>
+	<WebSocketAddress>20.223.232.73:8765</WebSocketAddress>
 </Config>

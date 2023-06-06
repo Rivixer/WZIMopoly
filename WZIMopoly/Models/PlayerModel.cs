@@ -191,6 +191,7 @@ namespace WZIMopoly.Models
         {
             if (obj is PlayerModel player)
             {
+                Debug.WriteLine("AAA" + (player.Color == _color).ToString());
                 return player.Nick == _nick
                     && player.Color == _color;
             }

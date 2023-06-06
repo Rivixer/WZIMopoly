@@ -119,7 +119,17 @@ namespace WZIMopoly.Scenes
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
 
             var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
-            gameUpdateModels.ForEach(x => x.Update(GameSettings.CurrentPlayer, currentPlayerTile));
+            foreach (var model in gameUpdateModels)
+            {
+                try
+                {
+                    model.Update(GameSettings.CurrentPlayer, currentPlayerTile);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Debug.WriteLine($"Cannot update {model} model - {ex.Message}");
+                }
+            }
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(GameSettings.CurrentPlayer, currentPlayerTile));

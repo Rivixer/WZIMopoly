@@ -30,6 +30,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
             bool canMortgageAnyTile = PlayerCanMortgageAnyTile(player);
             bool canSellAnyGradeOfTile = PlayerCanSellAnyGradeOfTile(player);
             bool canUnmortgageAnyTile = PlayerCanUnmortgageAnyTile(player);
+            Debug.WriteLine(canMortgageAnyTile.ToString() + " " + canSellAnyGradeOfTile + " " + canUnmortgageAnyTile);
             IsActive = (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local)
                 && (beforeRollingDice
                 && (canMortgageAnyTile || canSellAnyGradeOfTile || canUnmortgageAnyTile)
@@ -47,8 +48,10 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         /// </returns>
         private static bool PlayerCanMortgageAnyTile(PlayerModel player)
         {
+            Debug.WriteLine(player.PurchasedTiles.Count);
             foreach (TileModel tile in player.PurchasedTiles)
             {
+                Debug.WriteLine(tile.GetType() + " " + (tile is SubjectTileModel) + " " + tile.PlName);
                 if (tile is SubjectTileModel t && t.CanMortgage(player))
                 {
                     return true;

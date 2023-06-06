@@ -18,7 +18,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The amount of money that the player has to pay to leave the jail.
         /// </summary>
-        [NonSerialized]
         private readonly int _payForLeave;
 
         /// <summary>

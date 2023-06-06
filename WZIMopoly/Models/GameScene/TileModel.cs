@@ -108,8 +108,8 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Gets all the tiles.
         /// </summary>
-        [field: NonSerialized]
-        protected IEnumerable<TileModel> AllTiles { get; private set; }
+        //[NonSerialized]
+        public List<TileModel> AllTiles;
 
         /// <summary>
         /// Activates <see cref="OnStand"/> event.
@@ -128,7 +128,7 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="tiles">
         /// The list of all tiles.
         /// </param>
-        public void SetAllTiles(IEnumerable<TileModel> tiles)
+        public void SetAllTiles(List<TileModel> tiles)
         {
             AllTiles = tiles;
         }
