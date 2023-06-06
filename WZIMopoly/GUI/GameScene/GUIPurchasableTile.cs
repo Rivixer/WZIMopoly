@@ -2,19 +2,24 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Xml;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
+using WZIMopoly.Models;
+using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Utils;
 using WZIMopoly.Utils.PositionExtensions;
+
 
 namespace WZIMopoly.GUI.GameScene
 {
     /// <summary>
     /// Represents a view of the purchasable tile.
     /// </summary>
-    internal class GUIPurchasableTile : GUITile
+    internal class GUIPurchasableTile : GUITile, IGUIGameUpdate
     {
         /// <summary>
         /// The info card texture.
@@ -32,6 +37,11 @@ namespace WZIMopoly.GUI.GameScene
         /// </summary>
         private DateTime? _hoverTime;
 #nullable disable
+
+        /// <summary>
+        /// Represents a player.
+        /// </summary>
+        private PlayerModel _player;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIPurchasableTile"/> class.
@@ -82,7 +92,9 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (InfoVisible)
+            if (InfoVisible 
+                && _player.PlayerStatus != PlayerStatus.MortgagingTiles 
+                && _player.PlayerStatus != PlayerStatus.UpgradingTiles)
             {
                 _card.Draw(spriteBatch);
                 _ownerOnCard.Draw(spriteBatch);
@@ -150,6 +162,11 @@ namespace WZIMopoly.GUI.GameScene
             }
             else
                 _ownerOnCard.Text = "";
+        }
+
+        public void Update(PlayerModel player, TileModel tile) 
+        {
+            _player = player;
         }
     }
 }
