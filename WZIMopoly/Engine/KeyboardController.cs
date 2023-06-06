@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace WZIMopoly.Engine
@@ -151,7 +152,9 @@ namespace WZIMopoly.Engine
         public static void GetClickedKey(out char? c)
         {
             // TODO: Add caps lock support
+            bool caps = Keyboard.GetState().CapsLock;
             bool shift = IsPressed(Keys.LeftShift) || IsPressed(Keys.RightShift);
+            bool isUp = caps ^ shift;
 
             var clickedKeys = GetAllClickedKeys();
             if (clickedKeys.Count == 0)
@@ -165,82 +168,82 @@ namespace WZIMopoly.Engine
             switch (clickedKeys[0])
             {
                 case Keys.A:
-                    letter = shift ? 'A' : 'a';
+                    letter = isUp ? 'A' : 'a';
                     break;
                 case Keys.B:
-                    letter = shift ? 'B' : 'b';
+                    letter = isUp ? 'B' : 'b';
                     break;
                 case Keys.C:
-                    letter = shift ? 'C' : 'c';
+                    letter = isUp ? 'C' : 'c';
                     break;
                 case Keys.D:
-                    letter = shift ? 'D' : 'd';
+                    letter = isUp ? 'D' : 'd';
                     break;
                 case Keys.E:
-                    letter = shift ? 'E' : 'e';
+                    letter = isUp ? 'E' : 'e';
                     break;
                 case Keys.F:
-                    letter = shift ? 'F' : 'f';
+                    letter = isUp ? 'F' : 'f';
                     break;
                 case Keys.G:
-                    letter = shift ? 'G' : 'g';
+                    letter = isUp ? 'G' : 'g';
                     break;
                 case Keys.H:
-                    letter = shift ? 'H' : 'h';
+                    letter = isUp ? 'H' : 'h';
                     break;
                 case Keys.I:
-                    letter = shift ? 'I' : 'i';
+                    letter = isUp ? 'I' : 'i';
                     break;
                 case Keys.J:
-                    letter = shift ? 'J' : 'j';
+                    letter = isUp ? 'J' : 'j';
                     break;
                 case Keys.K:
-                    letter = shift ? 'K' : 'k';
+                    letter = isUp ? 'K' : 'k';
                     break;
                 case Keys.L:
-                    letter = shift ? 'L' : 'l';
+                    letter = isUp ? 'L' : 'l';
                     break;
                 case Keys.M:
-                    letter = shift ? 'M' : 'm';
+                    letter = isUp ? 'M' : 'm';
                     break;
                 case Keys.N:
-                    letter = shift ? 'N' : 'n';
+                    letter = isUp ? 'N' : 'n';
                     break;
                 case Keys.O:
-                    letter = shift ? 'O' : 'o';
+                    letter = isUp ? 'O' : 'o';
                     break;
                 case Keys.P:
-                    letter = shift ? 'P' : 'p';
+                    letter = isUp ? 'P' : 'p';
                     break;
                 case Keys.Q:
-                    letter = shift ? 'Q' : 'q';
+                    letter = isUp ? 'Q' : 'q';
                     break;
                 case Keys.R:
-                    letter = shift ? 'R' : 'r';
+                    letter = isUp ? 'R' : 'r';
                     break;
                 case Keys.S:
-                    letter = shift ? 'S' : 's';
+                    letter = isUp ? 'S' : 's';
                     break;
                 case Keys.T:
-                    letter = shift ? 'T' : 't';
+                    letter = isUp ? 'T' : 't';
                     break;
                 case Keys.U:
-                    letter = shift ? 'U' : 'u';
+                    letter = isUp ? 'U' : 'u';
                     break;
                 case Keys.V:
-                    letter = shift ? 'V' : 'v';
+                    letter = isUp ? 'V' : 'v';
                     break;
                 case Keys.W:
-                    letter = shift ? 'W' : 'w';
+                    letter = isUp ? 'W' : 'w';
                     break;
                 case Keys.X:
-                    letter = shift ? 'X' : 'x';
+                    letter = isUp ? 'X' : 'x';
                     break;
                 case Keys.Y:
-                    letter = shift ? 'Y' : 'y';
+                    letter = isUp ? 'Y' : 'y';
                     break;
                 case Keys.Z:
-                    letter = shift ? 'Z' : 'z';
+                    letter = isUp ? 'Z' : 'z';
                     break;
                 case Keys.D0:
                     letter = '0';
