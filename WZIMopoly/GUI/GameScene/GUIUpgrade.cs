@@ -193,7 +193,6 @@ namespace WZIMopoly.GUI.GameScene
                 }
                 else
                 {
-                    text = $"Ulepsz pole {t.EnName} (koszt {t.UpgradePrice}ECTS)";
                     text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Ulepsz pole {t.PlName} (koszt {t.UpgradePrice}ECTS)",
