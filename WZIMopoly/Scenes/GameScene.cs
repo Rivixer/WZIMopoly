@@ -283,6 +283,15 @@ namespace WZIMopoly.Scenes
                 jailModel.ReleasePrisoner(Model.CurrentPlayer);
                 Model.CurrentPlayer.Money -= 50;
             };
+
+            // Use elevator button
+            var tepToElevButton = Model.InitializeChild<UseElevatorButtonModel, GUIUseElevatorButton, UseElevatorButtonController>();
+            tepToElevButton.OnButtonClicked += () =>
+            {
+                var elevTile = mapModel.GetModel<ElevatorTileModel>((x) => !x.Players.Contains(Model.CurrentPlayer));
+                mapModel.TeleportPlayer(Model.CurrentPlayer, elevTile);
+                _mapController.View.UpdatePawnPositions();
+            };
         }
     }
 }
