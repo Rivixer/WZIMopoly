@@ -1,3 +1,4 @@
+using System;
 using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
@@ -5,12 +6,14 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Start tile model.
     /// </summary>
+    [Serializable]
     internal class StartTileModel : TileModel, ICrossable
     {
         /// <summary>
         /// The amount of ECTS points that the player receives
         /// after passing through the tile.
         /// </summary>
+        [NonSerialized]
         private readonly int _reward;
 
         /// <summary>

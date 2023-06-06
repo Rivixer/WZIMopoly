@@ -16,6 +16,10 @@ namespace WZIMopoly.Models.GameScene
     /// </summary>
     internal class MapModel : Model
     {
+        private readonly List<TileController> _tiles;
+
+        public List<TileController> Tiles => _tiles;
+
         /// <summary>
         /// Activates all <see cref="ICrossable"/> tiles that the player has passed.
         /// </summary>
@@ -219,6 +223,7 @@ namespace WZIMopoly.Models.GameScene
         {
             var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
             tile.Model.OnPlayerStand(player);
+            player.Nick = "EEEEEEE";
         }
 
         /// <summary>

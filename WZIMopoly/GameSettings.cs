@@ -1,6 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.IO.MemoryMappedFiles;
+using System.Linq;
 using WZIMopoly.Enums;
+using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
+using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
+using WZIMopoly.NetworkData;
+using WZIMopolyNetworkingLibrary;
 
 namespace WZIMopoly
 {
@@ -21,6 +28,11 @@ namespace WZIMopoly
         };
 
         /// <summary>
+        /// The current player index.
+        /// </summary>
+        private static int _currentPlayerIndex = 0;
+
+        /// <summary>
         /// Gets the players.
         /// </summary>
         /// <value>
@@ -31,6 +43,22 @@ namespace WZIMopoly
         /// independently of their <see cref="PlayerType"/>.
         /// </remarks>
         public static List<PlayerModel> Players { get; } = new();
+
+        /// <summary>
+        /// Gets the current player.
+        /// </summary>
+        public static PlayerModel CurrentPlayer => Players[_currentPlayerIndex];
+
+        /// <summary>
+        /// Changes the current player to the next one.
+        /// </summary>
+        public static void NextPlayer()
+        {
+            if (++_currentPlayerIndex >= ActivePlayers.Count)
+            {
+                _currentPlayerIndex = 0;
+            }
+        }
 
         /// <summary>
         /// Gets the active players.
@@ -83,6 +111,47 @@ namespace WZIMopoly
             {
                 Players[i].Reset();
             }
+        }
+
+        public static void SendGameData(GameModel model)
+        {
+            var gameData = new GameData()
+            {
+                ActivePlayers = ActivePlayers,
+                CurrentPlayerIndex = _currentPlayerIndex,
+                DiceModel = model.GetModel<DiceModel>(),
+                Tiles = model.GetAllModelsRecursively<TileModel>(),
+            };
+            var data = new byte[] { (byte)PacketType.GameStatus };
+            data = data.Concat(gameData.ToByteArray()).ToArray();
+            NetworkService.Connection.Send(data, 0, data.Length);
+        }
+
+        public static void UpdateGameData(GameData data, GameModel model)
+        {
+            // Update players
+            for (int i = 0; i < ActivePlayers.Count; i++)
+            {
+                Players[i].Update(data.ActivePlayers[i]);
+            }
+
+            // Update the current player
+            _currentPlayerIndex = data.CurrentPlayerIndex;
+
+            // Update the dice model
+            var diceModel = model.GetModel<DiceModel>();
+            diceModel.Update(data.DiceModel);
+
+            // Update tiles on the map
+            var tiles = model.GetAllModelsRecursively<TileModel>();
+            foreach (var (t1, t2) in tiles.Zip(data.Tiles))
+            {
+                t1.Update(t2);
+            }
+
+            // Refresh pawns on the map
+            var mapView = model.GetView<GUIMap>();
+            mapView.UpdatePawnPositions();
         }
     }
 }

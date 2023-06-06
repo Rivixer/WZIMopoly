@@ -23,7 +23,8 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
             var beforeRollingDice = player.PlayerStatus == PlayerStatus.BeforeRollingDice;
             var canUpgradeAnyTile = PlayerCanUpgradeAnyTile(player);
             IsActive = beforeRollingDice && canUpgradeAnyTile
-                || player.PlayerStatus == PlayerStatus.UpgradingTiles;
+                || player.PlayerStatus == PlayerStatus.UpgradingTiles
+                && (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local);
         }
 
         /// <summary>

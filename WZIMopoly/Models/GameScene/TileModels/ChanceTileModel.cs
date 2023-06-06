@@ -10,6 +10,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <remarks>
     /// A chance tile is a tile when the player lands on it, they draw a chance card.
     /// </remarks>
+    [Serializable]
     internal abstract class ChanceTileModel : TileModel
     {
         /// <summary>

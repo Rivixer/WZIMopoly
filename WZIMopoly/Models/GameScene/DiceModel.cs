@@ -5,17 +5,24 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents the dice model.
     /// </summary>
+    [Serializable]
     internal sealed class DiceModel : Model
     {
         /// <summary>
         /// The pseudo-random numbers generator.
         /// </summary>
+        [NonSerialized]
         private readonly static Random s_random = new();
 
         /// <summary>
         /// The result of the last dice roll.
         /// </summary>
-        public Tuple<int, int> LastRoll { get; private set; }
+        private Tuple<int, int> _lastRoll;
+
+        /// <summary>
+        /// Gets the result of the last dice roll.
+        /// </summary>
+        public Tuple<int, int> LastRoll => _lastRoll;
 
         /// <summary>
         /// Count of the previous doubles.
@@ -47,7 +54,7 @@ namespace WZIMopoly.Models.GameScene
         /// </remarks>
         public Tuple<int, int> RollDice()
         {
-            LastRoll = new Tuple<int, int>(s_random.Next(1, 7), s_random.Next(1, 7));
+            _lastRoll = new Tuple<int, int>(s_random.Next(1, 7), s_random.Next(1, 7));
             if (LastRollWasDouble)
             {
                 DoubleCounter++;
@@ -63,7 +70,7 @@ namespace WZIMopoly.Models.GameScene
         /// </remarks>
         public void Reset()
         {
-            LastRoll = null;
+            _lastRoll = null;
         }
 
         /// <summary>
@@ -72,6 +79,11 @@ namespace WZIMopoly.Models.GameScene
         public void ResetDoubleCounter()
         {
             DoubleCounter = 0;
+        }
+
+        public void Update(DiceModel model)
+        {
+            _lastRoll = model._lastRoll;
         }
     }
 }

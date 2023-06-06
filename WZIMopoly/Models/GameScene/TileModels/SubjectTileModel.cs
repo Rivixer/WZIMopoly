@@ -10,27 +10,36 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Subject tile model.
     /// </summary>
+    [Serializable]
     internal class SubjectTileModel : PurchasableTileModel
     {
         /// <summary>
         /// The price for upgrading subject.
         /// </summary>
+        [NonSerialized]
         internal readonly int UpgradePrice;
 
         /// <summary>
         /// A dictionary containing the tax prices for each subject grade.
         /// </summary>
+        [NonSerialized]
         internal readonly Dictionary<SubjectGrade, int> TaxPrices;
 
         /// <summary>
         /// The color representing the section of the tile.
         /// </summary>
+        [NonSerialized]
         internal readonly SubjectColor Color;
 
         /// <summary>
         /// The grade of the subject.
         /// </summary>
         internal SubjectGrade Grade;
+
+        /// <summary>
+        /// Whether the tile is mortgaged.
+        /// </summary>
+        private bool _isMortgaged = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
@@ -122,7 +131,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// Gets the value indicating whether
         /// the subject is currently mortgaged.
         /// </summary>
-        public bool IsMortgaged { get; private set; } = false;
+        public bool IsMortgaged => _isMortgaged;
 
         /// <summary>
         /// Upgrades the subject tile.
@@ -223,7 +232,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             Owner.MortgagedTiles.Add(this);
             Owner.Money += MortgagePrice;
-            IsMortgaged = true;
+            _isMortgaged = true;
         }
 
         /// <summary>
@@ -233,7 +242,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             Owner.Money -= MortgagePrice;
             Owner.MortgagedTiles.Remove(this);
-            IsMortgaged = false;
+            _isMortgaged = false;
         }
 
         /// <summary>
@@ -271,6 +280,20 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
             return !subjectTiles.Any(x => x.IsMortgaged);
+        }
+        
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the <see cref="Grade"/> of the subject
+        /// to the one from the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            if (model is SubjectTileModel t)
+            {
+                base.Update(model);
+                Grade = t.Grade;
+            }
         }
     }
 }

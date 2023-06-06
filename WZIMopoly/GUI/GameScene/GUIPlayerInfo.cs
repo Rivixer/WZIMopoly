@@ -153,6 +153,7 @@ namespace WZIMopoly.GUI.GameScene
         {
             _guiNick.Text = _playerInfoModel.Player.Nick;
             _guiMoney.Text = $"{_playerInfoModel.Player.Money} ECTS";
+            Debug.WriteLine(_playerInfoModel.Player.Nick + " " + _playerInfoModel.Player.Money);
         }
 
         /// <inheritdoc/>

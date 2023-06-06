@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -6,6 +7,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Mandatory Lecture tile model.
     /// </summary>
+    [Serializable]
     internal class MandatoryLectureTileModel : TileModel
     {
         /// <summary>
@@ -16,6 +18,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// The amount of money that the player has to pay to leave the jail.
         /// </summary>
+        [NonSerialized]
         private readonly int _payForLeave;
 
         /// <summary>
@@ -144,6 +147,24 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public int GetRemainingTurns(PlayerModel player)
         {
             return 4 - _prisoners[player];
+        }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the prisoners to the same as the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            if (model is MandatoryLectureTileModel t)
+            {
+                base.Update(model);
+                _prisoners.Clear();
+                foreach(var prisoner in t._prisoners)
+                {
+                    _prisoners.Add(prisoner.Key, prisoner.Value);
+                }
+            }
+            
         }
     }
 }

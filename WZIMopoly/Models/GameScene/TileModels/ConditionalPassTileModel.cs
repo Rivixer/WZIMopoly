@@ -1,3 +1,4 @@
+using System;
 using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
@@ -5,11 +6,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Conditional Pass tile model.
     /// </summary>
+    [Serializable]
     internal class ConditionalPassTileModel : TileModel
     {
         /// <summary>
         /// The amount of ECTS to be paid.
         /// </summary>
+        [NonSerialized]
         internal readonly int Tax;
 
         /// <summary>
@@ -24,7 +27,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal ConditionalPassTileModel(int id, int tax) : base(id)
         {
             Tax = tax;
-            OnStand += (player) => player.Money -= Tax;
+            OnStand += (player) => { player.Money -= Tax; Debug.WriteLine(player.Money); };
         }
 
         /// <summary>

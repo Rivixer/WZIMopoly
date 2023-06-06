@@ -14,6 +14,7 @@ using WZIMopoly.NetworkData;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Controllers.JoinScene;
+using System.Net.Sockets;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -227,6 +228,11 @@ namespace WZIMopoly
                             if ((PacketType)e.Data[0] == PacketType.Close)
                             {
                                 ReturnToMenu();
+                            }
+                            else if ((PacketType)e.Data[0] == PacketType.GameStatus)
+                            {
+                                var gameData = NetData.FromByteArray<GameData>(e.Data.Skip(1).ToArray());
+                                GameSettings.UpdateGameData(gameData, _gameScene.Model);
                             };
                         };
                     };
@@ -245,6 +251,8 @@ namespace WZIMopoly
             {
                 ChangeCurrentScene(_gameScene);
                 _gameScene.StartGame();
+                var data = new byte[] {(byte)PacketType.StartGame };
+                NetworkService.Connection.Send(data, 0, 1);
             };
         }
 
@@ -305,6 +313,16 @@ namespace WZIMopoly
                         var lobbyCodeModel = _lobbyScene.Model.GetModel<Models.LobbyScene.LobbyCodeModel>();
                         lobbyCodeModel.Code = lobbyCode;
                         ChangeCurrentScene(_lobbyScene);
+                    }
+                    else if (packetType == PacketType.StartGame)
+                    {
+                        ChangeCurrentScene(_gameScene);
+                        _gameScene.StartGame();
+                    }
+                    else if (packetType == PacketType.GameStatus)
+                    {
+                        var gameData = NetData.FromByteArray<GameData>(e.Data.Skip(1).ToArray());
+                        GameSettings.UpdateGameData(gameData, _gameScene.Model);
                     }
                 };
             };

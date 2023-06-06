@@ -1,10 +1,12 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Represents the Canteen tile model.
     /// </summary>
+    [Serializable]
     internal class CanteenTileModel : ChanceTileModel
     {
         /// <summary>

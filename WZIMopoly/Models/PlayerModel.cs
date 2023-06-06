@@ -14,13 +14,11 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The list of tiles purchased by the player.
         /// </summary>
-        [NonSerialized]
         private readonly List<PurchasableTileModel> _purchasedTiles = new();
 
         /// <summary>
         /// The list of mortgaged tiles by the player.
         /// </summary>
-        [NonSerialized]
         private readonly List<PurchasableTileModel> _mortgagedTiles = new();
 
         /// <summary>
@@ -45,9 +43,13 @@ namespace WZIMopoly.Models
         private PlayerType _playerType = PlayerType.None;
 
         /// <summary>
+        /// The player status.
+        /// </summary>
+        private PlayerStatus _playerStatus = PlayerStatus.WaitingForTurn;
+
+        /// <summary>
         /// The amount of money player has.
         /// </summary>
-        [NonSerialized]
         private int _money = 1500;
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace WZIMopoly.Models
         {
             _nick = player.Nick;
             _playerType = player.PlayerType;
+            _playerStatus = player.PlayerStatus;
             _money = player.Money;
             _purchasedTiles = player.PurchasedTiles;
             _mortgagedTiles = player.MortgagedTiles;
@@ -120,7 +123,11 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the player status.
         /// </summary>
-        public PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+        public PlayerStatus PlayerStatus
+        {
+            get => _playerStatus;
+            set => _playerStatus = value;
+        }
 
         /// <summary>
         /// Gets pucharsed tiles by the player.
@@ -163,8 +170,36 @@ namespace WZIMopoly.Models
             _nick = _defaultNick;
             _money = 1500;
             _playerType = PlayerType.None;
+            _playerStatus = PlayerStatus.WaitingForTurn;
             _purchasedTiles.Clear();
             _mortgagedTiles.Clear();
+        }
+
+        public void Update(PlayerModel player)
+        {
+            _nick = player.Nick;
+            _playerType = player.PlayerType;
+            _playerStatus = player.PlayerStatus;
+            _money = player.Money;
+            _purchasedTiles.Clear();
+            _purchasedTiles.AddRange(player.PurchasedTiles);
+            _mortgagedTiles.Clear();
+            _mortgagedTiles.AddRange(player.MortgagedTiles);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is PlayerModel player)
+            {
+                return player.Nick == _nick
+                    && player.Color == _color;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_nick, _color);
         }
     }
 }

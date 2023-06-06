@@ -23,6 +23,7 @@ namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
         {
             var jail = tile as MandatoryLectureTileModel;
             IsActive = player.PlayerStatus == PlayerStatus.BeforeRollingDice
+                && (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local)
                 && (jail?.IsPrisoner(player) ?? false)
                 && (jail?.CanPrisonerPayForRelease(player) ?? false);
         }

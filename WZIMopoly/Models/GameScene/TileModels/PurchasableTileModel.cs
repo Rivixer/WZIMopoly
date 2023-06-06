@@ -1,4 +1,6 @@
-﻿namespace WZIMopoly.Models.GameScene.TileModels
+﻿using System;
+
+namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Represents a base class for tile classes that
@@ -8,11 +10,13 @@
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
+    [Serializable]
     internal abstract class PurchasableTileModel : TileModel
     {
         /// <summary>
         /// The price of the tile.
         /// </summary>
+        [NonSerialized]
         internal readonly int Price;
 
 #nullable enable
@@ -65,6 +69,19 @@
         internal bool CanPurchase(PlayerModel player)
         {
             return Owner == null && player.Money >= Price;
+        }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the owner of the tile to the owner of the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            if (model is PurchasableTileModel t)
+            {
+                base.Update(model);
+                Owner = t.Owner;
+            }
         }
     }
 }

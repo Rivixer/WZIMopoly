@@ -7,28 +7,32 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents a base class for a tile model.
     /// </summary>
+    [Serializable]
     internal abstract class TileModel : Model, IComparable<TileModel>
     {
         #region Fields
         /// <summary>
         /// The name of the tile in English.
         /// </summary>
+        [NonSerialized]
         internal string EnName;
 
         /// <summary>
         /// The name of the tile in Polish.
         /// </summary>
+        [NonSerialized]
         internal string PlName;
 
         /// <summary>
         /// The id of the tile.
         /// </summary>
+
         internal readonly int Id;
 
         ///<summary>
         ///The list of players.
         ///</summary>
-        internal readonly List<PlayerModel> Players = new();
+        public readonly List<PlayerModel> Players = new();
         #endregion
 
         /// <summary>
@@ -73,10 +77,11 @@ namespace WZIMopoly.Models.GameScene
         /// The player that stands on the tile.
         /// </param>
         public delegate void OnStandHandler(PlayerModel player);
-        
+
         /// <summary>
         /// The event that is invoked when a player stands on the tile.
         /// </summary>
+        [field: NonSerialized]
         public event OnStandHandler OnStand;
 
         /// <summary>
@@ -103,6 +108,7 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Gets all the tiles.
         /// </summary>
+        [field: NonSerialized]
         protected IEnumerable<TileModel> AllTiles { get; private set; }
 
         /// <summary>
@@ -125,6 +131,21 @@ namespace WZIMopoly.Models.GameScene
         public void SetAllTiles(IEnumerable<TileModel> tiles)
         {
             AllTiles = tiles;
+        }
+
+        /// <summary>
+        /// Updates the model based on the data from the other model.
+        /// </summary>
+        /// <param name="model">
+        /// The model to update from.
+        /// </param>
+        /// <remarks>
+        /// Sets the players list to the one from the other model.
+        /// </remarks>
+        public virtual void Update(TileModel model)
+        {
+            Players.Clear();
+            Players.AddRange(model.Players);
         }
     }
 }

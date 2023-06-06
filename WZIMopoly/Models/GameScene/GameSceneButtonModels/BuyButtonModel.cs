@@ -18,6 +18,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         public void Update(PlayerModel player, TileModel tile)
         {
             IsActive = player.PlayerStatus == PlayerStatus.AfterRollingDice
+                && (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local)
                 && tile is PurchasableTileModel t
                 && t.CanPurchase(player);
         }

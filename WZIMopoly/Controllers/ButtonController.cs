@@ -1,4 +1,6 @@
-﻿using WZIMopoly.Engine;
+﻿using System;
+using WZIMopoly.Attributes;
+using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 
