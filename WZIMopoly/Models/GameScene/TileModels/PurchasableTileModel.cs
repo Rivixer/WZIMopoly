@@ -1,4 +1,5 @@
-﻿namespace WZIMopoly.Models.GameScene.TileModels
+using System;
+namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
     /// Represents a base class for tile classes that
@@ -8,6 +9,7 @@
     /// If player steps on this field, they have to pay
     /// a rent to the person who owns this tile.
     /// </remarks>
+    [Serializable]
     internal abstract class PurchasableTileModel : TileModel
     {
         /// <summary>

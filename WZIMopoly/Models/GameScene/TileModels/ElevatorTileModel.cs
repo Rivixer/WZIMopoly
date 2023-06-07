@@ -1,3 +1,4 @@
+using System;
 using System.Xml;
 
 namespace WZIMopoly.Models.GameScene.TileModels
@@ -5,6 +6,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Elevator tile model.
     /// </summary>
+    [Serializable]
     internal class ElevatorTileModel : TileModel
     {
         /// <summary>

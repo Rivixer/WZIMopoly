@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml;
 
@@ -6,6 +7,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Mandatory Lecture tile model.
     /// </summary>
+    [Serializable]
     internal class MandatoryLectureTileModel : TileModel
     {
         /// <summary>

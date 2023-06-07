@@ -10,6 +10,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Subject tile model.
     /// </summary>
+    [Serializable]
     internal class SubjectTileModel : PurchasableTileModel
     {
         /// <summary>
@@ -31,6 +32,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// The grade of the subject.
         /// </summary>
         internal SubjectGrade Grade;
+
+        /// <summary>
+        /// Whether the tile is mortgaged.
+        /// </summary>
+        private bool _isMortgaged = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
@@ -122,7 +128,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// Gets the value indicating whether
         /// the subject is currently mortgaged.
         /// </summary>
-        public bool IsMortgaged { get; private set; } = false;
+        public bool IsMortgaged => _isMortgaged;
 
         /// <summary>
         /// Upgrades the subject tile.
