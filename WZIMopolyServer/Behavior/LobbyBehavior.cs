@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using WebSocketSharp;
+﻿using WebSocketSharp;
 using WebSocketSharp.Net.WebSockets;
 using WebSocketSharp.Server;
 using WZIMopolyNetworkingLibrary;
@@ -52,10 +51,17 @@ namespace WZIMopolyServer
         /// <param name="e">
         /// The <see cref="MessageEventArgs"/> class containing the message.
         /// </param>
-        public void SendAll(MessageEventArgs e)
+        /// <param name="except">
+        /// The <see cref="WebSocketContext"/> contexts to exclude from the broadcast.
+        /// </param>
+        public void SendAll(MessageEventArgs e, params WebSocketContext?[] except)
         {
             foreach (var client in _clients)
             {
+                if (except?.Contains(client.Value) ?? false)
+                {
+                    continue;
+                }
                 Console.WriteLine($"Sending message to {client.Key}...");
                 client.Value.WebSocket.Send(e.RawData);
             }
@@ -129,7 +135,7 @@ namespace WZIMopolyServer
         {
             string lobbyCode = Context.RequestUri.AbsoluteUri[^6..];
             Lobby? lobby = Lobbies.Find(x => x.Code == lobbyCode);
-            lobby?.SendAll(e);
+            lobby?.SendAll(e, Context);
             if ((PacketType)e.RawData[0] == PacketType.Close)
             {
                 lobby?.Dispose();
