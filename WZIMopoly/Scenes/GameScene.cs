@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WZIMopoly.Attributes;
+using WZIMopoly.Controllers;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.GameButtonControllers;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
@@ -88,7 +90,7 @@ namespace WZIMopoly.Scenes
             InitializeButtons();
 
             var buttons = Model.GetAllControllersRecursively<ButtonController>();
-            foreach(var button in buttons)
+            foreach (var button in buttons)
             {
                 if (Attribute.IsDefined(button.GetType(), typeof(UpdatesNetwork)))
                 {
@@ -122,7 +124,17 @@ namespace WZIMopoly.Scenes
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
 
             var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
-            gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+            foreach (var model in gameUpdateModels)
+            {
+                try
+                {
+                    model.Update(GameSettings.CurrentPlayer, currentPlayerTile);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    Debug.WriteLine($"Cannot update {model} model - {ex.Message}");
+                }
+            }
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(GameSettings.CurrentPlayer, currentPlayerTile));
@@ -168,19 +180,26 @@ namespace WZIMopoly.Scenes
         {
             var infoWidth = 500;
             var infoHeight = 200;
-            var players = GameSettings.Players;
-            var positions = new List<Tuple<PlayerModel, Rectangle, GUIStartPoint>>()
+            var rects = new List<Rectangle>()
             {
-                new(players[0], new Rectangle(0, 10, infoWidth, infoHeight), GUIStartPoint.TopLeft),
-                new(players[1], new Rectangle(1920, 10, infoWidth, infoHeight), GUIStartPoint.TopRight),
-                new(players[2], new Rectangle(1920, 1070, infoWidth, infoHeight), GUIStartPoint.BottomRight),
-                new(players[3], new Rectangle(0, 1070, infoWidth, infoHeight), GUIStartPoint.BottomLeft),
+                new Rectangle(0, 10, infoWidth, infoHeight),
+                new Rectangle(1920, 10, infoWidth, infoHeight),
+                new Rectangle(1920, 1070, infoWidth, infoHeight),
+                new Rectangle(0, 1070, infoWidth, infoHeight)
             };
 
-            foreach (var (player, position, startPoint) in positions)
+            var pos = new List<GUIStartPoint>()
             {
-                var model = new PlayerInfoModel(player);
-                var view = new GUIPlayerInfo(model, position, startPoint);
+                GUIStartPoint.TopLeft,
+                GUIStartPoint.TopRight,
+                GUIStartPoint.BottomRight,
+                GUIStartPoint.BottomLeft
+            };
+
+            for (int i = 0; i < 4; i++)
+            {
+                var model = new PlayerInfoModel(GameSettings.Players[i]);
+                var view = new GUIPlayerInfo(model, rects[i], pos[i]);
                 var controller = new PlayerInfoController(model, view);
                 Model.AddChildBefore<MapController>(controller);
             }
@@ -256,6 +275,7 @@ namespace WZIMopoly.Scenes
                     mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer);
                 }
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                GameSettings.SendGameData(Model);
                 mapView.UpdatePawnPositions();
             };
             endTurnButton.OnButtonClicked += () =>

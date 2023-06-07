@@ -1,6 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using WZIMopoly.Enums;
+using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models;
+using WZIMopoly.Models.GameScene;
+using WZIMopoly.NetworkData;
+using WZIMopolyNetworkingLibrary;
 
 namespace WZIMopoly
 {
@@ -89,7 +94,7 @@ namespace WZIMopoly
         public static void CreatePlayers()
         {
             Players.Clear();
-            foreach(var defPlayer in s_defaultPlayers)
+            foreach (var defPlayer in s_defaultPlayers)
             {
                 Players.Add(new PlayerModel(defPlayer));
             }
@@ -104,6 +109,71 @@ namespace WZIMopoly
             {
                 Players[i].Reset();
             }
+        }
+
+        /// <summary>
+        /// Sends the game data to the server.
+        /// </summary>
+        /// <param name="model">
+        /// The game model from which the data will be sent.
+        /// </param>
+        public static void SendGameData(GameModel model)
+        {
+            var gameData = new GameData()
+            {
+                ActivePlayers = ActivePlayers,
+                CurrentPlayerIndex = _currentPlayerIndex,
+                DiceModel = model.GetModel<DiceModel>(),
+                Tiles = model.GetAllModelsRecursively<TileModel>(),
+            };
+            var data = new byte[] { (byte)PacketType.GameStatus };
+            data = data.Concat(gameData.ToByteArray()).ToArray();
+            NetworkService.Connection.Send(data, 0, data.Length);
+        }
+
+        /// <summary>
+        /// Updates the game status using data from the server.
+        /// </summary>
+        /// <param name="data">
+        /// The game data received from the server.
+        /// </param>
+        /// <param name="model">
+        /// The game model to be updated.
+        /// </param>
+        public static void UpdateGameData(GameData data, GameModel model)
+        {
+            // Update players
+            for (int i = 0; i < ActivePlayers.Count; i++)
+            {
+                Players[i].Update(data.ActivePlayers[i]);
+            }
+
+            // Update the current player
+            _currentPlayerIndex = data.CurrentPlayerIndex;
+
+            // Update the dice model
+            var diceModel = model.GetModel<DiceModel>();
+            diceModel.Update(data.DiceModel);
+
+            // Update tiles on the map
+            var tiles = model.GetAllModelsRecursively<TileModel>();
+            for (int i = 0; i < 40; i++)
+            {
+                tiles[i].Update(data.Tiles[i]);
+            }
+
+            // Update AllTiles property on each tile
+            // (maybe it is not necessary, but I don't have
+            // the patience to test it)
+            tiles = model.GetAllModelsRecursively<TileModel>();
+            foreach (var tile in tiles)
+            {
+                tile.SetAllTiles(model.GetAllModelsRecursively<TileModel>());
+            }
+
+            // Refresh pawns on the map
+            var mapView = model.GetView<GUIMap>();
+            mapView.UpdatePawnPositions();
         }
     }
 }
