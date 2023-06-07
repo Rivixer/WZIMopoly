@@ -77,11 +77,27 @@ namespace WZIMopoly.Scenes
 
             Model.AddChildBefore<MapController>(_diceController);
             _timerController = Model.InitializeChild<TimerModel, GUITimer, TimerController>();
+
             _upgradeController = Model.InitializeChild<UpgradeModel, GUIUpgrade, UpgradeController>(tileControllers);
+            _upgradeController.OnTileClicked += () => GameSettings.SendGameData(Model);
+
             _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
+            _mortgageController.OnTileClicked += () => GameSettings.SendGameData(Model);
 
             InitializePlayerInfo();
             InitializeButtons();
+
+            var buttons = Model.GetAllControllersRecursively<ButtonController>();
+            foreach(var button in buttons)
+            {
+                if (Attribute.IsDefined(button.GetType(), typeof(UpdatesNetwork)))
+                {
+                    button.OnButtonClicked += () =>
+                    {
+                        GameSettings.SendGameData(Model);
+                    };
+                }
+            }
         }
 
         /// <summary>
