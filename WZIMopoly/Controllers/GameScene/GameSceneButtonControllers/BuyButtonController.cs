@@ -1,4 +1,5 @@
-﻿using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
+﻿using WZIMopoly.Attributes;
+using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
 using WZIMopoly.Models.GameScene.GameButtonModels;
 
 namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
@@ -6,6 +7,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
     /// <summary>
     /// Represents the buy button controller.
     /// </summary>
+    [UpdatesNetwork]
     internal sealed class BuyButtonController : ButtonController<BuyButtonModel, GUIBuyButton>
     {
         /// <summary>
