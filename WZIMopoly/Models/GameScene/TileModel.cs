@@ -106,6 +106,36 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
+        /// Compares the current instance with another one.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to compare with.
+        /// </param>
+        /// <returns>
+        /// True if the current instance has the same <see cref="Id"/>
+        /// as the other one; otherwise, false.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is TileModel tile)
+            {
+                return Id == tile.Id;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>
+        /// The hash code for this instance.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return Id;
+        }
+
+        /// <summary>
         /// Gets all the tiles.
         /// </summary>
         public List<TileModel> AllTiles { get; private set; }
