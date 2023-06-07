@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+
 namespace WZIMopoly.Models.GameScene.TileModels
 {
     /// <summary>
@@ -28,7 +30,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
 #nullable disable
 
         /// <summary>
-        /// Initializes a new instance of the <see  cref="PurchasableTileModel"/> class.
+        /// Initializes a new instance of the <see cref="PurchasableTileModel"/> class.
         /// </summary>
         /// <param name="id">
         /// The id of the tile.
@@ -67,6 +69,20 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal bool CanPurchase(PlayerModel player)
         {
             return Owner == null && player.Money >= Price;
+        }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the owner of the tile to the owner of the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            base.Update(model);
+            if (model is PurchasableTileModel t)
+            {
+                var owner = GameSettings.ActivePlayers.FirstOrDefault(x => x.Equals(t.Owner));
+                Owner = owner;
+            }
         }
     }
 }

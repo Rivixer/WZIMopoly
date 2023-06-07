@@ -278,5 +278,19 @@ namespace WZIMopoly.Models.GameScene.TileModels
             var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
             return !subjectTiles.Any(x => x.IsMortgaged);
         }
+        
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the <see cref="Grade"/> of the subject
+        /// to the one from the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            base.Update(model);
+            if (model is SubjectTileModel t)
+            {
+                Grade = t.Grade;
+            }
+        }
     }
 }

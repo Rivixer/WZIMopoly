@@ -147,5 +147,23 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             return 4 - _prisoners[player];
         }
+
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the prisoners to the same as the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            if (model is MandatoryLectureTileModel t)
+            {
+                base.Update(model);
+                _prisoners.Clear();
+                foreach(var prisoner in t._prisoners)
+                {
+                    _prisoners.Add(prisoner.Key, prisoner.Value);
+                }
+            }
+            
+        }
     }
 }

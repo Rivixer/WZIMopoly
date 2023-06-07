@@ -108,7 +108,7 @@ namespace WZIMopoly.Models.GameScene
         /// <summary>
         /// Gets all the tiles.
         /// </summary>
-        protected IEnumerable<TileModel> AllTiles { get; private set; }
+        public List<TileModel> AllTiles { get; private set; }
 
         /// <summary>
         /// Activates <see cref="OnStand"/> event.
@@ -127,9 +127,24 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="tiles">
         /// The list of all tiles.
         /// </param>
-        public void SetAllTiles(IEnumerable<TileModel> tiles)
+        public void SetAllTiles(List<TileModel> tiles)
         {
             AllTiles = tiles;
+        }
+
+        /// <summary>
+        /// Updates the model based on the data from the other model.
+        /// </summary>
+        /// <param name="model">
+        /// The model to update from.
+        /// </param>
+        /// <remarks>
+        /// Sets the players list to the one from the other model.
+        /// </remarks>
+        public virtual void Update(TileModel model)
+        {
+            Players.Clear();
+            Players.AddRange(model.Players);
         }
     }
 }
