@@ -10,9 +10,15 @@ namespace TestWZIMopoly.Test_Models
         public PurchaseTile(int id, int price) : base(id, price) { }
     }
 
+    /// <summary>
+    /// Test class for Tile Models.
+    /// </summary>
     [TestClass]
     public class Test_TileModels
     {
+        /// <summary>
+        /// Test for the OnStand method in ConditionalPassTileModel.
+        /// </summary>
         [TestMethod]
         public void Test_OnStand_ConditionalPass()
         {
@@ -28,6 +34,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, player.Money);
         }
 
+        /// <summary>
+        /// Test for the OnStand method in MandatoryLectureTileModel.
+        /// </summary>
         [TestMethod]
         public void Test_OnStand_MandatoryLecture()
         {
@@ -44,6 +53,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Test for the CanPurchase method in PurchasableTileModel when the player can purchase the tile.
+        /// </summary>
         [TestMethod]
         public void Test_CanPurchase_True_PurchasableTile()
         {
@@ -52,13 +64,16 @@ namespace TestWZIMopoly.Test_Models
             PurchaseTile purchasableTile = new PurchaseTile(1, 20);
             var expectedResult = true;
 
-            //Act
+            // Act
             var result = purchasableTile.CanPurchase(player);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Test for the CanPurchase method in PurchasableTileModel when the player has low money to purchase the tile.
+        /// </summary>
         [TestMethod]
         public void Test_CanPurchase_FalseLowMoney_PurchasableTile()
         {
@@ -75,6 +90,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Test for the CanPurchase method in PurchasableTileModel when the tile is already owned by another player.
+        /// </summary>
         [TestMethod]
         public void Test_CanPurchase_FalseOwned_PurchasableTile()
         {
@@ -92,6 +110,10 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Test for the Purchase method in PurchasableTileModel to check if the purchase is successful and the player becomes the owner of the tile.
+        /// </summary>
+
         [TestMethod]
         public void Test_Purchase_Owner_PurchasableTile()
         {
@@ -107,6 +129,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, purchasableTile.Owner);
         }
 
+        /// <summary>
+        /// Test case to verify that the price is correctly subtracted from the player's money when purchasing a purchasable tile.
+        /// </summary>
         [TestMethod]
         public void Test_Purchase_SubstractPrice_PurchasableTile()
         {
@@ -122,6 +147,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, player.Money);
         }
 
+        /// <summary>
+        /// Test case to verify that a purchased tile is added to the player's list of purchased tiles.
+        /// </summary>
         [TestMethod]
         public void Test_Purchase_PurchasedTiles_PurchasableTile()
         {
@@ -129,10 +157,9 @@ namespace TestWZIMopoly.Test_Models
             PlayerModel player = new PlayerModel("player", "blue");
             PurchaseTile purchasableTile = new PurchaseTile(1, 20);
             var expectedResult = new List<PurchasableTileModel>
-            {
-                purchasableTile
-
-            };
+        {
+        purchasableTile
+        };
 
             // Act
             purchasableTile.Purchase(player);
@@ -141,6 +168,9 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(expectedResult, player.PurchasedTiles);
         }
 
+        /// <summary>
+        /// Test case to verify that the player's money is correctly subtracted when landing on a RestroomTile.
+        /// </summary>
         [TestMethod]
         public void Test_OnStand_SubstractMoney_Restroom()
         {
@@ -148,10 +178,10 @@ namespace TestWZIMopoly.Test_Models
             PlayerModel player = new PlayerModel("player", "blue");
             PlayerModel player2 = new PlayerModel("player2", "red");
             Dictionary<RestroomAmount, int> taxPrices = new Dictionary<RestroomAmount, int>()
-            {
-                { RestroomAmount.One, 20 },
-                { RestroomAmount.Two, 40 }
-            };
+    {
+        { RestroomAmount.One, 20 },
+        { RestroomAmount.Two, 40 }
+    };
             RestroomTileModel restroom = new RestroomTileModel(1, 20, taxPrices);
             var expectedResult = player2.Money - 20;
 
@@ -163,6 +193,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, player2.Money);
         }
 
+        /// <summary>
+        /// Test case to verify that the money is correctly transferred to the player when landing on a RestroomTile.
+        /// </summary>
         [TestMethod]
         public void Test_OnStand_TransferMoney_Restroom()
         {
@@ -170,10 +203,10 @@ namespace TestWZIMopoly.Test_Models
             PlayerModel player = new PlayerModel("player", "blue");
             PlayerModel player2 = new PlayerModel("player2", "red");
             Dictionary<RestroomAmount, int> taxPrices = new Dictionary<RestroomAmount, int>()
-            {
-                { RestroomAmount.One, 20 },
-                { RestroomAmount.Two, 40 }
-            };
+    {
+        { RestroomAmount.One, 20 },
+        { RestroomAmount.Two, 40 }
+    };
             RestroomTileModel restroom = new RestroomTileModel(1, 20, taxPrices);
             var expectedResult = player.Money + 20;
 
@@ -186,6 +219,10 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, player.Money);
         }
 
+        ///<summary>
+        ///Test case for the 'Test_OnStand_Start' method.
+        ///It verifies that when a player stands on a start tile, their money is increased by 20.
+        ///</summary>
         [TestMethod]
         public void Test_OnStand_Start()
         {
@@ -200,7 +237,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player.Money);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_OnStand_TransferMoney_SubjectTile' method.
+        ///It verifies that when a player stands on a subject tile owned by another player, their money is increased by 20.
+        ///</summary>
         [TestMethod]
         public void Test_OnStand_TransferMoney_SubjectTile()
         {
@@ -223,7 +263,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player.Money);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_OnStand_SubstractMoney_SubjectTile' method.
+        ///It verifies that when a player stands on a subject tile owned by another player, the owner's money is decreased by 20.
+        ///</summary>
         [TestMethod]
         public void Test_OnStand_SubstractMoney_SubjectTile()
         {
@@ -245,7 +288,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player2.Money);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_Upgrade_HigherGrade_SubjectTile' method.
+        ///It verifies that when a player upgrades a subject tile, the tile's grade is increased to the next grade.
+        ///</summary>
         [TestMethod]
         public void Test_Upgrade_HigherGrade_SubjectTile()
         {
@@ -266,7 +312,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, subject.Grade);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_Upgrade_SubstractMoney_SubjectTile' method.
+        ///It verifies that when a player upgrades a subject tile, their money is decreased by 20.
+        ///</summary>
         [TestMethod]
         public void Test_Upgrade_SubstractMoney_SubjectTile()
         {
@@ -288,7 +337,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player.Money);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanMortgage_True_SubjectTile' method.
+        ///It verifies that a subject tile can be mortgaged when it is owned by a player.
+        ///</summary>
         [TestMethod]
         public void Test_CanMortgage_True_SubjectTile()
         {
@@ -309,7 +361,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanMortgage_FalseOwned_SubjectTile' method.
+        ///It verifies that a subject tile cannot be mortgaged when it is not owned by any player.
+        ///</summary>
         [TestMethod]
         public void Test_CanMortgage_FalseOwned_SubjectTile()
         {
@@ -329,7 +384,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanMortgage_FalseIsMortgaged_SubjectTile' method.
+        ///It verifies that a subject tile cannot be mortgaged when it is already mortgaged.
+        ///</summary>
         [TestMethod]
         public void Test_CanMortgage_FalseIsMortgaged_SubjectTile()
         {
@@ -352,7 +410,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanMortgage_FalseGrade_SubjectTile' method.
+        ///It verifies that a subject tile cannot be mortgaged when its grade is higher than the minimum grade for mortgage.
+        ///</summary>
         [TestMethod]
         public void Test_CanMortgage_FalseGrade_SubjectTile()
         {
@@ -375,7 +436,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanUnmortgage_True_SubjectTile' method.
+        ///It verifies that a mortgaged subject tile can be unmortgaged when it is owned by a player and they have enough money to pay the unmortgage cost.
+        ///</summary>
         [TestMethod]
         public void Test_CanUnmortgage_True_SubjectTile()
         {
@@ -398,7 +462,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanUnmortgage_FalseOwned_SubjectTile' method.
+        ///It verifies that a mortgaged subject tile cannot be unmortgaged when it is not owned by the player trying to unmortgage it.
+        ///</summary>
         [TestMethod]
         public void Test_CanUnmortgage_FalseOwned_SubjectTile()
         {
@@ -422,7 +489,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanUnmortgage_FalseIsMortgaged_SubjectTile' method.
+        ///It verifies that a subject tile cannot be unmortgaged when it is not mortgaged.
+        ///</summary>
         [TestMethod]
         public void Test_CanUnmortgage_FalseIsMortgaged_SubjectTile()
         {
@@ -444,7 +514,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanUnmortgage_FalseLowMoney_SubjectTile' method.
+        ///It verifies that a mortgaged subject tile cannot be unmortgaged when the player does not have enough money to pay the unmortgage cost.
+        ///</summary>
         [TestMethod]
         public void Test_CanUnmortgage_FalseLowMoney_SubjectTile()
         {
@@ -468,7 +541,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanSellGrade_True_SubjectTile' method.
+        ///It verifies that a subject tile's grade can be sold when it is owned by a player and its grade is higher than the minimum grade for selling.
+        ///</summary>
         [TestMethod]
         public void Test_CanSellGrade_True_SubjectTile()
         {
@@ -491,7 +567,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        ///<summary>
+        ///Test case for the 'Test_CanSellGrade_FalseOwned_SubjectTile' method.
+        ///It verifies that a subject tile's grade cannot be sold when it is not owned by the player trying to sell the grade.
+        ///</summary>
         [TestMethod]
         public void Test_CanSellGrade_FalseOwned_SubjectTile()
         {
@@ -516,6 +595,10 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(expectedResult, result);
         }
 
+        ///<summary>
+        ///Test case for the 'Test_CanSellGrade_FalseGrade_SubjectTile' method.
+        ///It verifies that a subject tile's grade cannot be sold when its grade is equal to the minimum grade for selling.
+        ///</summary>
         [TestMethod]
         public void Test_CanSellGrade_FalseGrade_SubjectTile()
         {
@@ -537,7 +620,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_Mortgage_MortgagedTiles_SubjectTile' method.
+        /// It verifies that when a player mortgages a subject tile, the tile is added to the player's mortgaged tiles.
+        /// </summary>
         [TestMethod]
         public void Test_Mortgage_MortgagedTiles_SubjectTile()
         {
@@ -562,7 +648,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             CollectionAssert.AreEqual(expectedResult, player.MortgagedTiles);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_Mortgage_AddMoney_SubjectTile' method.
+        /// It verifies that when a player mortgages a subject tile, their money decreases by the mortgage value.
+        /// </summary>
         [TestMethod]
         public void Test_Mortgage_AddMoney_SubjectTile()
         {
@@ -585,7 +674,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player.Money);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_Mortgage_IsMortgaged_SubjectTile' method.
+        /// It verifies that when a subject tile is mortgaged, its 'IsMortgaged' property is set to 'true'.
+        /// </summary>
         [TestMethod]
         public void Test_Mortgage_IsMortgaged_SubjectTile()
         {
@@ -607,7 +699,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, subject.IsMortgaged);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_Unmortgage_SubstractMoney_SubjectTile' method.
+        /// It verifies that when a player unmortgages a subject tile, their money decreases by the unmortgage value.
+        /// </summary>
         [TestMethod]
         public void Test_Unmortgage_SubstractMoney_SubjectTile()
         {
@@ -631,7 +726,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player.Money);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_Unmortgage_MortgagedTiles_SubjectTile' method.
+        /// It verifies that when a player unmortgages a subject tile, the tile is removed from the player's mortgaged tiles.
+        /// </summary>
         [TestMethod]
         public void Test_Unmortgage_MortgagedTiles_SubjectTile()
         {
@@ -654,7 +752,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             CollectionAssert.AreEqual(expectedResult, player.MortgagedTiles);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_Unmortgage_IsMortgaged_SubjectTile' method.
+        /// It verifies that when a subject tile is unmortgaged, its 'IsMortgaged' property is set to 'false'.
+        /// </summary>
         [TestMethod]
         public void Test_Unmortgage_IsMortgaged_SubjectTile()
         {
@@ -677,7 +778,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, subject.IsMortgaged);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_SellGrade_LowerGrade_SubjectTile' method.
+        /// It verifies that when a player sells a subject tile's grade, the tile's grade is decreased by 1.
+        /// </summary>
         [TestMethod]
         public void Test_SellGrade_LowerGrade_SubjectTile()
         {
@@ -700,7 +804,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, subject.Grade);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_SellGrade_AddMoney_SubjectTile' method.
+        /// It verifies that when a player sells a subject tile's grade, their money increases by the sell grade value.
+        /// </summary>
         [TestMethod]
         public void Test_SellGrade_AddMoney_SubjectTile()
         {
@@ -724,7 +831,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, player.Money);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_CanUpgrade_True_SubjectTile' method.
+        /// It verifies that a subject tile can be upgraded when it is owned by a player, has all tiles of the same set owned, has enough money to upgrade, and is not mortgaged.
+        /// </summary>
         [TestMethod]
         public void Test_CanUpgrade_True_SubjectTile()
         {
@@ -757,7 +867,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_CanUpgrade_FalseLowMoney_SubjectTile' method.
+        /// It verifies that a subject tile cannot be upgraded when the player does not have enough money to upgrade.
+        /// </summary>
         [TestMethod]
         public void Test_CanUpgrade_FalseLowMoney_SubjectTile()
         {
@@ -791,7 +904,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        // <summary>
+        /// Test case for the 'Test_CanUpgrade_FalseGradeExemption_SubjectTile' method.
+        /// It verifies that a subject tile cannot be upgraded when its grade is 'Exemption'.
+        /// </summary>
         [TestMethod]
         public void Test_CanUpgrade_FalseGradeExemption_SubjectTile()
         {
@@ -825,7 +941,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_CanUpgrade_FalseIsMortgaged_SubjectTile' method.
+        /// It verifies that a subject tile cannot be upgraded when it is mortgaged.
+        /// </summary>
         [TestMethod]
         public void Test_CanUpgrade_FalseIsMortgaged_SubjectTile()
         {
@@ -859,7 +978,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_CanUpgrade_FalseMortgagdInSet_SubjectTile' method.
+        /// It verifies that a subject tile cannot be upgraded when any other tile in its set is mortgaged.
+        /// </summary>
         [TestMethod]
         public void Test_CanUpgrade_FalseMortgagdInSet_SubjectTile()
         {
@@ -893,7 +1015,10 @@ namespace TestWZIMopoly.Test_Models
             // Assert
             Assert.AreEqual(expectedResult, result);
         }
-
+        /// <summary>
+        /// Test case for the 'Test_CanUpgrade_FalseColorSet_SubjectTile' method.
+        /// It verifies that a subject tile cannot be upgraded when all tiles in its set are not owned by the same player.
+        /// </summary>
         [TestMethod]
         public void Test_CanUpgrade_FalseColorSet_SubjectTile()
         {

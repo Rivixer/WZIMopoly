@@ -360,15 +360,18 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllControllers method and expects to return the specified controllers.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllControllers_ReturnControllers()
         {
             // Arrange
             var ExpectedResult = new List<IControllerable>
-            {
-                _controller1_1,
-                _controller1_2
-            };
+        {
+        _controller1_1,
+        _controller1_2
+        };
 
             // Act
             var Result = _model0.GetAllControllers<IControllerable>();
@@ -377,14 +380,17 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllControllers method with a predicate and expects to return the specified controllers.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllControllers_PredicateViewIsGUITexture_ReturnControllers()
         {
             // Arrange
             var ExpectedResult = new List<IControllerable>
-            {
-                _controller1_2
-            };
+        {
+        _controller1_2
+        };
 
             // Act
             var Result = _model0.GetAllControllers<IControllerable>(x => x.View is GUITexture);
@@ -393,16 +399,19 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllControllersRecursively method and expects to return the specified controllers.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllControllersRecursively_ReturnControllers()
         {
             // Arrange
-            var ExpectedResult = new List<IControllerable> 
-            {
-                _controller1_1,
-                _controller1_2,
-                _controller2 
-            };
+            var ExpectedResult = new List<IControllerable>
+        {
+        _controller1_1,
+        _controller1_2,
+        _controller2
+        };
 
             // Act
             var Result = _model0.GetAllControllersRecursively<IControllerable>();
@@ -411,14 +420,17 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllControllersRecursively method with a predicate and expects to return the specified controllers.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllControllersRecursively_PredicateViewIsGUITexture_ReturnControllers()
         {
             // Arrange
             var ExpectedResult = new List<IControllerable>
-            {
-                _controller1_2
-            };
+        {
+        _controller1_2
+        };
 
             // Act
             var Result = _model0.GetAllControllersRecursively<IControllerable>(x => x.View is GUITexture);
@@ -427,6 +439,9 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetModel method and expects to return the specified model.
+        /// </summary>
         [TestMethod]
         public void Test_GetModel_ReturnModel()
         {
@@ -440,6 +455,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetModel method and expects to return null.
+        /// </summary>
         [TestMethod]
         public void Test_GetModel_ReturnNULL()
         {
@@ -450,6 +468,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.IsNull(Result);
         }
 
+        /// <summary>
+        /// Tests the GetModelRecursively method and expects to return the specified model.
+        /// </summary>
         [TestMethod]
         public void Test_GetModelRecursively_ReturnModel()
         {
@@ -463,6 +484,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetModelRecursively method and expects to return null.
+        /// </summary>
         [TestMethod]
         public void Test_GetModelRecursively_ReturnNULL()
         {
@@ -474,15 +498,18 @@ namespace TestWZIMopoly.Test_Models
             Assert.IsNull(Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllModels method and expects to return the specified models.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllModels_ReturnModels()
         {
             // Arrange
             var ExpectedResult = new List<IModelable>
-            {
-                _model1_1,
-                _model1_2
-            };
+        {
+        _model1_1,
+        _model1_2
+        };
 
             // Act
             var Result = _model0.GetAllModels<IModelable>();
@@ -491,16 +518,19 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllModelsRecursively method and expects to return the specified models.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllModelsRecursively_ReturnModels()
         {
             // Arrange
             var ExpectedResult = new List<IModelable>
-            {
-                _model1_1,
-                _model1_2,
-                _model2
-            };
+        {
+        _model1_1,
+        _model1_2,
+        _model2
+        };
 
             // Act
             var Result = _model0.GetAllModelsRecursively<IModelable>();
@@ -509,6 +539,9 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetView method and expects to return the specified view.
+        /// </summary>
         [TestMethod]
         public void Test_GetView_ReturnView()
         {
@@ -522,6 +555,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetView method and expects to return null.
+        /// </summary>
         [TestMethod]
         public void Test_GetView_ReturnNULL()
         {
@@ -532,6 +568,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.IsNull(Result);
         }
 
+        /// <summary>
+        /// Tests the GetViewRecursively method and expects to return the specified view.
+        /// </summary>
         [TestMethod]
         public void Test_GetViewRecursively_ReturnView()
         {
@@ -545,6 +584,9 @@ namespace TestWZIMopoly.Test_Models
             Assert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetViewRecursively method and expects to return null.
+        /// </summary>
         [TestMethod]
         public void Test_GetViewRecursively_ReturnNULL()
         {
@@ -555,15 +597,18 @@ namespace TestWZIMopoly.Test_Models
             Assert.IsNull(Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllViews method and expects to return the specified views.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllViews_ReturnViews()
         {
             // Arrange
             var ExpectedResult = new List<IGUIable>
-            {
-                _view1_1,
-                _view1_2
-            };
+        {
+        _view1_1,
+        _view1_2
+        };
 
             // Act
             var Result = _model0.GetAllViews<IGUIable>();
@@ -572,16 +617,19 @@ namespace TestWZIMopoly.Test_Models
             CollectionAssert.AreEqual(ExpectedResult, Result);
         }
 
+        /// <summary>
+        /// Tests the GetAllViewsRecursively method and expects to return the specified views.
+        /// </summary>
         [TestMethod]
         public void Test_GetAllViewsRecursively()
         {
             // Arrange
             var ExpectedResult = new List<IGUIable>
-            {
-                _view1_1,
-                _view1_2,
-                _view2
-            };
+         {
+        _view1_1,
+        _view1_2,
+        _view2
+         };
 
             // Act
             var Result = _model0.GetAllViewsRecursively<IGUIable>();
