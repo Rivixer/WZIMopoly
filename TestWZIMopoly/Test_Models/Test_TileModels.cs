@@ -1,6 +1,4 @@
-﻿
-using WZIMopoly.GUI;
-using WZIMopoly.Models;
+﻿using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene;
