@@ -53,6 +53,11 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (WZIMopoly.GameType == GameType.Online
+                && (!_currentPlayer?.Equals(GameSettings.Client) ?? false))
+            {
+                return;
+            }
             if (_currentTile is MandatoryLectureTileModel t)
             {
                 if (t.IsPrisoner(_currentPlayer))

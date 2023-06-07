@@ -115,7 +115,7 @@ namespace WZIMopoly.Models.GameScene
             }
 
             tiles.ForEach(AddChild);
-            tiles.ForEach(x => x.Model.SetAllTiles(tiles.Select(x => x.Model)));
+            tiles.ForEach(x => x.Model.SetAllTiles(tiles.Select(x => x.Model).ToList()));
 
             var deaneryTile = tiles.First(x => x.Model is DeaneryTileModel);
             var mandatoryLectureTile = tiles.First(x => x.Model is MandatoryLectureTileModel);

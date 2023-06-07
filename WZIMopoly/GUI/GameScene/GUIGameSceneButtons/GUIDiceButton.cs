@@ -51,14 +51,23 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            GUITexture texture = _currentPlayer?.PlayerStatus switch
+            GUITexture texture;
+            if (WZIMopoly.GameType == GameType.Online
+                && (!_currentPlayer?.Equals(GameSettings.Client) ?? false))
             {
-                PlayerStatus.BeforeRollingDice => IsHovered ? TextureHovered : Texture,
-                PlayerStatus.DuringRollingDice => TextureDisabled,
-                PlayerStatus.UpgradingTiles => TextureDisabled,
-                PlayerStatus.MortgagingTiles => TextureDisabled,
-                _ => null,
-            };
+                texture = TextureDisabled;
+            }
+            else
+            {
+                texture = _currentPlayer?.PlayerStatus switch
+                {
+                    PlayerStatus.BeforeRollingDice => IsHovered ? TextureHovered : Texture,
+                    PlayerStatus.DuringRollingDice => TextureDisabled,
+                    PlayerStatus.UpgradingTiles => TextureDisabled,
+                    PlayerStatus.MortgagingTiles => TextureDisabled,
+                    _ => null,
+                };
+            }
             texture?.Draw(spriteBatch);
         }
 
