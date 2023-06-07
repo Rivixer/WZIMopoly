@@ -10,15 +10,26 @@ namespace TestWZIMopoly.Test_GUI
     /// </summary>
     internal class MockGUITexture : GUITexture
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MockGUITexture"/> class.
+        /// </summary>
+        /// <param name="defDstRect">The default destination rectangle.</param>
+        /// <param name="startPoint">The GUI start point (default is TopLeft).</param>
         internal MockGUITexture(Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
             : base("", defDstRect, startPoint) { }
     }
 
+    /// <summary>
+    /// Represents a test class for GUITexture.
+    /// </summary>
     [TestClass]
     public class Test_GUITexture
     {
         private Rectangle _rectangle;
 
+        /// <summary>
+        /// Sets up the test environment.
+        /// </summary>
         [TestInitialize]
         public void Setup()
         {
@@ -27,15 +38,18 @@ namespace TestWZIMopoly.Test_GUI
             ScreenController.ChangeResolution(1920, 1080, true);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture.Recalculate"/> method.
+        /// </summary>
         [TestMethod]
-        public void Test_GUITexture_Recalculate() 
+        public void Test_GUITexture_Recalculate()
         {
             // Arrange
             var mockGUITexture = new MockGUITexture(_rectangle);
             var expected = new Rectangle(66, 133, 200, 266);
 
             // Act
-            ScreenController.ChangeResolution(1280, 720, true); 
+            ScreenController.ChangeResolution(1280, 720, true);
             mockGUITexture.Recalculate();
             Rectangle actual = mockGUITexture.DestinationRect;
 
@@ -43,6 +57,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point TopLeft.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_TopLeft()
         {
@@ -55,9 +72,12 @@ namespace TestWZIMopoly.Test_GUI
             Rectangle actual = mockGUITexture.UnscaledDestinationRect;
 
             // Assert
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point Left.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_Left()
         {
@@ -73,6 +93,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point Top.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_Top()
         {
@@ -88,6 +111,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point Center.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_Center()
         {
@@ -103,6 +129,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point Bottom.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_Bottom()
         {
@@ -118,6 +147,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point TopRight.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_TopRight()
         {
@@ -133,6 +165,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point Right.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_Right()
         {
@@ -148,6 +183,9 @@ namespace TestWZIMopoly.Test_GUI
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        /// Tests the <see cref="GUITexture"/> shift start point BottomRight.
+        /// </summary>
         [TestMethod]
         public void Test_GUITexture_ShiftStartPoint_BottomRight()
         {
