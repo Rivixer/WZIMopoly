@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 
@@ -21,6 +21,11 @@ namespace WZIMopoly
         };
 
         /// <summary>
+        /// The current player index.
+        /// </summary>
+        private static int _currentPlayerIndex = 0;
+
+        /// <summary>
         /// Gets the players.
         /// </summary>
         /// <value>
@@ -31,6 +36,22 @@ namespace WZIMopoly
         /// independently of their <see cref="PlayerType"/>.
         /// </remarks>
         public static List<PlayerModel> Players { get; } = new();
+
+        /// <summary>
+        /// Gets the current player.
+        /// </summary>
+        public static PlayerModel CurrentPlayer => Players[_currentPlayerIndex];
+
+        /// <summary>
+        /// Changes the current player to the next one.
+        /// </summary>
+        public static void NextPlayer()
+        {
+            if (++_currentPlayerIndex >= ActivePlayers.Count)
+            {
+                _currentPlayerIndex = 0;
+            }
+        }
 
         /// <summary>
         /// Gets the active players.

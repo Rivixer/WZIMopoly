@@ -119,13 +119,13 @@ namespace WZIMopoly.Scenes
             base.Update();
             _timerController.UpdateTime(Model.ActualTime);
 
-            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(Model.CurrentPlayer));
+            var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
 
             var gameUpdateModels = Model.GetAllModelsRecursively<IGameUpdateModel>();
             gameUpdateModels.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
-            gameUpdateViews.ForEach(x => x.Update(Model.CurrentPlayer, currentPlayerTile));
+            gameUpdateViews.ForEach(x => x.Update(GameSettings.CurrentPlayer, currentPlayerTile));
 
 #if DEBUG
             // Click a key on the keyboard to move the current player a certain number of steps.
@@ -148,13 +148,13 @@ namespace WZIMopoly.Scenes
                 if (stepToMove > 0)
                 {
                     var jailModel = Model.GetModelRecursively<MandatoryLectureTileModel>();
-                    if (jailModel.IsPrisoner(Model.CurrentPlayer))
+                    if (jailModel.IsPrisoner(GameSettings.CurrentPlayer))
                     {
-                        jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                        jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                     }
-                    var passedTiles = _mapController.Model.MovePlayer(Model.CurrentPlayer, (uint)stepToMove);
-                    MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
-                    _mapController.Model.ActivateOnStandTile(Model.CurrentPlayer);
+                    var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, (uint)stepToMove);
+                    MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
+                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer);
                     _mapController.View.UpdatePawnPositions();
                 }
             }
@@ -199,14 +199,14 @@ namespace WZIMopoly.Scenes
             var mortgageButton = Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
             mortgageButton.OnButtonClicked += () =>
             {
-                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.MortgagingTiles)
+                if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.MortgagingTiles)
                 {
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 }
-                else if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
+                else if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
                 {
                     _mortgageController.View.UpdateMask();
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.MortgagingTiles;
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.MortgagingTiles;
                 }
             };
 
@@ -214,14 +214,14 @@ namespace WZIMopoly.Scenes
             var upgradeButton = Model.InitializeChild<UpgradeButtonModel, GUIUpgradeButton, UpgradeButtonController>();
             upgradeButton.OnButtonClicked += () =>
             {
-                if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingTiles)
+                if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingTiles)
                 {
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 }
-                else if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
+                else if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
                 {
                     _upgradeController.View.UpdateMask();
-                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.UpgradingTiles;
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.UpgradingTiles;
                 }
             };
 
@@ -232,51 +232,51 @@ namespace WZIMopoly.Scenes
             endTurnButton.Model.Conditions = () => !diceButton.Model.WasClickedInThisFrame;
             diceButton.OnButtonClicked += async () =>
             {
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.DuringRollingDice;
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.DuringRollingDice;
                 diceModel.RollDice();
 
                 await Task.Delay(350);
 
                 var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
-                if (jailModel.IsPrisoner(Model.CurrentPlayer) && diceModel.LastRollWasDouble)
+                if (jailModel.IsPrisoner(GameSettings.CurrentPlayer) && diceModel.LastRollWasDouble)
                 {
-                    jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                    jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                 }
-                if (!jailModel.IsPrisoner(Model.CurrentPlayer))
+                if (!jailModel.IsPrisoner(GameSettings.CurrentPlayer))
                 {
                     if (diceModel.DoubleCounter == 3)
                     {
-                        mapModel.TeleportPlayer(Model.CurrentPlayer, jailModel);
+                        mapModel.TeleportPlayer(GameSettings.CurrentPlayer, jailModel);
                     }
                     else
                     {
-                        List<TileController> passedTiles = mapModel.MovePlayer(Model.CurrentPlayer, diceModel.Sum);
-                        MapModel.ActivateCrossableTiles(Model.CurrentPlayer, passedTiles);
+                        List<TileController> passedTiles = mapModel.MovePlayer(GameSettings.CurrentPlayer, diceModel.Sum);
+                        MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
                     }
-                    mapModel.ActivateOnStandTile(Model.CurrentPlayer);
+                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer);
                 }
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 mapView.UpdatePawnPositions();
             };
             endTurnButton.OnButtonClicked += () =>
             {
                 var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
-                if (jailModel.IsPrisoner(Model.CurrentPlayer))
+                if (jailModel.IsPrisoner(GameSettings.CurrentPlayer))
                 {
-                    jailModel.AddPrisonerTurn(Model.CurrentPlayer);
-                    if (jailModel.CanPrisonerRelease(Model.CurrentPlayer))
+                    jailModel.AddPrisonerTurn(GameSettings.CurrentPlayer);
+                    if (jailModel.CanPrisonerRelease(GameSettings.CurrentPlayer))
                     {
-                        jailModel.ReleasePrisoner(Model.CurrentPlayer);
+                        jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                     }
                 }
 
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(Model.CurrentPlayer))
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(GameSettings.CurrentPlayer))
                 {
-                    Model.NextPlayer();
+                    GameSettings.NextPlayer();
                     diceModel.ResetDoubleCounter();
                 }
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
                 diceModel.Reset();
             };
 
@@ -284,8 +284,8 @@ namespace WZIMopoly.Scenes
             var buyButton = Model.InitializeChild<BuyButtonModel, GUIBuyButton, BuyButtonController>();
             buyButton.OnButtonClicked += () =>
             {
-                var currentPlayerTileModel = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(Model.CurrentPlayer));
-                currentPlayerTileModel.Purchase(Model.CurrentPlayer);
+                var currentPlayerTileModel = Model.GetModelRecursively<PurchasableTileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
+                currentPlayerTileModel.Purchase(GameSettings.CurrentPlayer);
             };
 
             // Trade button
@@ -296,16 +296,16 @@ namespace WZIMopoly.Scenes
             leaveJailButton.OnButtonClicked += () =>
             {
                 var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
-                jailModel.ReleasePrisoner(Model.CurrentPlayer);
-                Model.CurrentPlayer.Money -= 50;
+                jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
+                GameSettings.CurrentPlayer.Money -= 50;
             };
 
             // Use elevator button
             var tepToElevButton = Model.InitializeChild<UseElevatorButtonModel, GUIUseElevatorButton, UseElevatorButtonController>();
             tepToElevButton.OnButtonClicked += () =>
             {
-                var elevTile = mapModel.GetModel<ElevatorTileModel>((x) => !x.Players.Contains(Model.CurrentPlayer));
-                mapModel.TeleportPlayer(Model.CurrentPlayer, elevTile);
+                var elevTile = mapModel.GetModel<ElevatorTileModel>((x) => !x.Players.Contains(GameSettings.CurrentPlayer));
+                mapModel.TeleportPlayer(GameSettings.CurrentPlayer, elevTile);
                 _mapController.View.UpdatePawnPositions();
             };
         }

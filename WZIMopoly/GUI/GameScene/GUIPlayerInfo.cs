@@ -133,7 +133,7 @@ namespace WZIMopoly.GUI.GameScene
         {
             if (_playerInfoModel.Player.PlayerType != PlayerType.None)
             {
-                if (_currentPlayer == _playerInfoModel.Player)
+                if (GameSettings.CurrentPlayer == _playerInfoModel.Player)
                 {
                     _guiFlagHovered.Draw(spriteBatch);
                 }
