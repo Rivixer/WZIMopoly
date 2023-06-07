@@ -183,7 +183,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanMortgage(PlayerModel player)
         {
-            return player == Owner && !IsMortgaged && Grade == SubjectGrade.Three;
+            return player.Equals(Owner) && !IsMortgaged && Grade == SubjectGrade.Three;
         }
 
         /// <summary>
@@ -201,7 +201,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanUnmortgage(PlayerModel player)
         {
-            return player == Owner && IsMortgaged && player.Money >= MortgagePrice;
+            return player.Equals(Owner) && IsMortgaged && player.Money >= MortgagePrice;
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanSellGrade(PlayerModel player)
         {
-            return player == Owner && Grade > SubjectGrade.Three;
+            return player.Equals(Owner) && Grade > SubjectGrade.Three;
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             Owner.MortgagedTiles.Add(this);
             Owner.Money += MortgagePrice;
-            IsMortgaged = true;
+            _isMortgaged = true;
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             Owner.Money -= MortgagePrice;
             Owner.MortgagedTiles.Remove(this);
-            IsMortgaged = false;
+            _isMortgaged = false;
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         private bool NoMortgagedTilesInColorSet()
         {
-            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
+            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>().ToList();
             return !subjectTiles.Any(x => x.IsMortgaged);
         }
         
