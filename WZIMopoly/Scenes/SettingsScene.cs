@@ -85,6 +85,19 @@ namespace WZIMopoly.Scenes
             };
             Model.AddChild(controllerFullscreen);
 
+            var modelVolumeSlider = new VolumeSliderModel("Mortgage", 200, 200);
+            var viewVolumeSlider = new GUIVolumeSlider(modelVolumeSlider, new Rectangle(1000, 170, 100, 100), GUIStartPoint.TopLeft);
+            var controllerVolumeSlider = new VolumeSliderController(modelVolumeSlider, viewVolumeSlider);
+            controllerVolumeSlider.OnButtonClicked += () =>
+            {
+                //Rectangle rectangle = viewVolumeSlider.rectangleSlider1.ToCurrentResolution();
+                if (MouseController.IsHover(new Rectangle(1000, 100, 300, 300).ToCurrentResolution()))//rectangle))
+                {
+                    viewVolumeSlider.SetNewArea(MouseController.Position.X);
+                }
+            };
+            Model.AddChild(controllerVolumeSlider);
+
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
         }
 
@@ -110,8 +123,17 @@ namespace WZIMopoly.Scenes
                 else if (MouseController.IsHover(new Rectangle(1086, 832, 75, 75).ToCurrentResolution()))
                 {
                     WZIMopoly.Language = Language.English;
-                }   
+                }
+                //else if (MouseController.IsHover(new Rectangle(100, 100, 300, 300).ToCurrentResolution()))
+                //{
+                    //Model.GetAllControllers<VolumeSliderController>()?[0];
+                    //Model.GetAllViews<GUIVolumeSlider>()?[0].SetNewArea(500);
+                //}
             }
+            //if (MouseController.IsLeftBtnPressed() && MouseController.IsHover(new Rectangle(100, 100, 300, 300).ToCurrentResolution()))
+            //{
+                //Model.GetAllViews<GUIVolumeSlider>()?[0].SetNewArea(500);
+            //}
         }
     }
 }
