@@ -1,6 +1,7 @@
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI.GameScene;
+using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Utils.PositionExtensions;
@@ -24,6 +25,20 @@ namespace WZIMopoly.Controllers.GameScene
         public UpgradeController(UpgradeModel model, GUIUpgrade view)
             : base(model, view) { }
 
+        /// <summary>
+        /// The delegate for the OnTileClicked event.
+        /// </summary>
+        public delegate void OnTileClickedHander();
+
+        /// <summary>
+        /// The event that is invoked when a tile is clicked.
+        /// </summary>
+        /// <remarks>
+        /// The tile is clicked when the player
+        /// wants and can upgrade the tile.
+        /// </remarks>
+        public event OnTileClickedHander OnTileClicked;
+
         /// <inheritdoc/>
         /// <remarks>
         /// Checks if the player wants to upgrade the tile
@@ -33,19 +48,23 @@ namespace WZIMopoly.Controllers.GameScene
         public override void Update()
         {
             base.Update();
-            if (Model.CurrentPlayer.PlayerStatus == PlayerStatus.UpgradingTiles
-                && MouseController.WasLeftBtnClicked())
+            PlayerModel player = Model.CurrentPlayer;
+            if (player.PlayerStatus != PlayerStatus.UpgradingTiles
+                || !MouseController.WasLeftBtnClicked()
+                || WZIMopoly.GameType == GameType.Online && !player.Equals(GameSettings.Client))
             {
-                foreach (TileController tile in Model.TileControllers)
+                return;
+            }
+            foreach (TileController tile in Model.TileControllers)
+            {
+                if (tile.Model is SubjectTileModel t
+                    && t.CanUpgrade(Model.CurrentPlayer)
+                    && MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
                 {
-                    if (tile.Model is SubjectTileModel t
-                        && t.CanUpgrade(Model.CurrentPlayer)
-                        && MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
-                    {
-                        t.Upgrade();
-                        Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
-                        break;
-                    }
+                    t.Upgrade();
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    OnTileClicked?.Invoke();
+                    break;
                 }
             }
         }

@@ -64,5 +64,24 @@ namespace WZIMopoly.Models.GameScene
                 }
             }
         }
+
+        /// <summary>
+        /// Retrieves the player's mortgaged tile ids.
+        /// </summary>
+        /// <param name="player">
+        /// The player that is currently mortgaging the fields.
+        /// </param>
+        /// <returns>
+        /// An <see cref="IEnumerable{int}"/> that represents the collection of tile ids
+        /// that are mortgaged by the player.
+        /// </returns>
+        public IEnumerable<int> GetIdsOfTilesThatAreMortgaged(PlayerModel player)
+        {
+            foreach(TileModel tile in TileModels)
+            {
+                if (tile is SubjectTileModel t && t.IsMortgaged && t.Owner.Equals(player))
+                    yield return t.Id;
+            }
+        }
     }
 }

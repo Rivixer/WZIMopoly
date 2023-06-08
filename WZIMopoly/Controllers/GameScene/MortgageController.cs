@@ -25,6 +25,20 @@ namespace WZIMopoly.Controllers.GameScene
         public MortgageController(MortgageModel model, GUIMortgage view)
             : base(model, view) { }
 
+        /// <summary>
+        /// The delegate for the OnTileClicked event.
+        /// </summary>
+        public delegate void OnTileClickedHander();
+
+        /// <summary>
+        /// The event that is invoked when a tile is clicked.
+        /// </summary>
+        /// <remarks>
+        /// The tile is clicked when the player wants and
+        /// can to mortgage the tile or sell its grade.
+        /// </remarks>
+        public event OnTileClickedHander OnTileClicked;
+
         /// <inheritdoc/>
         /// <remarks>
         /// Checks if the player wants to mortgage the tile or sell its grade,
@@ -35,7 +49,8 @@ namespace WZIMopoly.Controllers.GameScene
             base.Update();
             PlayerModel player = Model.CurrentPlayer;
             if (player.PlayerStatus != PlayerStatus.MortgagingTiles
-                || !MouseController.WasLeftBtnClicked())
+                || !MouseController.WasLeftBtnClicked()
+                || WZIMopoly.GameType == GameType.Online && !player.Equals(GameSettings.Client))
             {
                 return;
             }
@@ -65,6 +80,7 @@ namespace WZIMopoly.Controllers.GameScene
                 }
 
                 Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                OnTileClicked?.Invoke();
                 break;
             }
         }

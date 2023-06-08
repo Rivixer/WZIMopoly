@@ -9,6 +9,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Restroom tile model.
     /// </summary>
+    [Serializable]
     internal class RestroomTileModel : PurchasableTileModel
     {
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
+﻿using WZIMopoly.Attributes;
+using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
 using WZIMopoly.Models.GameScene.GameButtonModels;
 
 namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
@@ -6,6 +7,7 @@ namespace WZIMopoly.Controllers.GameScene.GameButtonControllers
     /// <summary>
     /// Represents the dice button controller.
     /// </summary>
+    [UpdatesNetwork]
     internal sealed class DiceButtonController : ButtonController<DiceButtonModel, GUIDiceButton>
     {
         /// <summary>

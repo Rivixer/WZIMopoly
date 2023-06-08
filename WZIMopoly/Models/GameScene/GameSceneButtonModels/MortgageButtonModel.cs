@@ -30,9 +30,10 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
             bool canMortgageAnyTile = PlayerCanMortgageAnyTile(player);
             bool canSellAnyGradeOfTile = PlayerCanSellAnyGradeOfTile(player);
             bool canUnmortgageAnyTile = PlayerCanUnmortgageAnyTile(player);
-            IsActive = beforeRollingDice
+            IsActive = (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local)
+                && (beforeRollingDice
                 && (canMortgageAnyTile || canSellAnyGradeOfTile || canUnmortgageAnyTile)
-                || player.PlayerStatus == PlayerStatus.MortgagingTiles;
+                || player.PlayerStatus == PlayerStatus.MortgagingTiles);
         }
 
         /// <summary>

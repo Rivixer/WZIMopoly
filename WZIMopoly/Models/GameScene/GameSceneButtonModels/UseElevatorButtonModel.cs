@@ -1,4 +1,5 @@
-﻿using WZIMopoly.Models.GameScene.TileModels;
+﻿using WZIMopoly.Enums;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
 {
@@ -21,12 +22,13 @@ namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
         /// <inheritdoc/>
         public void Update(PlayerModel player, TileModel tile)
         {
-            if (player.PlayerStatus == Enums.PlayerStatus.BeforeRollingDice)
+            if (player.PlayerStatus == PlayerStatus.BeforeRollingDice)
                 _wasUsed = false;
 
-            IsActive = tile is ElevatorTileModel &&
-                player.PlayerStatus == Enums.PlayerStatus.AfterRollingDice &&
-                !_wasUsed;
+            IsActive = (WZIMopoly.GameType == GameType.Online && player.Equals(GameSettings.Client)|| WZIMopoly.GameType == GameType.Local)
+                && tile is ElevatorTileModel
+                && player.PlayerStatus == PlayerStatus.AfterRollingDice
+                && !_wasUsed;
         }
 
         /// <inheritdoc/>

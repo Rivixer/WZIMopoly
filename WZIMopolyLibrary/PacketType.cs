@@ -9,5 +9,7 @@
         NewPlayer,
         LobbyData,
         Close,
+        StartGame,
+        GameStatus,
     }
 }

@@ -10,6 +10,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// <summary>
     /// Represents the Subject tile model.
     /// </summary>
+    [Serializable]
     internal class SubjectTileModel : PurchasableTileModel
     {
         /// <summary>
@@ -31,6 +32,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// The grade of the subject.
         /// </summary>
         internal SubjectGrade Grade;
+
+        /// <summary>
+        /// Whether the tile is mortgaged.
+        /// </summary>
+        private bool _isMortgaged = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
@@ -122,7 +128,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// Gets the value indicating whether
         /// the subject is currently mortgaged.
         /// </summary>
-        public bool IsMortgaged { get; private set; } = false;
+        public bool IsMortgaged => _isMortgaged;
 
         /// <summary>
         /// Upgrades the subject tile.
@@ -158,7 +164,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
             return player.Money >= UpgradePrice
                 && Grade != SubjectGrade.Exemption
                 && !IsMortgaged
-                && NoMortgagedTilesInColorSet()
+                && NoMortgagedTilesInColorSet(player)
                 && PlayerHasSetOfColor(player);
         }
 
@@ -177,7 +183,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanMortgage(PlayerModel player)
         {
-            return player == Owner && !IsMortgaged && Grade == SubjectGrade.Three;
+            return player.Equals(Owner) && !IsMortgaged && Grade == SubjectGrade.Three;
         }
 
         /// <summary>
@@ -195,7 +201,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanUnmortgage(PlayerModel player)
         {
-            return player == Owner && IsMortgaged && player.Money >= MortgagePrice;
+            return player.Equals(Owner) && IsMortgaged && player.Money >= MortgagePrice;
         }
 
         /// <summary>
@@ -213,7 +219,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </remarks>
         public bool CanSellGrade(PlayerModel player)
         {
-            return player == Owner && Grade > SubjectGrade.Three;
+            return player.Equals(Owner) && Grade > SubjectGrade.Three;
         }
 
         /// <summary>
@@ -223,7 +229,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             Owner.MortgagedTiles.Add(this);
             Owner.Money += MortgagePrice;
-            IsMortgaged = true;
+            _isMortgaged = true;
         }
 
         /// <summary>
@@ -233,7 +239,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             Owner.Money -= MortgagePrice;
             Owner.MortgagedTiles.Remove(this);
-            IsMortgaged = false;
+            _isMortgaged = false;
         }
 
         /// <summary>
@@ -264,13 +270,29 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <summary>
         /// Checks if there are no mortgaged tiles in the color set.
         /// </summary>
+        /// <param name="player">
+        /// The player to check.
+        /// </param>
         /// <returns>
         /// True if there are no mortgaged tiles in the color set, otherwise false.
         /// </returns>
-        private bool NoMortgagedTilesInColorSet()
+        private bool NoMortgagedTilesInColorSet(PlayerModel player)
         {
-            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
-            return !subjectTiles.Any(x => x.IsMortgaged);
+            return !player.MortgagedTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Any();
+        }
+        
+        /// <inheritdoc/>
+        /// <remarks>
+        /// Sets the <see cref="Grade"/> of the subject
+        /// to the one from the model.
+        /// </remarks>
+        public override void Update(TileModel model)
+        {
+            base.Update(model);
+            if (model is SubjectTileModel t)
+            {
+                Grade = t.Grade;
+            }
         }
     }
 }

@@ -14,13 +14,11 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The list of tiles purchased by the player.
         /// </summary>
-        [NonSerialized]
         private readonly List<PurchasableTileModel> _purchasedTiles = new();
 
         /// <summary>
         /// The list of mortgaged tiles by the player.
         /// </summary>
-        [NonSerialized]
         private readonly List<PurchasableTileModel> _mortgagedTiles = new();
 
         /// <summary>
@@ -45,9 +43,13 @@ namespace WZIMopoly.Models
         private PlayerType _playerType = PlayerType.None;
 
         /// <summary>
+        /// The player status.
+        /// </summary>
+        private PlayerStatus _playerStatus = PlayerStatus.WaitingForTurn;
+
+        /// <summary>
         /// The amount of money player has.
         /// </summary>
-        [NonSerialized]
         private int _money = 1500;
 
         /// <summary>
@@ -76,11 +78,12 @@ namespace WZIMopoly.Models
         /// </param>
         public PlayerModel(PlayerModel player)
         {
-            _nick = player.Nick;
-            _playerType = player.PlayerType;
-            _money = player.Money;
-            _purchasedTiles = player.PurchasedTiles;
-            _mortgagedTiles = player.MortgagedTiles;
+            _nick = player._nick;
+            _playerType = player._playerType;
+            _playerStatus = player._playerStatus;
+            _money = player._money;
+            _purchasedTiles = player._purchasedTiles;
+            _mortgagedTiles = player._mortgagedTiles;
             _defaultNick = player._defaultNick;
             _color = player._color;
         }
@@ -120,7 +123,11 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the player status.
         /// </summary>
-        public PlayerStatus PlayerStatus { get; set; } = PlayerStatus.WaitingForTurn;
+        public PlayerStatus PlayerStatus
+        {
+            get => _playerStatus;
+            set => _playerStatus = value;
+        }
 
         /// <summary>
         /// Gets pucharsed tiles by the player.
@@ -163,8 +170,61 @@ namespace WZIMopoly.Models
             _nick = _defaultNick;
             _money = 1500;
             _playerType = PlayerType.None;
+            _playerStatus = PlayerStatus.WaitingForTurn;
             _purchasedTiles.Clear();
             _mortgagedTiles.Clear();
+        }
+
+        /// <summary>
+        /// Updates the player with the values of the specified player.
+        /// </summary>
+        /// <param name="player">
+        /// The player to copy.
+        /// </param>
+        public void Update(PlayerModel player)
+        {
+            _nick = player._nick;
+            _playerType = player._playerType;
+            _playerStatus = player._playerStatus;
+            _money = player._money;
+            _purchasedTiles.Clear();
+            _purchasedTiles.AddRange(player._purchasedTiles);
+            _mortgagedTiles.Clear();
+            _mortgagedTiles.AddRange(player._mortgagedTiles);
+        }
+
+        /// <summary>
+        /// Compares the player with other object.
+        /// </summary>
+        /// <param name="obj">
+        /// An object to compare with.
+        /// </param>
+        /// <returns>
+        /// True if the object is a player and has the
+        /// same nick and color as this player, otherwise false.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is PlayerModel player)
+            {
+                return player.Nick == _nick
+                    && player.Color == _color;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the hash code of the player.
+        /// </summary>
+        /// <returns>
+        /// The hash code of the player.
+        /// </returns>
+        /// <remarks>
+        /// The hash code is based on the nick and color of the player.
+        /// </remarks>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_nick, _color);
         }
     }
 }

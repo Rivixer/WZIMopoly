@@ -1,4 +1,5 @@
-﻿using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
+﻿using WZIMopoly.Attributes;
+using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 
 namespace WZIMopoly.Controllers.GameScene.GameSceneButtonControllers
@@ -6,6 +7,7 @@ namespace WZIMopoly.Controllers.GameScene.GameSceneButtonControllers
     /// <summary>
     /// Represents the controller of the leave jail button.
     /// </summary>
+    [UpdatesNetwork]
     internal class LeaveJailButtonController : ButtonController<LeaveJailButtonModel, GUILeaveJailButton>
     {
         /// <summary>
