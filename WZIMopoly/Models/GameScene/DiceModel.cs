@@ -81,6 +81,12 @@ namespace WZIMopoly.Models.GameScene
             DoubleCounter = 0;
         }
 
+        /// <summary>
+        /// Updates the model using the data from another model.
+        /// </summary>
+        /// <param name="model">
+        /// The model to update from.
+        /// </param>
         public void Update(DiceModel model)
         {
             _lastRoll = model._lastRoll;
