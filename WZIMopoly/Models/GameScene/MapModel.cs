@@ -242,9 +242,6 @@ namespace WZIMopoly.Models.GameScene
                 mortgageCtrl.OnTileClicked -= ActivateAgain;
             }
 
-            var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
-            tile.Model.OnPlayerStand(player);
-
             try
             {
                 ActivateOnStandTile(player);
@@ -253,6 +250,7 @@ namespace WZIMopoly.Models.GameScene
             }
             catch (NotEnoughMoney ex)
             {
+                var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
                 if (player.HowMuchMoneyCanPlayerGetBack() >= Math.Abs(ex.Amount))
                 {
                     player.PlayerStatus = PlayerStatus.SavingFromBankruptcy;
