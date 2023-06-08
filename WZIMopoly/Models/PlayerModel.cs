@@ -203,15 +203,36 @@ namespace WZIMopoly.Models
         /// <param name="player">
         /// The player to copy.
         /// </param>
-        public void Update(PlayerModel player)
+        public void Update(PlayerModel player, List<TileModel> Tiles)
         {
             _nick = player._nick;
             _playerType = player._playerType;
             _playerStatus = player._playerStatus;
             _money = player._money;
             _purchasedTiles.Clear();
-            _purchasedTiles.AddRange(player._purchasedTiles);
+            foreach(var purchasedTile in player._purchasedTiles)
+            {
+                foreach (var t in Tiles)
+                {
+                    if (t.Id == purchasedTile.Id)
+                    {
+                        _purchasedTiles.Add(t as PurchasableTileModel);
+                        break;
+                    }
+                }
+            }
             _mortgagedTiles.Clear();
+            foreach (var mortgagedTile in player._mortgagedTiles)
+            {
+                foreach (var t in Tiles)
+                {
+                    if (t.Id == mortgagedTile.Id)
+                    {
+                        _purchasedTiles.Add(t as PurchasableTileModel);
+                        break;
+                    }
+                }
+            }
             _mortgagedTiles.AddRange(player._mortgagedTiles);
         }
 
