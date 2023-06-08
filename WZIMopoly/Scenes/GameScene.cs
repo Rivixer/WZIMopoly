@@ -166,7 +166,7 @@ namespace WZIMopoly.Scenes
                     }
                     var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, (uint)stepToMove);
                     MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
-                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer);
+                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
                     _mapController.View.UpdatePawnPositions();
                     GameSettings.SendGameData(Model);
                 }
@@ -288,7 +288,7 @@ namespace WZIMopoly.Scenes
                         List<TileController> passedTiles = mapModel.MovePlayer(GameSettings.CurrentPlayer, diceModel.Sum);
                         MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
                     }
-                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer);
+                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
                 }
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 GameSettings.SendGameData(Model);

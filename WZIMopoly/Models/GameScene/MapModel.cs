@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Xml;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.TileControllers;
+using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
 using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
@@ -220,6 +221,52 @@ namespace WZIMopoly.Models.GameScene
         {
             var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
             tile.Model.OnPlayerStand(player);
+        }
+
+        /// <summary>
+        /// Activates the tile that the player is standing on 
+        /// and handles the <see cref="NotEnoughMoney"/> exception.
+        /// </summary>
+        /// <param name="player">
+        /// The player that is standing on the tile.
+        /// </param>
+        /// <remarks>
+        /// If the player doesn't have enough money to pay the rent,
+        /// the player is asked to mortgage tiles or sell their grades.
+        /// </remarks>
+        public void ActivateOnStandTile(PlayerModel player, MortgageController mortgageCtrl, GameModel model)
+        {
+            void ActivateAgain()
+            {
+                ActivateOnStandTile(player, mortgageCtrl, model);
+                mortgageCtrl.OnTileClicked -= ActivateAgain;
+            }
+
+            var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
+            tile.Model.OnPlayerStand(player);
+
+            try
+            {
+                ActivateOnStandTile(player);
+                player.PlayerStatus = PlayerStatus.AfterRollingDice;
+                GameSettings.SendGameData(model);
+            }
+            catch (NotEnoughMoney ex)
+            {
+                if (player.HowMuchMoneyCanPlayerGetBack() >= Math.Abs(ex.Amount))
+                {
+                    player.PlayerStatus = PlayerStatus.SavingFromBankruptcy;
+                    mortgageCtrl.OnTileClicked += ActivateAgain;
+                }
+                else if (tile.Model is PurchasableTileModel t)
+                {
+                    player.GoBankrupt(t.Owner);
+                }
+                else
+                {
+                    player.GoBankrupt();
+                }
+            }
         }
 
         /// <summary>
