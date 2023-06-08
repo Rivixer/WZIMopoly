@@ -30,8 +30,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             _prisoners = new Dictionary<PlayerModel, int>();
             _payForLeave = payForLeave;
-
-            OnStand += AddPrisoner;
         }
 
         /// <summary>
@@ -116,7 +114,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <param name="player">
         /// The player to add to the list of prisoners.
         /// </param>
-        private void AddPrisoner(PlayerModel player)
+        public void AddPrisoner(PlayerModel player)
         {
             _prisoners.Add(player, 0);
         }
