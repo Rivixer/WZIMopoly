@@ -29,7 +29,7 @@ namespace TestWZIMopoly.Test_Models
         }
 
         [TestMethod]
-        public void Test_OnStand_MandatoryLecture()
+        public void Test_AddPrisoner_MandatoryLecture()
         {
             // Arrange
             PlayerModel player = new PlayerModel("player", "blue");
@@ -37,8 +37,127 @@ namespace TestWZIMopoly.Test_Models
             var expectedResult = true;
 
             // Act
-            mandatorylecture.OnPlayerStand(player);
+            mandatorylecture.AddPrisoner(player);
             var result = mandatorylecture.IsPrisoner(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void Test_CanPrisonerPayForRelease_True_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = true;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            var result = mandatorylecture.CanPrisonerPayForRelease(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void Test_CanPrisonerPayForRelease_FalseLowMoney_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = false;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            player.Money = 0;
+            var result = mandatorylecture.CanPrisonerPayForRelease(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void Test_ReleasePrisoner_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = false;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            mandatorylecture.ReleasePrisoner(player);
+            var result = mandatorylecture.IsPrisoner(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void Test_GetRemainingTurns_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = 4;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            var result = mandatorylecture.GetRemainingTurns(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void Test_AddPrisonerTurn_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = 3;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            mandatorylecture.AddPrisonerTurn(player);
+            var result = mandatorylecture.GetRemainingTurns(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult,result);
+        }
+
+        [TestMethod]
+        public void Test_CanPrisonerRelease_True_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = true;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            mandatorylecture.AddPrisonerTurn(player);
+            mandatorylecture.AddPrisonerTurn(player);
+            mandatorylecture.AddPrisonerTurn(player);
+            mandatorylecture.AddPrisonerTurn(player);
+            var result = mandatorylecture.CanPrisonerRelease(player);
+
+            // Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [TestMethod]
+        public void Test_CanPrisonerRelease_FalseLowTurns_MandatoryLecture()
+        {
+            // Arrange
+            PlayerModel player = new PlayerModel("player", "blue");
+            MandatoryLectureTileModel mandatorylecture = new MandatoryLectureTileModel(1, 20);
+            var expectedResult = false;
+
+            // Act
+            mandatorylecture.AddPrisoner(player);
+            var result = mandatorylecture.CanPrisonerRelease(player);
 
             // Assert
             Assert.AreEqual(expectedResult, result);
