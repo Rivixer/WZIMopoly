@@ -84,5 +84,13 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 Owner = owner;
             }
         }
+
+        /// <summary>
+        /// Resets the tile data.
+        /// </summary>
+        public virtual void Reset()
+        {
+            Owner = null;
+        }
     }
 }

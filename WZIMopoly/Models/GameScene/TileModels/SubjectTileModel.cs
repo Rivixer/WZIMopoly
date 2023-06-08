@@ -66,7 +66,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
 
             OnStand += (player) =>
             {
-                if (Owner != null)
+                if (Owner != null && !player.Equals(Owner))
                 {
                     player.TransferMoneyTo(Owner, TaxPrices[Grade]);
                 }
@@ -293,6 +293,14 @@ namespace WZIMopoly.Models.GameScene.TileModels
             {
                 Grade = t.Grade;
             }
+        }
+
+        /// <inheritdoc/>
+        public override void Reset()
+        {
+            base.Reset();
+            Grade = SubjectGrade.Two;
+            _isMortgaged = false;
         }
     }
 }
