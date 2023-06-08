@@ -34,5 +34,15 @@
         /// The player has already rolled the dice.
         /// </summary>
         AfterRollingDice,
+
+        /// <summary>
+        /// The player is bankrupt.
+        /// </summary>
+        Bankrupt,
+
+        /// <summary>
+        /// The player is saving themself from bankruptcy.
+        /// </summary>
+        SavingFromBankruptcy,
     }
 }
