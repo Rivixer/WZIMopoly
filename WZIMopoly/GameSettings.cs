@@ -119,16 +119,19 @@ namespace WZIMopoly
         /// </param>
         public static void SendGameData(GameModel model)
         {
-            var gameData = new GameData()
+            if (WZIMopoly.GameType == GameType.Online)
             {
-                ActivePlayers = ActivePlayers,
-                CurrentPlayerIndex = _currentPlayerIndex,
-                DiceModel = model.GetModel<DiceModel>(),
-                Tiles = model.GetAllModelsRecursively<TileModel>(),
-            };
-            var data = new byte[] { (byte)PacketType.GameStatus };
-            data = data.Concat(gameData.ToByteArray()).ToArray();
-            NetworkService.Connection.Send(data, 0, data.Length);
+                var gameData = new GameData()
+                {
+                    ActivePlayers = ActivePlayers,
+                    CurrentPlayerIndex = _currentPlayerIndex,
+                    DiceModel = model.GetModel<DiceModel>(),
+                    Tiles = model.GetAllModelsRecursively<TileModel>(),
+                };
+                var data = new byte[] { (byte)PacketType.GameStatus };
+                data = data.Concat(gameData.ToByteArray()).ToArray();
+                NetworkService.Connection.Send(data, 0, data.Length);
+            }
         }
 
         /// <summary>

@@ -251,8 +251,11 @@ namespace WZIMopoly
             {
                 ChangeCurrentScene(_gameScene);
                 _gameScene.StartGame();
-                var data = new byte[] { (byte)PacketType.StartGame };
-                NetworkService.Connection.Send(data, 0, 1);
+                if (GameType == GameType.Online)
+                {
+                    var data = new byte[] { (byte)PacketType.StartGame };
+                    NetworkService.Connection.Send(data, 0, 1);
+                }  
             };
         }
 
