@@ -120,7 +120,8 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles)
+            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles
+                || _player?.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
             {
                 if (WZIMopoly.GameType == GameType.Local
                    || WZIMopoly.GameType == GameType.Online && (_player?.Equals(GameSettings.Client) ?? true))
@@ -151,13 +152,11 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Update()
         {
-            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles)
+            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles
+                || _player?.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
             {
                 UpdateText();
-                if (WZIMopoly.GameType == GameType.Online)
-                {
-                    UpdateMask();
-                }
+                UpdateMask();
             }
         }
 
@@ -173,17 +172,30 @@ namespace WZIMopoly.GUI.GameScene
         private void UpdateText()
         {
             PlayerModel? player = _model.CurrentPlayer;
-            if (player is not null && player.PlayerStatus == PlayerStatus.MortgagingTiles)
+            if (player is not null
+                && (player.PlayerStatus == PlayerStatus.MortgagingTiles || player.PlayerStatus == PlayerStatus.SavingFromBankruptcy))
             {
                 string text;
-                if (!player.Equals(GameSettings.Client))
+                if (WZIMopoly.GameType == GameType.Online && !player.Equals(GameSettings.Client))
                 {
-                    text = WZIMopoly.Language switch
+                    if (player.PlayerStatus == PlayerStatus.MortgagingTiles)
                     {
-                        Language.Polish => $"{player.Nick} zastawia swoje pola lub sprzedaje ich oceny...",
-                        Language.English => $"{player.Nick} is mortgaging their tiles or selling tiles' grades...",
-                        _ => throw new ArgumentException($"{WZIMopoly.Language} language is not supported."),
-                    };
+                        text = WZIMopoly.Language switch
+                        {
+                            Language.Polish => $"{player.Nick} zastawia swoje pola lub sprzedaje ich oceny...",
+                            Language.English => $"{player.Nick} is mortgaging their tiles or selling tiles' grades...",
+                            _ => throw new ArgumentException($"{WZIMopoly.Language} language is not supported."),
+                        };
+                    }
+                    else
+                    {
+                        text = WZIMopoly.Language switch
+                        {
+                            Language.Polish => $"{player.Nick} nie stać na spłatę, musi zastawić pole lub sprzedać jego oceny.",
+                            Language.English => $"{player.Nick} cannot afford the payment, he has to mortgage a tile or sell its grades.",
+                            _ => throw new ArgumentException($"{WZIMopoly.Language} language is not supported."),
+                        };
+                    }
                 }
                 else
                 {
@@ -199,13 +211,24 @@ namespace WZIMopoly.GUI.GameScene
                     }
                     if (t == null)
                     {
-                        text = WZIMopoly.Language switch
+                        if (player.PlayerStatus == PlayerStatus.MortgagingTiles)
                         {
-                            Language.Polish => "Wybierz pole do zastawienia lub sprzedania oceny.",
-                            Language.English => "Choose tile to pledge or sell grade",
-                            _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
-                        };
-
+                            text = WZIMopoly.Language switch
+                            {
+                                Language.Polish => "Wybierz pole do zastawienia lub sprzedania oceny.",
+                                Language.English => "Choose tile to pledge or sell grade",
+                                _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                            };
+                        }
+                        else
+                        {
+                            text = WZIMopoly.Language switch
+                            {
+                                Language.Polish => $"Nie stać cię na spłatę. Musisz zastawić jakieś pole lub sprzedać jego ocenę. (brakuje {player.MoneyToGetFromMortgage}ECTS)",
+                                Language.English => $"You cannot afford the payment. You have to mortgage a tile or sell its grade. ({player.MoneyToGetFromMortgage}ECTS left)",
+                                _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                            };
+                        }
                     }
                     else if (!player.PurchasedTiles.Contains(t))
                     {
