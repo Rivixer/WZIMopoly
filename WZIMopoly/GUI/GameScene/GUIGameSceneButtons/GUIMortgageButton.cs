@@ -4,18 +4,18 @@ using WZIMopoly.Models.GameScene.GameButtonModels;
 namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
 {
     /// <summary>
-    /// Represents the mortgage button view.
+    /// Represents the unmortgage button view.
     /// </summary>
-    internal sealed class GUIMortgageButton : GUIButton<MortgageButtonModel>
+    internal sealed class GUIUnmortgageButton : GUIButton<UnmortgageButtonModel>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GUIMortgageButton"/> class.
+        /// Initializes a new instance of the <see cref="GUIUnmortgageButton"/> class.
         /// </summary>
         /// <param name="model">
-        /// The model of the mortgage button.
+        /// The model of the unmortgage button.
         /// </param>
-        internal GUIMortgageButton(MortgageButtonModel model)
-            : base(model, new Rectangle(622, 930, 160, 160))
+        internal GUIUnmortgageButton(UnmortgageButtonModel model)
+            : base(model, new Rectangle(492, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);
         }

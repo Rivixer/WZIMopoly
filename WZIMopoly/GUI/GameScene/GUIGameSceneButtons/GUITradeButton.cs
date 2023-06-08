@@ -15,7 +15,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// The model of the trade button.
         /// </param>
         internal GUITradeButton(TradeButtonModel model)
-            : base(model, new Rectangle(1142, 930, 160, 160))
+            : base(model, new Rectangle(1272, 930, 160, 160))
         {
             SetButtonHoverArea(5, 0.8f);
         }

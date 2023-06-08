@@ -179,6 +179,9 @@ namespace WZIMopoly.Scenes
             var mapModel = _mapController.Model;
             var mapView = _mapController.View;
 
+            // Unmortgage button
+            Model.InitializeChild<UnmortgageButtonModel, GUIUnmortgageButton, UnmortgageButtonController>();
+
             // Mortage button
             var mortgageButton = Model.InitializeChild<MortgageButtonModel, GUIMortgageButton, MortgageButtonController>();
             mortgageButton.OnButtonClicked += () =>
@@ -274,6 +277,9 @@ namespace WZIMopoly.Scenes
 
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
+
+            // Sell button
+            Model.InitializeChild<SellButtonModel, GUISellButton, SellButtonController>();
 
             // Leave jail button
             var leaveJailButton = Model.InitializeChild<LeaveJailButtonModel, GUILeaveJailButton, LeaveJailButtonController>();
