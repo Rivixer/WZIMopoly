@@ -49,6 +49,7 @@ namespace WZIMopoly.Controllers.GameScene
             base.Update();
             PlayerModel player = Model.CurrentPlayer;
             if (player.PlayerStatus != PlayerStatus.MortgagingTiles
+                && player.PlayerStatus != PlayerStatus.SavingFromBankruptcy
                 || !MouseController.WasLeftBtnClicked()
                 || WZIMopoly.GameType == GameType.Online && !player.Equals(GameSettings.Client))
             {
@@ -79,7 +80,11 @@ namespace WZIMopoly.Controllers.GameScene
                     return;
                 }
 
-                Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                if (player.PlayerStatus == PlayerStatus.MortgagingTiles)
+                {
+                    Model.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                
                 OnTileClicked?.Invoke();
                 break;
             }
