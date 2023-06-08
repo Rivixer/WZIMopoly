@@ -3,9 +3,15 @@ using WZIMopoly.Utils;
 
 namespace TestWZIMopoly.Test_Utils
 {
+    /// <summary>
+    /// Unit tests for the NamingConverter class.
+    /// </summary>
     [TestClass]
     public class Test_NamingConverter
     {
+        /// <summary>
+        /// Tests the ConvertSnakeCaseToPascalCase method with a lowercase input.
+        /// </summary>
         [TestMethod]
         public void Test_ConvertSnakeCaseToPascalCase_LowerCase()
         {
@@ -20,6 +26,9 @@ namespace TestWZIMopoly.Test_Utils
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Tests the ConvertSnakeCaseToPascalCase method with an uppercase input.
+        /// </summary>
         [TestMethod]
         public void Test_ConvertSnakeCaseToPascalCase_UpperCase()
         {
@@ -34,6 +43,9 @@ namespace TestWZIMopoly.Test_Utils
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Tests the ConvertSnakeCaseToPascalCase method with a mixed case input.
+        /// </summary>
         [TestMethod]
         public void Test_ConvertSnakeCaseToPascalCase_BothCases()
         {
@@ -48,6 +60,9 @@ namespace TestWZIMopoly.Test_Utils
             Assert.AreEqual(expectedResult, result);
         }
 
+        /// <summary>
+        /// Tests the ConvertSnakeCaseToPascalCase method with a long input text.
+        /// </summary>
         [TestMethod]
         public void Test_ConvertSnakeCaseToPascalCase_LongText()
         {
