@@ -160,7 +160,79 @@ namespace WZIMopoly.Models
         /// The amount of money the player is short of for payment, more or equal to 0.
         /// </value>
         public int MoneyToGetFromMortgage { get; private set; } = 0;
+
+        /// <summary>
+        /// Gets the value of the player.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The value of the player is the amount of money the player has
+        /// plus the value of the tiles the player owns.
+        /// </para>
+        /// <para>
+        /// The value of the tiles owned is calculated as follows:
+        /// <list type="bullet">
+        /// <item>
+        /// not subject = price of the tile
+        /// </item>
+        /// <item>
+        /// subject, not mortgaged = price of the tile
+        /// </item>
+        /// <item>
+        /// subject, mortgaged = mortgage price of the tile
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For each grade of the subject, the value is increased by the upgrade price,
+        /// where <see cref="SubjectGrade.Three"/> is intepreted as 0.
+        /// </para>
+        /// </remarks>
+        public int PlayerValue
+        {
+            get
+            {
+                int tilesValue = 0;
+                foreach (PurchasableTileModel tile in PurchasedTiles)
+                {
+                    if (tile is SubjectTileModel t)
+                    {
+                        if (t.IsMortgaged)
+                        {
+                            tilesValue += t.MortgagePrice;
+                        }
+                        tilesValue += ((int)t.Grade - 1) * t.UpgradePrice;
+                    }
+                    tilesValue += tile.Price;
+                }
+                return Money + tilesValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns the amount of money the player can get back
+        /// from mortgaging tiles or selling their grades.
+        /// </summary>
+        /// <returns>
+        /// The amount of money the player can get back.
+        /// </returns>
+        public int HowMuchMoneyCanPlayerGetBack()
+        {
+            int amount = 0;
+            foreach (PurchasableTileModel tile in PurchasedTiles)
+            {
+                if (tile is SubjectTileModel t)
+                {
+                    if (!t.IsMortgaged)
+                    {
+                        amount += t.MortgagePrice;
+                    }
+                    amount += ((int)t.Grade - 1) * t.SellGradePrice;
+                }
+            }
+            return amount;
+        }
+
         /// <summary>
         /// Transfers money from the player to another player.
         /// </summary>
