@@ -231,6 +231,7 @@ namespace WZIMopoly.Scenes
                     if (diceModel.DoubleCounter == 3)
                     {
                         mapModel.TeleportPlayer(Model.CurrentPlayer, jailModel);
+                        jailModel.AddPrisoner(Model.CurrentPlayer);
                     }
                     else
                     {
