@@ -52,6 +52,14 @@ namespace WZIMopoly.GUI.GameScene
         private readonly GUITexture _guiFlagHovered;
 
         /// <summary>
+        /// The view of the flag texture when the player is bankrupt.
+        /// </summary>
+        /// <remarks>
+        /// It is also the background of the player's nickname.
+        /// </remarks>
+        private readonly GUITexture _guiFlagDisabled;
+
+        /// <summary>
         /// The view of the box texture.
         /// </summary>
         /// <remarks>
@@ -116,6 +124,7 @@ namespace WZIMopoly.GUI.GameScene
 
             _guiFlag = new GUITexture($"Images/PlayerFlag{player.Color}", _defDstRect, _startPoint);
             _guiFlagHovered = new GUITexture($"Images/PlayerFlag{player.Color}Hovered", _defDstRect, _startPoint);
+            _guiFlagDisabled = new GUITexture($"Images/PlayerFlag{player.Color}Disabled", _defDstRect, _startPoint);
 
             var boxRectangle = GetBoxRectangle(_guiFlag, _startPoint);
             _guiBox = new GUITexture($"Images/PlayerBox{player.Color}", boxRectangle, GUIStartPoint.Center);
@@ -137,6 +146,10 @@ namespace WZIMopoly.GUI.GameScene
                 {
                     _guiFlagHovered.Draw(spriteBatch);
                 }
+                else if (_playerInfoModel.Player.PlayerStatus == PlayerStatus.Bankrupt)
+                {
+                    _guiFlagDisabled.Draw(spriteBatch);
+                }
                 else
                 {
                     _guiFlag.Draw(spriteBatch);
@@ -152,20 +165,33 @@ namespace WZIMopoly.GUI.GameScene
         public override void Update()
         {
             _guiNick.Text = _playerInfoModel.Player.Nick;
-            _guiMoney.Text = $"{_playerInfoModel.Player.Money} ECTS";
+            if (_playerInfoModel.Player.PlayerStatus == PlayerStatus.Bankrupt)
+            {
+                _guiMoney.Text = WZIMopoly.Language switch
+                {
+                    Language.Polish => "Bankrut",
+                    Language.English => "Bankrupt",
+                    _ => throw new ArgumentException($"Language {WZIMopoly.Language} not implemented.")
+                };
+            }
+            else
+            {
+                _guiMoney.Text = $"{_playerInfoModel.Player.Money} ECTS";
+            }
+            
         }
 
         /// <inheritdoc/>
         public override void Load(ContentManager content)
         {
-            var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered };
+            var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered, _guiFlagDisabled};
             elements.ForEach(x => x.Load(content));
         }
 
         /// <inheritdoc/>
         public override void Recalculate()
         {
-            var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered };
+            var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered, _guiFlagDisabled };
             elements.ForEach(x => x.Recalculate());
         }
 
