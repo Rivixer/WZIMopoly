@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using WZIMopoly.Enums;
+using WZIMopoly.Exceptions;
+using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models
@@ -114,10 +116,22 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the amount of money the player has.
         /// </summary>
+        /// <value>
+        /// The amount of money the player has, more or equal to 0.
+        /// </value>
         public int Money
         {
             get => _money;
-            set => _money = value;
+            set
+            {
+                if (value < 0)
+                {
+                    MoneyToGetFromMortgage = -value;
+                    throw new NotEnoughMoney(this, value);
+                }
+                MoneyToGetFromMortgage = 0;
+                _money = value;
+            }
         }
 
         /// <summary>
@@ -139,6 +153,14 @@ namespace WZIMopoly.Models
         /// </summary>
         public List<PurchasableTileModel> MortgagedTiles => _mortgagedTiles;
 
+        /// <summary>
+        /// Gets the amount of money the player is short of for payment.
+        /// </summary>
+        /// <value>
+        /// The amount of money the player is short of for payment, more or equal to 0.
+        /// </value>
+        public int MoneyToGetFromMortgage { get; private set; } = 0;
+        /// </summary>
         /// <summary>
         /// Transfers money from the player to another player.
         /// </summary>
