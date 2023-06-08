@@ -249,6 +249,39 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
+        /// Makes the player bankrupt.
+        /// </summary>
+        /// <remarks>
+        /// Sets the player status to <see cref="PlayerStatus.Bankrupt"/>,
+        /// resets the player's tiles and clears the player's tiles.
+        /// </remarks>
+        public void GoBankrupt()
+        {
+            PlayerStatus = PlayerStatus.Bankrupt;
+            PurchasedTiles.ForEach(x => x.Reset());
+            PurchasedTiles.Clear();
+            MortgagedTiles.Clear();
+            Money = 0;
+            GameSettings.NextPlayer();
+            GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+        }
+
+        /// <summary>
+        /// Makes the player bankrupt and transfers all
+        /// their money and tiles to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the money and tiles.
+        /// </param>
+        public void GoBankrupt(PlayerModel recipient)
+        {
+            TransferMoneyTo(recipient, Money);
+            recipient.PurchasedTiles.AddRange(PurchasedTiles);
+            recipient.MortgagedTiles.AddRange(MortgagedTiles);
+            GoBankrupt();
+        }
+
+        /// <summary>
         /// Resets the nick of the player to the default one.
         /// </summary>
         public void ResetNick()
