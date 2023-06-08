@@ -16,7 +16,7 @@ namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
         /// <inheritdoc/>
         public void Update(PlayerModel player, TileModel tile)
         {
-            IsActive = player.PlayerStatus == PlayerStatus.AfterRollingDice
+            IsActive = (player.PlayerStatus == PlayerStatus.AfterRollingDice || player.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
                 && (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local);
         }
     }
