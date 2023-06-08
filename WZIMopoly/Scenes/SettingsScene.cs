@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using System.Threading;
 using WZIMopoly.Controllers.SettingsScene;
+using WZIMopoly.DebugUtils;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
@@ -85,18 +89,23 @@ namespace WZIMopoly.Scenes
             };
             Model.AddChild(controllerFullscreen);
 
-            var modelVolumeSlider = new VolumeSliderModel("Mortgage", 200, 200);
-            var viewVolumeSlider = new GUIVolumeSlider(modelVolumeSlider, new Rectangle(1000, 170, 100, 100), GUIStartPoint.TopLeft);
-            var controllerVolumeSlider = new VolumeSliderController(modelVolumeSlider, viewVolumeSlider);
-            controllerVolumeSlider.OnButtonClicked += () =>
+            var modelVolumeEffectSlider = new VolumeSliderModel("Slider");
+            var viewVolumeEffectSlider = new GUIVolumeSlider(modelVolumeEffectSlider, new Rectangle(1330, 189, 50, 50), GUIStartPoint.Center);
+            viewVolumeEffectSlider.OnSliderVolume += (float volume) =>
             {
-                //Rectangle rectangle = viewVolumeSlider.rectangleSlider1.ToCurrentResolution();
-                if (MouseController.IsHover(new Rectangle(1000, 100, 300, 300).ToCurrentResolution()))//rectangle))
-                {
-                    viewVolumeSlider.SetNewArea(MouseController.Position.X);
-                }
+                SoundEffect.MasterVolume = volume;
             };
-            Model.AddChild(controllerVolumeSlider);
+            var controllerVolumeEffectSlider = new VolumeSliderController(modelVolumeEffectSlider, viewVolumeEffectSlider);
+            Model.AddChild(controllerVolumeEffectSlider);
+
+            var modelVolumeSongSlider = new VolumeSliderModel("Slider");
+            var viewVolumeSongSlider = new GUIVolumeSlider(modelVolumeSongSlider, new Rectangle(1330, 264, 50, 50), GUIStartPoint.Center);
+            viewVolumeSongSlider.OnSliderVolume += (float volume) =>
+            {
+                MediaPlayer.Volume = volume;
+            };
+            var controllerVolumeSongSlider = new VolumeSliderController(modelVolumeSongSlider, viewVolumeSongSlider);
+            Model.AddChild(controllerVolumeSongSlider);
 
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
         }
@@ -124,16 +133,7 @@ namespace WZIMopoly.Scenes
                 {
                     WZIMopoly.Language = Language.English;
                 }
-                //else if (MouseController.IsHover(new Rectangle(100, 100, 300, 300).ToCurrentResolution()))
-                //{
-                    //Model.GetAllControllers<VolumeSliderController>()?[0];
-                    //Model.GetAllViews<GUIVolumeSlider>()?[0].SetNewArea(500);
-                //}
             }
-            //if (MouseController.IsLeftBtnPressed() && MouseController.IsHover(new Rectangle(100, 100, 300, 300).ToCurrentResolution()))
-            //{
-                //Model.GetAllViews<GUIVolumeSlider>()?[0].SetNewArea(500);
-            //}
         }
     }
 }
