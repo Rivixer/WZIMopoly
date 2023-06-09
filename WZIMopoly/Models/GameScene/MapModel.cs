@@ -209,7 +209,7 @@ namespace WZIMopoly.Models.GameScene
         /// If the player's properties are not enough to pay,
         /// the player goes bankrupt. Their status
         /// is set to <see cref="PlayerStatus.Bankrupt"/>.<br/>
-        /// If the player stood on a purchasable tile,
+        /// If the player was standing on a purchasable tile,
         /// the tile's owner gets the player's properties.
         /// </para>
         /// </remarks>

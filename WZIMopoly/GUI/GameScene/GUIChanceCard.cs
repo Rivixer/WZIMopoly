@@ -32,7 +32,7 @@ namespace WZIMopoly.GUI.GameScene
         {
             foreach(var chanceTile in _model.ChanceTiles)
             {
-                if (chanceTile.DrawnCard?.Id == _model.Id)
+                if (chanceTile.DrawnCard?.Equals(_model) ?? false)
                 {
                     base.Draw(spriteBatch);
                     break;

@@ -109,10 +109,10 @@ namespace WZIMopoly.Models.GameScene
             {
                 canteenTile.OnStand += (player) =>
                 {
-                    var chanceCards = GetAllModels<ChanceCardModel>();
-                    var canteenChanceCards = chanceCards.Where(x => x.Type == ChanceCardType.Canteen).ToList();
-                    var cardNumber = s_random.Next(canteenChanceCards.Count);
-                    canteenTile.DrawnCard = canteenChanceCards[cardNumber];
+                    var canteenCards = GetAllModels<ChanceCardModel>(x => x.Type == ChanceCardType.Canteen);
+                    var cardNumber = s_random.Next(canteenCards.Count);
+                    canteenTile.DrawnCard = canteenCards[cardNumber];
+                    Debug.WriteLine(cardNumber);
                     canteenTile.DrawnCard.OnCardDrawn(player);
                 };
             }
@@ -122,18 +122,16 @@ namespace WZIMopoly.Models.GameScene
             {
                 vendingMachineTile.OnStand += (player) =>
                 {
-                    var chanceCards = GetAllModels<ChanceCardModel>();
-                    var vendingMachineChanceCards = chanceCards.Where(x => x.Type == ChanceCardType.VendingMachine).ToList();
-
+                    var vendingMachineCards = GetAllModels<ChanceCardModel>(x => x.Type == ChanceCardType.VendingMachine);
                     int cardNumber;
                     do
                     {
-                        cardNumber = s_random.Next(vendingMachineChanceCards.Count);
+                        cardNumber = s_random.Next(vendingMachineCards.Count);
                     } while (cardNumber == 11 && GameSettings.ActivePlayers.Select(x => x.Money).Any(x => x < 10));
                     // The 12th card is the "It is your birthday! - get 10 ECTS from each student" card
                     // and I don't want to implement bankruptcy handling, so I'm just skipping it.
                     
-                    vendingMachineTile.DrawnCard = vendingMachineChanceCards[cardNumber];
+                    vendingMachineTile.DrawnCard = vendingMachineCards[cardNumber];
                     vendingMachineTile.DrawnCard.OnCardDrawn(player);
                 };
             }

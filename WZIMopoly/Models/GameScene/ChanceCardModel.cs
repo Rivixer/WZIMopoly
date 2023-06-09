@@ -86,5 +86,35 @@ namespace WZIMopoly.Models.GameScene
         {
             OnDrawn?.Invoke(player);
         }
+
+        /// <summary>
+        /// Compares the <see cref="ChanceCardModel"/> with the given object.
+        /// </summary>
+        /// <param name="obj">
+        /// The object to compare with.
+        /// </param>
+        /// <returns>
+        /// True if the <see cref="ChanceCardModel"/> is equal to
+        /// the given object, false otherwise.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is ChanceCardModel model)
+            {
+                return model.Id == Id && model.Type == Type;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the hash code of the <see cref="ChanceCardModel"/>.
+        /// </summary>
+        /// <returns>
+        /// The hash code of the <see cref="ChanceCardModel"/>.
+        /// </returns>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Type);
+        }
     }
 }
