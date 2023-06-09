@@ -13,7 +13,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// <summary>
     /// Represents the leave jail button.
     /// </summary>
-    internal class GUILeaveJailButton : GUIButton<LeaveJailButtonModel>, IGUIGameUpdate
+    internal class GUIPayToLeaveJailButton : GUIButton<PayToLeaveJailButtonModel>, IGUIGameUpdate
     {
         /// <summary>
         /// The auxiliary text informing the player about the situation in the jail.
@@ -31,12 +31,12 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         private TileModel _currentTile;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GUILeaveJailButton"/> class.
+        /// Initializes a new instance of the <see cref="GUIPayToLeaveJailButton"/> class.
         /// </summary>
         /// <param name="model">
-        /// The model of the leave jail button.
+        /// The model of the pay to leave jail button.
         /// </param>
-        public GUILeaveJailButton(LeaveJailButtonModel model)
+        public GUIPayToLeaveJailButton(PayForLeaveJailButtonModel model)
             : base(model, new Rectangle(860, 923, 256, 88), GUIStartPoint.Right)
         {
             SetButtonHoverArea(5, 0.75f);
