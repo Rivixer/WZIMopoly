@@ -145,10 +145,17 @@ namespace WZIMopoly
         /// </param>
         public static void UpdateGameData(GameData data, GameModel model)
         {
+            // Update tiles on the map
+            var tiles = model.GetAllModelsRecursively<TileModel>();
+            for (int i = 0; i < 40; i++)
+            {
+                tiles[i].Update(data.Tiles[i]);
+            }
+
             // Update players
             for (int i = 0; i < ActivePlayers.Count; i++)
             {
-                Players[i].Update(data.ActivePlayers[i]);
+                Players[i].Update(data.ActivePlayers[i], tiles);
             }
 
             // Update the current player
@@ -157,13 +164,6 @@ namespace WZIMopoly
             // Update the dice model
             var diceModel = model.GetModel<DiceModel>();
             diceModel.Update(data.DiceModel);
-
-            // Update tiles on the map
-            var tiles = model.GetAllModelsRecursively<TileModel>();
-            for (int i = 0; i < 40; i++)
-            {
-                tiles[i].Update(data.Tiles[i]);
-            }
 
             // Update AllTiles property on each tile
             // (maybe it is not necessary, but I don't have

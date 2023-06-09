@@ -166,9 +166,24 @@ namespace WZIMopoly.Scenes
                     }
                     var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, (uint)stepToMove);
                     MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
-                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer);
+                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
                     _mapController.View.UpdatePawnPositions();
+                    GameSettings.SendGameData(Model);
                 }
+            }
+
+            // Click "+" or "-" to increase or decrease the current player's money.
+            var isPressedPlusKey = KeyboardController.IsPressed(Keys.OemPlus) || KeyboardController.IsPressed(Keys.Add);
+            if (isPressedPlusKey)
+            {
+                GameSettings.CurrentPlayer.Money++;
+                GameSettings.SendGameData(Model);
+            }
+            var isPressedMinusKey = KeyboardController.IsPressed(Keys.OemMinus) || KeyboardController.IsPressed(Keys.Subtract);
+            if (isPressedMinusKey)
+            {
+                GameSettings.CurrentPlayer.Money--;
+                GameSettings.SendGameData(Model);
             }
 #endif
         }
@@ -273,7 +288,7 @@ namespace WZIMopoly.Scenes
                         List<TileController> passedTiles = mapModel.MovePlayer(GameSettings.CurrentPlayer, diceModel.Sum);
                         MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
                     }
-                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer);
+                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
                 }
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 GameSettings.SendGameData(Model);

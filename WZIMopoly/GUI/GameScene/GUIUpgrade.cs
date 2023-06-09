@@ -192,12 +192,24 @@ namespace WZIMopoly.GUI.GameScene
                     }
                     else if (!t.CanUpgrade(player))
                     {
-                        text = WZIMopoly.Language switch
+                        if (t.Grade == SubjectGrade.Exemption)
                         {
-                            Language.Polish => $"Musisz mieć zakupione wszystkie pola koloru {t.Color}, aby ulepszyć {t.PlName}.",
-                            Language.English => $"You have to buy every tile of color {t.Color} to upgrade {t.EnName}.",
-                            _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented.")
-                        };
+                            text = WZIMopoly.Language switch
+                            {
+                                Language.Polish => $"Jesteś już zwolniony z przedmiotu {t.PlName}!",
+                                Language.English => $"You are already exempted from {t.EnName}.",
+                                _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented.")
+                            };
+                        }
+                        else
+                        {
+                            text = WZIMopoly.Language switch
+                            {
+                                Language.Polish => $"Musisz mieć zakupione wszystkie pola koloru {t.Color}, aby ulepszyć {t.PlName}.",
+                                Language.English => $"You have to buy every tile of color {t.Color} to upgrade {t.EnName}.",
+                                _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented.")
+                            };
+                        }
                     }
                     else
                     {

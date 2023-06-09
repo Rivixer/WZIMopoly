@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using WZIMopoly.Enums;
+using WZIMopoly.Exceptions;
+using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models
@@ -114,10 +116,22 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Gets or sets the amount of money the player has.
         /// </summary>
+        /// <value>
+        /// The amount of money the player has, more or equal to 0.
+        /// </value>
         public int Money
         {
             get => _money;
-            set => _money = value;
+            set
+            {
+                if (value < 0)
+                {
+                    MoneyToGetFromMortgage = -value;
+                    throw new NotEnoughMoney(this, value);
+                }
+                MoneyToGetFromMortgage = 0;
+                _money = value;
+            }
         }
 
         /// <summary>
@@ -140,6 +154,86 @@ namespace WZIMopoly.Models
         public List<PurchasableTileModel> MortgagedTiles => _mortgagedTiles;
 
         /// <summary>
+        /// Gets the amount of money the player is short of for payment.
+        /// </summary>
+        /// <value>
+        /// The amount of money the player is short of for payment, more or equal to 0.
+        /// </value>
+        public int MoneyToGetFromMortgage { get; private set; } = 0;
+
+        /// <summary>
+        /// Gets the value of the player.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The value of the player is the amount of money the player has
+        /// plus the value of the tiles the player owns.
+        /// </para>
+        /// <para>
+        /// The value of the tiles owned is calculated as follows:
+        /// <list type="bullet">
+        /// <item>
+        /// not subject = price of the tile
+        /// </item>
+        /// <item>
+        /// subject, not mortgaged = price of the tile
+        /// </item>
+        /// <item>
+        /// subject, mortgaged = mortgage price of the tile
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For each grade of the subject, the value is increased by the upgrade price,
+        /// where <see cref="SubjectGrade.Three"/> is intepreted as 0.
+        /// </para>
+        /// </remarks>
+        public int PlayerValue
+        {
+            get
+            {
+                int tilesValue = 0;
+                foreach (PurchasableTileModel tile in PurchasedTiles)
+                {
+                    if (tile is SubjectTileModel t)
+                    {
+                        if (t.IsMortgaged)
+                        {
+                            tilesValue += t.MortgagePrice;
+                        }
+                        tilesValue += ((int)t.Grade - 1) * t.UpgradePrice;
+                    }
+                    tilesValue += tile.Price;
+                }
+                return Money + tilesValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns the amount of money the player can get back
+        /// from mortgaging tiles or selling their grades.
+        /// </summary>
+        /// <returns>
+        /// The amount of money the player can get back.
+        /// </returns>
+        public int HowMuchMoneyCanPlayerGetBack()
+        {
+            int amount = 0;
+            foreach (PurchasableTileModel tile in PurchasedTiles)
+            {
+                if (tile is SubjectTileModel t)
+                {
+                    if (!t.IsMortgaged)
+                    {
+                        amount += t.MortgagePrice;
+                    }
+                    amount += ((int)t.Grade - 1) * t.SellGradePrice;
+                }
+            }
+            return amount;
+        }
+
+        /// <summary>
         /// Transfers money from the player to another player.
         /// </summary>
         /// <param name="player">
@@ -152,6 +246,39 @@ namespace WZIMopoly.Models
         {
             Money -= amount;
             player.Money += amount;
+        }
+
+        /// <summary>
+        /// Makes the player bankrupt.
+        /// </summary>
+        /// <remarks>
+        /// Sets the player status to <see cref="PlayerStatus.Bankrupt"/>,
+        /// resets the player's tiles and clears the player's tiles.
+        /// </remarks>
+        public void GoBankrupt()
+        {
+            PlayerStatus = PlayerStatus.Bankrupt;
+            PurchasedTiles.ForEach(x => x.Reset());
+            PurchasedTiles.Clear();
+            MortgagedTiles.Clear();
+            Money = 0;
+            GameSettings.NextPlayer();
+            GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+        }
+
+        /// <summary>
+        /// Makes the player bankrupt and transfers all
+        /// their money and tiles to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the money and tiles.
+        /// </param>
+        public void GoBankrupt(PlayerModel recipient)
+        {
+            TransferMoneyTo(recipient, Money);
+            recipient.PurchasedTiles.AddRange(PurchasedTiles);
+            recipient.MortgagedTiles.AddRange(MortgagedTiles);
+            GoBankrupt();
         }
 
         /// <summary>
@@ -181,15 +308,36 @@ namespace WZIMopoly.Models
         /// <param name="player">
         /// The player to copy.
         /// </param>
-        public void Update(PlayerModel player)
+        public void Update(PlayerModel player, List<TileModel> Tiles)
         {
             _nick = player._nick;
             _playerType = player._playerType;
             _playerStatus = player._playerStatus;
             _money = player._money;
             _purchasedTiles.Clear();
-            _purchasedTiles.AddRange(player._purchasedTiles);
+            foreach(var purchasedTile in player._purchasedTiles)
+            {
+                foreach (var t in Tiles)
+                {
+                    if (t.Id == purchasedTile.Id)
+                    {
+                        _purchasedTiles.Add(t as PurchasableTileModel);
+                        break;
+                    }
+                }
+            }
             _mortgagedTiles.Clear();
+            foreach (var mortgagedTile in player._mortgagedTiles)
+            {
+                foreach (var t in Tiles)
+                {
+                    if (t.Id == mortgagedTile.Id)
+                    {
+                        _purchasedTiles.Add(t as PurchasableTileModel);
+                        break;
+                    }
+                }
+            }
             _mortgagedTiles.AddRange(player._mortgagedTiles);
         }
 

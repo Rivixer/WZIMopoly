@@ -72,7 +72,8 @@ namespace WZIMopoly.GUI.GameScene
                 _firstDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
                 _secondDiceTextures[random.Next(0, 6)].Draw(spriteBatch);
             }
-            else if (_currentPlayer?.PlayerStatus == PlayerStatus.AfterRollingDice)
+            else if (_currentPlayer?.PlayerStatus == PlayerStatus.AfterRollingDice
+                && _model.LastRoll != null)
             {
                 _firstDiceTextures[_model.LastRoll.Item1 - 1].Draw(spriteBatch);
                 _secondDiceTextures[_model.LastRoll.Item2 - 1].Draw(spriteBatch);
