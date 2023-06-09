@@ -89,23 +89,23 @@ namespace WZIMopoly.Scenes
             };
             Model.AddChild(controllerFullscreen);
 
-            var modelVolumeEffectSlider = new VolumeSliderModel("Slider");
-            var viewVolumeEffectSlider = new GUIVolumeSlider(modelVolumeEffectSlider, new Rectangle(1330, 189, 50, 50), GUIStartPoint.Center);
-            viewVolumeEffectSlider.OnSliderVolume += (float volume) =>
+            var modelEffect = new VolumeSliderModel("Slider");
+            var viewEffect = new GUIVolumeSlider(modelEffect, new Rectangle(1330, 189, 50, 50), GUIStartPoint.Center);
+            viewEffect.OnSliderVolume += (float volume) =>
             {
                 SoundEffect.MasterVolume = volume;
             };
-            var controllerVolumeEffectSlider = new VolumeSliderController(modelVolumeEffectSlider, viewVolumeEffectSlider);
-            Model.AddChild(controllerVolumeEffectSlider);
+            var controllerEffect = new VolumeSliderController(modelEffect, viewEffect);
+            Model.AddChild(controllerEffect);
 
-            var modelVolumeSongSlider = new VolumeSliderModel("Slider");
-            var viewVolumeSongSlider = new GUIVolumeSlider(modelVolumeSongSlider, new Rectangle(1330, 264, 50, 50), GUIStartPoint.Center);
-            viewVolumeSongSlider.OnSliderVolume += (float volume) =>
+            var modelSong = new VolumeSliderModel("Slider");
+            var viewSong = new GUIVolumeSlider(modelSong, new Rectangle(1330, 264, 50, 50), GUIStartPoint.Center);
+            viewSong.OnSliderVolume += (float volume) =>
             {
                 MediaPlayer.Volume = volume;
             };
-            var controllerVolumeSongSlider = new VolumeSliderController(modelVolumeSongSlider, viewVolumeSongSlider);
-            Model.AddChild(controllerVolumeSongSlider);
+            var controllerSong = new VolumeSliderController(modelSong, viewSong);
+            Model.AddChild(controllerSong);
 
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
         }

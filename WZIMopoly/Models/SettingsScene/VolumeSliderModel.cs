@@ -12,6 +12,9 @@
         /// The name of the volume slider.
         /// </param>
         public VolumeSliderModel(string name)
-            : base(name) { }
+            : base(name) 
+        {
+            IsActive = true;
+        }
     }
 }

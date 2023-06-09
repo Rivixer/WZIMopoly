@@ -27,9 +27,6 @@ namespace WZIMopoly.Controllers.SettingsScene
         {
             base.Update();
 
-            // We have to override this, because we want to make
-            // this button clickable even if it is inactive.
-
             if (MouseController.WasLeftBtnClicked()
                 && MouseController.IsHover(View.RectangleSlider.ToCurrentResolution()))
             {

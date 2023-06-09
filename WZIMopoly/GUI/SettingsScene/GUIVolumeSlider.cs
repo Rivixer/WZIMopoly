@@ -37,15 +37,12 @@ namespace WZIMopoly.GUI.SettingsScene
         /// The place where <paramref name="defDstRect"/> has been specified.
         /// </param>
         public GUIVolumeSlider(ButtonModel model, Rectangle defDstRect, GUIStartPoint startPoint = GUIStartPoint.TopLeft)
-            : base(model, defDstRect, startPoint, false, false)
-        {
-            model.IsActive = true;
-        }
+            : base(model, defDstRect, startPoint, false, false) { }
 
         /// <summary>
         /// Gets the texture rectangle of the slider.
         /// </summary>
-        internal Rectangle RectangleSlider
+        public Rectangle RectangleSlider
         {
             get => Texture.UnscaledDestinationRect;
         }
@@ -54,7 +51,7 @@ namespace WZIMopoly.GUI.SettingsScene
         /// Change position of slider.
         /// Calls <see cref="OnSliderVolume"/> to change volume.
         /// </summary>
-        internal void MoveSlider()
+        public void MoveSlider()
         {
             var mouseX = MouseController.Position.X;
             var sliderMin = 1024 * ScreenController.Width / 1920;
