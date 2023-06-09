@@ -55,6 +55,11 @@ namespace WZIMopoly.Scenes
         private MortgageController _mortgageController;
 
         /// <summary>
+        /// The jail controller.
+        /// </summary>
+        private JailController _jailController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -72,7 +77,7 @@ namespace WZIMopoly.Scenes
             _mapController = Model.InitializeChild<MapModel, GUIMap, MapController>();
             List<TileController> tileControllers = _mapController.Model.LoadTiles();
             _mapController.Model.CreatePawns(GameSettings.Players);
-
+            
             var model = new DiceModel();
             var view = new GUIDice(model);
             _diceController = new DiceController(model, view);
@@ -85,6 +90,8 @@ namespace WZIMopoly.Scenes
 
             _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
             _mortgageController.OnTileClicked += () => GameSettings.SendGameData(Model);
+
+            _jailController = Model.InitializeChild<JailModel, GUIJail, JailController>();
 
             InitializePlayerInfo();
             InitializeButtons();
@@ -327,13 +334,22 @@ namespace WZIMopoly.Scenes
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
 
-            // Leave jail button
-            var leaveJailButton = Model.InitializeChild<LeaveJailButtonModel, GUILeaveJailButton, LeaveJailButtonController>();
+            // Pay to leave jail button
+            var leaveJailButton = Model.GetControllerRecursively<PayToLeaveJailButtonController>();
             leaveJailButton.OnButtonClicked += () =>
             {
                 var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
                 jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                 GameSettings.CurrentPlayer.Money -= 50;
+            };
+
+            // Use card to leave jail button
+            var useCardButton = Model.GetControllerRecursively<UseCardToLeaveJailButtonController>();
+            useCardButton.OnButtonClicked += () =>
+            {
+                var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
+                jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
+                GameSettings.CurrentPlayer.NumberOfLeaveJailCards--;
             };
 
             // Use elevator button

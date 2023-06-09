@@ -11,9 +11,9 @@ using WZIMopoly.Models.GameScene.TileModels;
 namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
 {
     /// <summary>
-    /// Represents the leave jail button.
+    /// Represents the use card to leave jail button.
     /// </summary>
-    internal class GUIPayToLeaveJailButton : GUIButton<PayToLeaveJailButtonModel>, IGUIGameUpdate
+    internal class GUIUseCardToLeaveJailButton : GUIButton<UseCardToLeaveJailButtonModel>, IGUIGameUpdate
     {
         /// <summary>
         /// The auxiliary text informing the player about the action of the button.
@@ -26,13 +26,13 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         private TileModel _currentTile;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GUIPayToLeaveJailButton"/> class.
+        /// Initializes a new instance of the <see cref="GUIUseCardToLeaveJailButton"/> class.
         /// </summary>
         /// <param name="model">
-        /// The model of the pay to leave jail button.
+        /// The model of the use card to leave jail button.
         /// </param>
-        public GUIPayToLeaveJailButton(PayToLeaveJailButtonModel model)
-            : base(model, new Rectangle(860, 923, 256, 88), GUIStartPoint.Right)
+        public GUIUseCardToLeaveJailButton(UseCardToLeaveJailButtonModel model)
+            : base(model, new Rectangle(1060, 923, 256, 88), GUIStartPoint.Left)
         {
             SetButtonHoverArea(5, 0.70f);
             _text = new GUIText("Fonts/WZIMFont", new Vector2(960, 720), Color.Black, GUIStartPoint.Center, scale: 0.3f);
@@ -90,12 +90,12 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 && _currentTile is MandatoryLectureTileModel t
                 && IsHovered && t.IsPrisoner(player))
             {
-                if (!t.CanPrisonerPayForRelease(player))
+                if (player.NumberOfLeaveJailCards == 0)
                 {
                     _text.Text = WZIMopoly.Language switch
                     {
-                        Language.Polish => $"Biednego studenta nie stać, potrzebujesz {t.PayForLeave}ECTS.",
-                        Language.English => $"You cannot afford the deposit, you need {t.PayForLeave}ECTS.",
+                        Language.Polish => $"Nie masz żadnego usprawiedliwienia, siedź na wykładzie!",
+                        Language.English => $"You have no excuse, stay at the lecture!",
                         _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                     };
                 }
@@ -103,8 +103,8 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 {
                     _text.Text = WZIMopoly.Language switch
                     {
-                        Language.Polish => $"Zapłać {t.PayForLeave}ECTS, aby wymknąć się z wykładu.",
-                        Language.English => $"Pay {t.PayForLeave}ECTS to get out of mandatory lecture.",
+                        Language.Polish => $"Skorzystaj z usprawiedliwienia i wyjdź z wykładu (pozostało {player.NumberOfLeaveJailCards})",
+                        Language.English => $"Use an excuse and leave the lecture. {player.NumberOfLeaveJailCards}",
                         _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                     };
                 }
