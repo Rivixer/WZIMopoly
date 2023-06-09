@@ -96,6 +96,11 @@ namespace WZIMopoly.Models
         }
 
         /// <summary>
+        /// Gets or sets whether the player has additional roll.
+        /// </summary>
+        public bool AdditionalRoll { get; set; }
+
+        /// <summary>
         /// Gets the number of leave jail cards player has.
         /// </summary>
         public int NumberOfLeaveJailCards

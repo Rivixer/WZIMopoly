@@ -55,11 +55,6 @@ namespace WZIMopoly.Scenes
         private MortgageController _mortgageController;
 
         /// <summary>
-        /// The jail controller.
-        /// </summary>
-        private JailController _jailController;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -91,7 +86,9 @@ namespace WZIMopoly.Scenes
             _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
             _mortgageController.OnTileClicked += () => GameSettings.SendGameData(Model);
 
-            _jailController = Model.InitializeChild<JailModel, GUIJail, JailController>();
+            _mapController.Model.InitializeChanceCards(_mortgageController, Model);
+
+            Model.InitializeChild<JailModel, GUIJail, JailController>();
 
             InitializePlayerInfo();
             InitializeButtons();
@@ -171,9 +168,11 @@ namespace WZIMopoly.Scenes
                     {
                         jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                     }
-                    var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, (uint)stepToMove);
+                    var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, stepToMove);
                     MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
-                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
+                    _mapController.Model.HandleBankrupt(
+                        delegate { _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer); },
+                        GameSettings.CurrentPlayer, _mortgageController, Model);
                     _mapController.View.UpdatePawnPositions();
                     GameSettings.SendGameData(Model);
                 }
@@ -295,7 +294,9 @@ namespace WZIMopoly.Scenes
                         List<TileController> passedTiles = mapModel.MovePlayer(GameSettings.CurrentPlayer, diceModel.Sum);
                         MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
                     }
-                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
+                    mapModel.HandleBankrupt(
+                        delegate { mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer); },
+                        GameSettings.CurrentPlayer, _mortgageController, Model);
                 }
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 GameSettings.SendGameData(Model);
@@ -313,8 +314,15 @@ namespace WZIMopoly.Scenes
                     }
                 }
 
+                var chanceTiles = mapModel.GetAllModels<ChanceTileModel>();
+                chanceTiles.ForEach(x => x.DrawnCard = null);
+
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(GameSettings.CurrentPlayer))
+                if (GameSettings.CurrentPlayer.AdditionalRoll)
+                {
+                    GameSettings.CurrentPlayer.AdditionalRoll = false;
+                }
+                else if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(GameSettings.CurrentPlayer))
                 {
                     GameSettings.NextPlayer();
                     diceModel.ResetDoubleCounter();

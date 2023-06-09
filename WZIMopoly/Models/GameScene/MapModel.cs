@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Xml;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.GameScene.TileControllers;
 using WZIMopoly.Enums;
 using WZIMopoly.Exceptions;
-using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.Models.GameScene
@@ -15,8 +12,13 @@ namespace WZIMopoly.Models.GameScene
     /// <summary>
     /// Represents a map model.
     /// </summary>
-    internal class MapModel : Model
+    internal partial class MapModel : Model
     {
+        /// <summary>
+        /// The random number generator.
+        /// </summary>
+        private static readonly Random s_random = new();
+
         /// <summary>
         /// Activates all <see cref="ICrossable"/> tiles that the player has passed.
         /// </summary>
@@ -42,114 +44,6 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
-        /// Loads tiles from a xml file.
-        /// </summary>
-        /// <returns>
-        /// The list of loaded tiles.
-        /// </returns>
-        public List<TileController> LoadTiles()
-        {
-            var tilesXml = new XmlDocument();
-#if WINDOWS
-            var path = "../../../Properties/Tiles.xml";
-#elif LINUX
-            var path = "WZIMopoly/Properties/Tiles.xml";
-#endif
-
-            tilesXml.Load(path);
-
-            var tiles = new List<TileController>();
-            string controllerNamespace = "WZIMopoly.Controllers.GameScene.TileControllers";
-            string modelNamespace = "WZIMopoly.Models.GameScene.TileModels";
-            foreach (XmlNode tileNode in tilesXml.DocumentElement.ChildNodes)
-            {
-                string rawTileType = tileNode.Attributes["type"].Value;
-                Type tileControllerType = Type.GetType($"{controllerNamespace}.{rawTileType}TileController");
-                Type tileGenericControllerType = Type.GetType($"{controllerNamespace}.TileController");
-                Type tileModelType = Type.GetType($"{modelNamespace}.{rawTileType}TileModel");
-
-                TileModel tileModel;
-                if (tileModelType.IsAssignableTo(typeof(TileModel)))
-                {
-                    MethodInfo loadMethod = tileModelType.GetMethod("LoadFromXml");
-                    tileModel = (TileModel)loadMethod.Invoke(null, new object[] { tileNode });
-                }
-                else
-                {
-                    throw new InvalidTypeException(
-                        $"Tile model type {tileModelType} is not assignable to {typeof(TileModel)}");
-                }
-
-                TileController tileController;
-                if (tileModel is SubjectTileModel)
-                {
-                    tileController = (TileController)Activator.CreateInstance(
-                        type: tileControllerType,
-                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                        binder: null,
-                        args: new object[] { tileModel, new GUISubjectTile(tileNode, tileModel as SubjectTileModel) },
-                        culture: null
-                    );
-                }
-                else if (tileModel is PurchasableTileModel)
-                {
-                    tileController = (TileController)Activator.CreateInstance(
-                        type: tileControllerType,
-                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                        binder: null,
-                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel as PurchasableTileModel) },
-                        culture: null
-                    );
-                }
-                else
-                {
-                    tileController = (TileController)Activator.CreateInstance(
-                        type: tileControllerType,
-                        bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
-                        binder: null,
-                        args: new object[] { tileModel, new GUITile(tileNode, tileModel)},
-                        culture: null
-                    );
-                }
-
-                tiles.Add(tileController);
-            }
-
-            tiles.ForEach(AddChild);
-            tiles.ForEach(x => x.Model.SetAllTiles(tiles.Select(x => x.Model).ToList()));
-
-            var deaneryTile = tiles.First(x => x.Model is DeaneryTileModel);
-            var mandatoryLectureTile = GetModel<MandatoryLectureTileModel>();
-            deaneryTile.Model.OnStand += (player) =>
-            {
-                TeleportPlayer(player, mandatoryLectureTile);
-                mandatoryLectureTile.AddPrisoner(player);
-                ActivateOnStandTile(player);
-            };
-            return tiles;
-        }
-
-        /// <summary>
-        /// Creates pawns for all players.
-        /// </summary>
-        /// <remarks>
-        /// Adds pawns to the list of pawns and to the children of the map.
-        /// </remarks>
-        /// <param name="players">
-        /// The list of players to create pawns for.
-        /// </param>
-        public void CreatePawns(List<PlayerModel> players)
-        {
-            foreach (PlayerModel player in players)
-            {
-                var model = new PawnModel(player.Color);
-                var view = new GUIPawn(model);
-                var controller = new PawnController(model, view);
-                AddChildBefore<TileController>(controller);
-            }
-        }
-
-        /// <summary>
         /// Sets all players on the start tile.
         /// </summary>
         /// <remarks>
@@ -171,28 +65,17 @@ namespace WZIMopoly.Models.GameScene
         /// The player to move.
         /// </param>
         /// <param name="step">
-        /// A positive number of tiles to pass.
+        /// A number of tiles to pass.
         /// </param>
         /// <returns>
         /// The list of tiles that the player has passed.
         /// </returns>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="step"/> is not a positive number.
-        /// </exception>
-        /// <remarks>
-        /// If the player crosses the <see cref="ICrossable"/> tile,
-        /// the <see cref="ICrossable.OnCross"/> method is called.
-        /// </remarks>
-        public List<TileController> MovePlayer(PlayerModel player, uint step)
+        public List<TileController> MovePlayer(PlayerModel player, int step)
         {
-            if (step == 0)
-            {
-                throw new ArgumentException("Step must be a positive number.");
-            }
-            var sourceTile = GetController<TileController>(x => x.Model.Players.Contains(player));
+            var sourceTile = GetPlayerTile(player);
             sourceTile.Model.Players.Remove(player);
 
-            var destinationTileIndex = (sourceTile.Model.Id + step) % 40;
+            var destinationTileIndex = (sourceTile.Model.Id + step + 40) % 40;
             var destinationTile = GetController<TileController>(x => x.Model.Id == destinationTileIndex);
             destinationTile.Model.Players.Add(player);
 
@@ -212,6 +95,75 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
+        /// Moves the player to a designated tile.
+        /// </summary>
+        /// <param name="player">
+        /// The player to be moved.
+        /// </param>
+        /// <param name="tileModel">
+        /// The tile to move the player to.
+        /// </param>
+        /// <returns>
+        /// The list of tiles that the player has passed.
+        /// </returns>
+        public List<TileController> MovePlayer(PlayerModel player, TileModel tileModel)
+        {
+            List<TileController> passedTiles;
+            var sourceTile = GetPlayerTile(player).Model;
+            if (sourceTile.Id > tileModel.Id)
+            {
+                passedTiles = MovePlayer(player, 40 - (sourceTile.Id - tileModel.Id));
+            }
+            else
+            {
+                passedTiles = MovePlayer(player, (tileModel.Id - sourceTile.Id));
+            }
+            return passedTiles;
+        }
+
+        /// <inheritdoc cref="MovePlayer(PlayerModel, TileModel)"/>
+        public List<TileController> MovePlayer(PlayerModel player, TileController tileController)
+        {
+            return MovePlayer(player, tileController.Model);
+        }
+
+        /// <summary>
+        /// Finds the nearest tile of a given type from the player.
+        /// </summary>
+        /// <typeparam name="T">
+        /// The type of the tile to find.
+        /// </typeparam>
+        /// <param name="player">
+        /// The player to find the tile from.
+        /// </param>
+        /// <returns>
+        /// The nearest tile of the given type.
+        /// </returns>
+        public T FindNearestTile<T>(PlayerModel player)
+            where T : TileController
+        {
+            List<T> tiles = GetAllControllers<T>();
+            var playerTile = GetPlayerTile(player);
+            return tiles.OrderBy(x => Math.Min(
+                Math.Abs(x.Model.Id - playerTile.Model.Id),
+                Math.Abs(x.Model.Id + 40 - playerTile.Model.Id))).First();
+        }
+
+        /// <summary>
+        /// Returns the tile that the player is standing on.
+        /// </summary>
+        /// <param name="player">
+        /// The player to check.
+        /// </param>
+        /// <returns>
+        /// The tile that the player is standing on.
+        /// </returns>
+        public TileController GetPlayerTile(PlayerModel player)
+        {
+            return GetController<TileController>(x => x.Model.Players.Contains(player));
+        }
+
+        /// <summary>
         /// Activates the tile that the player is standing on.
         /// </summary>
         /// <param name="player">
@@ -224,37 +176,64 @@ namespace WZIMopoly.Models.GameScene
         }
 
         /// <summary>
-        /// Activates the tile that the player is standing on 
-        /// and handles the <see cref="NotEnoughMoney"/> exception.
+        /// Handles the player's bankruptcy.
         /// </summary>
-        /// <param name="player">
-        /// The player that is standing on the tile.
+        /// <param name="action">
+        /// The action that may cause the bankruptcy.
         /// </param>
+        /// <param name="player">
+        /// The player that may go bankrupt.
+        /// </param>
+        /// <param name="mortgageCtrl">
+        /// The mortgage controller used to mortgage the player's
+        /// tiles or their grades unless the player has enough money to pay.
+        /// </param>
+        /// <param name="model">
+        /// The game model used to send the game data to the server.
+        /// </param>
+        /// <example>
+        /// <code>
+        /// HandleBankrupt( delegate { player.Money -= 100; }, player, mortgageCtrl, model);
+        /// </code>
+        /// </example>
         /// <remarks>
-        /// If the player doesn't have enough money to pay the rent,
-        /// the player is asked to mortgage tiles or sell their grades.
+        /// <para>
+        /// While the action is being executed and the player goes bankrupt,
+        /// the player's status is set to <see cref="PlayerStatus.SavingFromBankruptcy"/>.
+        /// </para>
+        /// <para>
+        /// Until the player has enough money to pay,
+        /// they are asked to mortgage their tiles or their grades.
+        /// </para>
+        /// <para>
+        /// If the player's properties are not enough to pay,
+        /// the player goes bankrupt. Their status
+        /// is set to <see cref="PlayerStatus.Bankrupt"/>.<br/>
+        /// If the player stood on a purchasable tile,
+        /// the tile's owner gets the player's properties.
+        /// </para>
         /// </remarks>
-        public void ActivateOnStandTile(PlayerModel player, MortgageController mortgageCtrl, GameModel model)
+        public void HandleBankrupt(Action action, PlayerModel player, MortgageController mortgageCtrl, GameModel model)
         {
-            void ActivateAgain()
+            void HandleAgain()
             {
-                ActivateOnStandTile(player, mortgageCtrl, model);
-                mortgageCtrl.OnTileClicked -= ActivateAgain;
+                HandleBankrupt(action, player, mortgageCtrl, model);
+                mortgageCtrl.OnTileClicked -= HandleAgain;
             }
 
             try
             {
-                ActivateOnStandTile(player);
+                action();
                 player.PlayerStatus = PlayerStatus.AfterRollingDice;
                 GameSettings.SendGameData(model);
             }
             catch (NotEnoughMoney ex)
             {
-                var tile = GetController<TileController>(x => x.Model.Players.Contains(player));
+                var tile = GetPlayerTile(player);
                 if (player.HowMuchMoneyCanPlayerGetBack() >= Math.Abs(ex.Amount))
                 {
                     player.PlayerStatus = PlayerStatus.SavingFromBankruptcy;
-                    mortgageCtrl.OnTileClicked += ActivateAgain;
+                    mortgageCtrl.OnTileClicked += HandleAgain;
                 }
                 else if (tile.Model is PurchasableTileModel t)
                 {
