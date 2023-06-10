@@ -47,9 +47,9 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         /// </returns>
         private static bool PlayerCanMortgageAnyTile(PlayerModel player)
         {
-            foreach (TileModel tile in player.PurchasedTiles)
+            foreach (IMortgageable tile in player.PurchasedTiles)
             {
-                if (tile is SubjectTileModel t && t.CanMortgage(player))
+                if (tile.CanMortgage(player))
                 {
                     return true;
                 }
@@ -68,9 +68,9 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         /// </returns>
         private static bool PlayerCanUnmortgageAnyTile(PlayerModel player)
         {
-            foreach (TileModel tile in player.MortgagedTiles)
+            foreach (IMortgageable tile in player.MortgagedTiles)
             {
-                if (tile is SubjectTileModel t && t.CanUnmortgage(player))
+                if (tile.CanUnmortgage(player))
                 {
                     return true;
                 }

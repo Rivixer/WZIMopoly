@@ -76,6 +76,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
             return tile;
         }
 
+        /// <inheritdoc/>
+        public override int GetValue()
+        {
+            return Price;
+        }
+
         /// <summary>
         /// Returns the amount of restrooms the owner has.
         /// </summary>

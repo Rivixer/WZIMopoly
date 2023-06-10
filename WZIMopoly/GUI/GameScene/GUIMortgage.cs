@@ -199,13 +199,13 @@ namespace WZIMopoly.GUI.GameScene
                 }
                 else
                 {
-                    SubjectTileModel? t = null;
+                    PurchasableTileModel? t = null;
                     foreach (TileController tile in _model.TileControllers)
                     {
-                        if (tile.Model is SubjectTileModel
+                        if (tile.Model is PurchasableTileModel
                             && MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
                         {
-                            t = tile.Model as SubjectTileModel;
+                            t = tile.Model as PurchasableTileModel;
                             break;
                         }
                     }
@@ -248,12 +248,12 @@ namespace WZIMopoly.GUI.GameScene
                             _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
                         };
                     }
-                    else if (t.CanSellGrade(player))
+                    else if (t is SubjectTileModel subject && subject.CanSellGrade(player))
                     {
-                        var grade = t.Grade;
+                        var grade = subject.Grade;
                         SubjectGrade lowerGrade = grade - 1;
                         // TODO: Convert SubjectGrade to a number
-                        var sellPrice = t.SellGradePrice;
+                        var sellPrice = subject.SellGradePrice;
                         text = WZIMopoly.Language switch
                         {
                             Language.Polish => $"Obniż ocenę {t.PlName} z {grade} do {lowerGrade} i zyskaj {sellPrice}ECTS.",

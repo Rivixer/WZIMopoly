@@ -34,11 +34,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal SubjectGrade Grade;
 
         /// <summary>
-        /// Whether the tile is mortgaged.
-        /// </summary>
-        private bool _isMortgaged = false;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SubjectTileModel"/> class.
         /// </summary>
         /// <param name="id">
@@ -119,16 +114,21 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </summary>
         public int SellGradePrice => UpgradePrice / 2;
 
-        /// <summary>
-        /// Gets the price for mortgaging the subject.
-        /// </summary>
-        public int MortgagePrice => Price / 2;
-
-        /// <summary>
-        /// Gets the value indicating whether
-        /// the subject is currently mortgaged.
-        /// </summary>
-        public bool IsMortgaged => _isMortgaged;
+        /// <inheritdoc/>
+        public override int GetValue()
+        {
+            int result = 0;
+            if (IsMortgaged)
+            {
+                result += MortgagePrice;
+            }
+            else
+            {
+                result += Price;
+                result += ((int)Grade  - 1) * UpgradePrice;
+            }
+            return result;
+        }
 
         /// <summary>
         /// Upgrades the subject tile.
@@ -168,41 +168,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 && PlayerHasSetOfColor(player);
         }
 
-        /// <summary>
-        /// Checks if the player can mortgage the subject tile.
-        /// </summary>
-        /// <param name="player">
-        /// The player to check if can mortgage the subject tile.
-        /// </param>
-        /// <returns>
-        /// True if the player can mortgage the subject tile, otherwise false.
-        /// </returns>
-        /// <remarks>
-        /// The player can mortgage the subject tile if the player owns the tile
-        /// and the grade is <see cref="SubjectGrade.Three"/>.
-        /// </remarks>
-        public bool CanMortgage(PlayerModel player)
+        /// <inheritdoc/>
+        public override bool CanMortgage(PlayerModel player)
         {
-            return player.Equals(Owner) && !IsMortgaged && Grade == SubjectGrade.Three;
+            return base.CanMortgage(player) && Grade == SubjectGrade.Three;
         }
 
-        /// <summary>
-        /// Checks if the player can unmortgage the subject tile.
-        /// </summary>
-        /// <param name="player">
-        /// The player to check if can unmortgage the subject tile.
-        /// </param>
-        /// <returns>
-        /// True if the player can unmortgage the subject tile, otherwise false.
-        /// </returns>
-        /// <remarks>
-        /// The player can unmortgage the subject tile if the player owns the tile,
-        /// the tile is mortgaged and the player has enough money to pay the mortgage price.
-        /// </remarks>
-        public bool CanUnmortgage(PlayerModel player)
-        {
-            return player.Equals(Owner) && IsMortgaged && player.Money >= MortgagePrice;
-        }
 
         /// <summary>
         /// Checks if the player can sell the subject tile grade.
@@ -220,26 +191,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         public bool CanSellGrade(PlayerModel player)
         {
             return player.Equals(Owner) && Grade > SubjectGrade.Three;
-        }
-
-        /// <summary>
-        /// Mortgages the subject tile.
-        /// </summary>
-        public void Mortgage()
-        {
-            Owner.MortgagedTiles.Add(this);
-            Owner.Money += MortgagePrice;
-            _isMortgaged = true;
-        }
-
-        /// <summary>
-        /// Unmortages the subject tile.
-        /// </summary>
-        public void Unmortgage()
-        {
-            Owner.Money -= MortgagePrice;
-            Owner.MortgagedTiles.Remove(this);
-            _isMortgaged = false;
         }
 
         /// <summary>
@@ -300,7 +251,6 @@ namespace WZIMopoly.Models.GameScene.TileModels
         {
             base.Reset();
             Grade = SubjectGrade.Two;
-            _isMortgaged = false;
         }
     }
 }
