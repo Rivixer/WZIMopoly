@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Enums;
@@ -13,14 +12,8 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// <summary>
     /// Represents the use card to leave jail button.
     /// </summary>
-    internal class GUIUseCardToLeaveJailButton : GUIButton<UseCardToLeaveJailButtonModel>, IGUIGameUpdate
     internal class GUIUseCardToLeaveJailButton : GUIGameButton<UseCardToLeaveJailButtonModel>, IGUIGameUpdate
     {
-        /// <summary>
-        /// The auxiliary text informing the player about the action of the button.
-        /// </summary>
-        private readonly GUIText _text;
-
         /// <summary>
         /// The tile that the player is currently on.
         /// </summary>
@@ -36,7 +29,6 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             : base(model, new Rectangle(1060, 923, 256, 88), GUIStartPoint.Left)
         {
             SetButtonHoverArea(5, 0.70f);
-            _text = new GUIText("Fonts/WZIMFont", new Vector2(960, 720), Color.Black, GUIStartPoint.Center, scale: 0.3f);
         }
 
         /// <inheritdoc/>
@@ -61,16 +53,9 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 }
                 if (IsHovered)
                 {
-                    _text.Draw(spriteBatch);
+                    AuxText.Draw(spriteBatch);
                 }
             }
-        }
-
-        /// <inheritdoc/>
-        public override void Load(ContentManager content)
-        {
-            base.Load(content);
-            _text.Load(content);
         }
 
         /// <remarks>
@@ -93,7 +78,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             {
                 if (player.NumberOfLeaveJailCards == 0)
                 {
-                    _text.Text = WZIMopoly.Language switch
+                    AuxText.Text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Nie masz żadnego usprawiedliwienia, siedź na wykładzie!",
                         Language.English => $"You have no excuse, stay at the lecture!",
@@ -102,7 +87,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 }
                 else
                 {
-                    _text.Text = WZIMopoly.Language switch
+                    AuxText.Text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Skorzystaj z usprawiedliwienia i wyjdź z wykładu (pozostało {player.NumberOfLeaveJailCards})",
                         Language.English => $"Use an excuse and leave the lecture. {player.NumberOfLeaveJailCards}",
@@ -112,7 +97,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             }
             else
             {
-                _text.Text = string.Empty;
+                AuxText.Text = string.Empty;
             }
         }
     }
