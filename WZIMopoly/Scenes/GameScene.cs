@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WZIMopoly.Attributes;
 using WZIMopoly.Controllers;
@@ -55,6 +56,11 @@ namespace WZIMopoly.Scenes
         private MortgageController _mortgageController;
 
         /// <summary>
+        /// The trade controller.
+        /// </summary>
+        private TradeController _tradeController;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GameScene"/> class.
         /// </summary>
         /// <param name="model">
@@ -91,6 +97,9 @@ namespace WZIMopoly.Scenes
             Model.InitializeChild<JailModel, GUIJail, JailController>();
 
             InitializePlayerInfo();
+
+            _tradeController = Model.InitializeChild<TradeModel, GUITrade, TradeController>(tileControllers, Model.GetAllControllers<PlayerInfoController>());
+
             InitializeButtons();
 
             var buttons = Model.GetAllControllersRecursively<ButtonController>();
@@ -340,7 +349,23 @@ namespace WZIMopoly.Scenes
             };
 
             // Trade button
-            Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
+            var tradeButton = Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
+            tradeButton.OnButtonClicked += () =>
+            {
+                if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.Trading)
+                {
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                }
+                else if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
+                {
+                    var tradeModel = _tradeController.Model;
+                    tradeModel.Offeror = GameSettings.CurrentPlayer;
+                    tradeModel.Recipient = null;
+                    tradeModel.ChosenOfferorTiles.Clear();
+                    tradeModel.ChosenRecipientTiles.Clear();
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.Trading;
+                }                
+            };
 
             // Pay to leave jail button
             var leaveJailButton = Model.GetControllerRecursively<PayToLeaveJailButtonController>();
@@ -374,6 +399,46 @@ namespace WZIMopoly.Scenes
 
             //Settings button
             var settingButton = Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
+
+            // Make trade button
+            var makeTradeButton = Model.InitializeChild<TradeMakeButtonModel, GUITradeMakeButton, TradeMakeButtonController>();
+            makeTradeButton.Model.Conditions += () => _tradeController.Model.TotalValue > 0;
+            makeTradeButton.OnButtonClicked += () =>
+            {
+                PlayerModel recipient = _tradeController.Model.Recipient;
+                recipient.PlayerStatus = PlayerStatus.ReceivingTrade;
+                GameSettings.SetTemporaryPlayerAsCurrent(recipient);
+            };
+
+            // Accept trade button
+            var acceptTradeButton = Model.InitializeChild<TradeAcceptButtonModel, GUITradeAcceptButton, TradeAcceptButtonController>();
+            acceptTradeButton.Model.Conditions += () => !makeTradeButton.Model.WasClickedInThisFrame;
+            acceptTradeButton.OnButtonClicked += () =>
+            {
+                PlayerModel offeror = _tradeController.Model.Offeror;
+                PlayerModel recipient = _tradeController.Model.Recipient;
+                foreach (var tile in _tradeController.Model.ChosenOfferorTiles)
+                {
+                    offeror.TransferTileTo(recipient, tile);
+                }
+                foreach (var tile in _tradeController.Model.ChosenRecipientTiles)
+                {
+                    recipient.TransferTileTo(offeror, tile);
+                }
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                GameSettings.RestoreCurrentPlayer();
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+            };
+
+            // Decline trade button
+            var declineTradeButton = Model.InitializeChild<TradeDeclineButtonModel, GUITradeDeclineButton, TradeDeclineButtonController>();
+            declineTradeButton.OnButtonClicked += () =>
+            {
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                GameSettings.RestoreCurrentPlayer();
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+            };
+
         }
     }
 }
