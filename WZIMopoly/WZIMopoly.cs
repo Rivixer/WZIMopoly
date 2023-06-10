@@ -340,6 +340,9 @@ namespace WZIMopoly
         private void InitializeGameScene()
         {
             _gameScene.Initialize();
+
+            var returnButton = _gameScene.Model.GetController<ExitButtonController>();
+            returnButton.OnButtonClicked += ReturnToMenu;
         }
 
         /// <summary>
