@@ -6,6 +6,7 @@ using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.NetworkData;
 using WZIMopolyNetworkingLibrary;
+using System;
 
 namespace WZIMopoly
 {
@@ -29,6 +30,11 @@ namespace WZIMopoly
         /// The current player index.
         /// </summary>
         private static int _currentPlayerIndex = 0;
+
+        /// <summary>
+        /// The temporary current player index.
+        /// </summary>
+        private static int? _tempCurrentPlayerIndex;
 
         /// <summary>
         /// Gets the players.
@@ -89,6 +95,36 @@ namespace WZIMopoly
 #nullable disable
 
         /// <summary>
+        /// Sets the temporary player as the current player.
+        /// </summary>
+        /// <param name="player">
+        /// The player to be set as the temporary player.
+        /// </param>
+        public static void SetTemporaryPlayerAsCurrent(PlayerModel player)
+        {
+            _tempCurrentPlayerIndex = _currentPlayerIndex;
+            _currentPlayerIndex = Players.IndexOf(player);
+        }
+
+        /// <summary>
+        /// Restores the current player from the temporary player.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// The temporary current player index is not set.
+        /// </exception>
+        public static void RestoreCurrentPlayer()
+        {
+            if (_tempCurrentPlayerIndex == null)
+            {
+                throw new ArgumentException("Temporary current player index not set.");
+            }
+            else
+            {
+                _currentPlayerIndex = (int)_tempCurrentPlayerIndex;
+            }
+        }
+
+        /// <summary>
         /// Creates the players with default values.
         /// </summary>
         public static void CreatePlayers()
@@ -125,8 +161,10 @@ namespace WZIMopoly
                 {
                     ActivePlayers = ActivePlayers,
                     CurrentPlayerIndex = _currentPlayerIndex,
+                    TempCurrentPlayerIndex = _tempCurrentPlayerIndex,
                     DiceModel = model.GetModel<DiceModel>(),
                     Tiles = model.GetAllModelsRecursively<TileModel>(),
+                    TradeModel = model.GetModel<TradeModel>(),
                 };
                 var data = new byte[] { (byte)PacketType.GameStatus };
                 data = data.Concat(gameData.ToByteArray()).ToArray();
@@ -160,10 +198,15 @@ namespace WZIMopoly
 
             // Update the current player
             _currentPlayerIndex = data.CurrentPlayerIndex;
+            _tempCurrentPlayerIndex = data.TempCurrentPlayerIndex;
 
             // Update the dice model
             var diceModel = model.GetModel<DiceModel>();
             diceModel.Update(data.DiceModel);
+
+            // Update the trade model
+            var tradeModel = model.GetModel<TradeModel>();
+            tradeModel.Update(data.TradeModel);
 
             // Update AllTiles property on each tile
             // (maybe it is not necessary, but I don't have
