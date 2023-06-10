@@ -7,6 +7,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the trade button view.
     /// </summary>
     internal sealed class GUITradeButton : GUIButton<TradeButtonModel>
+    internal sealed class GUITradeButton : GUIGameButton<TradeButtonModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUITradeButton"/> class.

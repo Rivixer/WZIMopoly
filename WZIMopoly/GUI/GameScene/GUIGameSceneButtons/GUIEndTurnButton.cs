@@ -7,6 +7,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the end turn button view.
     /// </summary>
     internal sealed class GUIEndTurnButton : GUIButton<EndTurnButtonModel>
+    internal sealed class GUIEndTurnButton : GUIGameButton<EndTurnButtonModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIEndTurnButton"/> class.

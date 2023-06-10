@@ -14,6 +14,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the use card to leave jail button.
     /// </summary>
     internal class GUIUseCardToLeaveJailButton : GUIButton<UseCardToLeaveJailButtonModel>, IGUIGameUpdate
+    internal class GUIUseCardToLeaveJailButton : GUIGameButton<UseCardToLeaveJailButtonModel>, IGUIGameUpdate
     {
         /// <summary>
         /// The auxiliary text informing the player about the action of the button.

@@ -7,6 +7,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the upgrade button view.
     /// </summary>
     internal sealed class GUIUpgradeButton : GUIButton<UpgradeButtonModel>
+    internal sealed class GUIUpgradeButton : GUIGameButton<UpgradeButtonModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIUpgradeButton"/> class.

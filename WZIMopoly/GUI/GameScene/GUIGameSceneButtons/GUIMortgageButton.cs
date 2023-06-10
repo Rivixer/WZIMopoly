@@ -7,6 +7,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the mortgage button view.
     /// </summary>
     internal sealed class GUIMortgageButton : GUIButton<MortgageButtonModel>
+    internal sealed class GUIMortgageButton : GUIGameButton<MortgageButtonModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIMortgageButton"/> class.

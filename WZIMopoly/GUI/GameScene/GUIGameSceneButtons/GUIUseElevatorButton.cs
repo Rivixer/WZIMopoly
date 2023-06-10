@@ -11,6 +11,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the use elevator button view.
     /// </summary>
     internal class GUIUseElevatorButton : GUIButton<UseElevatorButtonModel>
+    internal class GUIUseElevatorButton : GUIGameButton<UseElevatorButtonModel>
     {
         /// <summary>
         /// The auxiliary text informing the player about what the button does.

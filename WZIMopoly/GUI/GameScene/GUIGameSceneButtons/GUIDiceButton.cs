@@ -13,6 +13,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the dice button view.
     /// </summary>
     internal sealed class GUIDiceButton : GUIButton<DiceButtonModel>, IGUIGameUpdate, ISoundable
+    internal sealed class GUIDiceButton : GUIGameButton<DiceButtonModel>, IGUIGameUpdate, ISoundable
     {
         /// <summary>
         /// The sound effect of a rolling dice.

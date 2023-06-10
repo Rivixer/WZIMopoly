@@ -7,6 +7,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents a settings button view.
     /// </summary>
     internal sealed class GUISettingsButton : GUIButton<SettingsButtonModel>
+    internal class GUISettingsButton : GUIGameButton<SettingsButtonModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUISettingsButton"/> class.

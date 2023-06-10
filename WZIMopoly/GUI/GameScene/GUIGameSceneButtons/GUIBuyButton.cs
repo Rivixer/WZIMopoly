@@ -7,6 +7,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// Represents the buy button view.
     /// </summary>
     internal sealed class GUIBuyButton : GUIButton<BuyButtonModel>
+    internal sealed class GUIBuyButton : GUIGameButton<BuyButtonModel>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIBuyButton"/> class.
