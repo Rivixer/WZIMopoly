@@ -3555,6 +3555,30 @@
 /processorParam:TextureFormat=Color
 /build:Images/VendingMachineCards/17PL.jpg
 
+#begin Images/VendingMachineCards/18.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/VendingMachineCards/18.jpg
+
+#begin Images/VendingMachineCards/18PL.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/VendingMachineCards/18PL.jpg
+
 #begin Images/VendingMachineCards/1PL.jpg
 /importer:TextureImporter
 /processor:TextureProcessor

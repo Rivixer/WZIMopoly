@@ -368,6 +368,12 @@ namespace WZIMopoly.Scenes
                 mapModel.TeleportPlayer(GameSettings.CurrentPlayer, elevTile);
                 _mapController.View.UpdatePawnPositions();
             };
+
+            //Exit button
+            var exitButton = Model.InitializeChild<ExitButtonModel, GUIExitButton, ExitButtonController>();
+
+            //Settings button
+            var settingButton = Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
         }
     }
 }

@@ -298,7 +298,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIButton{M}"/> class.
         /// </summary>
-        /// <inheritdoc cref="GUIButton(ButtonModel, Rectangle, GUIStartPoint)"/>
+        /// <inheritdoc cref="GUIButton(ButtonModel, Rectangle, GUIStartPoint, bool, bool)"/>
         public GUIButton(
             M model,
             Rectangle defDstRect,

@@ -167,7 +167,7 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Updates the auxiliary text informing the player about the upgrade.
+        /// Updates the auxiliary text informing the player about the mortgage.
         /// </summary>
         private void UpdateText()
         {

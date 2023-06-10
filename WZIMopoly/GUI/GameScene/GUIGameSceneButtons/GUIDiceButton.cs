@@ -2,17 +2,19 @@
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.GameButtonModels;
+using WZIMopoly.Models.GameScene.TileModels;
 
 namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
 {
     /// <summary>
     /// Represents the dice button view.
     /// </summary>
-    internal sealed class GUIDiceButton : GUIButton<DiceButtonModel>, IGUIGameUpdate, ISoundable
+    internal sealed class GUIDiceButton : GUIGameButton<DiceButtonModel>, IGUIGameUpdate, ISoundable
     {
         /// <summary>
         /// The sound effect of a rolling dice.
@@ -23,6 +25,11 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// The player who is now taking a turn.
         /// </summary>
         private PlayerModel _currentPlayer;
+
+        /// <summary>
+        /// Whether the auxiliary text is visible.
+        /// </summary>
+        private bool _isAuxTextVisible;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIDiceButton"/> class.
@@ -49,6 +56,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             _soundEffect = content.Load<SoundEffect>($"Sounds/{Model.Name}");
         }
 
+        /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
             GUITexture texture;
@@ -69,12 +77,22 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 };
             }
             texture?.Draw(spriteBatch);
+            if (Model.IsActive && IsHovered && _isAuxTextVisible)
+                AuxText.Draw(spriteBatch);
         }
 
         /// <inheritdoc/>
         public void Update(PlayerModel player, TileModel tile)
         {
             _currentPlayer = player;
+            _isAuxTextVisible = !(tile is MandatoryLectureTileModel t && t.IsPrisoner(_currentPlayer));
+
+            AuxText.Text = WZIMopoly.Language switch
+            {
+                Language.Polish => $"Rzuć kostkami.",
+                Language.English => $"Roll the dice.",
+                _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
+            };
         }
     }
 }

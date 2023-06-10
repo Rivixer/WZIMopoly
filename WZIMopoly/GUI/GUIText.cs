@@ -22,7 +22,7 @@ namespace WZIMopoly.GUI
         /// <summary>
         /// The color of the text.
         /// </summary>
-        protected Color Color;
+        internal Color Color;
 
         /// <summary>
         /// The scale of the font scaled to the current screen resolution.
