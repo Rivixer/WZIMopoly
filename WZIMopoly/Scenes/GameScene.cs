@@ -72,7 +72,7 @@ namespace WZIMopoly.Scenes
             _mapController = Model.InitializeChild<MapModel, GUIMap, MapController>();
             List<TileController> tileControllers = _mapController.Model.LoadTiles();
             _mapController.Model.CreatePawns(GameSettings.Players);
-
+            
             var model = new DiceModel();
             var view = new GUIDice(model);
             _diceController = new DiceController(model, view);
@@ -85,6 +85,10 @@ namespace WZIMopoly.Scenes
 
             _mortgageController = Model.InitializeChild<MortgageModel, GUIMortgage, MortgageController>(tileControllers);
             _mortgageController.OnTileClicked += () => GameSettings.SendGameData(Model);
+
+            _mapController.Model.InitializeChanceCards(_mortgageController, Model);
+
+            Model.InitializeChild<JailModel, GUIJail, JailController>();
 
             InitializePlayerInfo();
             InitializeButtons();
@@ -164,9 +168,11 @@ namespace WZIMopoly.Scenes
                     {
                         jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                     }
-                    var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, (uint)stepToMove);
+                    var passedTiles = _mapController.Model.MovePlayer(GameSettings.CurrentPlayer, stepToMove);
                     MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
-                    _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
+                    _mapController.Model.HandleBankrupt(
+                        delegate { _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer); },
+                        GameSettings.CurrentPlayer, _mortgageController, Model);
                     _mapController.View.UpdatePawnPositions();
                     GameSettings.SendGameData(Model);
                 }
@@ -288,7 +294,9 @@ namespace WZIMopoly.Scenes
                         List<TileController> passedTiles = mapModel.MovePlayer(GameSettings.CurrentPlayer, diceModel.Sum);
                         MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
                     }
-                    mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer, _mortgageController, Model);
+                    mapModel.HandleBankrupt(
+                        delegate { mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer); },
+                        GameSettings.CurrentPlayer, _mortgageController, Model);
                 }
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 GameSettings.SendGameData(Model);
@@ -306,8 +314,15 @@ namespace WZIMopoly.Scenes
                     }
                 }
 
+                var chanceTiles = mapModel.GetAllModels<ChanceTileModel>();
+                chanceTiles.ForEach(x => x.DrawnCard = null);
+
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
-                if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(GameSettings.CurrentPlayer))
+                if (GameSettings.CurrentPlayer.AdditionalRoll)
+                {
+                    GameSettings.CurrentPlayer.AdditionalRoll = false;
+                }
+                else if (!diceModel.LastRollWasDouble || jailModel.Players.Contains(GameSettings.CurrentPlayer))
                 {
                     GameSettings.NextPlayer();
                     diceModel.ResetDoubleCounter();
@@ -327,13 +342,22 @@ namespace WZIMopoly.Scenes
             // Trade button
             Model.InitializeChild<TradeButtonModel, GUITradeButton, TradeButtonController>();
 
-            // Leave jail button
-            var leaveJailButton = Model.InitializeChild<LeaveJailButtonModel, GUILeaveJailButton, LeaveJailButtonController>();
+            // Pay to leave jail button
+            var leaveJailButton = Model.GetControllerRecursively<PayToLeaveJailButtonController>();
             leaveJailButton.OnButtonClicked += () =>
             {
                 var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
                 jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
                 GameSettings.CurrentPlayer.Money -= 50;
+            };
+
+            // Use card to leave jail button
+            var useCardButton = Model.GetControllerRecursively<UseCardToLeaveJailButtonController>();
+            useCardButton.OnButtonClicked += () =>
+            {
+                var jailModel = mapModel.GetModel<MandatoryLectureTileModel>();
+                jailModel.ReleasePrisoner(GameSettings.CurrentPlayer);
+                GameSettings.CurrentPlayer.NumberOfLeaveJailCards--;
             };
 
             // Use elevator button

@@ -37,5 +37,13 @@ namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
             if (WasClickedInThisFrame)
                 _wasUsed = true;
         }
+
+        /// <summary>
+        /// Sets the button as used.
+        /// </summary>
+        public void SetWasUsed()
+        {
+            _wasUsed = true;
+        }
     }
 }

@@ -55,6 +55,11 @@ namespace WZIMopoly.Models
         private int _money = 1500;
 
         /// <summary>
+        /// The number of leave jail cards player has.
+        /// </summary>
+        private int _numberOfLeaveJailCards = 0;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
         /// </summary>
         /// <param name="defaultNick">
@@ -88,6 +93,27 @@ namespace WZIMopoly.Models
             _mortgagedTiles = player._mortgagedTiles;
             _defaultNick = player._defaultNick;
             _color = player._color;
+        }
+
+        /// <summary>
+        /// Gets or sets whether the player has additional roll.
+        /// </summary>
+        public bool AdditionalRoll { get; set; }
+
+        /// <summary>
+        /// Gets the number of leave jail cards player has.
+        /// </summary>
+        public int NumberOfLeaveJailCards
+        {
+            get => _numberOfLeaveJailCards;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("The number of leave jail cards cannot be less than 0.");
+                }
+                _numberOfLeaveJailCards = value;
+            }
         }
 
         /// <summary>

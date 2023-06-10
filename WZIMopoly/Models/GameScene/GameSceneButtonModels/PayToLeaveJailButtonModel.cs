@@ -4,14 +4,14 @@ using WZIMopoly.Models.GameScene.TileModels;
 namespace WZIMopoly.Models.GameScene.GameSceneButtonModels
 {
     /// <summary>
-    /// The model of the leave jail button.
+    /// The model of the pay to leave jail button.
     /// </summary>
-    internal class LeaveJailButtonModel : ButtonModel, IGameUpdateModel
+    internal class PayToLeaveJailButtonModel : ButtonModel, IGameUpdateModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LeaveJailButtonModel"/> class.
+        /// Initializes a new instance of the <see cref="PayToLeaveJailButtonModel"/> class.
         /// </summary>
-        public LeaveJailButtonModel() 
+        public PayToLeaveJailButtonModel() 
             : base("LeaveJail") { }
 
         /// <inheritdoc/>
