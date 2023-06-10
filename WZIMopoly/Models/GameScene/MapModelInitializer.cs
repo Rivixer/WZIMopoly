@@ -112,7 +112,6 @@ namespace WZIMopoly.Models.GameScene
                     var canteenCards = GetAllModels<ChanceCardModel>(x => x.Type == ChanceCardType.Canteen);
                     var cardNumber = s_random.Next(canteenCards.Count);
                     canteenTile.DrawnCard = canteenCards[cardNumber];
-                    Debug.WriteLine(cardNumber);
                     canteenTile.DrawnCard.OnCardDrawn(player);
                 };
             }
