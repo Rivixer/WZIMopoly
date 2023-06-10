@@ -51,6 +51,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Black.png
 
+#begin Images/Blue.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Blue.png
+
 #begin Images/Board.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2703,6 +2715,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/FinishedPL.png
 
+#begin Images/Green.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Green.png
+
 #begin Images/JoinScreen.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3590,6 +3614,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/VendingMachineCards/9PL.jpg
+
+#begin Images/Yellow.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Yellow.png
 
 #begin Songs/menu_song.mp3
 /importer:Mp3Importer
