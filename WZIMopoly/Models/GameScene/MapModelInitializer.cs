@@ -251,7 +251,7 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(9, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 50; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 40; }, player, mortgageCtrl, gameModel);
             };
 
             // Go to Discrete mathematic - if you go through start, get 200 ECTS
