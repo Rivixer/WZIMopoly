@@ -57,9 +57,9 @@ namespace WZIMopoly.Models.GameScene
         {
             foreach (TileModel tile in TileModels)
             {
-                if (tile is IMortgageable t
-                    && (!t.CanMortgage(player)
-                    || !((t as SubjectTileModel)?.CanSellGrade(player) ?? false)))
+                if (tile is not IMortgageable t
+                    || (!t.CanMortgage(player)
+                    && !((t as SubjectTileModel)?.CanSellGrade(player) ?? false)))
                 {
                     yield return tile.Id;
                 }
