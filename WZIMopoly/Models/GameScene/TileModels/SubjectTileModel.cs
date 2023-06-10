@@ -213,8 +213,8 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </returns>
         private bool PlayerHasSetOfColor(PlayerModel player)
         {
-            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
-            var playerTiles = player.PurchasedTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>();
+            var subjectTiles = AllTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>().OrderBy(x => x.Id);
+            var playerTiles = player.PurchasedTiles.Where(x => (x as SubjectTileModel)?.Color == Color).Cast<SubjectTileModel>().OrderBy(x => x.Id);
             return subjectTiles.SequenceEqual(playerTiles);
         }
 
