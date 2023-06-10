@@ -361,6 +361,7 @@ namespace WZIMopoly.Scenes
                     var tradeModel = _tradeController.Model;
                     tradeModel.Offeror = GameSettings.CurrentPlayer;
                     tradeModel.Recipient = null;
+                    tradeModel.OfferedMoney = 0;
                     tradeModel.ChosenOfferorTiles.Clear();
                     tradeModel.ChosenRecipientTiles.Clear();
                     GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.Trading;
@@ -425,6 +426,7 @@ namespace WZIMopoly.Scenes
                 {
                     recipient.TransferTileTo(offeror, tile);
                 }
+                offeror.TransferMoneyTo(recipient, _tradeController.Model.OfferedMoney);
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
                 GameSettings.RestoreCurrentPlayer();
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;

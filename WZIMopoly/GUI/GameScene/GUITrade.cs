@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -89,6 +89,11 @@ namespace WZIMopoly.GUI.GameScene
         private readonly GUIText _offeredMoney;
 
         /// <summary>
+        /// The background of the auxiliary texts.
+        /// </summary>
+        private readonly GUITexture _background;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GUITrade"/> class.
         /// </summary>
         /// <param name="model"></param>
@@ -100,6 +105,7 @@ namespace WZIMopoly.GUI.GameScene
             _offerorValueText = new GUIText("Fonts/WZIMFont", new Vector2(425, 370), Color.Black, GUIStartPoint.Left, scale: 0.3f);
             _recipientValueText = new GUIText("Fonts/WZIMFont", new Vector2(1495, 370), Color.Black, GUIStartPoint.Right, scale: 0.3f);
             _offeredMoney = new GUIText("Fonts/WZIMFont", new Vector2(960, 370), Color.Black, GUIStartPoint.Center, scale: 0.35f);
+            _background = new GUITexture("Images/FrameLong", new Rectangle(960, 374, 1103, 62), GUIStartPoint.Center);
 
             foreach (TileController tile in _model.TileControllers)
             {
@@ -140,7 +146,6 @@ namespace WZIMopoly.GUI.GameScene
                     {
                         if (_model.ChosenOfferorTiles.Select(x => x.Id).ToList().Contains(tile.Id))
                         {
-                            Debug.WriteLine("EEE");
                             offerorTilesMask[tile.Id].Draw(spriteBatch);
                             offerorTilesMask[tile.Id].Draw(spriteBatch);
                             offerorTilesMask[tile.Id].Draw(spriteBatch);
@@ -182,6 +187,7 @@ namespace WZIMopoly.GUI.GameScene
                                 }
                             }
                         }
+                        _background.Draw(spriteBatch);
                         _offerorValueText.Draw(spriteBatch);
                         _recipientValueText.Draw(spriteBatch);
                         _offeredMoney.Draw(spriteBatch);
@@ -214,7 +220,6 @@ namespace WZIMopoly.GUI.GameScene
                 switch (player.PlayerStatus)
                 {
                     case PlayerStatus.Trading:
-
                         if (_model.Recipient is null)
                         {
                             _text.Text = WZIMopoly.Language switch
@@ -299,6 +304,7 @@ namespace WZIMopoly.GUI.GameScene
             _offerorValueText.Load(content);
             _recipientValueText.Load(content);
             _offeredMoney.Load(content);
+            _background.Load(content);
         }
 
         /// <inheritdoc/>
@@ -313,6 +319,7 @@ namespace WZIMopoly.GUI.GameScene
             _offerorValueText.Recalculate();
             _recipientValueText.Recalculate();
             _offeredMoney.Recalculate();
+            _background.Recalculate();
         }
 
         /// <summary>
