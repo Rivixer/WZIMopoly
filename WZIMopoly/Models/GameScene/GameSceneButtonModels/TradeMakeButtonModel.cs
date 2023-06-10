@@ -13,6 +13,7 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
         internal TradeMakeButtonModel()
             : base("MakeTrade") { }
 
+        /// <inheritdoc/>
         public override void Update()
         {
             base.Update();
