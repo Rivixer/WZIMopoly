@@ -19,9 +19,14 @@ namespace WZIMopoly.Models
         public DateTime StartTime { get; private set; }
 
         /// <summary>
+        /// Gets or privately sets the game end time.
+        /// </summary>
+        public DateTime EndTime { get; private set; }
+
+        /// <summary>
         /// Gets the game time since the game started.
         /// </summary>
-        public TimeSpan ActualTime => DateTime.Now - StartTime;
+        public TimeSpan ActualTime => DateTime.Now - EndTime;
 
         /// <summary>
         /// Sets <see cref="StartTime"/> to the current time.
@@ -29,6 +34,15 @@ namespace WZIMopoly.Models
         public void SetStartTime()
         {
             StartTime = DateTime.Now;
+            SetEndTime();
+        }
+
+        /// <summary>
+        /// Sets <see cref="EndTime"/> to the ending time.
+        /// </summary>
+        private void SetEndTime()
+        {
+            EndTime = StartTime.AddMinutes(GameSettings.startTime);
         }
     }
 }

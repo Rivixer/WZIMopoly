@@ -31,6 +31,16 @@ namespace WZIMopoly
         private static int _currentPlayerIndex = 0;
 
         /// <summary>
+        /// The game end type.
+        /// </summary>
+        public static GameEndType gameEndType = GameEndType.LastNotBankrupt;
+
+        /// <summary>
+        /// The start time measured in minutes.
+        /// </summary>
+        public static int startTime = 10;
+
+        /// <summary>
         /// Gets the players.
         /// </summary>
         /// <value>

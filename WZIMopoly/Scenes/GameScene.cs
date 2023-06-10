@@ -111,6 +111,13 @@ namespace WZIMopoly.Scenes
             _mapController.View.UpdatePawnPositions();
 
             Model.SetStartTime();
+
+            if(GameSettings.startTime == 0)
+            {
+                Model.RemoveChild(_timerController);
+                _timerController = null;
+            }
+
             Model.GameStatus = GameStatus.Running;
             GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
@@ -119,7 +126,7 @@ namespace WZIMopoly.Scenes
         public override void Update()
         {
             base.Update();
-            _timerController.UpdateTime(Model.ActualTime);
+            _timerController?.UpdateTime(Model.ActualTime);
 
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
 
@@ -138,6 +145,8 @@ namespace WZIMopoly.Scenes
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(GameSettings.CurrentPlayer, currentPlayerTile));
+
+            EndingConditions();
 
 #if DEBUG
             // Click a key on the keyboard to move the current player a certain number of steps.
@@ -344,6 +353,26 @@ namespace WZIMopoly.Scenes
                 mapModel.TeleportPlayer(GameSettings.CurrentPlayer, elevTile);
                 _mapController.View.UpdatePawnPositions();
             };
+        }
+
+        /// <summary>
+        /// Checks ending conditions and end game.
+        /// </summary>
+        /// <exception cref="Exception">
+        /// Game over.
+        /// </exception>
+        private void EndingConditions()
+        {
+
+            if ((GameSettings.startTime != 0
+                && (int)Model.ActualTime.TotalSeconds == 0)
+                || (GameSettings.gameEndType == GameEndType.FirstBankruptcy
+                && GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.Bankrupt)
+                || (GameSettings.gameEndType == GameEndType.LastNotBankrupt
+                && GameSettings.ActivePlayers.Count - GameSettings.Players.FindAll(x => x.PlayerStatus == PlayerStatus.Bankrupt).Count == 1))
+            {
+                throw new Exception("Koniec gry");
+            }
         }
     }
 }
