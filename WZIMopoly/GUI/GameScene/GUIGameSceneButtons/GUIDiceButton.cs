@@ -73,6 +73,8 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                     PlayerStatus.DuringRollingDice => TextureDisabled,
                     PlayerStatus.UpgradingTiles => TextureDisabled,
                     PlayerStatus.MortgagingTiles => TextureDisabled,
+                    PlayerStatus.Trading => TextureDisabled,
+                    PlayerStatus.ReceivingTrade => TextureDisabled,
                     _ => null,
                 };
             }
