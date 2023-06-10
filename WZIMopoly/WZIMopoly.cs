@@ -14,7 +14,7 @@ using WZIMopoly.NetworkData;
 using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Controllers.JoinScene;
-using System.Net.Sockets;
+using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -81,6 +81,11 @@ namespace WZIMopoly
         private IPrimaryController _currentScene;
 
         /// <summary>
+        /// The previous scene relative to the current one.
+        /// </summary>
+        private IPrimaryController _previousScene;
+
+        /// <summary>
         /// The song played in the background.
         /// </summary>
         private Song _song;
@@ -136,6 +141,7 @@ namespace WZIMopoly
         /// </param>
         private void ChangeCurrentScene(IPrimaryController newScene)
         {
+            _previousScene = _currentScene;
             _currentScene = newScene;
             _currentScene.RecalculateAll();
         }
@@ -174,7 +180,6 @@ namespace WZIMopoly
             var quitBtn = _menuScene.Model.GetController<QuitButtonController>();
             quitBtn.OnButtonClicked += Exit;
 
-            var settingsBtn = _menuScene.Model.GetController<SettingsButtonController>();
             var settingsBtn = _menuScene.Model.GetController<MenuSettingsButtonController>();
             settingsBtn.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
 
@@ -268,7 +273,13 @@ namespace WZIMopoly
             _settingsScene.Initialize();
 
             var returnBtn = _settingsScene.Model.GetController<Controllers.SettingsScene.ReturnButtonController>();
-            returnBtn.OnButtonClicked += ReturnToMenu;
+            returnBtn.OnButtonClicked += () =>
+            {
+                if (_previousScene is GameScene && GameType == GameType.Local)
+                    _gameScene.Model.GameStatus = GameStatus.Running;
+
+                ChangeCurrentScene(_previousScene);
+            };
         }
 
         /// <summary>
@@ -343,6 +354,18 @@ namespace WZIMopoly
 
             var returnButton = _gameScene.Model.GetController<ExitButtonController>();
             returnButton.OnButtonClicked += ReturnToMenu;
+
+            var settingsButton = _gameScene.Model.GetController<SettingsButtonController>();
+            settingsButton.OnButtonClicked += () =>
+            {
+                if (GameType == GameType.Local)
+                {
+                    _gameScene.Model.GameStatus = GameStatus.Paused;
+                    _gameScene.Model.Update();
+                }
+
+                ChangeCurrentScene(_settingsScene);
+            };
         }
 
         /// <summary>
