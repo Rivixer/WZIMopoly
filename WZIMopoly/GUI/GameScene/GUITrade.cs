@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -84,15 +84,22 @@ namespace WZIMopoly.GUI.GameScene
         private readonly GUIText _recipientValueText;
 
         /// <summary>
+        /// The text of offered money.
+        /// </summary>
+        private readonly GUIText _offeredMoney;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GUITrade"/> class.
         /// </summary>
         /// <param name="model"></param>
         public GUITrade(TradeModel model)
         {
             _model = model;
+
             _text = new GUIText("Fonts/WZIMFont", new Vector2(960, 720), Color.Black, GUIStartPoint.Center, scale: 0.3f);
-            _offerorValueText = new GUIText("Fonts/WZIMFont", new Vector2(430, 360), Color.Black, GUIStartPoint.Left, scale: 0.3f);
-            _recipientValueText = new GUIText("Fonts/WZIMFont", new Vector2(1490, 360), Color.Black, GUIStartPoint.Right, scale: 0.3f);
+            _offerorValueText = new GUIText("Fonts/WZIMFont", new Vector2(425, 370), Color.Black, GUIStartPoint.Left, scale: 0.3f);
+            _recipientValueText = new GUIText("Fonts/WZIMFont", new Vector2(1495, 370), Color.Black, GUIStartPoint.Right, scale: 0.3f);
+            _offeredMoney = new GUIText("Fonts/WZIMFont", new Vector2(960, 370), Color.Black, GUIStartPoint.Center, scale: 0.35f);
 
             foreach (TileController tile in _model.TileControllers)
             {
@@ -177,6 +184,7 @@ namespace WZIMopoly.GUI.GameScene
                         }
                         _offerorValueText.Draw(spriteBatch);
                         _recipientValueText.Draw(spriteBatch);
+                        _offeredMoney.Draw(spriteBatch);
                     }
                     foreach (var tile in _model.TileControllers)
                     {
@@ -226,16 +234,17 @@ namespace WZIMopoly.GUI.GameScene
                             };
                             _offerorValueText.Text = WZIMopoly.Language switch
                             {
-                                Language.Polish => $"Twoja oferowana wartość: {_model.ChosenOfferorTilesValue} ECTS.",
-                                Language.English => $"Your offered value: {_model.ChosenOfferorTilesValue} ECTS.",
+                                Language.Polish => $"Wartość Twoich pól: {_model.ChosenOfferorTilesValue} ECTS",
+                                Language.English => $"Your tiles value: {_model.ChosenOfferorTilesValue} ECTS",
                                 _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                             };
                             _recipientValueText.Text = WZIMopoly.Language switch
                             {
-                                Language.Polish => $"Oferowana wartość {_model.Recipient.Nick}: {_model.ChosenRecipientTilesValue} ECTS.",
-                                Language.English => $"{_model.Recipient.Nick} value offered: {_model.ChosenRecipientTilesValue} ECTS.",
+                                Language.Polish => $"Wartość pól {_model.Recipient.Nick}: {_model.ChosenRecipientTilesValue} ECTS",
+                                Language.English => $"{_model.Recipient.Nick}'s tiles value: {_model.ChosenRecipientTilesValue} ECTS",
                                 _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                             };
+                            _offeredMoney.Text = $"{_model.OfferedMoney} ECTS";
                         }
                         break;
                     case PlayerStatus.ReceivingTrade:
@@ -247,21 +256,23 @@ namespace WZIMopoly.GUI.GameScene
                         };
                         _recipientValueText.Text = WZIMopoly.Language switch
                         {
-                            Language.Polish => $"Twoja oferowana wartość: {_model.ChosenRecipientTilesValue} ECTS.",
-                            Language.English => $"Your offered value: {_model.ChosenRecipientTilesValue} ECTS.",
+                            Language.Polish => $"Wartość Twoich pól: {_model.ChosenRecipientTilesValue} ECTS.",
+                            Language.English => $"Your tiles value: {_model.ChosenRecipientTilesValue} ECTS.",
                             _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                         };
                         _offerorValueText.Text = WZIMopoly.Language switch
                         {
-                            Language.Polish => $"Oferowana wartość {_model.Offeror.Nick}: {_model.ChosenOfferorTilesValue} ECTS.",
-                            Language.English => $"{_model.Offeror.Nick} value offered: {_model.ChosenOfferorTilesValue} ECTS.",
+                            Language.Polish => $"Wartość pól {_model.Offeror.Nick}: {_model.ChosenOfferorTilesValue} ECTS.",
+                            Language.English => $"{_model.Offeror.Nick}'s tiles value: {_model.ChosenOfferorTilesValue} ECTS.",
                             _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                         };
+                        _offeredMoney.Text = $"{_model.OfferedMoney} ECTS";
                         break;
                     default:
                         _text.Text = string.Empty;
                         _offerorValueText.Text = string.Empty;
                         _recipientValueText.Text = string.Empty;
+                        _offeredMoney.Text = string.Empty;
                         break;
                 }
             }
@@ -287,6 +298,7 @@ namespace WZIMopoly.GUI.GameScene
             _text.Load(content);
             _offerorValueText.Load(content);
             _recipientValueText.Load(content);
+            _offeredMoney.Load(content);
         }
 
         /// <inheritdoc/>
@@ -300,6 +312,7 @@ namespace WZIMopoly.GUI.GameScene
             _text.Recalculate();
             _offerorValueText.Recalculate();
             _recipientValueText.Recalculate();
+            _offeredMoney.Recalculate();
         }
 
         /// <summary>

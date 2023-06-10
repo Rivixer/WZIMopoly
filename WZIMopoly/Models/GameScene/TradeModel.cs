@@ -59,6 +59,15 @@ namespace WZIMopoly.Models.GameScene
         public PlayerModel? Recipient { get; set; }
 
         /// <summary>
+        /// Gets or sets the offered money.
+        /// </summary>
+        /// <remarks>
+        /// If the value is negative,
+        /// the offeror wants money from the recipient.
+        /// </remarks>
+        public int OfferedMoney { get; set; }
+
+        /// <summary>
         /// The list of tiles offered by the offeror.
         /// </summary>
         public List<PurchasableTileModel> ChosenOfferorTiles { get; set; } = new();
@@ -79,10 +88,9 @@ namespace WZIMopoly.Models.GameScene
         public int ChosenRecipientTilesValue => ChosenRecipientTiles.Sum(x => x.GetValue());
 
         /// <summary>
-        /// Gets the total value of the tiles offered by the offeror
-        /// and the tiles offeror wants from the recipient.
+        /// Gets the total value of the trade.
         /// </summary>
-        public int TotalValue => ChosenOfferorTilesValue + ChosenRecipientTilesValue;
+        public int TotalValue => ChosenOfferorTilesValue + ChosenRecipientTilesValue + Math.Abs(OfferedMoney);
 
         /// <summary>
         /// Updates the trade model.
@@ -92,6 +100,7 @@ namespace WZIMopoly.Models.GameScene
         /// </param>
         public void Update(TradeModel model)
         {
+            OfferedMoney = model.OfferedMoney;
             foreach (var player in GameSettings.Players)
             {
                 if (player.Equals(model.Offeror))

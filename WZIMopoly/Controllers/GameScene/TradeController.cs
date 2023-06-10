@@ -1,7 +1,10 @@
-﻿using WZIMopoly.Engine;
+﻿using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI.GameScene;
+using WZIMopoly.GUI.GameScene.GUIGameSceneButtons;
 using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Utils.PositionExtensions;
 
@@ -22,7 +25,19 @@ namespace WZIMopoly.Controllers.GameScene
         /// The view of the trade controller.
         /// </param>
         public TradeController(TradeModel model, GUITrade view)
-            : base(model, view) { }
+            : base(model, view)
+        {
+            // The step of the money to be added or subtracted.
+            int step = 10;
+
+            var addMoney = Model.InitializeChild<TradeAddMoneyButtonModel, GUITradeAddMoneyButton, TradeAddMoneyButtonController>();
+            addMoney.Model.Conditions += () => Model.Recipient is not null && Model.OfferedMoney <= Model.Offeror.Money - step;
+            addMoney.OnButtonClicked += () => Model.OfferedMoney += step;
+
+            var subtractMoney = Model.InitializeChild<TradeSubtractMoneyButtonModel, GUITradeSubtractMoneyButton, TradeSubtractMoneyButtonController>();
+            subtractMoney.Model.Conditions += () => Model.Recipient is not null && -Model.OfferedMoney <= Model.Recipient.Money - step;
+            subtractMoney.OnButtonClicked += () => Model.OfferedMoney -= step;
+        }
 
         /// <inheritdoc/>
         public override void Update()
