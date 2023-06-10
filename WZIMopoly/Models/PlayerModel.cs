@@ -42,17 +42,17 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The player type.
         /// </summary>
-        private PlayerType _playerType = PlayerType.None;
+        private PlayerType _playerType;
 
         /// <summary>
         /// The player status.
         /// </summary>
-        private PlayerStatus _playerStatus = PlayerStatus.WaitingForTurn;
+        private PlayerStatus _playerStatus;
 
         /// <summary>
         /// The amount of money player has.
         /// </summary>
-        private int _money = 1500;
+        private int _money;
 
         /// <summary>
         /// The number of leave jail cards player has.
@@ -221,15 +221,7 @@ namespace WZIMopoly.Models
                 int tilesValue = 0;
                 foreach (PurchasableTileModel tile in PurchasedTiles)
                 {
-                    if (tile is SubjectTileModel t)
-                    {
-                        if (t.IsMortgaged)
-                        {
-                            tilesValue += t.MortgagePrice;
-                        }
-                        tilesValue += ((int)t.Grade - 1) * t.UpgradePrice;
-                    }
-                    tilesValue += tile.Price;
+                    tilesValue += tile.GetValue();
                 }
                 return Money + tilesValue;
             }
@@ -247,12 +239,12 @@ namespace WZIMopoly.Models
             int amount = 0;
             foreach (PurchasableTileModel tile in PurchasedTiles)
             {
+                if (!tile.IsMortgaged)
+                {
+                    amount += tile.MortgagePrice;
+                }
                 if (tile is SubjectTileModel t)
                 {
-                    if (!t.IsMortgaged)
-                    {
-                        amount += t.MortgagePrice;
-                    }
                     amount += ((int)t.Grade - 1) * t.SellGradePrice;
                 }
             }
@@ -262,16 +254,44 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Transfers money from the player to another player.
         /// </summary>
-        /// <param name="player">
+        /// <param name="recipient">
         /// The player that will receive the money.
         /// </param>
         /// <param name="amount">
         /// The amount of money to transfer.
         /// </param>
-        public void TransferMoneyTo(PlayerModel player, int amount)
+        public void TransferMoneyTo(PlayerModel recipient, int amount)
         {
             Money -= amount;
-            player.Money += amount;
+            recipient.Money += amount;
+        }
+
+        /// <summary>
+        /// Transfer a tile from the player to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the tile.
+        /// </param>
+        /// <param name="tile">
+        /// The tile to transfer.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// The player does not own the tile.
+        /// </exception>
+        public void TransferTileTo(PlayerModel recipient, PurchasableTileModel tile)
+        {
+            if (!PurchasedTiles.Contains(tile))
+            {
+                throw new ArgumentException($"Player has no tile: {tile.EnName}");
+            }
+            tile.Owner = recipient;
+            PurchasedTiles.Remove(tile);
+            recipient.PurchasedTiles.Add(tile);
+            if (MortgagedTiles.Contains(tile))
+            {
+                MortgagedTiles.Remove(tile);
+                recipient.MortgagedTiles.Add(tile);
+            }
         }
 
         /// <summary>
@@ -333,6 +353,9 @@ namespace WZIMopoly.Models
         /// </summary>
         /// <param name="player">
         /// The player to copy.
+        /// </param>
+        /// <param name="Tiles">
+        /// The list of all tiles to update the player's tiles.
         /// </param>
         public void Update(PlayerModel player, List<TileModel> Tiles)
         {
