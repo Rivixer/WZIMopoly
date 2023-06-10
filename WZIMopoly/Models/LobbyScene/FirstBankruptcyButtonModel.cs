@@ -5,18 +5,18 @@ namespace WZIMopoly.Models.LobbyScene
     /// <summary>
     /// Represents the first bankruptcy button model.
     /// </summary>
-    internal class FirstButtonModel : ButtonModel
+    internal class FirstBankruptcyButtonModel : ButtonModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FirstButtonModel"/> class.
+        /// Initializes a new instance of the <see cref="FirstBankruptcyButtonModel"/> class.
         /// </summary>
-        public FirstButtonModel()
+        public FirstBankruptcyButtonModel()
             : base("LobbyFirst") { }
 
         /// <inheritdoc/>
         public override void Update()
         {
-            IsActive = GameSettings.gameEndType == GameEndType.FirstBankruptcy;
+            IsActive = GameSettings.GameEndType == GameEndType.FirstBankruptcy;
         }
     }
 }

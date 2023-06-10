@@ -25,14 +25,14 @@ namespace WZIMopoly.GUI.LobbyScene
         public GUITimeButton(TimeButtonModel model)
             : base(model, new Rectangle(1050, 640, 304, 140), GUIStartPoint.TopLeft, false, false)
         {
-            _timeText = new GUIText("Fonts/WZIMFont", new Vector2(1205, 695), Color.Black, GUIStartPoint.Top, GameSettings.startTime.ToString() + ":00", 0.8f);
+            _timeText = new GUIText("Fonts/WZIMFont", new Vector2(1205, 695), Color.Black, GUIStartPoint.Top, GameSettings.MatchDuration.ToString() + ":00", 0.8f);
         }
 
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            if (GameSettings.startTime != 0)
+            if (GameSettings.MatchDuration != 0)
             {
                 _timeText.Draw(spriteBatch);
             }
@@ -55,9 +55,9 @@ namespace WZIMopoly.GUI.LobbyScene
         /// <inheritdoc/>
         public override void Update()
         {
-            if (GameSettings.startTime != 0)
+            if (GameSettings.MatchDuration != 0)
             {
-                _timeText.Text = GameSettings.startTime.ToString() + ":00";
+                _timeText.Text = GameSettings.MatchDuration.ToString() + ":00";
             }
         }
     }

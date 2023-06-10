@@ -31,14 +31,14 @@ namespace WZIMopoly
         private static int _currentPlayerIndex = 0;
 
         /// <summary>
-        /// The game end type.
+        /// Gets and sets the game end type.
         /// </summary>
-        public static GameEndType gameEndType = GameEndType.LastNotBankrupt;
+        public static GameEndType GameEndType { get; set; } = GameEndType.LastNotBankrupt;
 
         /// <summary>
-        /// The start time measured in minutes.
+        /// Gets and sets the match duration measured in minutes.
         /// </summary>
-        public static int startTime = 10;
+        public static int MatchDuration { get; set; } = 10;
 
         /// <summary>
         /// Gets the players.

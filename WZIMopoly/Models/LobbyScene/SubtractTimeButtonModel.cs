@@ -1,6 +1,4 @@
-﻿using Castle.Components.DictionaryAdapter.Xml;
-
-namespace WZIMopoly.Models.LobbyScene
+﻿namespace WZIMopoly.Models.LobbyScene
 {
     /// <summary>
     /// Represents the subtract time button model.

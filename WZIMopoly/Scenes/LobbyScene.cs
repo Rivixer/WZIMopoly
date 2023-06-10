@@ -36,14 +36,14 @@ namespace WZIMopoly.Scenes
                 Model.GetModel<AddTimeButtonModel>().IsActive = true;
                 Model.GetModel<SubtractTimeButtonModel>().IsActive = true;
                 Model.GetModel<TimeButtonModel>().IsActive = false;
-                GameSettings.gameEndType = GameEndType.LastNotBankrupt;
-                GameSettings.startTime = 10;
+                GameSettings.GameEndType = GameEndType.LastNotBankrupt;
+                GameSettings.MatchDuration = 10;
                 Model.GetView<GUITimeButton>().Update();
             };
 
             Model.InitializeChild<StartGameButtonModel, GUIStartGameButton, StartGameButtonController>();
-            Model.InitializeChild<LastButtonModel, GUILastButton, LastButtonController>();
-            Model.InitializeChild<FirstButtonModel, GUIFirstButton, FirstButtonController>();
+            Model.InitializeChild<LastNotBankruptButtonModel, GUILastNotBankruptButton, LastNotBankruptButtonController>();
+            Model.InitializeChild<FirstBankruptcyButtonModel, GUIFirstBankruptcyButton, FirstBankruptcyButtonController>();
             Model.InitializeChild<LobbyCodeModel, GUILobbyCode, LobbyCodeController>();
             Model.InitializeChild<LocalModeButtonModel, GUILocalModeButton, LocalModeButtonController>();
             Model.InitializeChild<OnlineModeButtonModel, GUIOnlineModeButton, OnlineModeButtonController>();
@@ -67,7 +67,7 @@ namespace WZIMopoly.Scenes
                     Model.GetModel<AddTimeButtonModel>().IsActive = true;
                     Model.GetModel<SubtractTimeButtonModel>().IsActive = true;
                     Model.GetModel<TimeButtonModel>().IsActive = false;
-                    GameSettings.startTime = 10;
+                    GameSettings.MatchDuration = 10;
                     Model.GetView<GUITimeButton>().Update();
                 }
                 else
@@ -75,7 +75,7 @@ namespace WZIMopoly.Scenes
                     Model.GetModel<AddTimeButtonModel>().IsActive = false;
                     Model.GetModel<SubtractTimeButtonModel>().IsActive = false;
                     Model.GetModel<TimeButtonModel>().IsActive = true;
-                    GameSettings.startTime = 0;
+                    GameSettings.MatchDuration = 0;
                 }
             };
         }

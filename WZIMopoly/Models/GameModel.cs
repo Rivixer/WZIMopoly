@@ -42,7 +42,7 @@ namespace WZIMopoly.Models
         /// </summary>
         private void SetEndTime()
         {
-            EndTime = StartTime.AddMinutes(GameSettings.startTime);
+            EndTime = StartTime.AddMinutes(GameSettings.MatchDuration);
         }
     }
 }

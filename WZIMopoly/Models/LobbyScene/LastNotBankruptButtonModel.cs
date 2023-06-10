@@ -5,18 +5,18 @@ namespace WZIMopoly.Models.LobbyScene
     /// <summary>
     /// Represents the last not bankrupt button model.
     /// </summary>
-    internal class LastButtonModel : ButtonModel
+    internal class LastNotBankruptButtonModel : ButtonModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LastButtonModel"/> class.
+        /// Initializes a new instance of the <see cref="LastNotBankruptButtonModel"/> class.
         /// </summary>
-        public LastButtonModel()
+        public LastNotBankruptButtonModel()
             : base("LobbyLast") { }
 
         /// <inheritdoc/>
         public override void Update()
         {
-            IsActive = GameSettings.gameEndType == GameEndType.LastNotBankrupt;
+            IsActive = GameSettings.GameEndType == GameEndType.LastNotBankrupt;
         }
     }
 }

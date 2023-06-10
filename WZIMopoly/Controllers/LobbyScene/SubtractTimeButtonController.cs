@@ -22,9 +22,9 @@ namespace WZIMopoly.Controllers.LobbyScene
         {
             OnButtonClicked += () =>
             {
-                if(GameSettings.startTime > 1)
+                if(GameSettings.MatchDuration > 1)
                 { 
-                    GameSettings.startTime--;
+                    GameSettings.MatchDuration--;
                 }
             };
         }

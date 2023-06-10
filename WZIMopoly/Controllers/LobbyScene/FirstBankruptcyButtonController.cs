@@ -6,25 +6,25 @@ using WZIMopoly.Models.LobbyScene;
 namespace WZIMopoly.Controllers.LobbyScene
 {
     /// <summary>
-    /// Represents the last not bankrupt button controller.
+    /// Represents the first bankruptcy button controller.
     /// </summary>
-    internal class LastButtonController : ButtonController<LastButtonModel, GUILastButton>
+    internal class FirstBankruptcyButtonController : ButtonController<FirstBankruptcyButtonModel, GUIFirstBankruptcyButton>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LastButtonController"/> class.
+        /// Initializes a new instance of the <see cref="FirstBankruptcyButtonController"/> class.
         /// </summary>
         /// <param name="model">
-        /// The model of the last not bankrupt button button.
+        /// The model of the first bankruptcy button.
         /// </param>
         /// <param name="view">
-        /// The view of the last not bankrupt button button.
+        /// The view of the first bankruptcy button.
         /// </param>
-        public LastButtonController(LastButtonModel model, GUILastButton view)
+        public FirstBankruptcyButtonController(FirstBankruptcyButtonModel model, GUIFirstBankruptcyButton view)
             : base(model, view)
         {
             OnButtonClicked += () =>
             {
-                GameSettings.gameEndType = GameEndType.LastNotBankrupt;
+                GameSettings.GameEndType = GameEndType.FirstBankruptcy;
             };
         }
 
@@ -37,7 +37,7 @@ namespace WZIMopoly.Controllers.LobbyScene
                 && MouseController.WasLeftBtnClicked()
                 && View.IsHovered
                 && !Model.IsActive
-                && GameSettings.gameEndType == GameEndType.FirstBankruptcy)
+                && GameSettings.GameEndType == GameEndType.LastNotBankrupt)
             {
                 OnClick();
             }

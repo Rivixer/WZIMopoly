@@ -112,7 +112,7 @@ namespace WZIMopoly.Scenes
 
             Model.SetStartTime();
 
-            if(GameSettings.startTime == 0)
+            if(GameSettings.MatchDuration == 0)
             {
                 Model.RemoveChild(_timerController);
                 _timerController = null;
@@ -364,11 +364,11 @@ namespace WZIMopoly.Scenes
         private void EndingConditions()
         {
 
-            if ((GameSettings.startTime != 0
+            if ((GameSettings.MatchDuration != 0
                 && (int)Model.ActualTime.TotalSeconds == 0)
-                || (GameSettings.gameEndType == GameEndType.FirstBankruptcy
+                || (GameSettings.GameEndType == GameEndType.FirstBankruptcy
                 && GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.Bankrupt)
-                || (GameSettings.gameEndType == GameEndType.LastNotBankrupt
+                || (GameSettings.GameEndType == GameEndType.LastNotBankrupt
                 && GameSettings.ActivePlayers.Count - GameSettings.Players.FindAll(x => x.PlayerStatus == PlayerStatus.Bankrupt).Count == 1))
             {
                 throw new Exception("Koniec gry");
