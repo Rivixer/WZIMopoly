@@ -22,6 +22,11 @@ namespace WZIMopoly.NetworkData
         public int CurrentPlayerIndex { get; set; }
 
         /// <summary>
+        /// The temporary current player index.
+        /// </summary>
+        public int? TempCurrentPlayerIndex { get; set; }
+
+        /// <summary>
         /// Gets or sets the dice model.
         /// </summary>
         public DiceModel DiceModel { get; set; }
@@ -30,5 +35,10 @@ namespace WZIMopoly.NetworkData
         /// Gets or sets the list of tiles.
         /// </summary>
         public List<TileModel> Tiles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of tiles.
+        /// </summary>
+        public TradeModel TradeModel { get; set; }
     }
 }
