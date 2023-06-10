@@ -13,6 +13,6 @@ namespace WZIMopoly.GUI.GameScene
         /// Initializes a new instance of the <see cref="GUIPawn"/> class.
         /// </summary>
         internal GUIPawn(PawnModel model)
-            : base("Images/Pawns/Pawn" + model.Color, new Rectangle(0, 0, 30, 30), GUIStartPoint.Center) { }
+            : base("Images/Pawns/Pawn" + model.Color, new Rectangle(-100, 0, 30, 30), GUIStartPoint.Center) { }
     }
 }
