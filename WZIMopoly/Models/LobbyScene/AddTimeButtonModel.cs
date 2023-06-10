@@ -9,7 +9,7 @@
         /// Initializes a new instance of the <see cref="AddTimeButtonModel"/> class.
         /// </summary>
         public AddTimeButtonModel()
-            : base("Upgrade")
+            : base("Plus")
         {
             IsActive = true;
         }

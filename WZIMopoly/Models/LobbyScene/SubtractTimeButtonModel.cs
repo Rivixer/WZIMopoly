@@ -9,7 +9,7 @@
         /// Initializes a new instance of the <see cref="SubtractTimeButtonModel"/> class.
         /// </summary>
         public SubtractTimeButtonModel()
-            : base("Trade")
+            : base("Minus")
         {
             IsActive = true;
         }
