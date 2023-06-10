@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.GameButtonModels;
@@ -31,6 +32,29 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 Language.English => $"Upgrade your subjects.",
                 _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
             };
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+#nullable enable
+            GUITexture? texture;
+#nullable disable
+
+            if (!Model.IsActive)
+            {
+                texture = TextureDisabled;
+            }
+            else if (IsHovered)
+            {
+                texture = TextureHovered ?? Texture;
+                if (GameSettings.CurrentPlayer.PlayerStatus != PlayerStatus.UpgradingTiles)
+                    AuxText.Draw(spriteBatch);
+            }
+            else
+            {
+                texture = Texture;
+            }
+            texture?.Draw(spriteBatch);
         }
     }
 }

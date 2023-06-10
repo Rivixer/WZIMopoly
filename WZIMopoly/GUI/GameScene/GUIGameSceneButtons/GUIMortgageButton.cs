@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.GameButtonModels;
@@ -27,10 +28,33 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         {
             AuxText.Text = WZIMopoly.Language switch
             {
-                Language.Polish => $"Zastaw przedmiot.",
-                Language.English => $"Mortgage a subject.",
+                Language.Polish => $"Zastaw pole lub sprzedaj ocenę przedmiotu.",
+                Language.English => $"Mortgage a tile or sell a subject grade.",
                 _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
             };
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+#nullable enable
+            GUITexture? texture;
+#nullable disable
+
+            if (!Model.IsActive)
+            {
+                texture = TextureDisabled;
+            }
+            else if (IsHovered)
+            {
+                texture = TextureHovered ?? Texture;
+                if (GameSettings.CurrentPlayer.PlayerStatus != PlayerStatus.MortgagingTiles)
+                    AuxText.Draw(spriteBatch);
+            }
+            else
+            {
+                texture = Texture;
+            }
+            texture?.Draw(spriteBatch);
         }
     }
 }

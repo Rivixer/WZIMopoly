@@ -22,7 +22,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         /// The model of the exit button.
         /// </param>
         public GUIExitButton(ExitButtonModel model)
-            : base(model, new Rectangle(60, 360, 160, 160), disableTexture: false)
+            : base(model, new Rectangle(77, 320, 120, 120), disableTexture: false)
         {
             SetButtonHoverArea(5, 0.75f);
         }
