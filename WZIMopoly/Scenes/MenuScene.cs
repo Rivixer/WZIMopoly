@@ -28,7 +28,7 @@ namespace WZIMopoly.Scenes
         {
             Model.InitializeChild<NewGameButtonModel, GUINewGameButton, NewGameButtonController>();
             Model.InitializeChild<JoinGameButtonModel, GUIJoinGameButton, JoinGameButtonController>();
-            Model.InitializeChild<SettingsButtonModel, GUISettingsButton, SettingsButtonController>();
+            Model.InitializeChild<MenuSettingsButtonModel, GUIMenuSettingsButton, MenuSettingsButtonController>();
             Model.InitializeChild<QuitButtonModel, GUIQuitButton, QuitButtonController>();
         }
     }

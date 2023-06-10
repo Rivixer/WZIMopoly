@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Enums;
@@ -13,13 +12,8 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
     /// <summary>
     /// Represents the leave jail button.
     /// </summary>
-    internal class GUIPayToLeaveJailButton : GUIButton<PayToLeaveJailButtonModel>, IGUIGameUpdate
+    internal class GUIPayToLeaveJailButton : GUIGameButton<PayToLeaveJailButtonModel>, IGUIGameUpdate
     {
-        /// <summary>
-        /// The auxiliary text informing the player about the action of the button.
-        /// </summary>
-        private readonly GUIText _text;
-
         /// <summary>
         /// The tile that the player is currently on.
         /// </summary>
@@ -35,7 +29,6 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             : base(model, new Rectangle(860, 923, 256, 88), GUIStartPoint.Right)
         {
             SetButtonHoverArea(5, 0.70f);
-            _text = new GUIText("Fonts/WZIMFont", new Vector2(960, 720), Color.Black, GUIStartPoint.Center, scale: 0.3f);
         }
 
         /// <inheritdoc/>
@@ -60,16 +53,9 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 }
                 if (IsHovered)
                 {
-                    _text.Draw(spriteBatch);
+                    AuxText.Draw(spriteBatch);
                 }
             }
-        }
-
-        /// <inheritdoc/>
-        public override void Load(ContentManager content)
-        {
-            base.Load(content);
-            _text.Load(content);
         }
 
         /// <remarks>
@@ -92,7 +78,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             {
                 if (!t.CanPrisonerPayForRelease(player))
                 {
-                    _text.Text = WZIMopoly.Language switch
+                    AuxText.Text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Biednego studenta nie stać, potrzebujesz {t.PayForLeave}ECTS.",
                         Language.English => $"You cannot afford the deposit, you need {t.PayForLeave}ECTS.",
@@ -101,7 +87,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 }
                 else
                 {
-                    _text.Text = WZIMopoly.Language switch
+                    AuxText.Text = WZIMopoly.Language switch
                     {
                         Language.Polish => $"Zapłać {t.PayForLeave}ECTS, aby wymknąć się z wykładu.",
                         Language.English => $"Pay {t.PayForLeave}ECTS to get out of mandatory lecture.",
@@ -111,7 +97,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             }
             else
             {
-                _text.Text = string.Empty;
+                AuxText.Text = string.Empty;
             }
         }
     }
