@@ -987,6 +987,18 @@
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/MenuSettingsHovered.png
 
+#begin Images/Buttons/Minus.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Buttons/Minus.png
+
 #begin Images/Buttons/Mortgage.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1070,6 +1082,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Images/Buttons/PlayerX.png
+
+#begin Images/Buttons/Plus.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Images/Buttons/Plus.png
 
 #begin Images/Buttons/Return.png
 /importer:TextureImporter
