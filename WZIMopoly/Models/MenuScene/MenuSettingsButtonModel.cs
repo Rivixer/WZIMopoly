@@ -3,12 +3,12 @@
     /// <summary>
     /// Represents the settings button model.
     /// </summary>
-    internal class SettingsButtonModel : ButtonModel
+    internal class MenuSettingsButtonModel : ButtonModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SettingsButtonModel"/> class.
+        /// Initializes a new instance of the <see cref="MenuSettingsButtonModel"/> class.
         /// </summary>
-        public SettingsButtonModel()
+        public MenuSettingsButtonModel()
             : base("MenuSettings")
         {
             IsActive = true;

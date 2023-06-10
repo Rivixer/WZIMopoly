@@ -175,6 +175,7 @@ namespace WZIMopoly
             quitBtn.OnButtonClicked += Exit;
 
             var settingsBtn = _menuScene.Model.GetController<SettingsButtonController>();
+            var settingsBtn = _menuScene.Model.GetController<MenuSettingsButtonController>();
             settingsBtn.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
 
             var joinBtn = _menuScene.Model.GetController<JoinGameButtonController>();
