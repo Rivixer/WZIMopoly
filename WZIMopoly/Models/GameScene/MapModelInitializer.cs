@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
@@ -542,6 +542,13 @@ namespace WZIMopoly.Models.GameScene
                     }
                 }
                 HandleBankrupt(delegate { player.Money -= amount; }, player, mortgageCtrl, gameModel);
+            };
+
+            // Moodle crushed during your test - pay 80 ECTS
+            ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(18, ChanceCardType.VendingMachine, chanceTiles);
+            ctrl.Model.OnDrawn += (player) =>
+            {
+                HandleBankrupt(delegate { player.Money -= 80; }, player, mortgageCtrl, gameModel);
             };
         }
 
