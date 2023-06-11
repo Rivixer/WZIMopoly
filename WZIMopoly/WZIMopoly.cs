@@ -196,7 +196,7 @@ namespace WZIMopoly
             settingsBtn.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
 
             var joinBtn = _menuScene.Model.GetController<JoinGameButtonController>();
-            joinBtn.OnButtonClicked += () => ChangeCurrentScene(_endGameScene);
+            joinBtn.OnButtonClicked += () => ChangeCurrentScene(_joinScene);
         }
 
         /// <summary>
