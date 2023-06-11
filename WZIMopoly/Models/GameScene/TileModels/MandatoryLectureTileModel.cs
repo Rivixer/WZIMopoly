@@ -160,8 +160,14 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 {
                     _prisoners.Add(prisoner.Key, prisoner.Value);
                 }
-            }
-            
+            }   
+        }
+
+        /// <inheritdoc/>
+        public override void Reset()
+        {
+            base.Reset();
+            _prisoners.Clear();
         }
     }
 }

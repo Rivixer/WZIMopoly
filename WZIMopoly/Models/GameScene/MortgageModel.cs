@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
@@ -57,8 +57,9 @@ namespace WZIMopoly.Models.GameScene
         {
             foreach (TileModel tile in TileModels)
             {
-                if (tile is not SubjectTileModel t
-                    || (!t.CanMortgage(player) && !t.CanSellGrade(player)))
+                if (tile is not IMortgageable t
+                    || (!t.CanMortgage(player)
+                    && !((t as SubjectTileModel)?.CanSellGrade(player) ?? false)))
                 {
                     yield return tile.Id;
                 }
@@ -79,7 +80,7 @@ namespace WZIMopoly.Models.GameScene
         {
             foreach(TileModel tile in TileModels)
             {
-                if (tile is SubjectTileModel t && t.IsMortgaged && t.Owner.Equals(player))
+                if (tile is PurchasableTileModel t && t.IsMortgaged && t.Owner.Equals(player))
                     yield return t.Id;
             }
         }

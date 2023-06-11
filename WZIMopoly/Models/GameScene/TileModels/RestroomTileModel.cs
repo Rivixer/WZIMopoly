@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Xml;
 using WZIMopoly.Enums;
 
@@ -74,6 +75,19 @@ namespace WZIMopoly.Models.GameScene.TileModels
             var tile = new RestroomTileModel(id, price, taxPrices);
             tile.LoadNamesFromXml(node);
             return tile;
+        }
+
+        /// <inheritdoc/>
+        public override int GetValue()
+        {
+            if (IsMortgaged)
+            {
+                return MortgagePrice;
+            }
+            else
+            {
+                return Price;
+            }
         }
 
         /// <summary>

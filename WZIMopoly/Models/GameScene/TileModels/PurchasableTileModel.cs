@@ -12,12 +12,17 @@ namespace WZIMopoly.Models.GameScene.TileModels
     /// a rent to the person who owns this tile.
     /// </remarks>
     [Serializable]
-    internal abstract class PurchasableTileModel : TileModel
+    internal abstract class PurchasableTileModel : TileModel, IMortgageable
     {
         /// <summary>
         /// The price of the tile.
         /// </summary>
         internal readonly int Price;
+
+        /// <summary>
+        /// Whether the tile is mortgaged.
+        /// </summary>
+        private bool _isMortgaged = false;
 
 #nullable enable
         /// <summary>
@@ -43,6 +48,20 @@ namespace WZIMopoly.Models.GameScene.TileModels
             Price = price;
             Owner = null;
         }
+
+        /// <inheritdoc/>
+        public int MortgagePrice => Price / 2;
+
+        /// <inheritdoc/>
+        public bool IsMortgaged => _isMortgaged;
+
+        /// <summary>
+        /// Returns the value of the tile.
+        /// </summary>
+        /// <returns>
+        /// The value of the tile.
+        /// </returns>
+        public abstract int GetValue();
 
         /// <summary>
         /// Purchases the tile.
@@ -72,6 +91,34 @@ namespace WZIMopoly.Models.GameScene.TileModels
         }
 
         /// <inheritdoc/>
+        public virtual void Mortgage()
+        {
+            Owner.MortgagedTiles.Add(this);
+            Owner.Money += MortgagePrice;
+            _isMortgaged = true;
+        }
+
+        /// <inheritdoc/>
+        public virtual void Unmortgage()
+        {
+            Owner.Money -= MortgagePrice;
+            Owner.MortgagedTiles.Remove(this);
+            _isMortgaged = false;
+        }
+
+        /// <inheritdoc/>
+        public virtual bool CanMortgage(PlayerModel player)
+        {
+            return player.Equals(Owner) && !IsMortgaged;
+        }
+
+        /// <inheritdoc/>
+        public virtual bool CanUnmortgage(PlayerModel player)
+        { 
+            return player.Equals(Owner) && IsMortgaged && player.Money >= MortgagePrice;
+        }
+
+        /// <inheritdoc/>
         /// <remarks>
         /// Sets the owner of the tile to the owner of the model.
         /// </remarks>
@@ -85,12 +132,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
             }
         }
 
-        /// <summary>
-        /// Resets the tile data.
-        /// </summary>
-        public virtual void Reset()
+        /// <inheritdoc/>
+        public override void Reset()
         {
+            base.Reset();
             Owner = null;
+            _isMortgaged = false;
         }
     }
 }

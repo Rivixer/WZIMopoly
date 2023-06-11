@@ -1,6 +1,6 @@
 using System;
-using System.Xml;
-using WZIMopoly.Controllers.GameScene;
+
+#nullable enable
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -14,6 +14,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
     internal abstract class ChanceTileModel : TileModel
     {
         /// <summary>
+        /// The drawn card.
+        /// </summary>
+        private ChanceCardModel? _drawnCard;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ChanceTileModel"/> class.
         /// </summary>
         /// <param name="id">
@@ -22,14 +27,29 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal ChanceTileModel(int id) : base(id) { }
 
         /// <summary>
-        /// Draws a chance card.
+        /// Gets or sets the drawn card.
         /// </summary>
-        /// <returns>
-        /// The chance card drawn.
-        /// </returns>
-        internal ChanceCard Draw()
+        public ChanceCardModel? DrawnCard
         {
-            throw new NotImplementedException();
+            get => _drawnCard;
+            set => _drawnCard = value;
+        }
+
+        /// <inheritdoc/>
+        public override void Update(TileModel model)
+        {
+            base.Update(model);
+            if (model is ChanceTileModel t)
+            {
+                DrawnCard = t.DrawnCard;
+            }
+        }
+
+        /// <inheritdoc/>
+        public override void Reset()
+        {
+            base.Reset();
+            _drawnCard = null;
         }
     }
 }

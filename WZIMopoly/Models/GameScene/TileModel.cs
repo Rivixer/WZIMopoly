@@ -176,5 +176,13 @@ namespace WZIMopoly.Models.GameScene
             Players.Clear();
             Players.AddRange(model.Players);
         }
+
+        /// <summary>
+        /// Resets the model to its default state.
+        /// </summary>
+        public virtual void Reset()
+        {
+            Players.Clear();
+        }
     }
 }

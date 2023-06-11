@@ -30,6 +30,12 @@ namespace WZIMopoly.Models
         private readonly string _defaultNick;
 
         /// <summary>
+        /// The money the player starts with.
+        /// </summary>
+        [NonSerialized]
+        private readonly int _startMoney = 1500;
+
+        /// <summary>
         /// The color of the player.
         /// </summary>
         private readonly string _color;
@@ -42,17 +48,27 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The player type.
         /// </summary>
-        private PlayerType _playerType = PlayerType.None;
+        private PlayerType _playerType;
 
         /// <summary>
         /// The player status.
         /// </summary>
-        private PlayerStatus _playerStatus = PlayerStatus.WaitingForTurn;
+        private PlayerStatus _playerStatus;
+
+        /// <summary>
+        /// The time when the player went bankrupt.
+        /// </summary>
+        private DateTime? _bankcruptcyTime;
 
         /// <summary>
         /// The amount of money player has.
         /// </summary>
-        private int _money = 1500;
+        private int _money;
+
+        /// <summary>
+        /// The number of leave jail cards player has.
+        /// </summary>
+        private int _numberOfLeaveJailCards = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerModel"/> class.
@@ -68,7 +84,10 @@ namespace WZIMopoly.Models
             _defaultNick = defaultNick;
             _nick = defaultNick;
             _color = color;
-            PlayerType = type;
+            _playerType = type;
+            _playerStatus = PlayerStatus.WaitingForTurn;
+            _money = _startMoney;
+            _bankcruptcyTime = null;
         }
 
         /// <summary>
@@ -88,6 +107,27 @@ namespace WZIMopoly.Models
             _mortgagedTiles = player._mortgagedTiles;
             _defaultNick = player._defaultNick;
             _color = player._color;
+        }
+
+        /// <summary>
+        /// Gets or sets whether the player has additional roll.
+        /// </summary>
+        public bool AdditionalRoll { get; set; }
+
+        /// <summary>
+        /// Gets the number of leave jail cards player has.
+        /// </summary>
+        public int NumberOfLeaveJailCards
+        {
+            get => _numberOfLeaveJailCards;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("The number of leave jail cards cannot be less than 0.");
+                }
+                _numberOfLeaveJailCards = value;
+            }
         }
 
         /// <summary>
@@ -162,6 +202,11 @@ namespace WZIMopoly.Models
         public int MoneyToGetFromMortgage { get; private set; } = 0;
 
         /// <summary>
+        /// Gets the time when the player went bankrupt.
+        /// </summary>
+        public DateTime? BankruptTime => _bankcruptcyTime;
+
+        /// <summary>
         /// Gets the value of the player.
         /// </summary>
         /// <remarks>
@@ -195,15 +240,7 @@ namespace WZIMopoly.Models
                 int tilesValue = 0;
                 foreach (PurchasableTileModel tile in PurchasedTiles)
                 {
-                    if (tile is SubjectTileModel t)
-                    {
-                        if (t.IsMortgaged)
-                        {
-                            tilesValue += t.MortgagePrice;
-                        }
-                        tilesValue += ((int)t.Grade - 1) * t.UpgradePrice;
-                    }
-                    tilesValue += tile.Price;
+                    tilesValue += tile.GetValue();
                 }
                 return Money + tilesValue;
             }
@@ -221,12 +258,12 @@ namespace WZIMopoly.Models
             int amount = 0;
             foreach (PurchasableTileModel tile in PurchasedTiles)
             {
+                if (!tile.IsMortgaged)
+                {
+                    amount += tile.MortgagePrice;
+                }
                 if (tile is SubjectTileModel t)
                 {
-                    if (!t.IsMortgaged)
-                    {
-                        amount += t.MortgagePrice;
-                    }
                     amount += ((int)t.Grade - 1) * t.SellGradePrice;
                 }
             }
@@ -236,16 +273,44 @@ namespace WZIMopoly.Models
         /// <summary>
         /// Transfers money from the player to another player.
         /// </summary>
-        /// <param name="player">
+        /// <param name="recipient">
         /// The player that will receive the money.
         /// </param>
         /// <param name="amount">
         /// The amount of money to transfer.
         /// </param>
-        public void TransferMoneyTo(PlayerModel player, int amount)
+        public void TransferMoneyTo(PlayerModel recipient, int amount)
         {
             Money -= amount;
-            player.Money += amount;
+            recipient.Money += amount;
+        }
+
+        /// <summary>
+        /// Transfer a tile from the player to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the tile.
+        /// </param>
+        /// <param name="tile">
+        /// The tile to transfer.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// The player does not own the tile.
+        /// </exception>
+        public void TransferTileTo(PlayerModel recipient, PurchasableTileModel tile)
+        {
+            if (!PurchasedTiles.Contains(tile))
+            {
+                throw new ArgumentException($"Player has no tile: {tile.EnName}");
+            }
+            tile.Owner = recipient;
+            PurchasedTiles.Remove(tile);
+            recipient.PurchasedTiles.Add(tile);
+            if (MortgagedTiles.Contains(tile))
+            {
+                MortgagedTiles.Remove(tile);
+                recipient.MortgagedTiles.Add(tile);
+            }
         }
 
         /// <summary>
@@ -257,11 +322,12 @@ namespace WZIMopoly.Models
         /// </remarks>
         public void GoBankrupt()
         {
-            PlayerStatus = PlayerStatus.Bankrupt;
-            PurchasedTiles.ForEach(x => x.Reset());
-            PurchasedTiles.Clear();
-            MortgagedTiles.Clear();
-            Money = 0;
+            _playerStatus = PlayerStatus.Bankrupt;
+            _purchasedTiles.ForEach(x => x.Reset());
+            _purchasedTiles.Clear();
+            _mortgagedTiles.Clear();
+            _money = 0;
+            _bankcruptcyTime = DateTime.Now;
             GameSettings.NextPlayer();
             GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
@@ -295,7 +361,8 @@ namespace WZIMopoly.Models
         public void Reset()
         {
             _nick = _defaultNick;
-            _money = 1500;
+            _money = _startMoney;
+            _bankcruptcyTime = null;
             _playerType = PlayerType.None;
             _playerStatus = PlayerStatus.WaitingForTurn;
             _purchasedTiles.Clear();
@@ -308,6 +375,9 @@ namespace WZIMopoly.Models
         /// <param name="player">
         /// The player to copy.
         /// </param>
+        /// <param name="Tiles">
+        /// The list of all tiles to update the player's tiles.
+        /// </param>
         public void Update(PlayerModel player, List<TileModel> Tiles)
         {
             _nick = player._nick;
@@ -315,7 +385,8 @@ namespace WZIMopoly.Models
             _playerStatus = player._playerStatus;
             _money = player._money;
             _purchasedTiles.Clear();
-            foreach(var purchasedTile in player._purchasedTiles)
+            _bankcruptcyTime = player._bankcruptcyTime;
+            foreach (var purchasedTile in player._purchasedTiles)
             {
                 foreach (var t in Tiles)
                 {

@@ -1,4 +1,5 @@
-﻿using WZIMopoly.Engine;
+﻿using WZIMopoly.Controllers.SettingsScene;
+using WZIMopoly.Engine;
 using WZIMopoly.GUI;
 using WZIMopoly.Models;
 

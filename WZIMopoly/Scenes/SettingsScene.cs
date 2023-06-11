@@ -1,5 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+using System.Threading;
 using WZIMopoly.Controllers.SettingsScene;
+using WZIMopoly.DebugUtils;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
@@ -85,6 +89,24 @@ namespace WZIMopoly.Scenes
             };
             Model.AddChild(controllerFullscreen);
 
+            var modelEffect = new VolumeSliderModel("Slider");
+            var viewEffect = new GUIVolumeSlider(modelEffect, new Rectangle(1330, 189, 50, 50), GUIStartPoint.Center);
+            viewEffect.OnSliderVolume += (float volume) =>
+            {
+                SoundEffect.MasterVolume = volume;
+            };
+            var controllerEffect = new VolumeSliderController(modelEffect, viewEffect);
+            Model.AddChild(controllerEffect);
+
+            var modelSong = new VolumeSliderModel("Slider");
+            var viewSong = new GUIVolumeSlider(modelSong, new Rectangle(1330, 264, 50, 50), GUIStartPoint.Center);
+            viewSong.OnSliderVolume += (float volume) =>
+            {
+                MediaPlayer.Volume = volume;
+            };
+            var controllerSong = new VolumeSliderController(modelSong, viewSong);
+            Model.AddChild(controllerSong);
+
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
         }
 
@@ -110,7 +132,7 @@ namespace WZIMopoly.Scenes
                 else if (MouseController.IsHover(new Rectangle(1086, 832, 75, 75).ToCurrentResolution()))
                 {
                     WZIMopoly.Language = Language.English;
-                }   
+                }
             }
         }
     }

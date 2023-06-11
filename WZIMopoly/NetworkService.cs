@@ -169,16 +169,16 @@ namespace WZIMopoly
             var now = DateTime.Now;
             while (true)
             {
-                if (Connection.State == WebSocketState.Open)
-                {
-                    return true;
-                }
-                if (DateTime.Now > now.AddSeconds(3))
+                if (Connection is null || DateTime.Now > now.AddSeconds(3))
                 {
                     Connection = null;
                     Type = ConnectionType.None;
                     return false;
                 }
+                if (Connection is not null && Connection.State == WebSocketState.Open)
+                {
+                    return true;
+                }                
             }
         }
 

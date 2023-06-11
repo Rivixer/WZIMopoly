@@ -45,9 +45,7 @@ namespace WZIMopoly.Controllers.LobbyScene.PlayersList
         {
             base.Update();
 
-            if (Model.Player.PlayerType != PlayerType.Local
-                && Model.Player.PlayerType !=  PlayerType.OnlineHostPlayer
-                || GameSettings.Client.PlayerType != PlayerType.OnlineHostPlayer)
+            if (Model.Player.PlayerType != PlayerType.Local)
             {
                 return;
             }
