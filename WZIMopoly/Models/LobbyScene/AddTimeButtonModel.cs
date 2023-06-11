@@ -9,9 +9,13 @@
         /// Initializes a new instance of the <see cref="AddTimeButtonModel"/> class.
         /// </summary>
         public AddTimeButtonModel()
-            : base("Plus")
+            : base("Plus") { }
+
+        /// <inheritdoc/>
+        public override void Update()
         {
-            IsActive = true;
+            base.Update();
+            IsActive = GameSettings.MaxGameTime is not null;
         }
     }
 }

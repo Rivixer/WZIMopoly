@@ -241,7 +241,12 @@ namespace WZIMopoly
                                     GameSettings.Players[playerIndex].Nick = playerNick;
                                     GameSettings.Players[playerIndex].PlayerType = PlayerType.OnlinePlayer;
 
-                                    var lobbyData = new LobbyData { Players = GameSettings.ActivePlayers };
+                                    var lobbyData = new LobbyData
+                                    {
+                                        Players = GameSettings.ActivePlayers,
+                                        GameEndType = GameSettings.GameEndType,
+                                        MaxGameTime = GameSettings.MaxGameTime,
+                                    };
                                     byte[] data = new byte[] { (byte)PacketType.LobbyData }.Concat(lobbyData.ToByteArray()).ToArray();
                                     NetworkService.Connection.Send(data, 0, data.Length);
                                 }
@@ -276,7 +281,7 @@ namespace WZIMopoly
                 {
                     var data = new byte[] { (byte)PacketType.StartGame };
                     NetworkService.Connection.Send(data, 0, 1);
-                }  
+                }
             };
         }
 
@@ -330,19 +335,18 @@ namespace WZIMopoly
                     var packetType = (PacketType)e.Data[0];
                     if (packetType == PacketType.LobbyData)
                     {
-                        var lobbyRawData = e.Data.Skip(1).ToArray();
-                        var lobbyData = NetData.FromByteArray<LobbyData>(lobbyRawData);
-                        var players = lobbyData.Players;
-                        for (int i = 0; i < players.Count; i++)
-                        {
-                            GameSettings.Players[i].Nick = players[i].Nick;
-                            GameSettings.Players[i].PlayerType = players[i].PlayerType;
-                        }
-                        GameSettings.ClientIndex ??= players.Count - 1;
+                        var lobbyData = NetData.FromByteArray<LobbyData>(e.Data.Skip(1).ToArray());
+                        GameSettings.UpdateLobbyData(lobbyData);
+                        GameSettings.ClientIndex ??= lobbyData.Players.Count - 1;
                         GameType = GameType.Online;
                         var lobbyCodeModel = _lobbyScene.Model.GetModel<Models.LobbyScene.LobbyCodeModel>();
                         lobbyCodeModel.Code = lobbyCode;
                         ChangeCurrentScene(_lobbyScene);
+                    }
+                    else if (packetType == PacketType.LobbyStatus)
+                    {
+                        var lobbyData = NetData.FromByteArray<LobbyData>(e.Data.Skip(1).ToArray());
+                        GameSettings.UpdateLobbyData(lobbyData);
                     }
                     else if (packetType == PacketType.StartGame)
                     {
@@ -454,6 +458,7 @@ namespace WZIMopoly
                 ChangeCurrentScene(_endGameScene);
             }
 #endif
+
             base.Update(gameTime);
         }
 
@@ -481,6 +486,9 @@ namespace WZIMopoly
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        /// Resets the game settings to default values.
+        /// </summary>
         private void ResetGameSettings()
         {
             // Reset players

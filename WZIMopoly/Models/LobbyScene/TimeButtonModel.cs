@@ -10,5 +10,12 @@
         /// </summary>
         public TimeButtonModel()
             : base("LobbyTime") { }
+
+        /// <inheritdoc/>
+        public override void Update()
+        {
+            base.Update();
+            IsActive = GameSettings.MaxGameTime is not null;
+        }
     }
 }

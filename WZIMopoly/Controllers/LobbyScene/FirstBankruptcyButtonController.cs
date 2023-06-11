@@ -25,6 +25,7 @@ namespace WZIMopoly.Controllers.LobbyScene
             OnButtonClicked += () =>
             {
                 GameSettings.GameEndType = GameEndType.FirstBankruptcy;
+                GameSettings.SendLobbyData();
             };
         }
 

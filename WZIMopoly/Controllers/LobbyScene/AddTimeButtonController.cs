@@ -26,6 +26,7 @@ namespace WZIMopoly.Controllers.LobbyScene
                 {
                     GameSettings.MaxGameTime += 5;
                 }
+                GameSettings.SendLobbyData();
             };
         }
     }

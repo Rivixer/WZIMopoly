@@ -16,6 +16,11 @@ namespace WZIMopoly
     internal static class GameSettings
     {
         /// <summary>
+        /// Random number generator.
+        /// </summary>
+        private static readonly Random random = new();
+
+        /// <summary>
         /// The array of default player models.
         /// </summary>
         private static readonly PlayerModel[] s_defaultPlayers = new PlayerModel[4]
@@ -44,7 +49,7 @@ namespace WZIMopoly
         /// <summary>
         /// Gets and sets the max game time measured in minutes.
         /// </summary>
-        public static int? MaxGameTime { get; set; } = 20;
+        public static int? MaxGameTime { get; set; } = 10;
 
         /// <summary>
         /// Gets the players.
@@ -169,6 +174,36 @@ namespace WZIMopoly
             {
                 Players[i].Reset();
             }
+            _currentPlayerIndex = 0;
+            _tempCurrentPlayerIndex = null;
+        }
+
+        /// <summary>
+        /// Draws the start player and sets their index
+        /// as the current player index.
+        /// </summary>
+        public static void DrawStartPlayer()
+        {
+            _currentPlayerIndex = random.Next(ActivePlayers.Count);
+        }
+
+        /// <summary>
+        /// Sends the lobby data to the server.
+        /// </summary>
+        public static void SendLobbyData()
+        {
+            if (WZIMopoly.GameType == GameType.Online)
+            {
+                var lobbyData = new LobbyData()
+                {
+                    Players = Players,
+                    GameEndType = GameEndType,
+                    MaxGameTime = MaxGameTime,
+                };
+                var data = new byte[] { (byte)PacketType.LobbyStatus };
+                data = data.Concat(lobbyData.ToByteArray()).ToArray();
+                NetworkService.Connection.Send(data, 0, data.Length);
+            }
         }
 
         /// <summary>
@@ -189,11 +224,35 @@ namespace WZIMopoly
                     DiceModel = model.GetModel<DiceModel>(),
                     Tiles = model.GetAllModelsRecursively<TileModel>(),
                     TradeModel = model.GetModel<TradeModel>(),
+                    MaxGameTime = MaxGameTime,
                 };
                 var data = new byte[] { (byte)PacketType.GameStatus };
                 data = data.Concat(gameData.ToByteArray()).ToArray();
                 NetworkService.Connection.Send(data, 0, data.Length);
             }
+        }
+
+        /// <summary>
+        /// Updates the lobby status using data from the server.
+        /// </summary>
+        /// <param name="data">
+        /// The game data received from the server.
+        /// </param>
+        public static void UpdateLobbyData(LobbyData data)
+        {
+            // Update players
+            var players = data.Players;
+            for (int i = 0; i < players.Count; i++)
+            {
+                Players[i].Nick = players[i].Nick;
+                Players[i].PlayerType = players[i].PlayerType;
+            }
+
+            // Update game end type
+            GameEndType = data.GameEndType;
+
+            // Update max game time
+            MaxGameTime = data.MaxGameTime;
         }
 
         /// <summary>
@@ -223,6 +282,10 @@ namespace WZIMopoly
             // Update the current player
             _currentPlayerIndex = data.CurrentPlayerIndex;
             _tempCurrentPlayerIndex = data.TempCurrentPlayerIndex;
+
+            // Update the maximum game time
+            MaxGameTime = data.MaxGameTime;
+            model.SetEndTime();
 
             // Update the dice model
             var diceModel = model.GetModel<DiceModel>();
