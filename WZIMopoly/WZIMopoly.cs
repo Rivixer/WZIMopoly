@@ -500,6 +500,12 @@ namespace WZIMopoly
             var mapModel = _gameScene.Model.GetModel<MapModel>();
             mapModel.GetAllModels<TileModel>().ForEach(x => x.Reset());
 
+            // Reset lobby scene
+            GameSettings.GameEndType = GameEndType.LastNotBankrupt;
+            GameSettings.MaxGameTime = 10;
+            var timeBtn = _lobbyScene.Model.GetController<TimeButtonController>();
+            timeBtn.Model.IsActive = true;
+
             // Swtich to root
             if (NetworkService.Type != ConnectionType.Root
                 && NetworkService.Type != ConnectionType.ConnectingToRoot

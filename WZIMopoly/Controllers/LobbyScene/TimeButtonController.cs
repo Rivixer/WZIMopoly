@@ -26,7 +26,12 @@ namespace WZIMopoly.Controllers.LobbyScene
         /// <inheritdoc/>
         public override void Update()
         {
+            View.Update();
             Model.Update();
+
+            // We need to override this because
+            // we have one button above another,
+            // so we create a new rectangle for the time button.
 
             if (Model.Conditions()
                 && MouseController.WasLeftBtnClicked()

@@ -124,12 +124,7 @@ namespace WZIMopoly.Scenes
             _mapController.View.UpdatePawnPositions();
 
             Model.SetStartTime();
-
-            if(GameSettings.MatchDuration == 0)
-            {
-                Model.RemoveChild(_timerController);
-                _timerController = null;
-            }
+            Model.SetEndTime();
 
             Model.GameStatus = GameStatus.Running;
             GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
@@ -139,7 +134,7 @@ namespace WZIMopoly.Scenes
         public override void Update()
         {
             base.Update();
-            _timerController?.UpdateTime(Model.ActualTime);
+            _timerController?.Model.UpdateTime(Model.ActualTime, Model.TimeToEnd);
 
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
 
@@ -158,8 +153,6 @@ namespace WZIMopoly.Scenes
 
             var gameUpdateViews = Model.GetAllViewsRecursively<IGUIGameUpdate>();
             gameUpdateViews.ForEach(x => x.Update(GameSettings.CurrentPlayer, currentPlayerTile));
-
-            EndingConditions();
 
 #if DEBUG
             // Click a key on the keyboard to move the current player a certain number of steps.
@@ -228,6 +221,18 @@ namespace WZIMopoly.Scenes
                         GameSettings.CurrentPlayer.GoBankrupt(t.Owner);
                     }
                 }
+            }
+
+            // Click F8 to increase end time.
+            if (KeyboardController.WasClicked(Keys.F8))
+            {
+                Model.IncreaseGameTime();
+            }
+
+            // Click F7 to decrease end time.
+            if (KeyboardController.WasClicked(Keys.F7))
+            {
+                Model.DecreaseGameTime();
             }
 #endif
         }
@@ -473,26 +478,6 @@ namespace WZIMopoly.Scenes
                 GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
             };
 
-        }
-
-        /// <summary>
-        /// Checks ending conditions and end game.
-        /// </summary>
-        /// <exception cref="Exception">
-        /// Game over.
-        /// </exception>
-        private void EndingConditions()
-        {
-
-            if ((GameSettings.MatchDuration != 0
-                && (int)Model.ActualTime.TotalSeconds == 0)
-                || (GameSettings.GameEndType == GameEndType.FirstBankruptcy
-                && GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.Bankrupt)
-                || (GameSettings.GameEndType == GameEndType.LastNotBankrupt
-                && GameSettings.ActivePlayers.Count - GameSettings.Players.FindAll(x => x.PlayerStatus == PlayerStatus.Bankrupt).Count == 1))
-            {
-                throw new Exception("Koniec gry");
-            }
         }
     }
 }

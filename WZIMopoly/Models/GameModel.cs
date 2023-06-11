@@ -32,13 +32,69 @@ namespace WZIMopoly.Models
         public TimeSpan ActualTime { get; private set; }
 
         /// <summary>
+        /// Gets the game end time.
+        /// </summary>
+        public DateTime? EndTime { get; private set; }
+
+        /// <summary>
+        /// Gets the time to end the game.
+        /// </summary>
+        public TimeSpan? TimeToEnd => EndTime - StartTime.Add(ActualTime);
+
+        /// <summary>
         /// Sets <see cref="StartTime"/> to the current time.
         /// </summary>
         public void SetStartTime()
         {
             StartTime = DateTime.Now;
-            SetEndTime();
         }
+
+        /// <summary>
+        /// Sets <see cref="EndTime"/> to the current
+        /// time plus <see cref="GameSettings.MaxGameTime"/>.
+        /// </summary>
+        /// <remarks>
+        /// If <see cref="GameSettings.MaxGameTime"/:> is null,
+        /// <see cref="EndTime"/> is set to null.
+        /// </remarks>
+        public void SetEndTime()
+        {
+            if (GameSettings.MaxGameTime is not null)
+            {
+                EndTime = StartTime.AddMinutes((double)GameSettings.MaxGameTime);
+            }
+            else
+            {
+                EndTime = null;
+            }
+        }
+
+#if DEBUG
+        /// <summary>
+        /// Increases <see cref="GameSettings.MaxGameTime"/> by 1.
+        /// </summary>
+        public void IncreaseGameTime()
+        {
+            if (GameSettings.MaxGameTime != null)
+            {
+                GameSettings.MaxGameTime++;
+                SetEndTime();
+            }
+
+        }
+
+        /// <summary>
+        /// Decreases <see cref="GameSettings.MaxGameTime"/> by 1.
+        /// </summary>
+        public void DecreaseGameTime()
+        {
+            if (GameSettings.MaxGameTime != null)
+            {
+                GameSettings.MaxGameTime--;
+                SetEndTime();
+            }
+        }
+#endif
 
         /// <inheritdoc/>
         public override void Update()

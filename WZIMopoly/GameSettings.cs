@@ -42,9 +42,9 @@ namespace WZIMopoly
         public static GameEndType GameEndType { get; set; } = GameEndType.LastNotBankrupt;
 
         /// <summary>
-        /// Gets and sets the match duration measured in minutes.
+        /// Gets and sets the max game time measured in minutes.
         /// </summary>
-        public static int MatchDuration { get; set; } = 10;
+        public static int? MaxGameTime { get; set; } = 20;
 
         /// <summary>
         /// Gets the players.

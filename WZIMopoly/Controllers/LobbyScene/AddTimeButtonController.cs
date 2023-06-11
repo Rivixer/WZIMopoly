@@ -22,9 +22,9 @@ namespace WZIMopoly.Controllers.LobbyScene
         {
             OnButtonClicked += () =>
             {
-                if (GameSettings.MatchDuration < 60)
+                if (GameSettings.MaxGameTime < 23 * 60 + 59)
                 {
-                    GameSettings.MatchDuration++;
+                    GameSettings.MaxGameTime += 5;
                 }
             };
         }

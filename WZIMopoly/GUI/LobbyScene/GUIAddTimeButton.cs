@@ -16,9 +16,6 @@ namespace WZIMopoly.GUI.LobbyScene
         /// The model of the add time button.
         /// </param>
         public GUIAddTimeButton(AddTimeButtonModel model)
-            : base(model, new Rectangle(1282, 700, 75, 75), GUIStartPoint.TopLeft, false, false)
-        {
-            SetButtonHoverArea(5, 0.75f);
-        }
+            : base(model, new Rectangle(1282, 734, 50, 50), GUIStartPoint.Left, false, false) { }
     }
 }

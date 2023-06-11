@@ -30,53 +30,31 @@ namespace WZIMopoly.Scenes
         public override void Initialize()
         {
             Model.InitializeChild<LobbyPlayersModel, GUILobbyPlayers, LobbyPlayersController>();
-            Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
-            Model.GetController<ReturnButtonController>().OnButtonClicked += () =>
-            {
-                Model.GetModel<AddTimeButtonModel>().IsActive = true;
-                Model.GetModel<SubtractTimeButtonModel>().IsActive = true;
-                Model.GetModel<TimeButtonModel>().IsActive = false;
-                GameSettings.GameEndType = GameEndType.LastNotBankrupt;
-                GameSettings.MatchDuration = 10;
-                Model.GetView<GUITimeButton>().Update();
-            };
-
             Model.InitializeChild<StartGameButtonModel, GUIStartGameButton, StartGameButtonController>();
             Model.InitializeChild<LastNotBankruptButtonModel, GUILastNotBankruptButton, LastNotBankruptButtonController>();
             Model.InitializeChild<FirstBankruptcyButtonModel, GUIFirstBankruptcyButton, FirstBankruptcyButtonController>();
             Model.InitializeChild<LobbyCodeModel, GUILobbyCode, LobbyCodeController>();
             Model.InitializeChild<LocalModeButtonModel, GUILocalModeButton, LocalModeButtonController>();
             Model.InitializeChild<OnlineModeButtonModel, GUIOnlineModeButton, OnlineModeButtonController>();
-            Model.InitializeChild<AddTimeButtonModel, GUIAddTimeButton, AddTimeButtonController>();
-            Model.GetController<AddTimeButtonController>().OnButtonClicked += () =>
-            {
-                Model.GetView<GUITimeButton>().Update();
-            };
+            Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
 
-            Model.InitializeChild<SubtractTimeButtonModel, GUISubtractTimeButton, SubtractTimeButtonController>();
-            Model.GetController<SubtractTimeButtonController>().OnButtonClicked += () =>
+            var timeBtn = Model.InitializeChild<TimeButtonModel, GUITimeButton, TimeButtonController>();
+            var addTimeBtn = Model.InitializeChild<AddTimeButtonModel, GUIAddTimeButton, AddTimeButtonController>();
+            var subTimeBtn = Model.InitializeChild<SubtractTimeButtonModel, GUISubtractTimeButton, SubtractTimeButtonController>();
+            timeBtn.OnButtonClicked += () =>
             {
-                Model.GetView<GUITimeButton>().Update();
-            };
-
-            Model.InitializeChild<TimeButtonModel, GUITimeButton, TimeButtonController>();
-            Model.GetController<TimeButtonController>().OnButtonClicked += () =>
-            {
-                if (Model.GetModel<TimeButtonModel>().IsActive)
+                if (timeBtn.Model.IsActive)
                 {
-                    Model.GetModel<AddTimeButtonModel>().IsActive = true;
-                    Model.GetModel<SubtractTimeButtonModel>().IsActive = true;
-                    Model.GetModel<TimeButtonModel>().IsActive = false;
-                    GameSettings.MatchDuration = 10;
-                    Model.GetView<GUITimeButton>().Update();
+                    GameSettings.MaxGameTime = null;
+                    timeBtn.Model.IsActive = false;
                 }
                 else
                 {
-                    Model.GetModel<AddTimeButtonModel>().IsActive = false;
-                    Model.GetModel<SubtractTimeButtonModel>().IsActive = false;
-                    Model.GetModel<TimeButtonModel>().IsActive = true;
-                    GameSettings.MatchDuration = 0;
+                    GameSettings.MaxGameTime = 10;
+                    timeBtn.Model.IsActive = true;
                 }
+                addTimeBtn.Model.IsActive = timeBtn.Model.IsActive;
+                subTimeBtn.Model.IsActive = timeBtn.Model.IsActive;
             };
         }
     }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene;
 
@@ -64,7 +66,29 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Update()
         {
-            _guiTime.Text = _timerModel.Time.ToString(@"mm\:ss");
+            if (_timerModel.Time < TimeSpan.FromMinutes(1) && GameSettings.MaxGameTime != null)
+            {
+                _guiTime.Color = Color.Red;
+            }
+            else
+            {
+                _guiTime.Color = Color.Black;
+            }
+
+            var text = new StringBuilder();
+            if (_timerModel.Time < TimeSpan.Zero)
+            {
+                text.Append('-');
+            }
+            if (_timerModel.Time >= TimeSpan.FromHours(1))
+            {
+                text.Append(_timerModel.Time.ToString(@"hh\:mm\:ss"));
+            }
+            else
+            {
+                text.Append(_timerModel.Time.ToString(@"mm\:ss"));
+            }
+            _guiTime.Text = text.ToString();
             base.Update();
         }
 

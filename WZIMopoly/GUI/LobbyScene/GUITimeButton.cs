@@ -14,7 +14,7 @@ namespace WZIMopoly.GUI.LobbyScene
         /// <summary>
         /// The text of time.
         /// </summary>
-        private GUIText _timeText;
+        private readonly GUIText _timeText;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUITimeButton"/> class.
@@ -25,14 +25,14 @@ namespace WZIMopoly.GUI.LobbyScene
         public GUITimeButton(TimeButtonModel model)
             : base(model, new Rectangle(1050, 640, 304, 140), GUIStartPoint.TopLeft, false, false)
         {
-            _timeText = new GUIText("Fonts/WZIMFont", new Vector2(1205, 695), Color.Black, GUIStartPoint.Top, GameSettings.MatchDuration.ToString() + ":00", 0.8f);
+            _timeText = new GUIText("Fonts/WZIMFont", new Vector2(1205, 732), Color.Black, GUIStartPoint.Center, scale: 0.55f);
         }
 
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            if (GameSettings.MatchDuration != 0)
+            if (GameSettings.MaxGameTime is not null)
             {
                 _timeText.Draw(spriteBatch);
             }
@@ -55,9 +55,17 @@ namespace WZIMopoly.GUI.LobbyScene
         /// <inheritdoc/>
         public override void Update()
         {
-            if (GameSettings.MatchDuration != 0)
+            base.Update();
+            if (GameSettings.MaxGameTime is not null)
             {
-                _timeText.Text = GameSettings.MatchDuration.ToString() + ":00";
+                if (GameSettings.MaxGameTime >= 60)
+                {
+                    _timeText.Text = $"{GameSettings.MaxGameTime / 60}:{(GameSettings.MaxGameTime % 60)}:00";
+                }
+                else
+                {
+                    _timeText.Text = $"{GameSettings.MaxGameTime}:00";
+                }
             }
         }
     }
