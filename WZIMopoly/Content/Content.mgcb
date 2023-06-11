@@ -3843,3 +3843,9 @@
 /processorParam:Quality=Best
 /build:Sounds/Dice.mp3
 
+#begin Sounds/Money.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/Money.wav
+

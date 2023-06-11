@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using WZIMopoly.Controllers.GameScene;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -26,7 +27,11 @@ namespace WZIMopoly.Models.GameScene.TileModels
         internal ConditionalPassTileModel(int id, int tax) : base(id)
         {
             Tax = tax;
-            OnStand += (player) => player.Money -= Tax;
+            OnStand += (player) =>
+            {
+                player.Money -= Tax;
+                TileController.MoneySound.Play();
+            };
         }
 
         /// <summary>

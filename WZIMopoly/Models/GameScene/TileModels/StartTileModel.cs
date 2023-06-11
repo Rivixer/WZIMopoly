@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using WZIMopoly.Controllers.GameScene;
 
 namespace WZIMopoly.Models.GameScene.TileModels
 {
@@ -54,6 +55,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         void ICrossable.OnCross(PlayerModel player)
         {
             player.Money += _reward;
+            TileController.MoneySound.Play();
         }
     }
 }

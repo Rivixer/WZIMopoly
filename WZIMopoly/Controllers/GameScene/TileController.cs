@@ -1,4 +1,7 @@
-﻿using WZIMopoly.GUI.GameScene;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using WZIMopoly.GUI;
+using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene;
 
 namespace WZIMopoly.Controllers.GameScene
@@ -23,6 +26,20 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         protected TileController(TileModel model, GUITile view)
             : base(model, view) { }
+
+        /// <summary>
+        /// Gets the sound effect of the money.
+        /// </summary>
+        // It is a temporary solution, because the deadline is coming
+        // and code is not adapted for playing sound effects.
+        public static SoundEffect MoneySound { get; private set; }
+
+        /// <inheritdoc/>
+        public override void Load(ContentManager content)
+        {
+            base.Load(content);
+            MoneySound ??= content.Load<SoundEffect>("Sounds/Money");
+        }
     }
 
     /// <summary>

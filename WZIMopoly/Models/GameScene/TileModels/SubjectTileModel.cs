@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
 using WZIMopoly.Utils;
 
@@ -64,6 +65,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 if (Owner != null && !player.Equals(Owner))
                 {
                     player.TransferMoneyTo(Owner, TaxPrices[Grade]);
+                    TileController.MoneySound.Play();
                 }
             };
         }
