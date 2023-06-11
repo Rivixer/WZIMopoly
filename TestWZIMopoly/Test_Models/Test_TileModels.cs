@@ -8,6 +8,20 @@ namespace TestWZIMopoly.Test_Models
     internal class PurchaseTile : PurchasableTileModel
     {
         public PurchaseTile(int id, int price) : base(id, price) { }
+
+        public override int GetValue()
+        {
+            int result = 0;
+            if (IsMortgaged)
+            {
+                result += MortgagePrice;
+            }
+            else
+            {
+                result += Price;
+            }
+            return result;
+        }
     }
 
     /// <summary>

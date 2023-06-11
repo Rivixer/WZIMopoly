@@ -92,6 +92,7 @@ namespace WZIMopoly.GUI.GameScene
             if (InfoVisible 
                 && _player.PlayerStatus != PlayerStatus.MortgagingTiles 
                 && _player.PlayerStatus != PlayerStatus.UpgradingTiles
+                && _player.PlayerStatus != PlayerStatus.Trading
                 && _player.PlayerStatus != PlayerStatus.SavingFromBankruptcy)
             {
                 _card.Draw(spriteBatch);

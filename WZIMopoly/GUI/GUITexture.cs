@@ -220,7 +220,7 @@ namespace WZIMopoly.GUI
                 {
                     toDraw = _texture;
                 }
-                spriteBatch.Draw(toDraw, DestinationRect, new Color(255, 255, 255, (int)(_opacity * 255)));
+                spriteBatch.Draw(toDraw, DestinationRect, Color.White * _opacity);
             }
         }
 

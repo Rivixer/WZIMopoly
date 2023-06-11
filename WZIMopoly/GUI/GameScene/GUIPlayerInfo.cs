@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
@@ -16,7 +17,7 @@ namespace WZIMopoly.GUI.GameScene
     /// A player info view contains the player's
     /// nickname and amount of money.
     /// </remarks>
-    internal class GUIPlayerInfo : GUIElement, IGUIGameUpdate
+    internal class GUIPlayerInfo : GUIElement
     {
         #region Fields
         /// <summary>
@@ -95,11 +96,6 @@ namespace WZIMopoly.GUI.GameScene
         /// The place where <see cref="_defDstRect"/> has been specified.
         /// </summary>
         private readonly GUIStartPoint _startPoint;
-
-        /// <summary>
-        /// The player who is now taking a turn.
-        /// </summary>
-        private PlayerModel _currentPlayer;
         #endregion
 
         /// <summary>
@@ -137,12 +133,22 @@ namespace WZIMopoly.GUI.GameScene
 
         }
 
+        /// <summary>
+        /// Gets the rectangle of the flag texture.
+        /// </summary>
+        /// <value>
+        /// The unscaled destination rectangle of the flag texture.
+        /// </value>
+        public Rectangle UnscaledDestinationRect => _guiFlag.UnscaledDestinationRect;
+
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (_playerInfoModel.Player.PlayerType != PlayerType.None)
             {
-                if (GameSettings.CurrentPlayer == _playerInfoModel.Player)
+                if (_playerInfoModel.Player.PlayerStatus == PlayerStatus.ReceivingTrade
+                    || (GameSettings.ActivePlayers.All(x => x.PlayerStatus != PlayerStatus.ReceivingTrade)
+                    && GameSettings.CurrentPlayer.Equals(_playerInfoModel.Player)))
                 {
                     _guiFlagHovered.Draw(spriteBatch);
                 }
@@ -193,12 +199,6 @@ namespace WZIMopoly.GUI.GameScene
         {
             var elements = new List<GUIElement>() { _guiBox, _guiMoney, _guiNick, _guiFlag, _guiFlagHovered, _guiFlagDisabled };
             elements.ForEach(x => x.Recalculate());
-        }
-
-        /// <inheritdoc/>
-        public void Update(PlayerModel player, TileModel tile)
-        {
-            _currentPlayer = player;
         }
 
         /// <summary>

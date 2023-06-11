@@ -57,7 +57,7 @@ namespace WZIMopoly.Controllers.GameScene
             }
             foreach (TileController tile in Model.TileControllers)
             {
-                if (tile.Model is not SubjectTileModel t
+                if (tile.Model is not PurchasableTileModel t
                     || !MouseController.IsHover(tile.View.Position.ToCurrentResolution()))
                 {
                     continue;
@@ -71,9 +71,9 @@ namespace WZIMopoly.Controllers.GameScene
                 {
                     t.Mortgage();
                 }
-                else if (t.CanSellGrade(player))
+                else if ((t as SubjectTileModel)?.CanSellGrade(player) ?? false)
                 {
-                    t.SellGrade();
+                    (t as SubjectTileModel).SellGrade();
                 }
                 else
                 {

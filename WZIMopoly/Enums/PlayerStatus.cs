@@ -44,5 +44,15 @@
         /// The player is saving themself from bankruptcy.
         /// </summary>
         SavingFromBankruptcy,
+
+        /// <summary>
+        /// The player is trading.
+        /// </summary>
+        Trading,
+
+        /// <summary>
+        /// The player is receiving a trade.
+        /// </summary>
+        ReceivingTrade,
     }
 }

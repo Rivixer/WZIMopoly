@@ -3,15 +3,15 @@
 namespace WZIMopoly.Models.GameScene.GameButtonModels
 {
     /// <summary>
-    /// Represents the trade button model.
+    /// Represents the accept trade button model.
     /// </summary>
-    internal sealed class TradeButtonModel : ButtonModel
+    internal sealed class TradeAcceptButtonModel : ButtonModel
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TradeButtonModel"/> class.
+        /// Initializes a new instance of the <see cref="TradeAcceptButtonModel"/> class.
         /// </summary>
-        internal TradeButtonModel()
-            : base("Trade") { }
+        internal TradeAcceptButtonModel()
+            : base("Accept") { }
 
         /// <inheritdoc/>
         public override void Update()
@@ -19,9 +19,8 @@ namespace WZIMopoly.Models.GameScene.GameButtonModels
             base.Update();
             var player = GameSettings.CurrentPlayer;
             IsActive = (WZIMopoly.GameType == GameType.Online && player == GameSettings.Client || WZIMopoly.GameType == GameType.Local)
-                && (player.PlayerStatus == PlayerStatus.BeforeRollingDice
-                && player.PurchasedTiles.Count > 0
-                || player.PlayerStatus == PlayerStatus.Trading);
+                && player.PlayerStatus == PlayerStatus.ReceivingTrade
+                && Conditions();
         }
     }
 }

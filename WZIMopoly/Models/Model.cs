@@ -18,6 +18,7 @@ namespace WZIMopoly.Models
         /// <summary>
         /// The list of children.
         /// </summary>
+        [NonSerialized]
         private readonly List<IControllerable> _children = new();
 
         /// <inheritdoc/>

@@ -133,7 +133,7 @@ namespace WZIMopoly.GUI.GameScene
             if (player is not null && player.PlayerStatus == PlayerStatus.UpgradingTiles)
             {
                 string text;
-                if (!player.Equals(GameSettings.Client))
+                if (WZIMopoly.GameType == GameType.Online && !player.Equals(GameSettings.Client))
                 {
                     text = WZIMopoly.Language switch
                     {

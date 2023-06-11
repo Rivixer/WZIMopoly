@@ -6,6 +6,7 @@ using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.NetworkData;
 using WZIMopolyNetworkingLibrary;
+using System;
 
 namespace WZIMopoly
 {
@@ -31,6 +32,11 @@ namespace WZIMopoly
         private static int _currentPlayerIndex = 0;
 
         /// <summary>
+        /// The temporary current player index.
+        /// </summary>
+        private static int? _tempCurrentPlayerIndex;
+
+        /// <summary>
         /// Gets the players.
         /// </summary>
         /// <value>
@@ -50,11 +56,25 @@ namespace WZIMopoly
         /// <summary>
         /// Changes the current player to the next one.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the current player is the last one,
+        /// the first player will be selected.
+        /// </para>
+        /// <para>
+        /// If the current player is bankrupt,
+        /// the next non-bankrupt player will be selected.
+        /// </para>
+        /// </remarks>
         public static void NextPlayer()
         {
             if (++_currentPlayerIndex >= ActivePlayers.Count)
             {
                 _currentPlayerIndex = 0;
+            }
+            if (ActivePlayers[_currentPlayerIndex].PlayerStatus == PlayerStatus.Bankrupt)
+            {
+                NextPlayer();
             }
         }
 
@@ -87,6 +107,36 @@ namespace WZIMopoly
         public static PlayerModel? Client => ClientIndex.HasValue ? Players[ClientIndex.Value] : Players[0];
 
 #nullable disable
+
+        /// <summary>
+        /// Sets the temporary player as the current player.
+        /// </summary>
+        /// <param name="player">
+        /// The player to be set as the temporary player.
+        /// </param>
+        public static void SetTemporaryPlayerAsCurrent(PlayerModel player)
+        {
+            _tempCurrentPlayerIndex = _currentPlayerIndex;
+            _currentPlayerIndex = Players.IndexOf(player);
+        }
+
+        /// <summary>
+        /// Restores the current player from the temporary player.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// The temporary current player index is not set.
+        /// </exception>
+        public static void RestoreCurrentPlayer()
+        {
+            if (_tempCurrentPlayerIndex == null)
+            {
+                throw new ArgumentException("Temporary current player index not set.");
+            }
+            else
+            {
+                _currentPlayerIndex = (int)_tempCurrentPlayerIndex;
+            }
+        }
 
         /// <summary>
         /// Creates the players with default values.
@@ -125,8 +175,10 @@ namespace WZIMopoly
                 {
                     ActivePlayers = ActivePlayers,
                     CurrentPlayerIndex = _currentPlayerIndex,
+                    TempCurrentPlayerIndex = _tempCurrentPlayerIndex,
                     DiceModel = model.GetModel<DiceModel>(),
                     Tiles = model.GetAllModelsRecursively<TileModel>(),
+                    TradeModel = model.GetModel<TradeModel>(),
                 };
                 var data = new byte[] { (byte)PacketType.GameStatus };
                 data = data.Concat(gameData.ToByteArray()).ToArray();
@@ -160,10 +212,15 @@ namespace WZIMopoly
 
             // Update the current player
             _currentPlayerIndex = data.CurrentPlayerIndex;
+            _tempCurrentPlayerIndex = data.TempCurrentPlayerIndex;
 
             // Update the dice model
             var diceModel = model.GetModel<DiceModel>();
             diceModel.Update(data.DiceModel);
+
+            // Update the trade model
+            var tradeModel = model.GetModel<TradeModel>();
+            tradeModel.Update(data.TradeModel);
 
             // Update AllTiles property on each tile
             // (maybe it is not necessary, but I don't have
