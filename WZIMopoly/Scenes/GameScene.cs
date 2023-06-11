@@ -204,12 +204,37 @@ namespace WZIMopoly.Scenes
             if (isPressedPlusKey)
             {
                 GameSettings.CurrentPlayer.Money++;
-                GameSettings.SendGameData(Model);
             }
             var isPressedMinusKey = KeyboardController.IsPressed(Keys.OemMinus) || KeyboardController.IsPressed(Keys.Subtract);
             if (isPressedMinusKey)
             {
                 GameSettings.CurrentPlayer.Money--;
+            }
+            var wasReleasedMinusKey = KeyboardController.WasReleased(Keys.OemMinus) || KeyboardController.WasReleased(Keys.Subtract);
+            var wasReleasedPlusKey = KeyboardController.WasReleased(Keys.OemPlus) || KeyboardController.WasReleased(Keys.Add);
+            if (wasReleasedMinusKey || wasReleasedPlusKey)
+            {
+                GameSettings.SendGameData(Model);
+            }
+
+            // Click F2 to switch to the next player.
+            if (KeyboardController.WasClicked(Keys.F2))
+            {
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.WaitingForTurn;
+                GameSettings.NextPlayer();
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                GameSettings.SendGameData(Model);
+            }
+
+            // Click F3 to switch player status.
+            if (KeyboardController.WasClicked(Keys.F3))
+            {
+                GameSettings.CurrentPlayer.PlayerStatus = GameSettings.CurrentPlayer.PlayerStatus switch
+                {
+                    PlayerStatus.BeforeRollingDice => PlayerStatus.AfterRollingDice,
+                    PlayerStatus.AfterRollingDice => PlayerStatus.BeforeRollingDice,
+                    _ => throw new InvalidOperationException("Invalid player status."),
+                };
                 GameSettings.SendGameData(Model);
             }
 
@@ -217,6 +242,7 @@ namespace WZIMopoly.Scenes
             if (KeyboardController.WasClicked(Keys.F5))
             {
                 GameSettings.CurrentPlayer.GoBankrupt();
+                GameSettings.SendGameData(Model);
             }
 
             // Click F6 to bankrupt the current player and
@@ -231,18 +257,21 @@ namespace WZIMopoly.Scenes
                         GameSettings.CurrentPlayer.GoBankrupt(t.Owner);
                     }
                 }
+                GameSettings.SendGameData(Model);
             }
 
             // Click F8 to increase end time.
             if (KeyboardController.WasClicked(Keys.F8))
             {
                 Model.IncreaseGameTime();
+                GameSettings.SendGameData(Model);
             }
 
             // Click F7 to decrease end time.
             if (KeyboardController.WasClicked(Keys.F7))
             {
                 Model.DecreaseGameTime();
+                GameSettings.SendGameData(Model);
             }
 #endif
 
