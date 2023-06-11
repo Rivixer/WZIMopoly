@@ -159,7 +159,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 var physicsTile = GetModel<SubjectTileModel>(x => x.Id == 10);
                 List<TileController> passedTiles = MovePlayer(player, physicsTile);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 ActivateCrossableTiles(player, passedTiles);
                 mapView.UpdatePawnPositions();
             };
@@ -170,7 +170,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 var nearestRestroom = FindNearestTile<RestroomTileController>(player);
                 MovePlayer(player, nearestRestroom);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 mapView.UpdatePawnPositions();
             };
 
@@ -188,7 +188,7 @@ namespace WZIMopoly.Models.GameScene
                     players.ForEach(x => player.TransferMoneyTo(x, 50));
                 }
                 var otherPlayers = GameSettings.ActivePlayers.Where(x => x.PlayerStatus != PlayerStatus.Bankrupt && !player.Equals(x)).ToList();
-                HandleBankrupt( delegate { TransferMoneyToPlayers(otherPlayers); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt( delegate { TransferMoneyToPlayers(otherPlayers); }, mortgageCtrl, gameModel);
             };
 
             // Go to nearest restroom - if it is occupied roll the dice again
@@ -197,7 +197,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 var nearestRestroom = FindNearestTile<RestroomTileController>(player);
                 MovePlayer(player, nearestRestroom);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 mapView.UpdatePawnPositions();
                 if (nearestRestroom.Model.Owner is not null)
                 {
@@ -211,7 +211,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 var nearestElevator = FindNearestTile<ElevatorTileController>(player);
                 MovePlayer(player, nearestElevator);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 mapView.UpdatePawnPositions();
             };
 
@@ -227,7 +227,7 @@ namespace WZIMopoly.Models.GameScene
                         amount += t.Grade == SubjectGrade.Exemption ? 100 : ((int)t.Grade - 1) * 20;
                     }
                 }
-                HandleBankrupt(delegate { player.Money -= amount; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= amount; }, mortgageCtrl, gameModel);
             };
 
             // You are going to mandatory lecture
@@ -251,7 +251,7 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(9, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 50; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 50; }, mortgageCtrl, gameModel);
             };
 
             // Go to Discrete mathematic - if you go through start, get 200 ECTS
@@ -260,7 +260,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 var discreteMathTile = GetModel<SubjectTileModel>(x => x.Id == 24);
                 List<TileController> passedTiles = MovePlayer(player, discreteMathTile);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 ActivateCrossableTiles(player, passedTiles);
                 mapView.UpdatePawnPositions();
             };
@@ -293,7 +293,7 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(14, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 20; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 20; }, mortgageCtrl, gameModel);
             };
 
             // You forgot your backpack - go back 3 tiles
@@ -301,7 +301,7 @@ namespace WZIMopoly.Models.GameScene
             ctrl.Model.OnDrawn += (player) =>
             {
                 MovePlayer(player, -3);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 mapView.UpdatePawnPositions();
             };
 
@@ -311,7 +311,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 var algebraTile = GetModel<SubjectTileModel>(x => x.Id == 39);
                 TeleportPlayer(player, algebraTile);
-                HandleBankrupt(delegate { ActivateOnStandTile(player); }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { ActivateOnStandTile(player); }, mortgageCtrl, gameModel);
                 mapView.UpdatePawnPositions();
             };
 
@@ -339,14 +339,14 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(19, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 100; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 100; }, mortgageCtrl, gameModel);
             };
 
             // Your project is a plagiarism - pay 200 ECTS
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(20, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 200; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 200; }, mortgageCtrl, gameModel);
             };
 
             // Justification card
@@ -360,7 +360,7 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(22, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 200; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 200; }, mortgageCtrl, gameModel);
             };
 
             // Your fiend gave you answers from OOP - get 30 ECTS
@@ -374,14 +374,14 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(24, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 200; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 200; }, mortgageCtrl, gameModel);
             };
 
             // While writing a calculator in Assembly... - pay 50 ECTS
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(25, ChanceCardType.Canteen, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 50; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 50; }, mortgageCtrl, gameModel);
             };
 
             // Go back to western elevator - you cannot use it
@@ -410,7 +410,7 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(1, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 30; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 30; }, mortgageCtrl, gameModel);
             };
 
             // You participated in SGGW open datys - get 100 ECTS
@@ -445,14 +445,14 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(6, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 50; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 50; }, mortgageCtrl, gameModel);
             };
 
             // Hot-dog sale in Żabka - pay 50 ECTS
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(7, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 50; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 50; }, mortgageCtrl, gameModel);
             };
 
             // You passed semester without any difficulty - get 200 ECTS
@@ -468,14 +468,14 @@ namespace WZIMopoly.Models.GameScene
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(9, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 50; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 50; }, mortgageCtrl, gameModel);
             };
             
             // You loose a tooth during P.E. - pay 100 ECTS
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(10, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 100; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 100; }, mortgageCtrl, gameModel);
             };
 
             // You got maintenance grant - get 100 ECTS
@@ -541,14 +541,14 @@ namespace WZIMopoly.Models.GameScene
                         amount += t.Grade == SubjectGrade.Exemption ? 110 : ((int)t.Grade - 1) * 40;
                     }
                 }
-                HandleBankrupt(delegate { player.Money -= amount; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= amount; }, mortgageCtrl, gameModel);
             };
 
             // Moodle crushed during your test - pay 80 ECTS
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(18, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
             {
-                HandleBankrupt(delegate { player.Money -= 80; }, player, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { player.Money -= 80; }, mortgageCtrl, gameModel);
             };
         }
 

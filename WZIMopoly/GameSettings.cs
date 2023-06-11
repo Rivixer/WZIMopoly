@@ -56,11 +56,25 @@ namespace WZIMopoly
         /// <summary>
         /// Changes the current player to the next one.
         /// </summary>
+        /// <remarks>
+        /// <para>
+        /// If the current player is the last one,
+        /// the first player will be selected.
+        /// </para>
+        /// <para>
+        /// If the current player is bankrupt,
+        /// the next non-bankrupt player will be selected.
+        /// </para>
+        /// </remarks>
         public static void NextPlayer()
         {
             if (++_currentPlayerIndex >= ActivePlayers.Count)
             {
                 _currentPlayerIndex = 0;
+            }
+            if (ActivePlayers[_currentPlayerIndex].PlayerStatus == PlayerStatus.Bankrupt)
+            {
+                NextPlayer();
             }
         }
 

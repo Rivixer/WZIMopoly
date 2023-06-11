@@ -19,7 +19,7 @@ namespace WZIMopoly.GUI.GameScene
     /// <summary>
     /// Represents the mortgage view.
     /// </summary>
-    internal class GUIMortgage : GUIElement, IGUIGameUpdate
+    internal class GUIMortgage : GUIElement
     {
         /// <summary>
         /// The model of the mortgage.
@@ -65,12 +65,6 @@ namespace WZIMopoly.GUI.GameScene
         private List<int> _mortgagedTileIds;
 
         /// <summary>
-        /// The player that is currently mortgaging
-        /// the fields or selling their grades.
-        /// </summary>
-        private PlayerModel? _player;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GUIMortgage"/> class.
         /// </summary>
         /// <param name="model">
@@ -112,19 +106,22 @@ namespace WZIMopoly.GUI.GameScene
         /// </remarks>
         public void UpdateMask()
         {
-            _nonMortgageableTileIds = _model.GetTileIdsThatPlayerCannotMortgage(_player).ToList();
-            _mortgagedTileIds = _model.GetIdsOfTilesThatAreMortgaged(_player).ToList();
+            var player = GameSettings.CurrentPlayer;
+            _nonMortgageableTileIds = _model.GetTileIdsThatPlayerCannotMortgage(player).ToList();
+            _mortgagedTileIds = _model.GetIdsOfTilesThatAreMortgaged(player).ToList();
             _nonMortgageableTileIds.RemoveAll(x => _mortgagedTileIds.Contains(x));
         }
 
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles
-                || _player?.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
+            var player = GameSettings.CurrentPlayer;
+            Debug.WriteLine(player.PlayerStatus);
+            if  (player.PlayerStatus == PlayerStatus.MortgagingTiles
+                || player.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
             {
                 if (WZIMopoly.GameType == GameType.Local
-                   || WZIMopoly.GameType == GameType.Online && (_player?.Equals(GameSettings.Client) ?? true))
+                   || WZIMopoly.GameType == GameType.Online && player.Equals(GameSettings.Client))
                 {
                     _nonMortgageableTileIds.ForEach(x => _tileTextures[x].Draw(spriteBatch));
                     _mortgagedTileIds.ForEach(x => _mortgagedTileTextures[x].Draw(spriteBatch));
@@ -152,18 +149,13 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Update()
         {
-            if (_player?.PlayerStatus == PlayerStatus.MortgagingTiles
-                || _player?.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
+            var player = GameSettings.CurrentPlayer;
+            if (player.PlayerStatus == PlayerStatus.MortgagingTiles
+                || player.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
             {
                 UpdateText();
                 UpdateMask();
             }
-        }
-
-        /// <inheritdoc/>
-        public void Update(PlayerModel player, TileModel tile)
-        {
-            _player = player;
         }
 
         /// <summary>
@@ -171,7 +163,7 @@ namespace WZIMopoly.GUI.GameScene
         /// </summary>
         private void UpdateText()
         {
-            PlayerModel? player = _model.CurrentPlayer;
+            PlayerModel? player = GameSettings.CurrentPlayer;
             if (player is not null
                 && (player.PlayerStatus == PlayerStatus.MortgagingTiles || player.PlayerStatus == PlayerStatus.SavingFromBankruptcy))
             {

@@ -181,9 +181,6 @@ namespace WZIMopoly.Models.GameScene
         /// <param name="action">
         /// The action that may cause the bankruptcy.
         /// </param>
-        /// <param name="player">
-        /// The player that may go bankrupt.
-        /// </param>
         /// <param name="mortgageCtrl">
         /// The mortgage controller used to mortgage the player's
         /// tiles or their grades unless the player has enough money to pay.
@@ -213,35 +210,35 @@ namespace WZIMopoly.Models.GameScene
         /// the tile's owner gets the player's properties.
         /// </para>
         /// </remarks>
-        public void HandleBankrupt(Action action, PlayerModel player, MortgageController mortgageCtrl, GameModel model)
+        public void HandleBankrupt(Action action, MortgageController mortgageCtrl, GameModel model)
         {
             void HandleAgain()
             {
-                HandleBankrupt(action, player, mortgageCtrl, model);
+                HandleBankrupt(action, mortgageCtrl, model);
                 mortgageCtrl.OnTileClicked -= HandleAgain;
             }
 
             try
             {
                 action();
-                player.PlayerStatus = PlayerStatus.AfterRollingDice;
+                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
                 GameSettings.SendGameData(model);
             }
             catch (NotEnoughMoney ex)
             {
-                var tile = GetPlayerTile(player);
-                if (player.HowMuchMoneyCanPlayerGetBack() >= Math.Abs(ex.Amount))
+                var tile = GetPlayerTile(GameSettings.CurrentPlayer);
+                if (GameSettings.CurrentPlayer.HowMuchMoneyCanPlayerGetBack() >= Math.Abs(ex.Amount))
                 {
-                    player.PlayerStatus = PlayerStatus.SavingFromBankruptcy;
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.SavingFromBankruptcy;
                     mortgageCtrl.OnTileClicked += HandleAgain;
                 }
                 else if (tile.Model is PurchasableTileModel t)
                 {
-                    player.GoBankrupt(t.Owner);
+                    GameSettings.CurrentPlayer.GoBankrupt(t.Owner);
                 }
                 else
                 {
-                    player.GoBankrupt();
+                    GameSettings.CurrentPlayer.GoBankrupt();
                 }
             }
         }

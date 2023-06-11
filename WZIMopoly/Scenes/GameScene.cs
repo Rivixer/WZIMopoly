@@ -181,7 +181,7 @@ namespace WZIMopoly.Scenes
                     MapModel.ActivateCrossableTiles(GameSettings.CurrentPlayer, passedTiles);
                     _mapController.Model.HandleBankrupt(
                         delegate { _mapController.Model.ActivateOnStandTile(GameSettings.CurrentPlayer); },
-                        GameSettings.CurrentPlayer, _mortgageController, Model);
+                        _mortgageController, Model);
                     _mapController.View.UpdatePawnPositions();
                     GameSettings.SendGameData(Model);
                 }
@@ -305,9 +305,12 @@ namespace WZIMopoly.Scenes
                     }
                     mapModel.HandleBankrupt(
                         delegate { mapModel.ActivateOnStandTile(GameSettings.CurrentPlayer); },
-                        GameSettings.CurrentPlayer, _mortgageController, Model);
+                         _mortgageController, Model);
                 }
-                GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                if (GameSettings.CurrentPlayer.PlayerStatus != PlayerStatus.SavingFromBankruptcy)
+                {
+                    GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.AfterRollingDice;
+                }
                 GameSettings.SendGameData(Model);
                 mapView.UpdatePawnPositions();
             };
