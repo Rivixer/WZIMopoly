@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using WZIMopoly.Enums;
 
 namespace WZIMopoly.Models
@@ -95,6 +96,24 @@ namespace WZIMopoly.Models
             }
         }
 #endif
+
+        /// <summary>
+        /// Checks if the game should end.
+        /// </summary>
+        /// <returns>
+        /// True if the game should end, otherwise false.
+        /// </returns>
+        public bool GameShouldEnd()
+        {
+            bool dueToTime = TimeToEnd is not null && TimeToEnd <= TimeSpan.Zero;
+            bool dueToBankruptcy = GameSettings.GameEndType switch
+            {
+                GameEndType.FirstBankruptcy => GameSettings.ActivePlayers.Any(x => x.PlayerStatus == PlayerStatus.Bankrupt),
+                GameEndType.LastNotBankrupt => GameSettings.ActivePlayers.Count(x => x.PlayerStatus != PlayerStatus.Bankrupt) == 1,
+                _ => false
+            }; ;
+            return (dueToTime || dueToBankruptcy) && GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice;
+        }
 
         /// <inheritdoc/>
         public override void Update()

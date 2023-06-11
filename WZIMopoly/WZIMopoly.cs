@@ -370,6 +370,7 @@ namespace WZIMopoly
         private void InitializeGameScene()
         {
             _gameScene.Initialize();
+            _gameScene.OnGameEnd += () => ChangeCurrentScene(_endGameScene);
 
             var returnButton = _gameScene.Model.GetController<ExitButtonController>();
             returnButton.OnButtonClicked += ReturnToMenu;

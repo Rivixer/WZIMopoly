@@ -72,6 +72,16 @@ namespace WZIMopoly.Scenes
         public GameScene(GameModel model, GameView view)
             : base(model, view) { }
 
+        /// <summary>
+        /// The delegate for the game end event.
+        /// </summary>
+        public delegate void OnGameEndHandler();
+
+        /// <summary>
+        /// The event invoked when the game ends.
+        /// </summary>
+        public event OnGameEndHandler OnGameEnd;
+
         /// <inheritdoc/>
         public override void Initialize()
         {
@@ -235,6 +245,12 @@ namespace WZIMopoly.Scenes
                 Model.DecreaseGameTime();
             }
 #endif
+
+            if (Model.GameShouldEnd())
+            {
+                Model.GameStatus = GameStatus.Finished;
+                OnGameEnd?.Invoke();
+            }
         }
 
         /// <summary>
