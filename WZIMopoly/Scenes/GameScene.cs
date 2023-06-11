@@ -137,7 +137,16 @@ namespace WZIMopoly.Scenes
             Model.SetEndTime();
 
             Model.GameStatus = GameStatus.Running;
-            GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
+            if (WZIMopoly.GameType == GameType.Local)
+            {
+                GameSettings.DrawStartPlayer();
+            }
+            else if (GameSettings.Client.PlayerType == PlayerType.OnlineHostPlayer)
+            {
+                GameSettings.DrawStartPlayer();
+                GameSettings.SendGameData(Model);
+            }
+            GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
 
         /// <inheritdoc/>
