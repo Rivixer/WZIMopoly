@@ -16,6 +16,7 @@ using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Controllers.JoinScene;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
 using WZIMopoly.Models.GameScene;
+using WZIMopoly.Controllers.EndGameScene;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -380,6 +381,17 @@ namespace WZIMopoly
 
                 ChangeCurrentScene(_settingsScene);
             };
+        }
+
+        /// <summary>
+        /// Initializes the end game scene.
+        /// </summary>
+        private void InitializeEndGameScene()
+        {
+            _endGameScene.Initialize();
+
+            var returnButton = _endGameScene.Model.GetController<ReturnToMenuButtonController>();
+            returnButton.OnButtonClicked += ReturnToMenu;
         }
 
         /// <summary>
