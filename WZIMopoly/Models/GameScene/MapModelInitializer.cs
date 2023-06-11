@@ -224,7 +224,11 @@ namespace WZIMopoly.Models.GameScene
                 {
                     if (tile is SubjectTileModel t)
                     {
-                        amount += t.Grade == SubjectGrade.Exemption ? 100 : ((int)t.Grade - 1) * 20;
+                        amount += ((int)t.Grade - 1) * 20;
+                        if (t.Grade == SubjectGrade.Exemption)
+                        {
+                            amount += 100 - 20;
+                        }
                     }
                 }
                 HandleBankrupt(delegate { player.Money -= amount; }, mortgageCtrl, gameModel);
@@ -538,7 +542,11 @@ namespace WZIMopoly.Models.GameScene
                 {
                     if (tile is SubjectTileModel t)
                     {
-                        amount += t.Grade == SubjectGrade.Exemption ? 110 : ((int)t.Grade - 1) * 40;
+                        amount += ((int)t.Grade - 1) * 40;
+                        if (t.Grade == SubjectGrade.Exemption)
+                        {
+                            amount += 110 - 40;
+                        }
                     }
                 }
                 HandleBankrupt(delegate { player.Money -= amount; }, mortgageCtrl, gameModel);
