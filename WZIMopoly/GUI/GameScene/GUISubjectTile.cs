@@ -13,7 +13,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The grade on the tile.
         /// </summary>
-        private GUIText _grade;
+        private readonly GUIText _grade;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUISubjectTile"/> class.
@@ -65,7 +65,19 @@ namespace WZIMopoly.GUI.GameScene
         {
             base.Update();
 
-            _grade.Text = Model.Grade.ConvertToString();
+            if (Model.IsMortgaged)
+            {
+                _grade.Text = WZIMopoly.Language switch
+                {
+                    Language.Polish => " Zast. ",
+                    Language.English => " Mort. ",
+                    _ => throw new NotImplementedException()
+                };
+            }
+            else
+            {
+                _grade.Text = Model.Grade.ConvertToString();
+            }
 
             if (_grade.Text.Length == 3)
             {
