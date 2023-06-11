@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Xml;
 using WZIMopoly.Enums;
 
@@ -79,7 +80,14 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// <inheritdoc/>
         public override int GetValue()
         {
-            return Price;
+            if (IsMortgaged)
+            {
+                return MortgagePrice;
+            }
+            else
+            {
+                return Price;
+            }
         }
 
         /// <summary>
