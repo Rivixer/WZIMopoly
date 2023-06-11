@@ -30,6 +30,12 @@ namespace WZIMopoly.Models
         private readonly string _defaultNick;
 
         /// <summary>
+        /// The money the player starts with.
+        /// </summary>
+        [NonSerialized]
+        private readonly int _startMoney = 1500;
+
+        /// <summary>
         /// The color of the player.
         /// </summary>
         private readonly string _color;
@@ -73,7 +79,9 @@ namespace WZIMopoly.Models
             _defaultNick = defaultNick;
             _nick = defaultNick;
             _color = color;
-            PlayerType = type;
+            _playerType = type;
+            _playerStatus = PlayerStatus.WaitingForTurn;
+            _money = _startMoney;
         }
 
         /// <summary>
@@ -341,7 +349,7 @@ namespace WZIMopoly.Models
         public void Reset()
         {
             _nick = _defaultNick;
-            _money = 1500;
+            _money = _startMoney;
             _playerType = PlayerType.None;
             _playerStatus = PlayerStatus.WaitingForTurn;
             _purchasedTiles.Clear();
