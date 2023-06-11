@@ -61,6 +61,11 @@ namespace WZIMopoly
         /// The join scene.
         /// </summary>
         private readonly JoinScene _joinScene;
+
+        /// <summary>
+        /// The end game scene.
+        /// </summary>
+        private readonly EndGameScene _endGameScene;
         #endregion
 
         /// <summary>
@@ -121,6 +126,10 @@ namespace WZIMopoly
             var joinView = new JoinView();
             var joinModel = new JoinModel();
             _joinScene = new JoinScene(joinModel, joinView);
+
+            var endGameView = new EndGameView();
+            var endGameModel = new EndGameModel();
+            _endGameScene = new EndGameScene(endGameModel, endGameView);
         }
 
         /// <summary>
@@ -163,6 +172,7 @@ namespace WZIMopoly
             InitializeGameScene();
             InitializeSettingsScene();
             InitializeJoinScene();
+            InitializeEndGameScene();
 
             ReturnToMenu();
             base.Initialize();
@@ -185,7 +195,7 @@ namespace WZIMopoly
             settingsBtn.OnButtonClicked += () => ChangeCurrentScene(_settingsScene);
 
             var joinBtn = _menuScene.Model.GetController<JoinGameButtonController>();
-            joinBtn.OnButtonClicked += () => ChangeCurrentScene(_joinScene);
+            joinBtn.OnButtonClicked += () => ChangeCurrentScene(_endGameScene);
         }
 
         /// <summary>
@@ -391,6 +401,7 @@ namespace WZIMopoly
             _gameScene.LoadAll(Content);
             _settingsScene.LoadAll(Content);
             _joinScene.LoadAll(Content);
+            _endGameScene.LoadAll(Content);
 
             base.LoadContent();
         }
@@ -424,6 +435,11 @@ namespace WZIMopoly
 
                 ScreenController.ApplyChanges();
                 _currentScene.RecalculateAll();
+            }
+
+            if (KeyboardController.WasClicked(Microsoft.Xna.Framework.Input.Keys.F4))
+            {
+                ChangeCurrentScene(_endGameScene);
             }
 #endif
             base.Update(gameTime);
