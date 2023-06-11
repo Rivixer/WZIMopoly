@@ -9,9 +9,13 @@
         /// Initializes a new instance of the <see cref="SubtractTimeButtonModel"/> class.
         /// </summary>
         public SubtractTimeButtonModel()
-            : base("Minus")
+            : base("Minus") { }
+
+        /// <inheritdoc/>
+        public override void Update()
         {
-            IsActive = true;
+            base.Update();
+            IsActive = GameSettings.MaxGameTime is not null;
         }
     }
 }

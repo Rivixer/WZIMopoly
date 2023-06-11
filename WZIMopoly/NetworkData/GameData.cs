@@ -40,5 +40,10 @@ namespace WZIMopoly.NetworkData
         /// Gets or sets the list of tiles.
         /// </summary>
         public TradeModel TradeModel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum game time.
+        /// </summary>
+        public int? MaxGameTime { get; set; }
     }
 }

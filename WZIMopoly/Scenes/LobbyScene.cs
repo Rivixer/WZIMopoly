@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Graphics;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Enums;
@@ -31,30 +31,43 @@ namespace WZIMopoly.Scenes
         {
             Model.InitializeChild<LobbyPlayersModel, GUILobbyPlayers, LobbyPlayersController>();
             Model.InitializeChild<StartGameButtonModel, GUIStartGameButton, StartGameButtonController>();
-            Model.InitializeChild<LastNotBankruptButtonModel, GUILastNotBankruptButton, LastNotBankruptButtonController>();
-            Model.InitializeChild<FirstBankruptcyButtonModel, GUIFirstBankruptcyButton, FirstBankruptcyButtonController>();
             Model.InitializeChild<LobbyCodeModel, GUILobbyCode, LobbyCodeController>();
             Model.InitializeChild<LocalModeButtonModel, GUILocalModeButton, LocalModeButtonController>();
             Model.InitializeChild<OnlineModeButtonModel, GUIOnlineModeButton, OnlineModeButtonController>();
             Model.InitializeChild<ReturnButtonModel, GUIReturnButton, ReturnButtonController>();
 
+            static bool CanUseButton()
+            {
+                return WZIMopoly.GameType == GameType.Local
+                    || (WZIMopoly.GameType == GameType.Online && GameSettings.Client.PlayerType == PlayerType.OnlineHostPlayer);
+            }
+
+            var firstBankruptcyBtn = Model.InitializeChild<LastNotBankruptButtonModel, GUILastNotBankruptButton, LastNotBankruptButtonController>();
+            firstBankruptcyBtn.Model.Conditions += CanUseButton;
+
+            var lastNonBankruptBtn = Model.InitializeChild<FirstBankruptcyButtonModel, GUIFirstBankruptcyButton, FirstBankruptcyButtonController>();
+            lastNonBankruptBtn.Model.Conditions += CanUseButton;
+
             var timeBtn = Model.InitializeChild<TimeButtonModel, GUITimeButton, TimeButtonController>();
+            timeBtn.Model.Conditions += CanUseButton;
+
             var addTimeBtn = Model.InitializeChild<AddTimeButtonModel, GUIAddTimeButton, AddTimeButtonController>();
+            addTimeBtn.Model.Conditions += CanUseButton;
+
             var subTimeBtn = Model.InitializeChild<SubtractTimeButtonModel, GUISubtractTimeButton, SubtractTimeButtonController>();
+            subTimeBtn.Model.Conditions += CanUseButton;
+
             timeBtn.OnButtonClicked += () =>
             {
                 if (timeBtn.Model.IsActive)
                 {
                     GameSettings.MaxGameTime = null;
-                    timeBtn.Model.IsActive = false;
                 }
                 else
                 {
                     GameSettings.MaxGameTime = 10;
-                    timeBtn.Model.IsActive = true;
                 }
-                addTimeBtn.Model.IsActive = timeBtn.Model.IsActive;
-                subTimeBtn.Model.IsActive = timeBtn.Model.IsActive;
+                GameSettings.SendLobbyData();
             };
         }
     }

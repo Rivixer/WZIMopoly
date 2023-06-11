@@ -10,6 +10,7 @@
         LobbyData,
         Close,
         StartGame,
+        LobbyStatus,
         GameStatus,
     }
 }
