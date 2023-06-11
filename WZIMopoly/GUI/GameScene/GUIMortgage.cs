@@ -116,7 +116,6 @@ namespace WZIMopoly.GUI.GameScene
         public override void Draw(SpriteBatch spriteBatch)
         {
             var player = GameSettings.CurrentPlayer;
-            Debug.WriteLine(player.PlayerStatus);
             if  (player.PlayerStatus == PlayerStatus.MortgagingTiles
                 || player.PlayerStatus == PlayerStatus.SavingFromBankruptcy)
             {

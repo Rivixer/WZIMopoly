@@ -24,16 +24,5 @@ namespace WZIMopoly.Controllers.GameScene
         /// </param>
         internal TimerController(TimerModel model, GUITimer view)
             : base(model, view) { }
-
-        /// <summary>
-        /// Updates the current game time.
-        /// </summary>
-        /// <param name="actualTime">
-        /// The actual time in the game.
-        /// </param>
-        internal void UpdateTime(TimeSpan actualTime)
-        {
-            Model.UpdateTime(actualTime);
-        }
     }
 }

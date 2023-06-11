@@ -19,11 +19,14 @@ namespace WZIMopoly.Models.GameScene
         /// Updates <see cref="Time"/> with the current game time.
         /// </summary>
         /// <param name="actualTime">
-        /// The current time.
+        /// The current game time.
         /// </param>
-        internal void UpdateTime(TimeSpan actualTime)
+        /// <param name="timeToEnd">
+        /// The time to end the game.
+        /// </param>
+        internal void UpdateTime(TimeSpan actualTime, TimeSpan? timeToEnd)
         {
-            Time = actualTime;
+            Time = timeToEnd ?? actualTime;
         }
     }
 }

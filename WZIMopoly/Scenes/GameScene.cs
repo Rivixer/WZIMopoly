@@ -124,6 +124,8 @@ namespace WZIMopoly.Scenes
             _mapController.View.UpdatePawnPositions();
 
             Model.SetStartTime();
+            Model.SetEndTime();
+
             Model.GameStatus = GameStatus.Running;
             GameSettings.ActivePlayers[0].PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
@@ -132,7 +134,7 @@ namespace WZIMopoly.Scenes
         public override void Update()
         {
             base.Update();
-            _timerController.UpdateTime(Model.ActualTime);
+            _timerController?.Model.UpdateTime(Model.ActualTime, Model.TimeToEnd);
 
             var currentPlayerTile = Model.GetModelRecursively<TileModel>(x => x.Players.Contains(GameSettings.CurrentPlayer));
 
@@ -219,6 +221,18 @@ namespace WZIMopoly.Scenes
                         GameSettings.CurrentPlayer.GoBankrupt(t.Owner);
                     }
                 }
+            }
+
+            // Click F8 to increase end time.
+            if (KeyboardController.WasClicked(Keys.F8))
+            {
+                Model.IncreaseGameTime();
+            }
+
+            // Click F7 to decrease end time.
+            if (KeyboardController.WasClicked(Keys.F7))
+            {
+                Model.DecreaseGameTime();
             }
 #endif
         }

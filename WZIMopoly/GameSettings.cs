@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI.GameScene;
@@ -35,6 +35,16 @@ namespace WZIMopoly
         /// The temporary current player index.
         /// </summary>
         private static int? _tempCurrentPlayerIndex;
+
+        /// <summary>
+        /// Gets and sets the game end type.
+        /// </summary>
+        public static GameEndType GameEndType { get; set; } = GameEndType.LastNotBankrupt;
+
+        /// <summary>
+        /// Gets and sets the max game time measured in minutes.
+        /// </summary>
+        public static int? MaxGameTime { get; set; } = 20;
 
         /// <summary>
         /// Gets the players.
