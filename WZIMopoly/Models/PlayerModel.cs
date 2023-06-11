@@ -56,6 +56,11 @@ namespace WZIMopoly.Models
         private PlayerStatus _playerStatus;
 
         /// <summary>
+        /// The time when the player went bankrupt.
+        /// </summary>
+        private DateTime? _bankcruptcyTime;
+
+        /// <summary>
         /// The amount of money player has.
         /// </summary>
         private int _money;
@@ -82,6 +87,7 @@ namespace WZIMopoly.Models
             _playerType = type;
             _playerStatus = PlayerStatus.WaitingForTurn;
             _money = _startMoney;
+            _bankcruptcyTime = null;
         }
 
         /// <summary>
@@ -194,6 +200,11 @@ namespace WZIMopoly.Models
         /// The amount of money the player is short of for payment, more or equal to 0.
         /// </value>
         public int MoneyToGetFromMortgage { get; private set; } = 0;
+
+        /// <summary>
+        /// Gets the time when the player went bankrupt.
+        /// </summary>
+        public DateTime? BankruptTime => _bankcruptcyTime;
 
         /// <summary>
         /// Gets the value of the player.
@@ -311,11 +322,12 @@ namespace WZIMopoly.Models
         /// </remarks>
         public void GoBankrupt()
         {
-            PlayerStatus = PlayerStatus.Bankrupt;
-            PurchasedTiles.ForEach(x => x.Reset());
-            PurchasedTiles.Clear();
-            MortgagedTiles.Clear();
-            Money = 0;
+            _playerStatus = PlayerStatus.Bankrupt;
+            _purchasedTiles.ForEach(x => x.Reset());
+            _purchasedTiles.Clear();
+            _mortgagedTiles.Clear();
+            _money = 0;
+            _bankcruptcyTime = DateTime.Now;
             GameSettings.NextPlayer();
             GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
         }
@@ -350,6 +362,7 @@ namespace WZIMopoly.Models
         {
             _nick = _defaultNick;
             _money = _startMoney;
+            _bankcruptcyTime = null;
             _playerType = PlayerType.None;
             _playerStatus = PlayerStatus.WaitingForTurn;
             _purchasedTiles.Clear();
@@ -372,7 +385,8 @@ namespace WZIMopoly.Models
             _playerStatus = player._playerStatus;
             _money = player._money;
             _purchasedTiles.Clear();
-            foreach(var purchasedTile in player._purchasedTiles)
+            _bankcruptcyTime = player._bankcruptcyTime;
+            foreach (var purchasedTile in player._purchasedTiles)
             {
                 foreach (var t in Tiles)
                 {

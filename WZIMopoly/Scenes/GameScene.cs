@@ -200,6 +200,26 @@ namespace WZIMopoly.Scenes
                 GameSettings.CurrentPlayer.Money--;
                 GameSettings.SendGameData(Model);
             }
+
+            // Click F5 to bankrupt the current player.
+            if (KeyboardController.WasClicked(Keys.F5))
+            {
+                GameSettings.CurrentPlayer.GoBankrupt();
+            }
+
+            // Click F6 to bankrupt the current player and
+            // transfer all of their properties to the owner
+            // of the tile they are currently on.
+            if (KeyboardController.WasClicked(Keys.F6))
+            {
+                if (_mapController.Model.GetPlayerTile(GameSettings.CurrentPlayer).Model is PurchasableTileModel t)
+                {
+                    if (t.Owner is not null)
+                    {
+                        GameSettings.CurrentPlayer.GoBankrupt(t.Owner);
+                    }
+                }
+            }
 #endif
         }
 
