@@ -218,30 +218,33 @@ namespace WZIMopoly
                         var lobbyCode = _lobbyScene.Model.GetController<Controllers.LobbyScene.LobbyCodeController>();
                         lobbyCode.Model.Code = code;
                         NetworkService.SwitchToLobby(code);
-                        NetworkService.Connection.DataReceived += (sender, e) =>
+                        if (NetworkService.Connection is not null)
                         {
-                            PacketType type = (PacketType)e.Data[0];
-                            if (type == PacketType.NewPlayer)
+                            NetworkService.Connection.DataReceived += (sender, e) =>
                             {
-                                string playerNick = Encoding.UTF8.GetString(e.Data.Skip(1).ToArray());
-                                int playerIndex = GameSettings.ActivePlayers.Count;
-                                GameSettings.Players[playerIndex].Nick = playerNick;
-                                GameSettings.Players[playerIndex].PlayerType = PlayerType.OnlinePlayer;
+                                PacketType type = (PacketType)e.Data[0];
+                                if (type == PacketType.NewPlayer)
+                                {
+                                    string playerNick = Encoding.UTF8.GetString(e.Data.Skip(1).ToArray());
+                                    int playerIndex = GameSettings.ActivePlayers.Count;
+                                    GameSettings.Players[playerIndex].Nick = playerNick;
+                                    GameSettings.Players[playerIndex].PlayerType = PlayerType.OnlinePlayer;
 
-                                var lobbyData = new LobbyData { Players = GameSettings.ActivePlayers };
-                                byte[] data = new byte[] { (byte)PacketType.LobbyData }.Concat(lobbyData.ToByteArray()).ToArray();
-                                NetworkService.Connection.Send(data, 0, data.Length);
-                            }
-                            if ((PacketType)e.Data[0] == PacketType.Close)
-                            {
-                                ReturnToMenu();
-                            }
-                            else if ((PacketType)e.Data[0] == PacketType.GameStatus)
-                            {
-                                var gameData = NetData.FromByteArray<GameData>(e.Data.Skip(1).ToArray());
-                                GameSettings.UpdateGameData(gameData, _gameScene.Model);
+                                    var lobbyData = new LobbyData { Players = GameSettings.ActivePlayers };
+                                    byte[] data = new byte[] { (byte)PacketType.LobbyData }.Concat(lobbyData.ToByteArray()).ToArray();
+                                    NetworkService.Connection.Send(data, 0, data.Length);
+                                }
+                                if ((PacketType)e.Data[0] == PacketType.Close)
+                                {
+                                    ReturnToMenu();
+                                }
+                                else if ((PacketType)e.Data[0] == PacketType.GameStatus)
+                                {
+                                    var gameData = NetData.FromByteArray<GameData>(e.Data.Skip(1).ToArray());
+                                    GameSettings.UpdateGameData(gameData, _gameScene.Model);
+                                };
                             };
-                        };
+                        }
                     };
                 }
 
