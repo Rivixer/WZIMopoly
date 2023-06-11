@@ -44,5 +44,12 @@ namespace WZIMopoly.Models.GameScene.TileModels
                 DrawnCard = t.DrawnCard;
             }
         }
+
+        /// <inheritdoc/>
+        public override void Reset()
+        {
+            base.Reset();
+            _drawnCard = null;
+        }
     }
 }

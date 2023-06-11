@@ -85,11 +85,10 @@ namespace WZIMopoly.Models.GameScene.TileModels
             }
         }
 
-        /// <summary>
-        /// Resets the tile data.
-        /// </summary>
-        public virtual void Reset()
+        /// <inheritdoc/>
+        public override void Reset()
         {
+            base.Reset();
             Owner = null;
         }
     }

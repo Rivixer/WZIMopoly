@@ -15,6 +15,7 @@ using WZIMopoly.Controllers.MenuScene;
 using WZIMopoly.Controllers.LobbyScene;
 using WZIMopoly.Controllers.JoinScene;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
+using WZIMopoly.Models.GameScene;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -463,6 +464,10 @@ namespace WZIMopoly
             codeJoin.Model.LobbyCode = "";
             var nickJoin = _joinScene.Model.GetController<PlayerNickController>();
             nickJoin.Model.PlayerNick = "";
+
+            // Reset game scene
+            var mapModel = _gameScene.Model.GetModel<MapModel>();
+            mapModel.GetAllModels<TileModel>().ForEach(x => x.Reset());
 
             // Swtich to root
             if (NetworkService.Type != ConnectionType.Root
