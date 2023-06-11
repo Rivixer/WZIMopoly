@@ -252,7 +252,15 @@ namespace WZIMopoly
                                 }
                                 if ((PacketType)e.Data[0] == PacketType.Close)
                                 {
-                                    ReturnToMenu();
+                                    if (_currentScene == _gameScene)
+                                    {
+                                        _gameScene.Model.GameStatus = GameStatus.Finished;
+                                        ChangeCurrentScene(_endGameScene);
+                                    }
+                                    else
+                                    {
+                                        ReturnToMenu();
+                                    }
                                 }
                                 else if ((PacketType)e.Data[0] == PacketType.GameStatus)
                                 {
@@ -324,7 +332,15 @@ namespace WZIMopoly
                 {
                     if ((PacketType)e.Data[0] == PacketType.Close)
                     {
-                        ReturnToMenu();
+                        if (_currentScene == _gameScene)
+                        {
+                            _gameScene.Model.GameStatus = GameStatus.Finished;
+                            ChangeCurrentScene(_endGameScene);
+                        }
+                        else
+                        {
+                            ReturnToMenu();
+                        }
                     }
                 };
                 var playerNick = Encoding.ASCII.GetBytes(playerNickModel.Model.PlayerNick);
