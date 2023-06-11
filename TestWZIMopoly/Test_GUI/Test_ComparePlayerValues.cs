@@ -9,6 +9,9 @@ namespace TestWZIMopoly.Test_GUI
     [TestClass]
     public class Test_ComparePlayerValues
     {
+        /// <summary>
+        /// Tests for method comparing and sorting players' value
+        /// </summary>
         [TestMethod]
         public void Test_PlayerModelCompare_OneNoneTypePlayer()
         {
@@ -125,12 +128,12 @@ namespace TestWZIMopoly.Test_GUI
             player2.Money = 200;
             player1.PlayerStatus = PlayerStatus.Bankrupt;
 
-            DateTime var1 = new DateTime(2023, 6, 11, 18, 49, 0);
+            DateTime var1 = new DateTime(2023, 6, 11, 18, 46, 0);
             var prop = player4.GetType().GetField("_bankcruptcyTime", System.Reflection.BindingFlags.NonPublic
     |               System.Reflection.BindingFlags.Instance);
                     prop.SetValue(player4, var1);
 
-            DateTime var2 = DateTime.Now;
+            DateTime var2 = new DateTime(2023, 6, 11, 18, 49, 0);
             var prop2 = player1.GetType().GetField("_bankcruptcyTime", System.Reflection.BindingFlags.NonPublic
 |                      System.Reflection.BindingFlags.Instance);
                        prop2.SetValue(player1, var2);
@@ -139,8 +142,8 @@ namespace TestWZIMopoly.Test_GUI
             {
                 player3,
                 player2,
-                player4,
-                player1
+                player1,
+                player4
             };
 
             // Act
