@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using WZIMopoly.Controllers;
 using WZIMopoly.GUI;
 
@@ -22,6 +23,7 @@ namespace WZIMopoly.Models
         private readonly List<IControllerable> _children = new();
 
         /// <inheritdoc/>
+        [JsonIgnore]
         public List<IControllerable> Children => new(_children);
 
         /// <inheritdoc/>

@@ -1,8 +1,11 @@
-﻿namespace WZIMopoly.Enums
+﻿using System;
+
+namespace WZIMopoly.Enums
 {
     /// <summary>
     /// Represents the game language.
     /// </summary>
+    [Serializable]
     internal enum Language
     {
         /// <summary>
