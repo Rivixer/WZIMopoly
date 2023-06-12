@@ -10,6 +10,9 @@ namespace TestWZIMopoly.Test_Models
     [TestClass]
     public class Test_TimerModel
     {
+        /// <summary>
+        /// Test method for updating time in Timer Model
+        /// </summary>
         [TestMethod]
         public void Test_UpdateTime()
         {
