@@ -226,6 +226,12 @@ namespace WZIMopoly.Scenes
                 GameSettings.SendGameData(Model);
             }
 
+            // Click F1 to send the game data.
+            if (KeyboardController.WasClicked(Keys.F1))
+            {
+                GameSettings.SendGameData(Model);
+            }
+
             // Click F2 to switch to the next player.
             if (KeyboardController.WasClicked(Keys.F2))
             {
