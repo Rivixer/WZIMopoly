@@ -100,6 +100,7 @@ namespace WZIMopoly.GUI.GameScene
                 _hoverTime ??= DateTime.Now;
                 UpdateCardPosition();
                 UpdateOwnerOnCard();
+                UpdateIsMortgagedText();
             }
             else
             {
@@ -133,7 +134,7 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Updates the text in <see cref="_ownerOnCard"/> which represents an owner name.
+        /// Updates the text in <see cref="_card"/> which represents an owner name.
         /// </summary>
         private void UpdateOwnerOnCard()
         {
@@ -148,6 +149,24 @@ namespace WZIMopoly.GUI.GameScene
             }
             else
                 _card.OwnerOnCard.Text = "";
+        }
+
+        /// <summary>
+        /// Updates the text in <see cref="_card"/> which represents an owner name.
+        /// </summary>
+        private void UpdateIsMortgagedText()
+        {
+            if (Model.IsMortgaged)
+            {
+                _card.IsMortgagedText.Text = WZIMopoly.Language switch
+                {
+                    Language.Polish => $"ZASTAWIONE",
+                    Language.English => $"MORTGAGED",
+                    _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                };
+            }
+            else
+                _card.IsMortgagedText.Text = "";
         }
     }
 }
