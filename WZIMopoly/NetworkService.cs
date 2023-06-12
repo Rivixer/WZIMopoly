@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml;
 using WebSocket4Net;
 
@@ -178,7 +179,7 @@ namespace WZIMopoly
                 if (Connection is not null && Connection.State == WebSocketState.Open)
                 {
                     return true;
-                }                
+                }
             }
         }
 
@@ -199,7 +200,8 @@ namespace WZIMopoly
 #endif
                 var xml = new XmlDocument();
 #if WINDOWS
-                xml.Load("../../../Properties/Config.xml");
+                string xmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Properties", "Config.xml");
+                xml.Load(xmlFilePath);
 #elif LINUX
                 xml.Load("WZIMopoly/Properties/Config.xml");
 #endif
@@ -210,7 +212,7 @@ namespace WZIMopoly
             }
             catch (Exception)
             {
-                WZIMopoly.Network = null;
+                Connection = null;
                 return null;
             }
 #endif
