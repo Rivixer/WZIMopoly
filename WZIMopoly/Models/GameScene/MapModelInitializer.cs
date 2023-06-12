@@ -10,6 +10,7 @@ using WZIMopoly.GUI.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
+using System.IO;
 
 namespace WZIMopoly.Models.GameScene
 {
@@ -28,12 +29,11 @@ namespace WZIMopoly.Models.GameScene
         {
             var tilesXml = new XmlDocument();
 #if WINDOWS
-            var path = "../../../Properties/Tiles.xml";
+            string xmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Properties", "Tiles.xml");
+            tilesXml.Load(xmlFilePath);
 #elif LINUX
-            var path = "WZIMopoly/Properties/Tiles.xml";
+            tilesXml.Load("WZIMopoly/Properties/Tiles.xml");
 #endif
-
-            tilesXml.Load(path);
 
             var tiles = new List<TileController>();
             string controllerNamespace = "WZIMopoly.Controllers.GameScene.TileControllers";
@@ -129,7 +129,7 @@ namespace WZIMopoly.Models.GameScene
                     } while (cardNumber == 11 && GameSettings.ActivePlayers.Select(x => x.Money).Any(x => x < 10));
                     // The 12th card is the "It is your birthday! - get 10 ECTS from each student" card
                     // and I don't want to implement bankruptcy handling, so I'm just skipping it.
-                    
+
                     vendingMachineTile.DrawnCard = vendingMachineCards[cardNumber];
                     vendingMachineTile.DrawnCard.OnCardDrawn(player);
                 };
@@ -188,7 +188,7 @@ namespace WZIMopoly.Models.GameScene
                     players.ForEach(x => player.TransferMoneyTo(x, 50));
                 }
                 var otherPlayers = GameSettings.ActivePlayers.Where(x => x.PlayerStatus != PlayerStatus.Bankrupt && !player.Equals(x)).ToList();
-                HandleBankrupt( delegate { TransferMoneyToPlayers(otherPlayers); }, mortgageCtrl, gameModel);
+                HandleBankrupt(delegate { TransferMoneyToPlayers(otherPlayers); }, mortgageCtrl, gameModel);
             };
 
             // Go to nearest restroom - if it is occupied roll the dice again
@@ -474,7 +474,7 @@ namespace WZIMopoly.Models.GameScene
             {
                 HandleBankrupt(delegate { player.Money -= 50; }, mortgageCtrl, gameModel);
             };
-            
+
             // You loose a tooth during P.E. - pay 100 ECTS
             ctrl = InitializeChild<ChanceCardModel, GUIChanceCard, ChanceCardController>(10, ChanceCardType.VendingMachine, chanceTiles);
             ctrl.Model.OnDrawn += (player) =>
