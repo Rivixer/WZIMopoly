@@ -43,7 +43,7 @@ namespace WZIMopolyServer
         /// <summary>
         /// Gets a dictionary of connected clients.
         /// </summary>
-        public Dictionary<string, WebSocketContext> Clients => new(_clients);
+        public Dictionary<string, WebSocketContext> Clients => _clients.ToDictionary(x => x.Key, x => x.Value);
 
         /// <summary>
         /// Sends a message to all connected clients.
@@ -56,14 +56,26 @@ namespace WZIMopolyServer
         /// </param>
         public void SendAll(MessageEventArgs e, params WebSocketContext?[] except)
         {
-            foreach (var client in _clients)
+            foreach (var client in Clients)
             {
                 if (except?.Contains(client.Value) ?? false)
                 {
                     continue;
                 }
-                Console.WriteLine($"Sending message to {client.Key}...");
-                client.Value.WebSocket.Send(e.RawData);
+                for (int i = 0; i < 5; i++)
+                {
+                    try
+                    {
+                        Console.WriteLine($"Sending message to {client.Key}... (attempt {i + 1}/5)");
+                        client.Value.WebSocket.Send(e.RawData);
+                        Console.WriteLine($"Message to {client.Key} has been sent.");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Sending message to {client.Key} failed! ({ex.Message})");
+                    }
+                }
             }
         }
 
@@ -97,19 +109,44 @@ namespace WZIMopolyServer
         /// </summary>
         public void Dispose()
         {
-            foreach (var client in _clients)
+            foreach (var client in Clients)
             {
-                client.Value.WebSocket.Close();
+                for (int i = 0; i < 3; i++)
+                {
+                    try
+                    {
+                        client.Value.WebSocket.Close();
+                        Console.WriteLine($"Connection with {client.Key} has been closed.");
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Unable to close connection with {client.Key} (attempt {i + 1}/3) - {ex.Message}");
+                    }
+                }
             }
-            LobbyBehavior.Lobbies.Remove(this);
+
             try
             {
-                Server.LobbyCodes.Remove(Code);
-                Console.WriteLine($"Lobby (code: {Code} has been deleted.");
+                LobbyBehavior.Lobbies.Remove(this);
             }
-            catch (ArgumentOutOfRangeException ex)
+            catch
             {
-                Console.WriteLine($"Lobby (code: {Code}) cannot be deleted - {ex.Message}");
+                Console.WriteLine($"Lobby {Code} cannot be removed from Lobbies list.");
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    Server.LobbyCodes.Remove(Code);
+                    Console.WriteLine($"Lobby (code: {Code} has been deleted.");
+                    break;
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    Console.WriteLine($"Lobby (code: {Code}) cannot be deleted (attempt {i + 1}/3) - {ex.Message}");
+                }
             }
         }
     }
@@ -159,7 +196,7 @@ namespace WZIMopolyServer
                 lobby = new Lobby(lobbyCode);
                 Lobbies.Add(lobby);
             }
-            lobby.OnConnect(ID, Context);            
+            lobby.OnConnect(ID, Context);
         }
 
         /// <summary>

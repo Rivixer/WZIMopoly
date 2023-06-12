@@ -113,6 +113,7 @@ namespace WZIMopolyServer
         {
             Server.wssv.AddWebSocketService<LobbyBehavior>($"/{code}");
             Server.LobbyCodes.Add(code);
+            Console.WriteLine($"New lobby has been created ({code}).");
         }
 
         /// <summary>
