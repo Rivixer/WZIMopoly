@@ -266,13 +266,20 @@ namespace WZIMopoly.GUI
                 case GUIStartPoint.Bottom:
                     for (int i = 0; i < _cursorPosition; i++)
                     {
-                        offset += GetTextCharLength(i) / 2;
+                        offset += GetTextCharLength(i);
+                    }
+                    for (int i = 0; i < Text.Length; i++)
+                    {
+                        offset -= GetTextCharLength(i) / 2;
                     }
                     break;
                 case GUIStartPoint.TopRight:
                 case GUIStartPoint.Right:
                 case GUIStartPoint.BottomRight:
-                    offset = 0f;
+                    for (int i = 0; i < _cursorPosition; i++)
+                    {
+                        offset -= GetTextCharLength(i);
+                    }
                     break;
             }
             Vector2 pos = _cursorStartPos;
