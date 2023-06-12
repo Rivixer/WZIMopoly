@@ -1,6 +1,8 @@
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Controllers.LobbyScene;
+using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.GUI;
 using WZIMopoly.GUI.LobbyScene;
@@ -69,6 +71,19 @@ namespace WZIMopoly.Scenes
                 }
                 GameSettings.SendLobbyData();
             };
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+#if DEBUG
+            // Click F1 to send the lobby data.
+            if (KeyboardController.WasClicked(Keys.F1))
+            {
+                GameSettings.SendLobbyData();
+            }
+#endif
         }
     }
 }
