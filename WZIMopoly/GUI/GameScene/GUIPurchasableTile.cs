@@ -1,14 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml;
+using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Engine;
 using WZIMopoly.Enums;
 using WZIMopoly.Models;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Models.GameScene.TileModels;
-using WZIMopoly.Utils;
 using WZIMopoly.Utils.PositionExtensions;
 
 namespace WZIMopoly.GUI.GameScene
@@ -21,12 +20,7 @@ namespace WZIMopoly.GUI.GameScene
         /// <summary>
         /// The info card texture.
         /// </summary>
-        private readonly GUITexture _card;
-
-        /// <summary>
-        /// The text on card which represents the owner of the tile.
-        /// </summary>
-        private GUIText _ownerOnCard;
+        private readonly GUITileCard _card;
 
 #nullable enable
         /// <summary>
@@ -49,16 +43,16 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the tile.
         /// </param>
+        /// <param name="tileCard">
+        /// The card of the tile.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// The XML tile data is invalid.
         /// </exception>
-        internal GUIPurchasableTile(XmlNode node, PurchasableTileModel model)
+        internal GUIPurchasableTile(XmlNode node, PurchasableTileModel model, TileCardController tileCard)
             : base(node, model)
         {
-            var fileName = NamingConverter.ConvertXMLNamesToFileNames(model.EnName);
-            _card = new GUITexture($"Images/Cards/{fileName}", new(0, 0, 550, 900));
-
-            _ownerOnCard = new GUIText("Fonts/WZIMFont", new Vector2(0), Color.Black, GUIStartPoint.Center, scale: 0.3f);
+            _card = tileCard.View;
         }
 
         /// <summary>
@@ -80,13 +74,6 @@ namespace WZIMopoly.GUI.GameScene
         private bool InfoVisible => _hoverTime + TimeSpan.FromSeconds(0.5) < DateTime.Now;
 
         /// <inheritdoc/>
-        public override void Load(ContentManager content)
-        {
-            _card.Load(content);
-            _ownerOnCard.Load(content);
-        }
-
-        /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (InfoVisible 
@@ -95,8 +82,11 @@ namespace WZIMopoly.GUI.GameScene
                 && _player.PlayerStatus != PlayerStatus.Trading
                 && _player.PlayerStatus != PlayerStatus.SavingFromBankruptcy)
             {
-                _card.Draw(spriteBatch);
-                _ownerOnCard.Draw(spriteBatch);
+                _card.IsVisible = true;
+            }
+            else
+            {
+                _card.IsVisible = false;
             }
         }
 
@@ -110,20 +100,12 @@ namespace WZIMopoly.GUI.GameScene
                 _hoverTime ??= DateTime.Now;
                 UpdateCardPosition();
                 UpdateOwnerOnCard();
-                var pos = new Vector2(_card.UnscaledDestinationRect.Center.X, _card.UnscaledDestinationRect.Bottom - 35);
-                _ownerOnCard.SetNewDefPosition(pos, GUIStartPoint.Center);
+                UpdateIsMortgagedText();
             }
             else
             {
                 _hoverTime = null;
             }
-        }
-
-        /// <inheritdoc/>
-        public override void Recalculate()
-        {
-            _card.Recalculate();
-            _ownerOnCard.Recalculate();
         }
 
         /// <inheritdoc/>
@@ -152,13 +134,13 @@ namespace WZIMopoly.GUI.GameScene
         }
 
         /// <summary>
-        /// Updates the text in <see cref="_ownerOnCard"/> which represents an owner name.
+        /// Updates the text in <see cref="_card"/> which represents an owner name.
         /// </summary>
         private void UpdateOwnerOnCard()
         {
             if (Model.Owner is not null)
             {
-                _ownerOnCard.Text = WZIMopoly.Language switch
+                _card.OwnerOnCard.Text = WZIMopoly.Language switch
                 {
                     Language.Polish => $"Właściciel: {Model.Owner.Nick}",
                     Language.English => $"Owner: {Model.Owner.Nick}",
@@ -166,7 +148,25 @@ namespace WZIMopoly.GUI.GameScene
                 };
             }
             else
-                _ownerOnCard.Text = "";
+                _card.OwnerOnCard.Text = "";
+        }
+
+        /// <summary>
+        /// Updates the text in <see cref="_card"/> which represents an owner name.
+        /// </summary>
+        private void UpdateIsMortgagedText()
+        {
+            if (Model.IsMortgaged)
+            {
+                _card.IsMortgagedText.Text = WZIMopoly.Language switch
+                {
+                    Language.Polish => $"ZASTAWIONE",
+                    Language.English => $"MORTGAGED",
+                    _ => throw new ArgumentException($"{WZIMopoly.Language} language is not implemented for card.")
+                };
+            }
+            else
+                _card.IsMortgagedText.Text = "";
         }
     }
 }

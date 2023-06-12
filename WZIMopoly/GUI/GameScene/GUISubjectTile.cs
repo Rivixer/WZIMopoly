@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Xml;
+using WZIMopoly.Controllers.GameScene;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.TileModels;
 
@@ -24,10 +25,14 @@ namespace WZIMopoly.GUI.GameScene
         /// <param name="model">
         /// The model of the tile.
         /// </param>
+        /// <param name="tileCard">
+        /// The card of the tile.
+        /// </param>
         /// <exception cref="ArgumentException">
         /// The XML tile data is invalid.
         /// </exception>
-        internal GUISubjectTile(XmlNode node, SubjectTileModel model) : base(node, model)
+        internal GUISubjectTile(XmlNode node, SubjectTileModel model, TileCardController tileCard) 
+            : base(node, model, tileCard)
         {
             _grade = _orientation switch
             {

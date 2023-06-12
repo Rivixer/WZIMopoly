@@ -11,6 +11,7 @@ using WZIMopoly.Models.GameScene.TileModels;
 using WZIMopoly.Enums;
 using WZIMopoly.Models.GameScene.GameSceneButtonModels;
 using System.IO;
+using WZIMopoly.Utils;
 
 namespace WZIMopoly.Models.GameScene
 {
@@ -36,6 +37,7 @@ namespace WZIMopoly.Models.GameScene
 #endif
 
             var tiles = new List<TileController>();
+            var tileCards = new List<TileCardController>();
             string controllerNamespace = "WZIMopoly.Controllers.GameScene.TileControllers";
             string modelNamespace = "WZIMopoly.Models.GameScene.TileModels";
             foreach (XmlNode tileNode in tilesXml.DocumentElement.ChildNodes)
@@ -58,23 +60,28 @@ namespace WZIMopoly.Models.GameScene
                 }
 
                 TileController tileController;
+                var fileName = NamingConverter.ConvertXMLNamesToFileNames(tileModel.EnName);
+                var tileCardContr = new TileCardController(new TileCardModel(), new GUITileCard($"Images/Cards/{fileName}", new(0, 0, 550, 900)));
+
                 if (tileModel is SubjectTileModel)
                 {
+                    tileCards.Add(tileCardContr);
                     tileController = (TileController)Activator.CreateInstance(
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                         binder: null,
-                        args: new object[] { tileModel, new GUISubjectTile(tileNode, tileModel as SubjectTileModel) },
+                        args: new object[] { tileModel, new GUISubjectTile(tileNode, tileModel as SubjectTileModel, tileCardContr) },
                         culture: null
                     );
                 }
                 else if (tileModel is PurchasableTileModel)
                 {
+                    tileCards.Add(tileCardContr);
                     tileController = (TileController)Activator.CreateInstance(
                         type: tileControllerType,
                         bindingAttr: BindingFlags.Instance | BindingFlags.NonPublic,
                         binder: null,
-                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel as PurchasableTileModel) },
+                        args: new object[] { tileModel, new GUIPurchasableTile(tileNode, tileModel as PurchasableTileModel, tileCardContr) },
                         culture: null
                     );
                 }
@@ -93,6 +100,7 @@ namespace WZIMopoly.Models.GameScene
             }
 
             tiles.ForEach(AddChild);
+            tileCards.ForEach(AddChild);
             tiles.ForEach(x => x.Model.SetAllTiles(tiles.Select(x => x.Model).ToList()));
 
             var deaneryTile = tiles.First(x => x.Model is DeaneryTileModel);
