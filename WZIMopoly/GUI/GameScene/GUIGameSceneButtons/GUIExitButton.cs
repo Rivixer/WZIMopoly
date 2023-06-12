@@ -25,6 +25,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             : base(model, new Rectangle(77, 320, 120, 120), disableTexture: false)
         {
             SetButtonHoverArea(5, 0.75f);
+            AuxText.SetNewDefPosition(new Vector2(AuxText.DefaultPosition.X, AuxText.DefaultPosition.Y - 30), AuxText.StartPoint);
         }
 
         /// <inheritdoc/>
@@ -45,8 +46,8 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 AuxText.Color = Color.Black;
                 AuxText.Text = WZIMopoly.Language switch
                 {
-                    Language.Polish => $"Kliknij, aby wyjść z gry.",
-                    Language.English => $"Click to exit the game.",
+                    Language.Polish => $"Wyjdź z gry.",
+                    Language.English => $"Exit the game.",
                     _ => throw new ArgumentException($"Language not implemented: {WZIMopoly.Language}")
                 };
             }

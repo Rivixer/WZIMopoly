@@ -22,7 +22,7 @@ namespace WZIMopoly.GUI.GameScene
         /// The model of the chance card.
         /// </param>
         internal GUIChanceCard(ChanceCardModel model)
-            : base($"Images/{model.Type}Cards/{model.Id}", new Rectangle(960, 540, 650, 373), GUIStartPoint.Center)
+            : base($"Images/{model.Type}Cards/{model.Id}", new Rectangle(960, 521, 640, 367), GUIStartPoint.Center)
         {
             _model = model;
         }

@@ -27,11 +27,6 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         private PlayerModel _currentPlayer;
 
         /// <summary>
-        /// Whether the auxiliary text is visible.
-        /// </summary>
-        private bool _isAuxTextVisible;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GUIDiceButton"/> class.
         /// </summary>
         /// <param name="model">
@@ -79,7 +74,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
                 };
             }
             texture?.Draw(spriteBatch);
-            if (Model.IsActive && IsHovered && _isAuxTextVisible)
+            if (Model.IsActive && IsHovered)
                 AuxText.Draw(spriteBatch);
         }
 
@@ -87,7 +82,6 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
         public void Update(PlayerModel player, TileModel tile)
         {
             _currentPlayer = player;
-            _isAuxTextVisible = !(tile is MandatoryLectureTileModel t && t.IsPrisoner(_currentPlayer));
 
             AuxText.Text = WZIMopoly.Language switch
             {

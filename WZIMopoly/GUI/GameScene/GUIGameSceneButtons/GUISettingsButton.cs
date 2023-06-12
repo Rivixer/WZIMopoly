@@ -20,6 +20,7 @@ namespace WZIMopoly.GUI.GameScene.GUIGameSceneButtons
             : base(model, new Rectangle(77, 200, 120, 120), disableTexture: false)
         {
             SetButtonHoverArea(5, 0.7f);
+            AuxText.SetNewDefPosition(new Vector2(AuxText.DefaultPosition.X, AuxText.DefaultPosition.Y - 30), AuxText.StartPoint);
         }
 
         /// <inheritdoc/>

@@ -160,6 +160,20 @@ namespace WZIMopoly.GUI
         public Vector2 Position { get; protected set; }
 
         /// <summary>
+        /// Gets the starting position of the element
+        /// for which <see cref="DefaultPosition"/> has been specified.
+        /// </summary>
+        public GUIStartPoint StartPoint => _startPoint;
+
+        /// <summary>
+        /// Gets the default position of the text.
+        /// </summary>
+        /// <remarks>
+        /// Specified for 1920x1080 resolution and <see cref="StartPoint"/> starting position.
+        /// </remarks>
+        public Vector2 DefaultPosition => _defaultPosition;
+
+        /// <summary>
         /// Gets the StringBuilder that contains the text.
         /// </summary>
         protected StringBuilder TextBuilder => _text;
