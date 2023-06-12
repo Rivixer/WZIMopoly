@@ -43,6 +43,17 @@
 	<ItemGroup>
 		<ProjectReference Include="..\WZIMopolyLibrary\WZIMopolyNetworkingLibrary.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Content  Include="Properties\Config.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content >
+	  <Content  Include="Properties\Tiles.xml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content >
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 	<Target Name="RestoreDotnetTools" BeforeTargets="Restore">
 		<Message Text="Restoring dotnet tools" Importance="High" />
 		<Exec Command="dotnet tool restore" />

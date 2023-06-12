@@ -17,6 +17,8 @@ using WZIMopoly.Controllers.JoinScene;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
 using WZIMopoly.Models.GameScene;
 using WZIMopoly.Controllers.EndGameScene;
+using WZIMopoly.Models.EndGameScene;
+using System;
 
 #if DEBUG
 using WZIMopoly.DebugUtils;
@@ -256,8 +258,10 @@ namespace WZIMopoly
                                     {
                                         _gameScene.Model.GameStatus = GameStatus.Finished;
                                         ChangeCurrentScene(_endGameScene);
+                                        var returnToMenuBtn = _endGameScene.Model.GetModel<ReturnToMenuButtonModel>();
+                                        returnToMenuBtn.EnterTime = DateTime.Now;
                                     }
-                                    else
+                                    else if (_currentScene != _endGameScene)
                                     {
                                         ReturnToMenu();
                                     }
@@ -336,8 +340,10 @@ namespace WZIMopoly
                         {
                             _gameScene.Model.GameStatus = GameStatus.Finished;
                             ChangeCurrentScene(_endGameScene);
+                            var returnToMenuBtn = _endGameScene.Model.GetModel<ReturnToMenuButtonModel>();
+                            returnToMenuBtn.EnterTime = DateTime.Now;
                         }
-                        else
+                        else if (_currentScene != _endGameScene)
                         {
                             ReturnToMenu();
                         }
@@ -386,9 +392,14 @@ namespace WZIMopoly
         private void InitializeGameScene()
         {
             _gameScene.Initialize();
-            _gameScene.OnGameEnd += () => ChangeCurrentScene(_endGameScene);
+            _gameScene.OnGameEnd += () =>
+            {
+                ChangeCurrentScene(_endGameScene);
+                var returnToMenuBtn = _endGameScene.Model.GetModel<ReturnToMenuButtonModel>();
+                returnToMenuBtn.EnterTime = DateTime.Now;
+            };
 
-            var returnButton = _gameScene.Model.GetController<ExitButtonController>();
+                var returnButton = _gameScene.Model.GetController<ExitButtonController>();
             returnButton.OnButtonClicked += ReturnToMenu;
 
             var settingsButton = _gameScene.Model.GetController<SettingsButtonController>();
@@ -473,6 +484,8 @@ namespace WZIMopoly
             if (KeyboardController.WasClicked(Microsoft.Xna.Framework.Input.Keys.F4))
             {
                 ChangeCurrentScene(_endGameScene);
+                var returnToMenuBtn = _endGameScene.Model.GetModel<ReturnToMenuButtonModel>();
+                returnToMenuBtn.EnterTime = DateTime.Now;
             }
 #endif
 
