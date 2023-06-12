@@ -404,7 +404,7 @@ namespace WZIMopoly.Models
                 {
                     if (t.Id == mortgagedTile.Id)
                     {
-                        _purchasedTiles.Add(t as PurchasableTileModel);
+                        _mortgagedTiles.Add(t as PurchasableTileModel);
                         break;
                     }
                 }
