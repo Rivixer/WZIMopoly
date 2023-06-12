@@ -1,5 +1,8 @@
-﻿using WZIMopoly.Engine;
+﻿using Microsoft.Xna.Framework.Graphics;
+using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.GUI.SettingsScene;
+using WZIMopoly.Models;
 using WZIMopoly.Models.SettingsScene;
 
 namespace WZIMopoly.Controllers.SettingsScene
@@ -32,6 +35,19 @@ namespace WZIMopoly.Controllers.SettingsScene
             if (Model.Conditions()
                 && MouseController.WasLeftBtnClicked()
                 && View.IsHovered)
+            {
+                OnClick();
+            }
+        }
+
+        public void ApplySettings()
+        {
+            if ((SettingsModel.Resolution == Resolution.FullHD
+                && Model.Name == "Settings1920")
+                || (SettingsModel.Resolution == Resolution.HDPlus
+                && Model.Name == "Settings1600")
+                || (SettingsModel.Resolution == Resolution.HD
+                && Model.Name == "Settings1366"))
             {
                 OnClick();
             }

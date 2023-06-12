@@ -1,5 +1,7 @@
 ﻿using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.GUI.SettingsScene;
+using WZIMopoly.Models;
 using WZIMopoly.Models.SettingsScene;
 using WZIMopoly.Utils.PositionExtensions;
 
@@ -20,7 +22,17 @@ namespace WZIMopoly.Controllers.SettingsScene
         /// The view of the volume slider.
         /// </param>
         public VolumeSliderController(VolumeSliderModel model, GUIVolumeSlider view)
-            : base(model, view) { }
+            : base(model, view)
+        {
+            if (View.RectangleSlider.Y < 200)
+            {
+                view.SetVolume(SettingsModel.EffectVolume);
+            }
+            else
+            {
+                view.SetVolume(SettingsModel.SongVolume);
+            }
+        }
 
         /// <inheritdoc/>
         public override void Update()

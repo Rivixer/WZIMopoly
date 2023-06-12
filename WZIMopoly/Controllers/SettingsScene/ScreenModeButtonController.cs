@@ -1,5 +1,7 @@
 ﻿using WZIMopoly.Engine;
+using WZIMopoly.Enums;
 using WZIMopoly.GUI.SettingsScene;
+using WZIMopoly.Models;
 using WZIMopoly.Models.SettingsScene;
 
 namespace WZIMopoly.Controllers.SettingsScene
@@ -29,6 +31,17 @@ namespace WZIMopoly.Controllers.SettingsScene
             if (Model.Conditions()
                 && MouseController.WasLeftBtnClicked()
                 && View.IsHovered)
+            {
+                OnClick();
+            }
+        }
+
+        public void ApplySettings()
+        {
+            if ((SettingsModel.IsWindowed == true
+                && Model.Name == "SettingsWindowed")
+                || (!SettingsModel.IsWindowed
+                && Model.Name == "SettingsFullscreen"))
             {
                 OnClick();
             }
