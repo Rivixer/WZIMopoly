@@ -86,11 +86,7 @@ namespace WZIMopoly.GUI.GameScene
             var player = GameSettings.CurrentPlayer;
             if (player.PlayerStatus == PlayerStatus.UpgradingTiles)
             {
-                if (WZIMopoly.GameType == GameType.Local || !player.Equals(GameSettings.Client))
-                {
-                    _text.Draw(spriteBatch);
-                }
-                else
+                if (WZIMopoly.GameType == GameType.Local || player.Equals(GameSettings.Client))
                 {
                     foreach (var id in _nonUpgradeableTileIds)
                     {
