@@ -66,6 +66,11 @@ namespace WZIMopoly.GUI
         /// The path to the texture that will be drawn.
         /// </summary>
         private readonly string _path;
+
+        /// <summary>
+        /// Whether the texture is visible.
+        /// </summary>
+        public bool IsVisible = true;
         #endregion
 
         /// <summary>
@@ -209,7 +214,7 @@ namespace WZIMopoly.GUI
         /// <inheritdoc/> 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (Texture is not null)
+            if (Texture is not null && IsVisible)
             {
                 Texture2D toDraw;
                 if (WZIMopoly.Language == Language.Polish)
