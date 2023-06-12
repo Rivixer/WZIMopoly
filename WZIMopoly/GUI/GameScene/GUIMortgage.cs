@@ -241,9 +241,8 @@ namespace WZIMopoly.GUI.GameScene
                     }
                     else if (t is SubjectTileModel subject && subject.CanSellGrade(player))
                     {
-                        var grade = subject.Grade;
-                        SubjectGrade lowerGrade = grade - 1;
-                        // TODO: Convert SubjectGrade to a number
+                        var grade = subject.Grade.ConvertToString();
+                        string lowerGrade = (subject.Grade - 1).ConvertToString();
                         var sellPrice = subject.SellGradePrice;
                         text = WZIMopoly.Language switch
                         {
