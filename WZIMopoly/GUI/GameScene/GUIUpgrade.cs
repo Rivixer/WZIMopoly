@@ -18,7 +18,7 @@ namespace WZIMopoly.GUI.GameScene
     /// <summary>
     /// Represents the upgrade tiles view.
     /// </summary>
-    internal class GUIUpgrade : GUIElement, IGUIGameUpdate
+    internal class GUIUpgrade : GUIElement
     {
         /// <summary>
         /// The model of the upgrade tiles.
@@ -46,11 +46,6 @@ namespace WZIMopoly.GUI.GameScene
         /// The list of tile ids that the player cannot upgrade.
         /// </summary>
         private List<int> _nonUpgradeableTileIds;
-
-        /// <summary>
-        /// The player that is currently upgrading the fields.
-        /// </summary>
-        private PlayerModel? _player;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GUIUpgrade"/> class.
@@ -88,11 +83,19 @@ namespace WZIMopoly.GUI.GameScene
         /// <inheritdoc/>
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (_player?.PlayerStatus == PlayerStatus.UpgradingTiles)
+            var player = GameSettings.CurrentPlayer;
+            if (player.PlayerStatus == PlayerStatus.UpgradingTiles)
             {
-                foreach (var id in _nonUpgradeableTileIds)
+                if (WZIMopoly.GameType == GameType.Local || !player.Equals(GameSettings.Client))
                 {
-                    _tileTextures[id].Draw(spriteBatch);
+                    _text.Draw(spriteBatch);
+                }
+                else
+                {
+                    foreach (var id in _nonUpgradeableTileIds)
+                    {
+                        _tileTextures[id].Draw(spriteBatch);
+                    }
                 }
                 _text.Draw(spriteBatch);
             }
@@ -118,18 +121,12 @@ namespace WZIMopoly.GUI.GameScene
             UpdateText();
         }
 
-        /// <inheritdoc/>
-        public void Update(PlayerModel player, TileModel tile)
-        {
-            _player = player;
-        }
-
         /// <summary>
         /// Updates the auxiliary text informing the player about the upgrade.
         /// </summary>
         private void UpdateText()
         {
-            PlayerModel? player = _model.CurrentPlayer;
+            var player = GameSettings.CurrentPlayer;
             if (player is not null && player.PlayerStatus == PlayerStatus.UpgradingTiles)
             {
                 string text;
