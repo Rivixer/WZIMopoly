@@ -129,6 +129,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
             {
                 var owner = GameSettings.ActivePlayers.FirstOrDefault(x => x.Equals(t.Owner));
                 Owner = owner;
+                _isMortgaged = t._isMortgaged;
             }
         }
 
