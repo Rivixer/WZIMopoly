@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using WZIMopoly.Controllers.GameScene.GameSceneButtonControllers;
@@ -15,31 +16,22 @@ namespace WZIMopoly.GUI.GameScene
     internal class GUIJail : GUIText, IGUIGameUpdate
     {
         /// <summary>
-        /// The pay to leave jail button.
-        /// </summary>
-        private readonly PayToLeaveJailButtonController _payToLeaveJailBtn;
-
-        /// <summary>
-        /// The use card to leave jail button.
-        /// </summary>
-        private readonly UseCardToLeaveJailButtonController _useCardToLeaveJailBtn;
-
-        /// <summary>
         /// The tile that the player is currently on.
         /// </summary>
         private TileModel _currentTile;
 
         /// <summary>
+        /// The background of the jail text.
+        /// </summary>
+        private GUITexture _background;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GUIJail"/> class.
         /// </summary>
-        /// <param name="model">
-        /// The model of the jail.
-        /// </param>
-        internal GUIJail(JailModel model)
-            : base("Fonts/WZIMFont", new Vector2(960, 720), Color.Black, GUIStartPoint.Center, scale: 0.3f)
+        internal GUIJail()
+            : base("Fonts/WZIMFont", new Vector2(960, 370), Color.Black, GUIStartPoint.Center, scale: 0.35f)
         {
-            _payToLeaveJailBtn = model.GetController<PayToLeaveJailButtonController>();
-            _useCardToLeaveJailBtn = model.GetController<UseCardToLeaveJailButtonController>();
+            _background = new GUITexture("Images/FrameLong", new Rectangle(960, 374, 1103, 62), GUIStartPoint.Center);
         }
 
         /// <inheritdoc/>
@@ -51,12 +43,26 @@ namespace WZIMopoly.GUI.GameScene
                 return;
             }
             if (_currentTile is MandatoryLectureTileModel t
-                && (!_payToLeaveJailBtn.View.IsHovered
-                && !_useCardToLeaveJailBtn.View.IsHovered
-                || !t.IsPrisoner(GameSettings.CurrentPlayer)))
+                && t.IsPrisoner(GameSettings.CurrentPlayer)
+                && GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
             {
+                _background.Draw(spriteBatch);
                 base.Draw(spriteBatch);
             }
+        }
+
+        /// <inheritdoc/>
+        public override void Load(ContentManager content)
+        {
+            _background.Load(content);
+            base.Load(content);
+        }
+
+        /// <inheritdoc/>
+        public override void Recalculate()
+        {
+            _background?.Recalculate();
+            base.Recalculate();
         }
 
         /// <inheritdoc/>
