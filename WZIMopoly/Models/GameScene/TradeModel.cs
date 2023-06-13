@@ -93,6 +93,18 @@ namespace WZIMopoly.Models.GameScene
         public int TotalValue => ChosenOfferorTilesValue + ChosenRecipientTilesValue + Math.Abs(OfferedMoney);
 
         /// <summary>
+        /// Resets the trade model.
+        /// </summary>
+        public void Reset()
+        {
+            Offeror = null;
+            Recipient = null;
+            ChosenOfferorTiles.Clear();
+            ChosenRecipientTiles.Clear();
+            OfferedMoney = 0;
+        }
+        
+        /// <summary>
         /// Updates the trade model.
         /// </summary>
         /// <param name="model">

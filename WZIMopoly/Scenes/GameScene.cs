@@ -451,15 +451,14 @@ namespace WZIMopoly.Scenes
                 if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.Trading)
                 {
                     GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+                    var tradeModel = _tradeController.Model;
+                    tradeModel.Reset();
                 }
                 else if (GameSettings.CurrentPlayer.PlayerStatus == PlayerStatus.BeforeRollingDice)
                 {
                     var tradeModel = _tradeController.Model;
+                    tradeModel.Reset();
                     tradeModel.Offeror = GameSettings.CurrentPlayer;
-                    tradeModel.Recipient = null;
-                    tradeModel.OfferedMoney = 0;
-                    tradeModel.ChosenOfferorTiles.Clear();
-                    tradeModel.ChosenRecipientTiles.Clear();
                     GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.Trading;
                 }                
             };
