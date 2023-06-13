@@ -247,7 +247,7 @@ namespace WZIMopoly.Scenes
                 {
                     PlayerStatus.BeforeRollingDice => PlayerStatus.AfterRollingDice,
                     PlayerStatus.AfterRollingDice => PlayerStatus.BeforeRollingDice,
-                    _ => throw new InvalidOperationException("Invalid player status."),
+                    _ => GameSettings.CurrentPlayer.PlayerStatus,
                 };
                 GameSettings.SendGameData(Model);
             }
