@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsWZIMopoly", "WZIMopoly\WindowsWZIMopoly.csproj", "{1F0A7A1B-71A8-4B39-8C1B-70D9D488DC99}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsWZIMopolyServer", "WZIMopolyServer\WindowsWZIMopolyServer.csproj", "{B5801CA4-C337-4D5B-9890-5E947A1967A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WZIMopolyNetworkingLibrary", "WZIMopolyLibrary\WZIMopolyNetworkingLibrary.csproj", "{6083D00E-9B68-4FE0-B763-B5B18A710CAE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Windows", "Windows", "{11121719-E411-43E9-A82B-D3927BACD148}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WZIMopoly", "WZIMopoly", "{D949B490-7DE9-4AA2-8B45-22847C2C9B09}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{A787ABB9-53E4-4207-96B6-36E242222C2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWZIMopoly", "TestWZIMopoly\TestWZIMopoly.csproj", "{356F4E05-C31F-48B2-A48B-633000C17A38}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F0A7A1B-71A8-4B39-8C1B-70D9D488DC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F0A7A1B-71A8-4B39-8C1B-70D9D488DC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F0A7A1B-71A8-4B39-8C1B-70D9D488DC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F0A7A1B-71A8-4B39-8C1B-70D9D488DC99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5801CA4-C337-4D5B-9890-5E947A1967A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5801CA4-C337-4D5B-9890-5E947A1967A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5801CA4-C337-4D5B-9890-5E947A1967A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5801CA4-C337-4D5B-9890-5E947A1967A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6083D00E-9B68-4FE0-B763-B5B18A710CAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6083D00E-9B68-4FE0-B763-B5B18A710CAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6083D00E-9B68-4FE0-B763-B5B18A710CAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6083D00E-9B68-4FE0-B763-B5B18A710CAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{356F4E05-C31F-48B2-A48B-633000C17A38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{356F4E05-C31F-48B2-A48B-633000C17A38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{356F4E05-C31F-48B2-A48B-633000C17A38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{356F4E05-C31F-48B2-A48B-633000C17A38}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1F0A7A1B-71A8-4B39-8C1B-70D9D488DC99} = {11121719-E411-43E9-A82B-D3927BACD148}
+		{B5801CA4-C337-4D5B-9890-5E947A1967A6} = {11121719-E411-43E9-A82B-D3927BACD148}
+		{6083D00E-9B68-4FE0-B763-B5B18A710CAE} = {A787ABB9-53E4-4207-96B6-36E242222C2C}
+		{11121719-E411-43E9-A82B-D3927BACD148} = {D949B490-7DE9-4AA2-8B45-22847C2C9B09}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F29D7D60-BC2C-460A-A0F6-13347E2C2A57}
+	EndGlobalSection
+EndGlobal

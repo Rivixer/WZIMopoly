@@ -1,0 +1,449 @@
+using System;
+using System.Collections.Generic;
+using WZIMopoly.Enums;
+using WZIMopoly.Exceptions;
+using WZIMopoly.Models.GameScene;
+using WZIMopoly.Models.GameScene.TileModels;
+
+namespace WZIMopoly.Models
+{
+    /// <summary>
+    /// Represents a player.
+    /// </summary>
+    [Serializable]
+    internal class PlayerModel : Model
+    {
+        /// <summary>
+        /// The list of tiles purchased by the player.
+        /// </summary>
+        private readonly List<PurchasableTileModel> _purchasedTiles = new();
+
+        /// <summary>
+        /// The list of mortgaged tiles by the player.
+        /// </summary>
+        private readonly List<PurchasableTileModel> _mortgagedTiles = new();
+
+        /// <summary>
+        /// The default nick of the player.
+        /// </summary>
+        [NonSerialized]
+        private readonly string _defaultNick;
+
+        /// <summary>
+        /// The money the player starts with.
+        /// </summary>
+        [NonSerialized]
+        private readonly int _startMoney = 1500;
+
+        /// <summary>
+        /// The color of the player.
+        /// </summary>
+        private readonly string _color;
+
+        /// <summary>
+        /// The nick of the player.
+        /// </summary>
+        private string _nick;
+
+        /// <summary>
+        /// The player type.
+        /// </summary>
+        private PlayerType _playerType;
+
+        /// <summary>
+        /// The player status.
+        /// </summary>
+        private PlayerStatus _playerStatus;
+
+        /// <summary>
+        /// The time when the player went bankrupt.
+        /// </summary>
+        private DateTime? _bankcruptcyTime;
+
+        /// <summary>
+        /// The amount of money player has.
+        /// </summary>
+        private int _money;
+
+        /// <summary>
+        /// The number of leave jail cards player has.
+        /// </summary>
+        private int _numberOfLeaveJailCards = 0;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerModel"/> class.
+        /// </summary>
+        /// <param name="defaultNick">
+        /// The nick of the player.
+        /// </param>
+        /// <param name="color">
+        /// The color of the player.
+        /// </param>
+        internal PlayerModel(string defaultNick, string color, PlayerType type = PlayerType.None)
+        {
+            _defaultNick = defaultNick;
+            _nick = defaultNick;
+            _color = color;
+            _playerType = type;
+            _playerStatus = PlayerStatus.WaitingForTurn;
+            _money = _startMoney;
+            _bankcruptcyTime = null;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayerModel"/> class
+        /// with the same values as the specified object.
+        /// </summary>
+        /// <param name="player">
+        /// The player to copy.
+        /// </param>
+        public PlayerModel(PlayerModel player)
+        {
+            _nick = player._nick;
+            _playerType = player._playerType;
+            _playerStatus = player._playerStatus;
+            _money = player._money;
+            _purchasedTiles = player._purchasedTiles;
+            _mortgagedTiles = player._mortgagedTiles;
+            _defaultNick = player._defaultNick;
+            _color = player._color;
+        }
+
+        /// <summary>
+        /// Gets or sets whether the player has additional roll.
+        /// </summary>
+        public bool AdditionalRoll { get; set; }
+
+        /// <summary>
+        /// Gets the number of leave jail cards player has.
+        /// </summary>
+        public int NumberOfLeaveJailCards
+        {
+            get => _numberOfLeaveJailCards;
+            set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException("The number of leave jail cards cannot be less than 0.");
+                }
+                _numberOfLeaveJailCards = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets the color of the player.
+        /// </summary>
+        public string Color => _color;
+
+        /// <summary>
+        /// Gets or sets the player type.
+        /// </summary>
+        internal PlayerType PlayerType
+        {
+            get => _playerType;
+            set => _playerType = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the nick of the player.
+        /// </summary>
+        public string Nick
+        {
+            get => _nick;
+            set => _nick = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the amount of money the player has.
+        /// </summary>
+        /// <value>
+        /// The amount of money the player has, more or equal to 0.
+        /// </value>
+        public int Money
+        {
+            get => _money;
+            set
+            {
+                if (value < 0)
+                {
+                    MoneyToGetFromMortgage = -value;
+                    throw new NotEnoughMoney(this, value);
+                }
+                MoneyToGetFromMortgage = 0;
+                _money = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the player status.
+        /// </summary>
+        public PlayerStatus PlayerStatus
+        {
+            get => _playerStatus;
+            set => _playerStatus = value;
+        }
+
+        /// <summary>
+        /// Gets pucharsed tiles by the player.
+        /// </summary>
+        public List<PurchasableTileModel> PurchasedTiles => _purchasedTiles;
+
+        /// <summary>
+        /// Gets mortgaged tiles by the player.
+        /// </summary>
+        public List<PurchasableTileModel> MortgagedTiles => _mortgagedTiles;
+
+        /// <summary>
+        /// Gets the amount of money the player is short of for payment.
+        /// </summary>
+        /// <value>
+        /// The amount of money the player is short of for payment, more or equal to 0.
+        /// </value>
+        public int MoneyToGetFromMortgage { get; private set; } = 0;
+
+        /// <summary>
+        /// Gets the time when the player went bankrupt.
+        /// </summary>
+        public DateTime? BankruptTime => _bankcruptcyTime;
+
+        /// <summary>
+        /// Gets the value of the player.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The value of the player is the amount of money the player has
+        /// plus the value of the tiles the player owns.
+        /// </para>
+        /// <para>
+        /// The value of the tiles owned is calculated as follows:
+        /// <list type="bullet">
+        /// <item>
+        /// not subject = price of the tile
+        /// </item>
+        /// <item>
+        /// subject, not mortgaged = price of the tile
+        /// </item>
+        /// <item>
+        /// subject, mortgaged = mortgage price of the tile
+        /// </item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// For each grade of the subject, the value is increased by the upgrade price,
+        /// where <see cref="SubjectGrade.Three"/> is intepreted as 0.
+        /// </para>
+        /// </remarks>
+        public int PlayerValue
+        {
+            get
+            {
+                int tilesValue = 0;
+                foreach (PurchasableTileModel tile in PurchasedTiles)
+                {
+                    tilesValue += tile.GetValue();
+                }
+                return Money + tilesValue;
+            }
+        }
+
+        /// <summary>
+        /// Returns the amount of money the player can get back
+        /// from mortgaging tiles or selling their grades.
+        /// </summary>
+        /// <returns>
+        /// The amount of money the player can get back.
+        /// </returns>
+        public int HowMuchMoneyCanPlayerGetBack()
+        {
+            int amount = 0;
+            foreach (PurchasableTileModel tile in PurchasedTiles)
+            {
+                if (!tile.IsMortgaged)
+                {
+                    amount += tile.MortgagePrice;
+                }
+                if (tile is SubjectTileModel t)
+                {
+                    amount += ((int)t.Grade - 1) * t.SellGradePrice;
+                }
+            }
+            return amount;
+        }
+
+        /// <summary>
+        /// Transfers money from the player to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the money.
+        /// </param>
+        /// <param name="amount">
+        /// The amount of money to transfer.
+        /// </param>
+        public void TransferMoneyTo(PlayerModel recipient, int amount)
+        {
+            Money -= amount;
+            recipient.Money += amount;
+        }
+
+        /// <summary>
+        /// Transfer a tile from the player to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the tile.
+        /// </param>
+        /// <param name="tile">
+        /// The tile to transfer.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// The player does not own the tile.
+        /// </exception>
+        public void TransferTileTo(PlayerModel recipient, PurchasableTileModel tile)
+        {
+            if (!PurchasedTiles.Contains(tile))
+            {
+                throw new ArgumentException($"Player has no tile: {tile.EnName}");
+            }
+            tile.Owner = recipient;
+            PurchasedTiles.Remove(tile);
+            recipient.PurchasedTiles.Add(tile);
+            if (MortgagedTiles.Contains(tile))
+            {
+                MortgagedTiles.Remove(tile);
+                recipient.MortgagedTiles.Add(tile);
+            }
+        }
+
+        /// <summary>
+        /// Makes the player bankrupt.
+        /// </summary>
+        /// <remarks>
+        /// Sets the player status to <see cref="PlayerStatus.Bankrupt"/>,
+        /// resets the player's tiles and clears the player's tiles.
+        /// </remarks>
+        public void GoBankrupt()
+        {
+            _playerStatus = PlayerStatus.Bankrupt;
+            _purchasedTiles.ForEach(x => x.Reset());
+            _purchasedTiles.Clear();
+            _mortgagedTiles.Clear();
+            _money = 0;
+            _bankcruptcyTime = DateTime.Now;
+            GameSettings.NextPlayer();
+            GameSettings.CurrentPlayer.PlayerStatus = PlayerStatus.BeforeRollingDice;
+        }
+
+        /// <summary>
+        /// Makes the player bankrupt and transfers all
+        /// their money and tiles to another player.
+        /// </summary>
+        /// <param name="recipient">
+        /// The player that will receive the money and tiles.
+        /// </param>
+        public void GoBankrupt(PlayerModel recipient)
+        {
+            TransferMoneyTo(recipient, Money);
+            recipient.PurchasedTiles.AddRange(PurchasedTiles);
+            recipient.MortgagedTiles.AddRange(MortgagedTiles);
+            GoBankrupt();
+        }
+
+        /// <summary>
+        /// Resets the nick of the player to the default one.
+        /// </summary>
+        public void ResetNick()
+        {
+            _nick = _defaultNick;
+        }
+
+        /// <summary>
+        /// Resets the player to the default state.
+        /// </summary>
+        public void Reset()
+        {
+            _nick = _defaultNick;
+            _money = _startMoney;
+            _bankcruptcyTime = null;
+            _playerType = PlayerType.None;
+            _playerStatus = PlayerStatus.WaitingForTurn;
+            _purchasedTiles.Clear();
+            _mortgagedTiles.Clear();
+        }
+
+        /// <summary>
+        /// Updates the player with the values of the specified player.
+        /// </summary>
+        /// <param name="player">
+        /// The player to copy.
+        /// </param>
+        /// <param name="Tiles">
+        /// The list of all tiles to update the player's tiles.
+        /// </param>
+        public void Update(PlayerModel player, List<TileModel> Tiles)
+        {
+            _nick = player._nick;
+            _playerType = player._playerType;
+            _playerStatus = player._playerStatus;
+            _money = player._money;
+            _purchasedTiles.Clear();
+            _bankcruptcyTime = player._bankcruptcyTime;
+            foreach (var purchasedTile in player._purchasedTiles)
+            {
+                foreach (var t in Tiles)
+                {
+                    if (t.Id == purchasedTile.Id)
+                    {
+                        _purchasedTiles.Add(t as PurchasableTileModel);
+                        break;
+                    }
+                }
+            }
+            _mortgagedTiles.Clear();
+            foreach (var mortgagedTile in player._mortgagedTiles)
+            {
+                foreach (var t in Tiles)
+                {
+                    if (t.Id == mortgagedTile.Id)
+                    {
+                        _mortgagedTiles.Add(t as PurchasableTileModel);
+                        break;
+                    }
+                }
+            }
+            _mortgagedTiles.AddRange(player._mortgagedTiles);
+        }
+
+        /// <summary>
+        /// Compares the player with other object.
+        /// </summary>
+        /// <param name="obj">
+        /// An object to compare with.
+        /// </param>
+        /// <returns>
+        /// True if the object is a player and has the
+        /// same nick and color as this player, otherwise false.
+        /// </returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is PlayerModel player)
+            {
+                return player.Nick == _nick
+                    && player.Color == _color;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the hash code of the player.
+        /// </summary>
+        /// <returns>
+        /// The hash code of the player.
+        /// </returns>
+        /// <remarks>
+        /// The hash code is based on the nick and color of the player.
+        /// </remarks>
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_nick, _color);
+        }
+    }
+}
