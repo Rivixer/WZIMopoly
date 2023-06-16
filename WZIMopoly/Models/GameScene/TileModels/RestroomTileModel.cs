@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Xml;
 using WZIMopoly.Enums;
 
@@ -36,7 +35,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
             TaxPrices = taxPrices;
             OnStand += (player) =>
             {
-                if (Owner != null && Owner != player)
+                if (Owner != null && Owner != player && !IsMortgaged)
                 {
                     RestroomAmount ownerRestroomAmount = GetOwnerRestroomAmonut();
                     int tax = TaxPrices[ownerRestroomAmount];
@@ -102,7 +101,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
         /// </exception>
         private RestroomAmount GetOwnerRestroomAmonut()
         {
-            int? amount = Owner?.PurchasedTiles.Where(x => x is RestroomTileModel).Count();
+            int? amount = Owner?.PurchasedTiles.Where(x => x is RestroomTileModel && !x.IsMortgaged).Count();
             return amount switch
             {
                 1 => RestroomAmount.One,
