@@ -342,8 +342,10 @@ namespace WZIMopoly.Models
         public void GoBankrupt(PlayerModel recipient)
         {
             TransferMoneyTo(recipient, Money);
-            recipient.PurchasedTiles.AddRange(PurchasedTiles);
-            recipient.MortgagedTiles.AddRange(MortgagedTiles);
+            foreach(var tile in new List<PurchasableTileModel>(PurchasedTiles))
+            {
+                TransferTileTo(recipient, tile);
+            }
             GoBankrupt();
         }
 
