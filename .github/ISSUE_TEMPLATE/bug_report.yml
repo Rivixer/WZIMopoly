@@ -50,7 +50,7 @@ body:
       label: Wersja
       description: Jaka to wersja gry?
       options:     
-        - 0.1.0-beta
+        - 0.1.0-beta.1
         - Inna
     validations:
       required: true
