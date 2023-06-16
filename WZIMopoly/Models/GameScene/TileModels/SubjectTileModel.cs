@@ -61,7 +61,7 @@ namespace WZIMopoly.Models.GameScene.TileModels
 
             OnStand += (player) =>
             {
-                if (Owner != null && !player.Equals(Owner))
+                if (Owner != null && !player.Equals(Owner) && !IsMortgaged)
                 {
                     player.TransferMoneyTo(Owner, TaxPrices[Grade]);
                 }
