@@ -1,12 +1,12 @@
 name: Bug Report
-description: Znalazłeś buga - stwórz issue
+description: You found a bug? - Create an issue!
 body:
   - type: textarea
     id: what-happened
     attributes:
       label: Co sie stało?
       description: Co powinno się wydarzyć, a co stało się innego? 
-      placeholder: "Rzucenie kostką crashuje grę."
+      placeholder: Rzucenie kostką crashuje grę.
     validations:
       required: true
   - type: textarea
@@ -22,10 +22,22 @@ body:
     validations:
       required: true
   - type: dropdown
+    id: gamemode
+    attributes:
+      label: Tryb gry
+      description: Na jakim trybie gry występuje błąd?
+      options:
+        - Żadnym
+        - Lokalnym
+        - Online
+        - Lokalnym i online
+    validations:
+      required: true
+  - type: dropdown
     id: prevalence
     attributes:
       label: Częstotliwość
-      description: "Jak często pojawia się problem?"
+      description: Jak często pojawia się problem?
       options:
         - Raz
         - Czasami
@@ -36,17 +48,17 @@ body:
     id: version
     attributes:
       label: Wersja
-      description: Jaka to wersja gry - testujesz wersję alpha czy po najnowszym commitcie.
-      options:      
-        - 0.1.0-alpha
+      description: Jaka to wersja gry?
+      options:     
+        - 0.1.0-beta
         - Inna
     validations:
       required: true
   - type: input
     id: otherversion
     attributes:
-      label: "Link"
-      description: Jeśli wybrałeś "Inna" - podaj link do ostatniego commita z tej wersji.
+      label: "-"
+      description: Jeśli wybrałeś wersję gry "Inna" - podaj id ostatniego commita.
   - type: dropdown
     id: operating-systems
     attributes:
