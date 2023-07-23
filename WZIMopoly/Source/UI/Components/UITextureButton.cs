@@ -43,6 +43,7 @@ internal class UITextureButton : UIButton
     public override void Draw(GameTime gameTime)
     {
         Image.Draw(gameTime);
+        base.Draw(gameTime);
     }
 
     private Color[] ReadTexturePixels()

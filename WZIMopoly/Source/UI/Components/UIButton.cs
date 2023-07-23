@@ -11,14 +11,9 @@ internal abstract class UIButton : UIComponent
     public static bool WasClickedInThisFrame { get; set; }
 
     public delegate void OnClickedEventHandler(object sender, EventArgs eventArgs);
-    public delegate void OnPressedEventHandler(object sender, EventArgs eventArgs);
-    public delegate void OnReleasedEventHandler(object sender, EventArgs eventArgs);
-
     public event OnClickedEventHandler? OnClicked;
-    public event OnPressedEventHandler? OnPressed;
-    public event OnReleasedEventHandler? OnReleased;
 
-    public bool IsEnabled { get; set; }
+    public bool IsEnabled { get; set; } = true;
 
     public virtual bool IsHovered
     {
@@ -33,7 +28,8 @@ internal abstract class UIButton : UIComponent
     {
         base.Update(gameTime);
 
-        if (!WasClickedInThisFrame
+        if (IsEnabled
+            && !WasClickedInThisFrame
             && MouseSystem.WasLeftButtonClicked()
             && IsHovered)
         {

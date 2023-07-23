@@ -10,11 +10,11 @@ internal class UIText : UIComponent
     private readonly string _fontPath;
     private SpriteFont? _font;
 
-    public UIText(UIComponent parent, string text, Color? color = null, string? fontPath = null)
+    public UIText(UIComponent parent, string text, Color color, string? fontPath = null)
         : base(parent)
     {
         _fontPath = fontPath ?? "Fonts/DebugFont";
-        Color = color ?? Color.Black;
+        Color = color;
         Text = text;
         Transform.Alignment = Alignment.Center;
     }

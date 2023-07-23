@@ -13,27 +13,27 @@ internal class MenuScene : Scene
         UIImage background = new(menuScene, "Images/MenuScreen");
 
         UIContainer buttonContainer = new(menuScene);
-        buttonContainer.SetBackground(new Color(100, 100, 100, 100));
-        buttonContainer.Transform.Alignment = Alignment.Bottom;
-        buttonContainer.Transform.RelativeSize = new(0.6f);
+        buttonContainer.Transform.Alignment = Alignment.Center;
+        buttonContainer.Transform.RelativeOffset = new(0.0f, 1f);
+        buttonContainer.Transform.RelativeSize = new(0.5f);
         buttonContainer.Transform.Ratio = new(1, 1);
-        buttonContainer.Transform.RelativePadding = new(0.01f);
         {
-            UITextureButton newGameButton = new(buttonContainer, "Images/NewGame");
+            UITextButton newGameButton = new(buttonContainer);
+            newGameButton.Background = new UIImage(newGameButton, "Images/Button", useCache: true);
+            newGameButton.Text = new UIText(newGameButton, "Nowa gra", Color.Black);
             newGameButton.Transform.Alignment = Alignment.Top;
             newGameButton.OnClicked += (s, e) =>
             {
                 Debug.WriteLine("Starting new game...");
             };
 
-            UITextButton quitButton = new(buttonContainer, new Color(200, 200, 200, 100), UIText.ToLazy("Wyjście z gry", Color.Black));
-            quitButton.Transform.Ratio = newGameButton.Transform.Ratio;
-            quitButton.Transform.RelativeOffset = new(0.0f, 0.21f);
-            quitButton.Transform.RelativeMargin = new(0.03f);
-            quitButton.OnClicked += (s, e) =>
-            {
-                WZIMopoly.Instance.Exit();
-            };
+            //UIFrame frame = new(buttonContainer, 5, Color.Black);
+
+            UITextButton quitButton = new(buttonContainer);
+            quitButton.Background = new UIImage(quitButton, "Images/Button", useCache: true);
+            quitButton.Text = new UIText(quitButton, "Wyjście z gry", Color.Black);
+            quitButton.Transform.RelativeOffset = new(0.0f, 0.3f);
+            quitButton.OnClicked += (s, e) => WZIMopoly.Instance.Exit();
         }
     }
 }

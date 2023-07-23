@@ -23,9 +23,6 @@ internal static class TransformExtenstions
 
     public static Ratio ToRatio(this float value, double epsilon = 1.0e-2, int maxDenominator = 1000)
     {
-        // Metody numeryczne się do czegoś przydały XD
-        // Teraz Jankowski już nie powie, że jego syn - ósmoklasista,
-        // znający składnię C# - też mógłby WZIMopoly zaprogramować XD
         for (int denominator = 1; denominator <= maxDenominator; denominator++)
         {
             int numerator = (int)Math.Round(value * denominator);

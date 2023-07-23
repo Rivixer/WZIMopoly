@@ -18,7 +18,8 @@ internal class UILazyComponent<T>
     {
         List<object?> parameters = new() { parent };
         parameters.AddRange(_args);
+        var param = parameters.ToArray();
         return (T)Activator.CreateInstance(
-            typeof(T), BindingFlags.Public | BindingFlags.Instance, null, parameters.ToArray(), null)!;
+            typeof(T), BindingFlags.Public | BindingFlags.Instance, null, param, null)!;
     }
 }

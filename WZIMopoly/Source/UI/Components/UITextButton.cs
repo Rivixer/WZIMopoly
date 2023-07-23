@@ -1,28 +1,46 @@
 ﻿using Microsoft.Xna.Framework;
 
 namespace WZIMopoly.UI;
+
 internal class UITextButton : UIButton
 {
-    public UITextButton(UIComponent parent, Color backgroundColor, UILazyComponent<UIText> text)
-        : base(parent)
+    private UIText? _text;
+    private UIImage? _background;
+
+    public UITextButton(UIComponent parent)
+        : base(parent) { }
+
+    public UIImage? Background
     {
-        Background = new UIImage(this, backgroundColor);
-        Text = text.Initialize(this);
+        get { return _background; }
+        set {
+            _background = value;
+            if (_background is not null)
+            {
+                _background.Parent = this;
+                Transform.Ratio = (_background.Texture.Width / (float)_background.Texture.Height).ToRatio();
+            }
+        }
     }
 
-    public UITextButton(UIComponent parent, UILazyComponent<UIImage> background, UILazyComponent<UIText> text)
-        : base(parent) 
+    public UIText? Text
     {
-        Background = background.Initialize(this);
-        Text = text.Initialize(this);
+        get { return _text; }
+        set
+        {
+            _text = value;
+            if (_text is not null)
+            {
+                _text.Parent = this;
+                _text.Transform.Alignment = Alignment.Center;
+            }
+        }
     }
-
-    public UIImage Background { get; set; }
-    public UIText Text { get; set; }
 
     public override void Draw(GameTime gameTime)
     {
-        Background.Draw(gameTime);
-        Text.Draw(gameTime);
+        Background?.Draw(gameTime);
+        Text?.Draw(gameTime);
+        base.Draw(gameTime);
     }
 }
