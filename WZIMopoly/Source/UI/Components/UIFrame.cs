@@ -8,8 +8,8 @@ internal class UIFrame : UIComponent
     private int _thickness;
     private Color _color;
 
-    public UIFrame(UIBaseComponent parent, int thickness, Color color)
-        : base(parent)
+    public UIFrame(UIComponent parent, int thickness, Color color)
+        //: base(parent)
     {
         _thickness = thickness;
         _color = color;
@@ -53,7 +53,7 @@ internal class UIFrame : UIComponent
         Transform.RecalculateIfNeeded();
         for (int i = 0; i < 4; i++)
         {
-            UIImage line = new(this, _color);
+            //UIImage line = new(this, _color);
             Rectangle rect = Transform.NonScaledDestinationRectangle;
             switch (i)
             {
@@ -72,8 +72,10 @@ internal class UIFrame : UIComponent
                     rect.Height = _thickness;
                     break;
             }
-            line.Transform.NonScaledDestinationRectangle = rect;
-            _lines[i] = line;
+            //line.Transform.Parent = null!;
+            //line.Transform.NonScaledDestinationRectangle = rect;
+            //line.Transform.RecalculateIfNeeded();
+            //_lines[i] = line;
         }
     }
 }

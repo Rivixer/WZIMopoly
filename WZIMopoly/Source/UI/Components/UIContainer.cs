@@ -2,6 +2,6 @@
 
 internal class UIContainer : UIComponent
 {
-    public UIContainer(UIBaseComponent parent)
-        : base(parent) { }
+    public UIContainer(UIComponent parent) { }
+        //: base(parent) { }
 }

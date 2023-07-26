@@ -3,30 +3,31 @@ using System;
 
 namespace WZIMopoly.UI;
 
-internal class UITransform
+internal enum TransformType
 {
-    private Point _nonScaledLocation;
-    private Point _scaledLocation;
-    private Point _nonScaledSize;
-    private Point _scaledSize;
+    Relative,
+    Absolute,
+}
 
-    private Vector2 _relativeOffset = Vector2.Zero;
-    private Vector2 _relativeSize = Vector2.One;
-    private Margin _relativeMargin = Margin.Zero;
-    private Alignment _alignment = Alignment.TopLeft;
+internal abstract class UITransform
+{
     private Ratio _ratio = Ratio.Unspecified;
-
-    private bool _needsRecalculcate;
 
     public UITransform(UIComponent component)
     {
-        Parent = component.Parent.Transform;
         Component = component;
-        Parent.OnRecalculated += ParentTransform_OnRecalculated;
-        _needsRecalculcate = true;
+        if (component.Parent is not null)
+        {
+            component.Parent.Transform.OnRecalculated += ParentTransform_OnRecalculated;
+        }
+        else
+        {
+            ScreenSystem.OnScreenChanged += Recalculate;
+        }
+        NeedsRecalculate = true;
     }
 
-    public UITransform(UIBaseComponent component, Rectangle rectangle)
+    /*public UITransform(UIBaseComponent component, Rectangle rectangle)
         : this(component, rectangle.Location, rectangle.Size) { }
 
     public UITransform(UIBaseComponent component, Point location, Point size)
@@ -36,75 +37,41 @@ internal class UITransform
         _nonScaledSize = size;
         _needsRecalculcate = true;
         ScreenSystem.OnScreenChanged += Recalculate;
-    }
+    }*/
 
-    private delegate void OnRecalculatedEventHandler(UITransform sender, EventArgs args);
-    private event OnRecalculatedEventHandler? OnRecalculated;
+    public delegate void OnRecalculatedEventHandler(object sender, EventArgs args);
 
-    public UIBaseComponent Component { get; set; }
+    public event OnRecalculatedEventHandler? OnRecalculated;
 
-    public UITransform Parent { get; set; }
+    public UIComponent Component { get; set; }
 
+    protected Point NonScaledLocation { get; set; }
+    protected Point NonScaledSize { get; set; }
+
+    protected Point ScaledLocation { get; set; }
+    protected Point ScaledSize { get; set; }
+    
+    protected bool NeedsRecalculate { get; set; }
 
     public Rectangle DestinationRectangle
     {
-        get { return new Rectangle(_scaledLocation, _scaledSize); }
-        set
+        get { return new Rectangle(ScaledLocation, ScaledSize); }
+        protected set
         {
-            _nonScaledLocation = value.Location.Scale(Vector2.One / ScreenSystem.Scale);
-            _nonScaledSize = value.Size.Scale(Vector2.One / ScreenSystem.Scale);
-            _needsRecalculcate = true;
+            NonScaledLocation = value.Location.Scale(Vector2.One / ScreenSystem.Scale);
+            NonScaledSize = value.Size.Scale(Vector2.One / ScreenSystem.Scale);
+            NeedsRecalculate = true;
         }
     }
 
     public Rectangle NonScaledDestinationRectangle
     {
-        get { return new Rectangle(_nonScaledLocation, _nonScaledSize); }
-        set
+        get { return new Rectangle(NonScaledLocation, NonScaledSize); }
+        protected set
         {
-            _nonScaledLocation = value.Location;
-            _nonScaledSize = value.Size;
-            _needsRecalculcate = true;
-        }
-    }
-
-    public Vector2 RelativeSize
-    {
-        get { return _relativeSize; }
-        set
-        {
-            _relativeSize = value;
-            _needsRecalculcate = true;
-        }
-    }
-
-    public Vector2 RelativeOffset
-    {
-        get { return _relativeOffset; }
-        set
-        {
-            _relativeOffset = value;
-            _needsRecalculcate = true;
-        }
-    }
-
-    public Margin RelativeMargin
-    {
-        get { return _relativeMargin; }
-        set
-        {
-            _relativeMargin = value;
-            _needsRecalculcate = true;
-        }
-    }
-
-    public Alignment Alignment
-    {
-        get { return _alignment; }
-        set
-        {
-            _alignment = value;
-            _needsRecalculcate = true;
+            NonScaledLocation = value.Location;
+            NonScaledSize = value.Size;
+            NeedsRecalculate = true;
         }
     }
 
@@ -114,81 +81,91 @@ internal class UITransform
         set
         {
             _ratio = value;
-            _needsRecalculcate = true;
+            NeedsRecalculate = true;
         }
     }
 
     public void RecalculateIfNeeded()
     {
-        if (_needsRecalculcate)
+        if (NeedsRecalculate)
         {
             Recalculate();
         }
     }
-    protected void Recalculate()
-{
-        if (Parent is not null)
+    public virtual void Recalculate()
+    {
+        ScaledLocation = NonScaledLocation.Scale(ScreenSystem.Scale);
+        ScaledSize = NonScaledSize.Scale(ScreenSystem.Scale);
+        NeedsRecalculate = false;
+        OnRecalculated?.Invoke(this, EventArgs.Empty);
+        /*if (Reference is not null)
         {
             _nonScaledLocation = Parent._nonScaledLocation;
             _nonScaledSize = Parent._nonScaledSize.Scale(RelativeSize);
 
-            RecalculateMargin();
-            RecalculateOffset();
             RecalculateRatio();
             RecalculateAlignment();
+            RecalculateMargin();
+            RecalculateOffset();
         }
         
         _scaledLocation = _nonScaledLocation.Scale(ScreenSystem.Scale);
-        _scaledSize = _nonScaledSize.Scale(ScreenSystem.Scale);
-        OnRecalculated?.Invoke(this, EventArgs.Empty);
-        _needsRecalculcate = false;
+        _scaledSize = _nonScaledSize.Scale(ScreenSystem.Scale);*/
     }
 
-    private void ParentTransform_OnRecalculated(UITransform sender, EventArgs args)
+    public void Component_OnParentChanged(UIComponent? oldParent, UIComponent? newParent)
+    {
+        if (oldParent is null)
+        {
+            ScreenSystem.OnScreenChanged -= Recalculate;
+        }
+        else
+        {
+            oldParent.Transform.OnRecalculated -= ParentTransform_OnRecalculated;
+        }
+
+        if (newParent is null)
+        {
+            ScreenSystem.OnScreenChanged += Recalculate;
+        }
+        else
+        {
+            newParent.Transform.OnRecalculated += ParentTransform_OnRecalculated;
+        }
+    }
+
+    private void ParentTransform_OnRecalculated(object sender, EventArgs args)
     {
         Recalculate();
     }
 
-    private void RecalculateRatio()
+    protected virtual void Recalculate_Ratio()
     {
         if (_ratio == Ratio.Unspecified)
         {
             return;
         }
 
-        var currentRatio = _nonScaledSize.ToRatio();
+        var currentRatio = NonScaledSize.ToRatio();
         if (currentRatio == _ratio)
         {
             return;
         }
 
+        Point nonScaledSize = NonScaledSize;
         bool heightIsOversized = currentRatio.ToFloat() < _ratio.ToFloat();
         if (heightIsOversized)
         {
-            _nonScaledSize.Y = (int)(_nonScaledSize.X / _ratio.ToFloat());
+            nonScaledSize.Y = (int)(NonScaledSize.X / _ratio.ToFloat());
         }
         else
         {
-            _nonScaledSize.X = (int)(_nonScaledSize.Y * _ratio.ToFloat());
+            nonScaledSize.X = (int)(NonScaledSize.Y * _ratio.ToFloat());
         }
+        NonScaledSize = nonScaledSize;
     }
 
-    private void RecalculateOffset()
-    {
-        _nonScaledLocation += Parent._nonScaledSize.Scale(RelativeOffset);
-    }
-
-    private void RecalculateMargin()
-    {
-        int offsetLeft = (int)(Parent._nonScaledSize.X * _relativeMargin.Left);
-        int offsetTop = (int)(Parent._nonScaledSize.Y * _relativeMargin.Top);
-        int offsetRight = -((int)(Parent._nonScaledSize.X * _relativeMargin.Right) + offsetLeft);
-        int offsetBottom = -((int)(Parent._nonScaledSize.Y * _relativeMargin.Bottom) + offsetTop);
-        _nonScaledLocation += new Point(offsetLeft, offsetTop);
-        _nonScaledSize += new Point(offsetRight, offsetBottom);
-    }
-
-    private void RecalculateAlignment()
+    /*private void RecalculateAlignment()
     {
         Rectangle parentRect = Parent.NonScaledDestinationRectangle;
         Rectangle currentRect;
@@ -236,5 +213,5 @@ internal class UITransform
                 _nonScaledLocation.Y = parentRect.Bottom - currentRect.Height;
                 break; 
         }
-    }
+    }*/
 }

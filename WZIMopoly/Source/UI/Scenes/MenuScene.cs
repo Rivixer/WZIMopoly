@@ -8,14 +8,21 @@ internal class MenuScene : Scene
 {
     public override void Create()
     {
-        UIBaseComponent menuScene = CreateBaseComponent();
+        UIImage background = new("Images/MenuScreen");
+        AddComponent(background);
 
-        UIImage background = new(menuScene, "Images/MenuScreen");
+        UITextButton newGameButton = new()
+        {
+            Parent = background,
+            TransformType = TransformType.Relative,
+            Background = new UIImage("Images/Button"),
+            Text = new UIText("Nowa gra", Color.Black)
+        };
 
-        UIContainer buttonContainer = new(menuScene);
+        /*UIFrame buttonContainer = new(menuScene, 10, Color.Black);
         buttonContainer.Transform.Alignment = Alignment.Center;
-        buttonContainer.Transform.RelativeOffset = new(0.0f, 1f);
-        buttonContainer.Transform.RelativeSize = new(0.5f);
+        buttonContainer.Transform.RelativeOffset = new(0.0f, 0.1f);
+        buttonContainer.Transform.RelativeSize = new(0.45f);
         buttonContainer.Transform.Ratio = new(1, 1);
         {
             UITextButton newGameButton = new(buttonContainer);
@@ -27,13 +34,11 @@ internal class MenuScene : Scene
                 Debug.WriteLine("Starting new game...");
             };
 
-            //UIFrame frame = new(buttonContainer, 5, Color.Black);
-
             UITextButton quitButton = new(buttonContainer);
             quitButton.Background = new UIImage(quitButton, "Images/Button", useCache: true);
             quitButton.Text = new UIText(quitButton, "Wyjście z gry", Color.Black);
-            quitButton.Transform.RelativeOffset = new(0.0f, 0.3f);
+            quitButton.Transform.RelativeOffset = new(0.0f, 0.25f);
             quitButton.OnClicked += (s, e) => WZIMopoly.Instance.Exit();
-        }
+        }*/
     }
 }

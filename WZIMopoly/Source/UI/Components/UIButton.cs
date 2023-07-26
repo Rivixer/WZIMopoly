@@ -5,9 +5,6 @@ namespace WZIMopoly.UI;
 
 internal abstract class UIButton : UIComponent
 {
-    protected UIButton(UIComponent parent)
-        : base(parent) { }
-
     public static bool WasClickedInThisFrame { get; set; }
 
     public delegate void OnClickedEventHandler(object sender, EventArgs eventArgs);

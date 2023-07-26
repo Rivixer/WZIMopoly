@@ -12,15 +12,14 @@ internal class UIImage : UIComponent
     private Texture2D? _texture;
     private readonly bool _useCache;
 
-    public UIImage(UIBaseComponent parent, string path, bool useCache = false)
-        : base(parent)
+    public UIImage(string path, bool useCache = false)
+        : base()
     {
         _path = path;
         _useCache = useCache;
     }
 
-    public UIImage(UIBaseComponent parent, Color color)
-        : base(parent)
+    public UIImage(Color color)
     {
         _texture = new Texture2D(ScreenSystem.GraphicsDevice, 1, 1);
         _texture.SetData(new[] { color });
@@ -52,6 +51,7 @@ internal class UIImage : UIComponent
     public override void Draw(GameTime gameTime)
     {
         ContentSystem.SpriteBatch.Draw(Texture, Transform.DestinationRectangle, Color.White);
+        base.Draw(gameTime);
     }
 
     private void LoadTexture()

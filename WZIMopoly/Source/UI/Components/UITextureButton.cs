@@ -6,18 +6,9 @@ internal class UITextureButton : UIButton
 {
     private readonly Color[] _texturePixels;
 
-    public UITextureButton(UIComponent parent, string texturePath)
-        : base(parent)
+    public UITextureButton(string texturePath)
     {
-        Image = new UIImage(this, texturePath);
-        Transform.Ratio = Image.Texture.Bounds.Size.ToRatio();
-        _texturePixels = ReadTexturePixels();
-    }
-
-    public UITextureButton(UIComponent parent, UILazyComponent<UIImage> image)
-        : base(parent)
-    {
-        Image = image.Initialize(this);
+        Image = new UIImage(texturePath);
         Transform.Ratio = Image.Texture.Bounds.Size.ToRatio();
         _texturePixels = ReadTexturePixels();
     }
