@@ -5,45 +5,73 @@ using System.Linq;
 
 namespace WZIMopoly.UI;
 
+internal class ParentChangedEventArgs : EventArgs
+{
+    public ParentChangedEventArgs(UIComponent? newParent, UIComponent? oldParent)
+    {
+        NewParent = newParent;
+        OldParent = oldParent;
+    }
+    public UIComponent? NewParent { get; }
+    public UIComponent? OldParent { get; }
+}
+
 internal abstract class UIComponent
 {
+    private static uint _idCounter;
+
     private readonly List<UIComponent> _children = new();
     private UIComponent? _parent;
 
-    protected UIComponent(UITransform? transform = null)
+    protected UIComponent()
     {
-        Transform = transform ?? new UITransformAbsolute(this);
+        Id = _idCounter++;
+        Transform = UITransform.Default(this);
     }
+
+    public event EventHandler<ParentChangedEventArgs>? OnParentChanged;
+
+    public UITransform Transform { get; protected set; }
+
+    #region Transform Properites
 
     public TransformType TransformType
     {
-        get
-        {
-            Type type = Transform.GetType();
-            if (type == typeof(UITransformAbsolute))
-            {
-                return TransformType.Absolute;
-            }
-            if (type == typeof(UITransformRelative))
-            {
-                return TransformType.Relative;
-            }
-            throw new InvalidOperationException("Invalid transform type.");
-        }
-        set
-        {
-            if (value == TransformType.Absolute && TransformType != TransformType.Absolute)
-            {
-                Transform = new UITransformAbsolute(Transform);
-            }
-            else if (value == TransformType.Relative && TransformType != TransformType.Relative)
-            {
-                Transform = new UITransformRelative(Transform);
-            }
-        }
+        get { return Transform.TransformType; }
+        set { Transform.TransformType = value; }
     }
 
-    public UITransform Transform { get; protected set; }
+    public Vector2 RelativeOffset
+    {
+        get { return Transform.RelativeOffset; }
+        set { Transform.RelativeOffset = value; }
+    }
+
+    public Vector2 RelativeSize
+    {
+        get { return Transform.RelativeSize; }
+        set { Transform.RelativeSize = value; }
+    }
+
+    public Alignment Alignment
+    {
+        get { return Transform.Alignment; }
+        set { Transform.Alignment = value; }
+    }
+
+    public Ratio Ratio
+    {
+        get { return Transform.Ratio; }
+        set { Transform.Ratio = value; }
+    }
+
+    public Rectangle UnscaledDestinationRectangle
+    {
+        get { return Transform.UnscaledDestinationRectangle; }
+        set { Transform.UnscaledDestinationRectangle = value; }
+    }
+
+    #endregion
 
     public IEnumerable<UIComponent> Children => _children;
 
@@ -58,13 +86,22 @@ internal abstract class UIComponent
             if (_parent != value)
             {
                 UIComponent? oldParent = _parent;
+
                 _parent?._children.Remove(this);
                 _parent = value;
                 _parent?._children.Add(this);
-                Transform.Component_OnParentChanged(Parent, oldParent);
+
+                Transform.TransformType = _parent is null
+                    ? TransformType.Absolute
+                    : TransformType.Relative;
+
+                ParentChangedEventArgs eventArgs = new(_parent, oldParent);
+                OnParentChanged?.Invoke(this, eventArgs);
             }
         }
     }
+
+    protected uint Id { get; private set; }
 
     public static bool operator ==(UIComponent? left, UIComponent? right)
     {
@@ -90,6 +127,17 @@ internal abstract class UIComponent
         foreach (UIComponent child in Children)
         {
             child.Draw(gameTime);
+        }
+    }
+
+    public virtual void Destroy()
+    {
+        Parent = null;
+        OnParentChanged = null;
+        Transform.Destroy();
+        if (this is IDisposable disposable)
+        {
+            disposable.Dispose();
         }
     }
 
@@ -232,8 +280,7 @@ internal abstract class UIComponent
     public override bool Equals(object? obj)
     {
         return obj is UIComponent component
-            && GetType() == component.GetType()
-            && Children.SequenceEqual(component.Children);
+            && Id == component.Id;
     }
 
     public override int GetHashCode()
@@ -241,9 +288,8 @@ internal abstract class UIComponent
         unchecked
         {
             int hash = 17;
-            hash = hash * 23 + GetType().GetHashCode();
-            hash = hash * 23 + Children.GetHashCode();
-            return hash;
+            hash = hash * 23 + Id.GetHashCode();
+            return hash * 23;
         }
     }
 }

@@ -33,14 +33,13 @@ internal static class ScreenSystem
     public static GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
     public static GameWindow GameWindow { get; private set; }
     
-
     public static void Update()
     {
         if (Keys.F11.WasClicked())
         {
             if (ScreenType == ScreenType.FullScreen)
             {
-                SetResolution(1280, 768, ScreenType.Windowed);
+                SetResolution(1366, 768, ScreenType.Windowed);
             }
             else
             {

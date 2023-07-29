@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 
-#nullable disable
-
 namespace WZIMopoly.UI.Scenes;
+
+#pragma warning disable CA2000 // Dispose objects before losing scope
 
 internal class MenuScene : Scene
 {
@@ -11,34 +11,41 @@ internal class MenuScene : Scene
         UIImage background = new("Images/MenuScreen");
         AddComponent(background);
 
-        UITextButton newGameButton = new()
+        UIContainer buttonContainer = new()
         {
             Parent = background,
-            TransformType = TransformType.Relative,
-            Background = new UIImage("Images/Button"),
-            Text = new UIText("Nowa gra", Color.Black)
+            Alignment = Alignment.Center,
+            RelativeSize = new(0.25f),
         };
 
-        /*UIFrame buttonContainer = new(menuScene, 10, Color.Black);
-        buttonContainer.Transform.Alignment = Alignment.Center;
-        buttonContainer.Transform.RelativeOffset = new(0.0f, 0.1f);
-        buttonContainer.Transform.RelativeSize = new(0.45f);
-        buttonContainer.Transform.Ratio = new(1, 1);
+        UIButton newGameButton = new()
         {
-            UITextButton newGameButton = new(buttonContainer);
-            newGameButton.Background = new UIImage(newGameButton, "Images/Button", useCache: true);
-            newGameButton.Text = new UIText(newGameButton, "Nowa gra", Color.Black);
-            newGameButton.Transform.Alignment = Alignment.Top;
-            newGameButton.OnClicked += (s, e) =>
-            {
-                Debug.WriteLine("Starting new game...");
-            };
+            Parent = buttonContainer,
+            Background = new("Images/Button", useCache: true),
+            Text = new("Nowa gra", Color.Black),
+        };
+        newGameButton.OnClicked += (s, e) => Debug.WriteLine("Starting new game...");
 
-            UITextButton quitButton = new(buttonContainer);
-            quitButton.Background = new UIImage(quitButton, "Images/Button", useCache: true);
-            quitButton.Text = new UIText(quitButton, "Wyjście z gry", Color.Black);
-            quitButton.Transform.RelativeOffset = new(0.0f, 0.25f);
-            quitButton.OnClicked += (s, e) => WZIMopoly.Instance.Exit();
-        }*/
+        UIButton quitGameButton = new()
+        {
+            Parent = buttonContainer,
+            Background = new("Images/Button", useCache: true),
+            Text = new("Wyjście z gry", Color.Black),
+            RelativeOffset = new(0.0f, 0.5f),
+        };
+        quitGameButton.OnClicked += (s, e) => WZIMopoly.Instance.Exit();
+
+        UIText versionText = new("There will be a version of the game here someday", Color.White) { Size = 0.5f };
+        UIFrame versionFrame = new(thickness: 4, new Color(255, 255, 255, 150))
+        {
+            Parent = background,
+            Ratio = versionText.MeasureDimensions().ToPoint().ToRatio(),
+            // TODO: A separate method for determining this size would be useful
+            RelativeSize = (versionText.MeasureDimensions() + new Vector2(50, 20)) / background.UnscaledDestinationRectangle.Size.ToVector2(),
+            Alignment = Alignment.Bottom,
+            RelativeOffset = new(0.0f, -0.01f),
+        };
+        versionText.Parent = versionFrame;
+        UIImage versionBackground = new(new Color(255, 255, 255, 25)) { Parent = versionFrame };
     }
 }

@@ -2,18 +2,17 @@
 
 namespace WZIMopoly.UI;
 
-internal class UIFrame : UIComponent
+internal class UIFrame : UIComponent, IUIPositionInfluencer
 {
     private readonly UIImage[] _lines = new UIImage[4];
     private int _thickness;
     private Color _color;
 
-    public UIFrame(UIComponent parent, int thickness, Color color)
-        //: base(parent)
+    public UIFrame(int thickness, Color color)
     {
         _thickness = thickness;
         _color = color;
-        CreateLines();
+        Transform.OnRecalculated += (s, e) => CreateLines();
     }
 
     public int Thickness
@@ -36,46 +35,56 @@ internal class UIFrame : UIComponent
         }
     }
 
-    public override void Draw(GameTime gameTime)
+    public Vector2 GetAdditionalRelativeOffsetForChildren()
     {
-        base.Draw(gameTime);
-        foreach (UIImage line in _lines)
-        {
-            line?.Draw(gameTime);
-            Debug.WriteLine(line?.Transform.DestinationRectangle);
-        }
-        Debug.WriteLine("");
-        
+        Point size = Transform.UnscaledDestinationRectangle.Size;
+        return new(Thickness / (float)size.X, Thickness / (float)size.Y);
+    }
+    
+    public Vector2 GetAdditionalRelativeSizeForChildren()
+    {
+        return Vector2.One - 2 * GetAdditionalRelativeOffsetForChildren();
     }
 
     private void CreateLines()
     {
-        Transform.RecalculateIfNeeded();
         for (int i = 0; i < 4; i++)
         {
-            //UIImage line = new(this, _color);
-            Rectangle rect = Transform.NonScaledDestinationRectangle;
+            if (_lines[i] is null)
+            {
+                _lines[i] = new UIImage(_color)
+                {
+                    Parent = this,
+                    TransformType = TransformType.Absolute,
+                };
+            }
+
+            // TODO: Refactor
+            Rectangle rect = Transform.UnscaledDestinationRectangle;
+            Vector2 thickness = new(_thickness);
             switch (i)
             {
-                case 0:
-                    rect.Width = _thickness;
+                case 0: // Left line
+                    rect.Width = (int)thickness.X;
+                    rect.Height -= 2 * (int)thickness.Y;
+                    rect.Y += (int)thickness.Y;
                     break;
-                case 1:
-                    rect.Height = _thickness;
+                case 1: // Top line
+                    rect.Height = (int)thickness.X;
                     break;
-                case 2:
-                    rect.X += rect.Width - _thickness;
-                    rect.Width = _thickness;
+                case 2: // Right line
+                    rect.X += rect.Width - (int)thickness.X;
+                    rect.Y += (int)thickness.Y;
+                    rect.Width = (int)thickness.X;
+                    rect.Height -= 2 * (int)thickness.Y;
                     break;
-                case 3:
-                    rect.Y += rect.Height - _thickness;
-                    rect.Height = _thickness;
+                case 3: // Bottom line
+                    rect.Y += rect.Height - (int)thickness.Y;
+                    rect.Height = (int)thickness.Y;
                     break;
             }
-            //line.Transform.Parent = null!;
-            //line.Transform.NonScaledDestinationRectangle = rect;
-            //line.Transform.RecalculateIfNeeded();
-            //_lines[i] = line;
+
+            _lines[i].UnscaledDestinationRectangle = rect;
         }
     }
 }
