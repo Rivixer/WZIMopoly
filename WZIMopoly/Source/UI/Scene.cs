@@ -5,15 +5,15 @@ namespace WZIMopoly.UI;
 
 internal abstract class Scene
 {
-    private readonly List<UIBaseComponent> _baseComponents = new();
+    private readonly List<UIComponent> _components = new();
 
-    protected IEnumerable<UIBaseComponent> BaseComponents => _baseComponents;
+    protected IEnumerable<UIComponent> Components => _components;
 
     public abstract void Create();
 
     public virtual void Update(GameTime gameTime)
     {
-        foreach (UIBaseComponent component in BaseComponents)
+        foreach (UIComponent component in Components)
         {
             component.Update(gameTime);
         }
@@ -21,15 +21,19 @@ internal abstract class Scene
 
     public virtual void Draw(GameTime gameTime)
     {
-        foreach (UIBaseComponent component in BaseComponents)
+        foreach (UIComponent component in Components)
         {
             component.Draw(gameTime);
         }
     }
-    protected UIBaseComponent CreateBaseComponent()
+
+    protected void AddComponent(UIComponent component)
     {
-        UIBaseComponent component = new();
-        _baseComponents.Add(component);
-        return component;
+        _components.Add(component);
+    }
+
+    protected void RemoveComponent(UIComponent component)
+    {
+        _components.Remove(component);
     }
 }

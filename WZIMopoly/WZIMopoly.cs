@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using WZIMopoly.UI;
 using WZIMopoly.UI.Scenes;
@@ -13,7 +14,7 @@ namespace WZIMopoly;
 internal class WZIMopoly : Game
 {
     private static readonly List<Scene> _scenes = new();
-    private GraphicsDeviceManager _graphics;
+    private readonly GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
     
     public WZIMopoly()
@@ -70,6 +71,25 @@ internal class WZIMopoly : Game
             Exit();
         }
 
+        if (Keys.F3.WasReleased())
+        {
+            List<UIImage> images = new();
+            for(int i = 0; i < 10000; i++)
+            {
+                UIImage image = new("Images/Button", useCache: false);
+                images.Add(image);
+                _ = image.Texture; // force load
+                _ = image.TexturePixels;
+            }
+            images.ForEach(x => x.Destroy());
+            images.Clear();
+        }
+
+        if (Keys.F4.WasReleased())
+        {
+            GC.Collect();
+        }
+       
         base.Update(gameTime);
     }
 

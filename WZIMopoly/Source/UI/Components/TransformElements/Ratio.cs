@@ -15,7 +15,6 @@ internal struct Ratio : IEquatable<Ratio>
 
     public static Ratio Unspecified => new(0, 0);
 
-
     public static bool operator ==(Ratio left, Ratio right)
     {
         return left.Equals(right);
@@ -24,6 +23,11 @@ internal struct Ratio : IEquatable<Ratio>
     public static bool operator !=(Ratio left, Ratio right)
     {
         return !(left == right);
+    }
+
+    public static implicit operator Ratio(float value)
+    {
+        return value.ToRatio();
     }
 
     public override readonly bool Equals(object? obj)

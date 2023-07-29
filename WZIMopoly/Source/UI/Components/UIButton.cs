@@ -1,31 +1,74 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace WZIMopoly.UI;
 
-internal abstract class UIButton : UIComponent
+internal class UIButton : UIComponent
 {
-    protected UIButton(UIComponent parent)
-        : base(parent) { }
+    private UIImage? _background;
+    private UIText? _text;
 
     public static bool WasClickedInThisFrame { get; set; }
 
-    public delegate void OnClickedEventHandler(object sender, EventArgs eventArgs);
-    public delegate void OnPressedEventHandler(object sender, EventArgs eventArgs);
-    public delegate void OnReleasedEventHandler(object sender, EventArgs eventArgs);
+    public event EventHandler? OnClicked;
 
-    public event OnClickedEventHandler? OnClicked;
-    public event OnPressedEventHandler? OnPressed;
-    public event OnReleasedEventHandler? OnReleased;
+    public bool IsEnabled { get; set; } = true;
 
-    public bool IsEnabled { get; set; }
+    public UIImage? Background
+    {
+        get { return _background; }
+        set
+        {
+            _background = value;
+            if (_background is not null)
+            {
+                _background.Parent = this;
+                Transform.Ratio = _background.Texture.Width / (float)_background.Texture.Height;
+            }
+        }
+    }
 
-    public virtual bool IsHovered
+    public UIText? Text
+    {
+        get { return _text; }
+        set
+        {
+            _text = value;
+            if (_text is not null)
+            {
+                _text.Parent = this;
+                _text.Transform.Alignment = Alignment.Center;
+            }
+        }
+    }
+
+    public bool IsHovered
     {
         get
         {
             Point cursorPostion = MouseSystem.Position;
-            return Transform.DestinationRectangle.Contains(cursorPostion);
+            bool isInRect = Transform.DestinationRectangle.Contains(cursorPostion);
+
+            if (_background is null || isInRect is false)
+            {
+                return isInRect;
+            }
+
+            // Button is hovered if the mouse is over a non-transparent pixel.
+            // TODO: Better naming and some comments would be nice.
+            Texture2D texture = _background.Texture;
+            Rectangle destinationRect = _background.Transform.DestinationRectangle;
+            Point mouseOffset = cursorPostion - destinationRect.Location;
+            int mouseOffsetX = mouseOffset.X * texture.Width / destinationRect.Size.X;
+            int mouseOffsetY = mouseOffset.Y * texture.Height / destinationRect.Size.Y;
+            int index = mouseOffsetY * texture.Width + mouseOffsetX;
+
+            // TODO: Maybe instead of checking alpha value, we should keep
+            // non-transparent pixels as a boolean array? That would be more efficient.
+            Color[] texturePixels = _background.TexturePixels;
+            return index >= 0 && index < texturePixels.Length
+                && texturePixels[index].A > 0;
         }
     }
 
@@ -33,7 +76,8 @@ internal abstract class UIButton : UIComponent
     {
         base.Update(gameTime);
 
-        if (!WasClickedInThisFrame
+        if (IsEnabled
+            && !WasClickedInThisFrame
             && MouseSystem.WasLeftButtonClicked()
             && IsHovered)
         {
