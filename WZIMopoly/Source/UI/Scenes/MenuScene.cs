@@ -2,8 +2,6 @@
 
 namespace WZIMopoly.UI.Scenes;
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 internal class MenuScene : Scene
 {
     public override void Create()
@@ -21,27 +19,27 @@ internal class MenuScene : Scene
         UIButton newGameButton = new()
         {
             Parent = buttonContainer,
-            Background = new("Images/Button", useCache: true),
+            Background = new("Images/Button"),
             Text = new("Nowa gra", Color.Black),
         };
-        newGameButton.OnClicked += (s, e) => Debug.WriteLine("Starting new game...");
+        newGameButton.OnClick += (s, e) => Debug.WriteLine("Starting new game...");
 
         UIButton quitGameButton = new()
         {
             Parent = buttonContainer,
-            Background = new("Images/Button", useCache: true),
+            Background = new("Images/Button"),
             Text = new("Wyjście z gry", Color.Black),
             RelativeOffset = new(0.0f, 0.5f),
         };
-        quitGameButton.OnClicked += (s, e) => WZIMopoly.Instance.Exit();
+        quitGameButton.OnClick += (s, e) => WZIMopoly.Instance.Exit();
 
         UIText versionText = new("There will be a version of the game here someday", Color.White) { Size = 0.5f };
-        UIFrame versionFrame = new(thickness: 4, new Color(255, 255, 255, 150))
+        UIFrame versionFrame = new(thickness: 3, new Color(255, 255, 255, 100))
         {
             Parent = background,
             Ratio = versionText.MeasureDimensions().ToPoint().ToRatio(),
             // TODO: A separate method for determining this size would be useful
-            RelativeSize = (versionText.MeasureDimensions() + new Vector2(50, 20)) / background.UnscaledDestinationRectangle.Size.ToVector2(),
+            RelativeSize = (versionText.MeasureDimensions() + new Vector2(50, 20)) / background.Transform.UnscaledDestinationRectangle.Size.ToVector2(),
             Alignment = Alignment.Bottom,
             RelativeOffset = new(0.0f, -0.01f),
         };

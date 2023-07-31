@@ -7,12 +7,12 @@ internal static class TransformExtensions
 {
     public static Point Scale(this Point point, Vector2 scale)
     {
-        return new Point((int)(point.X * scale.X), (int)(point.Y * scale.Y));
+        return new Point((int)(point.X * scale.X + 0.5), (int)(point.Y * scale.Y + 0.5));
     }
 
     public static Point Scale(this Point point, float scale)
     {
-        return new Point((int)(point.X * scale), (int)(point.Y * scale));
+        return new Point((int)(point.X * scale + 0.5), (int)(point.Y * scale + 0.5));
     }
 
     public static Vector2 Scale(this Vector2 vector, Vector2 scale)

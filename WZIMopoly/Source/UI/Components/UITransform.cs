@@ -20,6 +20,9 @@ internal class UITransform
     private Vector2 _relativeSize = Vector2.One;
     private Alignment _alignment = Alignment.TopLeft;
 
+    private Point _minSize = new(1);
+    private Point _maxSize = new(int.MaxValue);
+
     private Ratio _ratio = Ratio.Unspecified;
 
     #endregion
@@ -27,14 +30,14 @@ internal class UITransform
     public UITransform(UIComponent component)
     {
         Component = component;
-        component.OnParentChanged += Component_OnParentChanged;
+        component.OnParentChange += Component_OnParentChanged;
         if (component.Parent is not null)
         {
-            component.Parent.Transform.OnRecalculated += ParentTransform_OnRecalculated;
+            component.Parent.Transform.OnRecalculate += ParentTransform_OnRecalculated;
         }
         else
         {
-            ScreenSystem.OnScreenChanged += Recalculate;
+            ScreenSystem.OnScreenChange += Recalculate;
         }
         _needsRecalculate = true;
     }
@@ -50,7 +53,7 @@ internal class UITransform
         return transform;
     }
 
-    public event EventHandler? OnRecalculated;
+    public event EventHandler? OnRecalculate;
 
     public UIComponent Component { get; private set; }
 
@@ -61,7 +64,7 @@ internal class UITransform
         get { return _transformType; }
         set
         {
-            if (value == _transformType)
+            if (_transformType == value)
             {
                 return;
             }
@@ -81,7 +84,7 @@ internal class UITransform
         set
         {
             CheckAndThrowIfNotRelative();
-            if (value == _relativeSize)
+            if (_relativeSize == value)
             {
                 return;
             }
@@ -101,7 +104,7 @@ internal class UITransform
         set
         {
             CheckAndThrowIfNotRelative();
-            if (value == _relativeOffset)
+            if (_relativeOffset == value)
             {
                 return;
             }
@@ -116,11 +119,51 @@ internal class UITransform
         set
         {
             CheckAndThrowIfNotRelative();
-            if (value == _alignment)
+            if (_alignment == value)
             {
                 return;
             }
             _alignment = value;
+            _needsRecalculate = true;
+        }
+    }
+
+    public Point MinSize
+    {
+        get { return _minSize; }
+        set
+        {
+            if (_minSize == value)
+            {
+                return;
+            }
+            if (value.X < 0 || value.Y < 0)
+            {
+                throw new ArgumentException(
+                    "MinSize cannot have negative components.",
+                    nameof(value));
+            }
+            _minSize = value;
+            _needsRecalculate = true;
+        }
+    }
+
+    public Point MaxSize
+    {
+        get { return _maxSize; }
+        set
+        {
+            if (_maxSize == value)
+            {
+                return;
+            }
+            if (value.X < _minSize.X || value.Y < _minSize.Y)
+            {
+                throw new ArgumentException(
+                    "MaxSize cannot be smaller than MinSize.",
+                    nameof(value));
+            }
+            _maxSize = value;
             _needsRecalculate = true;
         }
     }
@@ -130,7 +173,7 @@ internal class UITransform
         get { return _ratio; }
         set
         {
-            if (value == _ratio)
+            if (_ratio == value)
             {
                 return;
             }
@@ -139,37 +182,71 @@ internal class UITransform
         }
     }
 
-    public Rectangle DestinationRectangle
+    public Point ScaledLocation
     {
-        get { return new Rectangle(_scaledLocation, _scaledSize); }
+        get { return _scaledLocation; }
         set
         {
             CheckAndThrowIfNotAbsolute();
-            if (value == DestinationRectangle)
+            if (ScaledLocation == value)
             {
                 return;
             }
-            _unscaledLocation = value.Location.Scale(Vector2.One / ScreenSystem.Scale);
-            _unscaledSize = value.Size.Scale(Vector2.One / ScreenSystem.Scale);
+            _unscaledLocation = value.Scale(Vector2.One / ScreenSystem.Scale);
             _needsRecalculate = true;
         }
     }
 
-    public Rectangle UnscaledDestinationRectangle
+    public Point UnscaledLocation
     {
-        get { return new Rectangle(_unscaledLocation, _unscaledSize); }
+        get { return _unscaledLocation; }
         set
         {
             CheckAndThrowIfNotAbsolute();
-            if (value == UnscaledDestinationRectangle)
+            if (_unscaledLocation == value)
             {
                 return;
             }
-            _unscaledLocation = value.Location;
-            _unscaledSize = value.Size;
+            _unscaledLocation = value;
             _needsRecalculate = true;
         }
     }
+
+    public Point ScaledSize
+    {
+        get { return _scaledSize; }
+        set
+        {
+            CheckAndThrowIfNotAbsolute();
+            if (_scaledSize == value)
+            {
+                return;
+            }
+            _unscaledSize = value.Scale(Vector2.One / ScreenSystem.Scale);
+            _needsRecalculate = true;
+        }
+    }
+
+    public Point UnscaledSize
+    {
+        get { return _unscaledSize; }
+        set
+        {
+            CheckAndThrowIfNotAbsolute();
+            if (_unscaledSize == value)
+            {
+                return;
+            }
+            _unscaledSize = value;
+            _needsRecalculate = true;
+        }
+    }
+
+    public Rectangle DestinationRectangle
+        => new(_scaledLocation, _scaledSize);
+
+    public Rectangle UnscaledDestinationRectangle
+        => new(_unscaledLocation, _unscaledSize);
 
     #endregion
 
@@ -194,10 +271,11 @@ internal class UITransform
                 RecalculateAbsolute();
                 break;
         }
+        
         _scaledLocation = _unscaledLocation.Scale(ScreenSystem.Scale);
-        _scaledSize = _unscaledSize.Scale(ScreenSystem.Scale);
+        _scaledSize = MathUtils.Clamp(_unscaledSize.Scale(ScreenSystem.Scale), _minSize, _maxSize);
         _needsRecalculate = false;
-        OnRecalculated?.Invoke(this, EventArgs.Empty);
+        OnRecalculate?.Invoke(this, EventArgs.Empty);
     }
 
     private void RecalculateRelative()
@@ -320,11 +398,11 @@ internal class UITransform
     {
         if (Component.Parent is null)
         {
-            ScreenSystem.OnScreenChanged -= Recalculate;
+            ScreenSystem.OnScreenChange -= Recalculate;
         }
         else
         {
-            Component.Parent.Transform.OnRecalculated -= ParentTransform_OnRecalculated;
+            Component.Parent.Transform.OnRecalculate -= ParentTransform_OnRecalculated;
         }
     }
 
@@ -335,24 +413,24 @@ internal class UITransform
         Recalculate();
     }
 
-    private void Component_OnParentChanged(object? sender, ParentChangedEventArgs args)
+    private void Component_OnParentChanged(object? sender, ParentChangeEventArgs args)
     {
         if (args.OldParent is { } oldParent)
         {
-            oldParent.Transform.OnRecalculated -= ParentTransform_OnRecalculated;
+            oldParent.Transform.OnRecalculate -= ParentTransform_OnRecalculated;
         }
         else
         {
-            ScreenSystem.OnScreenChanged -= Recalculate;
+            ScreenSystem.OnScreenChange -= Recalculate;
         }
 
         if (args.NewParent is { } newParent)
         {
-            newParent.Transform.OnRecalculated += ParentTransform_OnRecalculated;
+            newParent.Transform.OnRecalculate += ParentTransform_OnRecalculated;
         }
         else
         {
-            ScreenSystem.OnScreenChanged += Recalculate;
+            ScreenSystem.OnScreenChange += Recalculate;
         }
     }
 

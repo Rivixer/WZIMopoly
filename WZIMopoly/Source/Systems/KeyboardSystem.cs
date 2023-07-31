@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WZIMopoly;
 
@@ -27,5 +30,18 @@ internal static class KeyboardSystem
     {
         return s_previousKeyboard.IsKeyDown(key)
             && s_currentKeyboard.IsKeyDown(key);
+    }
+
+    public static IEnumerable<Keys> GetClickedKeys()
+    {
+        Keys[] wasReleasedKeys = s_previousKeyboard.GetPressedKeys();
+        Keys[] isPressedKeys = s_currentKeyboard.GetPressedKeys();
+        foreach((Keys releasedKey, Keys pressedKey) in wasReleasedKeys.Zip(isPressedKeys))
+        {
+            if (releasedKey != pressedKey)
+            {
+                yield return pressedKey;
+            }
+        }
     }
 }

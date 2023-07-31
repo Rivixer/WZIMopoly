@@ -43,6 +43,7 @@ internal class WZIMopoly : Game
     {
         ScreenSystem.Initialize(_graphics, Window);
         ScreenSystem.ApplyChanges();
+        DebugConsole.Initialize();
 
         base.Initialize();
     }
@@ -65,6 +66,7 @@ internal class WZIMopoly : Game
         UIButton.WasClickedInThisFrame = false;
 
         CurrentScene.Update(gameTime);
+        DebugConsole.Update(gameTime);
 
         if (Keys.Escape.WasReleased())
         {
@@ -76,7 +78,7 @@ internal class WZIMopoly : Game
             List<UIImage> images = new();
             for(int i = 0; i < 10000; i++)
             {
-                UIImage image = new("Images/Button", useCache: false);
+                UIImage image = new("Images/Button");
                 images.Add(image);
                 _ = image.Texture; // force load
                 _ = image.TexturePixels;
@@ -102,6 +104,7 @@ internal class WZIMopoly : Game
         base.Draw(gameTime);
 
         CurrentScene.Draw(gameTime);
+        DebugConsole.Draw(gameTime);
 
         _spriteBatch.End();
     }

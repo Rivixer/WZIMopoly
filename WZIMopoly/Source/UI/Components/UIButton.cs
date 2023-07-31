@@ -11,9 +11,7 @@ internal class UIButton : UIComponent
 
     public static bool WasClickedInThisFrame { get; set; }
 
-    public event EventHandler? OnClicked;
-
-    public bool IsEnabled { get; set; } = true;
+    public event EventHandler? OnClick;
 
     public UIImage? Background
     {
@@ -50,7 +48,7 @@ internal class UIButton : UIComponent
             Point cursorPostion = MouseSystem.Position;
             bool isInRect = Transform.DestinationRectangle.Contains(cursorPostion);
 
-            if (_background is null || isInRect is false)
+            if (_background is null || isInRect is false || _background.Color is not null)
             {
                 return isInRect;
             }
@@ -66,7 +64,7 @@ internal class UIButton : UIComponent
 
             // TODO: Maybe instead of checking alpha value, we should keep
             // non-transparent pixels as a boolean array? That would be more efficient.
-            Color[] texturePixels = _background.TexturePixels;
+            Color[] texturePixels = _background.TexturePixels!;
             return index >= 0 && index < texturePixels.Length
                 && texturePixels[index].A > 0;
         }
@@ -82,7 +80,7 @@ internal class UIButton : UIComponent
             && IsHovered)
         {
             WasClickedInThisFrame = true;
-            OnClicked?.Invoke(this, EventArgs.Empty);
+            OnClick?.Invoke(this, EventArgs.Empty);
         }
     }
 }

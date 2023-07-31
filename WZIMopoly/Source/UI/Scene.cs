@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WZIMopoly.UI;
 
@@ -13,6 +14,7 @@ internal abstract class Scene
 
     public virtual void Update(GameTime gameTime)
     {
+        Debug.WriteLine(Components.First().Transform.DestinationRectangle);
         foreach (UIComponent component in Components)
         {
             component.Update(gameTime);

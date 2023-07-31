@@ -15,8 +15,8 @@ internal enum ScreenType
 
 internal static class ScreenSystem
 {
-    public delegate void OnScreenChangedEventHandler();
-    public static event OnScreenChangedEventHandler OnScreenChanged;
+    public delegate void OnScreenChangeEventHandler();
+    public static event OnScreenChangeEventHandler OnScreenChange;
 
     /// <summary>
     /// The default size the UI is designed for.
@@ -69,6 +69,6 @@ internal static class ScreenSystem
         GraphicsDeviceManager.IsFullScreen = ScreenType is ScreenType.FullScreen or ScreenType.Borderless;
         GameWindow.IsBorderless = ScreenType is ScreenType.Borderless;
         GraphicsDeviceManager.ApplyChanges();
-        OnScreenChanged?.Invoke();
+        OnScreenChange?.Invoke();
     }
 }

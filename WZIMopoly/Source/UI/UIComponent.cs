@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace WZIMopoly.UI;
 
-internal class ParentChangedEventArgs : EventArgs
+internal class ParentChangeEventArgs : EventArgs
 {
-    public ParentChangedEventArgs(UIComponent? newParent, UIComponent? oldParent)
+    public ParentChangeEventArgs(UIComponent? newParent, UIComponent? oldParent)
     {
         NewParent = newParent;
         OldParent = oldParent;
@@ -23,13 +23,21 @@ internal abstract class UIComponent
     private readonly List<UIComponent> _children = new();
     private UIComponent? _parent;
 
+    private bool _isEnabled = true;
+
     protected UIComponent()
     {
         Id = _idCounter++;
         Transform = UITransform.Default(this);
     }
 
-    public event EventHandler<ParentChangedEventArgs>? OnParentChanged;
+    public event EventHandler<ParentChangeEventArgs>? OnParentChange;
+
+    public bool IsEnabled
+    {
+        get { return _isEnabled && (Parent?.IsEnabled ?? true); }
+        set { _isEnabled = value; }
+    }
 
     public UITransform Transform { get; protected set; }
 
@@ -68,7 +76,9 @@ internal abstract class UIComponent
     public Rectangle UnscaledDestinationRectangle
     {
         get { return Transform.UnscaledDestinationRectangle; }
-        set { Transform.UnscaledDestinationRectangle = value; }
+        set { Transform.UnscaledLocation = value.Location;
+            Transform.UnscaledSize = value.Size;
+        }
     }
 
     #endregion
@@ -95,8 +105,8 @@ internal abstract class UIComponent
                     ? TransformType.Absolute
                     : TransformType.Relative;
 
-                ParentChangedEventArgs eventArgs = new(_parent, oldParent);
-                OnParentChanged?.Invoke(this, eventArgs);
+                ParentChangeEventArgs eventArgs = new(_parent, oldParent);
+                OnParentChange?.Invoke(this, eventArgs);
             }
         }
     }
@@ -133,7 +143,7 @@ internal abstract class UIComponent
     public virtual void Destroy()
     {
         Parent = null;
-        OnParentChanged = null;
+        OnParentChange = null;
         Transform.Destroy();
         if (this is IDisposable disposable)
         {
