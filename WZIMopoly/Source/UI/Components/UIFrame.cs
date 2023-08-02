@@ -1,132 +1,104 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Linq;
 
 namespace WZIMopoly.UI;
 
-internal class UIFrame : UIComponent, IUIPositionInfluencer
+internal class UIFrame : UIComponent
 {
     private readonly UIImage[] _lines = new UIImage[4];
-    private int _unscaledThickness;
-    private Point _scaledThickness;
-    private UIContainer _innerRectangle;
+    private readonly UIContainer _innerRectangle;
+
+    private int _thickness;
     private Color _color;
 
     public UIFrame(int thickness, Color color)
         : base()
     {
-        _unscaledThickness = thickness;
+        _thickness = thickness;
         _color = color;
+
         _innerRectangle = new UIContainer()
         {
             Parent = this,
             TransformType = TransformType.Absolute,
         };
-        CreateLines();
-        Transform.OnRecalculate += (s, e) =>
-        {
-            ScaleThickness();
-            RecalculateLines();
-        };
 
-        OnParentChange += (s, e) =>
-        {
-            UIComponent child = (s as UIComponent)!;
-            if (child != this && e.NewParent == this)
-            {
-                (s as UIComponent)!.Parent = _innerRectangle;
-            }
-        };
-    }
+        UpdateLines(); // Force creation
 
-    private void UIFrame_OnChildAdd(object? sender, EventArgs e)
-    {
-        UIComponent child = (sender as UIComponent)!;
-        child.Parent = _innerRectangle;
+        Transform.OnRecalculate += Transform_OnRecalculate;
+        OnChildAdd += Component_OnChildAdd;
     }
 
     public int Thickness
     {
-        get { return _unscaledThickness; }
+        get { return _thickness; }
         set
         {
-            if (_unscaledThickness != value)
+            if (_thickness == value)
             {
-                _unscaledThickness = value;
-                ScaleThickness();
-                RecalculateLines();
-            }
+                return;
+            }    
+            _thickness = value;
+            UpdateLines();
         }
     }
 
-    public Vector2 GetAdditionalRelativeOffsetForChildren()
+    private void UpdateLines()
     {
-        return Vector2.Zero;
-    }
+        int updatedLines = 0;
+        Rectangle referenceRect = Transform.UnscaledDestinationRectangle;
 
-    public Vector2 GetAdditionalRelativeSizeForChildren()
-    {
-        return Vector2.One;
-    }
-
-    private void ScaleThickness()
-    {
-        _scaledThickness = new Point(
-            (int)(_unscaledThickness * ScreenSystem.Scale.X + 0.5f),
-            (int)(_unscaledThickness * ScreenSystem.Scale.Y + 0.5f));
-    }
-
-    private void CreateLines()
-    {
-        for (int i = 0; i < 4; i++)
+        void UpdateLine(Vector2 start, Vector2 end)
         {
-            _lines[i] = new UIImage(_color)
+            if (_lines[updatedLines] is null)
             {
-                Parent = this,
-                TransformType = TransformType.Absolute,
-            };
+                _lines[updatedLines] = new UIImage(_color)
+                {
+                    Parent = this,
+                    TransformType = TransformType.Absolute,
+                    Rotation = (float)Math.Atan2(end.Y - start.Y, end.X - start.X),
+                    Origin = Vector2.Zero,
+                };
+            }
+
+            float length = Vector2.Distance(start, end);
+            _lines[updatedLines].Transform.UnscaledLocation = start.ToPoint();
+            _lines[updatedLines++].Transform.UnscaledSize = new((int)length, _thickness);
         }
+
+        UpdateLine( // Top line
+            new(referenceRect.Left + _thickness, referenceRect.Top),
+            new(referenceRect.Right - _thickness, referenceRect.Top));
+        UpdateLine( // Bottom line
+            new(referenceRect.Left, referenceRect.Bottom - _thickness),
+            new(referenceRect.Right, referenceRect.Bottom - _thickness));
+        UpdateLine( // Left line
+            new(referenceRect.Left + _thickness, referenceRect.Top),
+            new(referenceRect.Left + _thickness, referenceRect.Bottom - _thickness));
+        UpdateLine( // Right line
+            new(referenceRect.Right, referenceRect.Top),
+            new(referenceRect.Right, referenceRect.Bottom - _thickness));
+
+        _innerRectangle.Transform.UnscaledLocation = new(
+            referenceRect.X + _thickness,
+            referenceRect.Y + _thickness);
+        _innerRectangle.Transform.UnscaledSize = new(
+            referenceRect.Width - 2 * _thickness,
+            referenceRect.Height - 2 * _thickness);
     }
 
-    private void RecalculateLines()
+    private void Transform_OnRecalculate(object? sender, EventArgs e)
     {
-        Point referenceLocation = Transform.ScaledLocation;
-        Point referenceSize = Transform.ScaledSize;
+        UpdateLines();
+    }
 
-        // Left line
-        _lines[0].Transform.ScaledLocation = new(
-            referenceLocation.X,
-            referenceLocation.Y + _scaledThickness.Y);
-        _lines[0].Transform.ScaledSize = new(
-            _scaledThickness.X,
-            referenceSize.Y - 2 * _scaledThickness.Y);
-
-        // Top line
-        _lines[1].Transform.ScaledLocation = referenceLocation;
-        _lines[1].Transform.ScaledSize = new(
-            referenceSize.X,
-            _scaledThickness.Y);
-
-        // Right line
-        _lines[2].Transform.ScaledLocation = new(
-            referenceLocation.X + referenceSize.X - _scaledThickness.X,
-            referenceLocation.Y + _scaledThickness.Y);
-        _lines[2].Transform.ScaledSize = new(
-            _scaledThickness.X,
-            referenceSize.Y - 2 * _scaledThickness.Y);
-
-        // Bottom line
-        _lines[3].Transform.ScaledLocation = new(
-            referenceLocation.X,
-            referenceLocation.Y + referenceSize.Y - _scaledThickness.Y);
-        _lines[3].Transform.ScaledSize = new(
-            referenceSize.X,
-            _scaledThickness.Y);
-
-        /*_innerRectangle.Transform.ScaledLocation = new(
-            referenceLocation.X + _scaledThickness.X,
-            referenceLocation.Y + _scaledThickness.Y);
-        _innerRectangle.Transform.ScaledLocation = new(
-            referenceSize.X - 2 * _scaledThickness.X,
-            referenceSize.Y - 2 * _scaledThickness.Y);*/
+    /// <summary>
+    /// Switches the parent of an added component to <see cref="_innerRectangle"/>.
+    /// </summary>
+    private void Component_OnChildAdd(object? sender, ChildChangeEventArgs e)
+    {
+        UIComponent child = e.Child;
+        child.Parent = _innerRectangle;
     }
 }

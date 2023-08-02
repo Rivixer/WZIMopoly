@@ -20,10 +20,9 @@ internal class UIImage : UIComponent
     private readonly string? _path;
     private readonly Color? _color;
 
-    private float _opacity = 1.0f;
-    private Texture2D? _texture;
     private readonly Lazy<Color[]>? _texturePixels;
-
+    private Texture2D? _texture;
+    
     public UIImage(string path)
         : base()
     {
@@ -37,7 +36,7 @@ internal class UIImage : UIComponent
         _color = color;
         _texture = new Texture2D(ScreenSystem.GraphicsDevice, 1, 1);
         _texture.SetData(new[] { color });
-        _opacity = color.A / 255.0f;
+        Opacity = color.A / 255.0f;
     }
 
     public Texture2D Texture
@@ -62,18 +61,23 @@ internal class UIImage : UIComponent
         get { return _color; }
     }
 
-    public float Opacity
-    {
-        get { return _opacity; }
-        set { _opacity = value; }
-    }
+    public float Opacity { get; set; } = 1.0f;
+    public float Rotation { get; set; }
+    public Vector2 Origin { get; set; } = Vector2.Zero;
+    public SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
+    public float LayerDepth { get; set; }
 
     public override void Draw(GameTime gameTime)
     {
         ContentSystem.SpriteBatch.Draw(
             texture: Texture,
             destinationRectangle: Transform.DestinationRectangle,
-            color: Microsoft.Xna.Framework.Color.White * _opacity);
+            sourceRectangle: null,
+            color: Microsoft.Xna.Framework.Color.White * Opacity,
+            rotation: Rotation,
+            origin: Origin,
+            effects: SpriteEffects,
+            layerDepth: LayerDepth);
         base.Draw(gameTime);
     }
 

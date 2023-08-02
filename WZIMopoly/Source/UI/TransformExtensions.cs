@@ -5,14 +5,18 @@ namespace WZIMopoly.UI;
 
 internal static class TransformExtensions
 {
-    public static Point Scale(this Point point, Vector2 scale)
+    public static Point Scale(this Point point, Vector2 scale, Func<double, double> roundMethod)
     {
-        return new Point((int)(point.X * scale.X + 0.5), (int)(point.Y * scale.Y + 0.5));
+        return new Point(
+            (int)roundMethod(point.X * scale.X),
+            (int)roundMethod(point.Y * scale.Y));
     }
 
-    public static Point Scale(this Point point, float scale)
+    public static Point Scale(this Point point, float scale, Func<double, double> roundMethod)
     {
-        return new Point((int)(point.X * scale + 0.5), (int)(point.Y * scale + 0.5));
+        return new Point(
+            (int)roundMethod(point.X * scale),
+            (int)roundMethod(point.Y * scale));
     }
 
     public static Vector2 Scale(this Vector2 vector, Vector2 scale)
@@ -25,14 +29,18 @@ internal static class TransformExtensions
         return vector * scale;
     }
 
-    public static Rectangle Scale(this Rectangle rect, Vector2 scale)
+    public static Rectangle Scale(this Rectangle rect, Vector2 scale, Func<double, double> roundMethod)
     {
-        return new Rectangle(rect.Location.Scale(scale), rect.Size.Scale(scale));
+        return new Rectangle(
+            rect.Location.Scale(scale, roundMethod),
+            rect.Size.Scale(scale, roundMethod));
     }
 
-    public static Rectangle Scale(this Rectangle rect, float scale)
+    public static Rectangle Scale(this Rectangle rect, float scale, Func<double, double> roundMethod)
     {
-        return new Rectangle(rect.Location.Scale(scale), rect.Size.Scale(scale));
+        return new Rectangle(
+            rect.Location.Scale(scale, roundMethod),
+            rect.Size.Scale(scale, roundMethod));
     }
 
     public static Ratio ToRatio(this Point point)

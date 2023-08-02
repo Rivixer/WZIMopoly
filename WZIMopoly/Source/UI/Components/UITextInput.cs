@@ -8,30 +8,57 @@ namespace WZIMopoly.Source.UI.Components;
 internal class UITextInput : UIComponent
 {
     private readonly UIText _text;
-    private readonly UIImage _cursor;
-    private int _cursorPosition;
+    private readonly UIImage _caret;
+    private UIText? _placeholder;
+    private int _caretPosition;
 
-    public UITextInput(Color color)
-        : this(color, Color.Black) { }
-
-    public UITextInput(Color color, Color cursorColor)
+    public UITextInput(Color color, Color caretColor)
     {
         _text = new UIText(string.Empty, color)
         {
             Parent = this,
             RelativeOffset = new(0.01f, 0.0f),
         };
-        _cursor = new UIImage(cursorColor)
+        _caret = new UIImage(caretColor)
         {
             Parent = this,
+            Alignment = Alignment.Left,
             RelativeOffset = new(0.01f, 0.0f),
-            RelativeSize = new(0.96f),
-            Ratio = new(1, 10),
+            RelativeSize = new(0.9f),
+            Ratio = new(1, 20),
         };
         IsEnabled = false;
     }
 
-    public string Placeholder { get; set; } = string.Empty;
+    public string? Placeholder
+    {
+        get
+        {
+            return _placeholder?.Text;
+        }
+        set
+        {
+            if (_placeholder?.Text == value)
+            {
+                return;
+            }
+            if (value is null)
+            {
+                _placeholder = null;
+            }
+            else
+            {
+                _placeholder = new(value, _text.Color * 0.3f, _text.Font)
+                {
+                    Parent = this,
+                    Alignment = Alignment.Left,
+                    RelativeOffset = _text.Transform.RelativeOffset,
+                    RelativeSize = _text.Transform.RelativeSize * new Vector2(0.8f),
+                    Size = _text.Size * 0.6f,
+                };
+            }
+        }
+    }
 
     public override void Update(GameTime gameTime)
     {
@@ -70,6 +97,7 @@ internal class UITextInput : UIComponent
             return;
         }
 
+        _placeholder?.Draw(gameTime);
         if (DateTime.Now.Millisecond / 500 < 1)
         {
             base.Draw(gameTime);

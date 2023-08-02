@@ -30,10 +30,10 @@ internal class UITransform
     public UITransform(UIComponent component)
     {
         Component = component;
-        component.OnParentChange += Component_OnParentChanged;
+        component.OnParentChange += Component_OnParentChange;
         if (component.Parent is not null)
         {
-            component.Parent.Transform.OnRecalculate += ParentTransform_OnRecalculated;
+            component.Parent.Transform.OnRecalculate += ParentTransform_OnRecalculate;
         }
         else
         {
@@ -68,7 +68,7 @@ internal class UITransform
             {
                 return;
             }
-            if (_transformType is TransformType.Relative && Component.Parent is null)
+            if (value is TransformType.Relative && Component.Parent is null)
             {
                 throw new InvalidOperationException(
                     "Cannot set TransformType to Relative when Component has no parent.");
@@ -83,7 +83,6 @@ internal class UITransform
         get { return _relativeSize; }
         set
         {
-            CheckAndThrowIfNotRelative();
             if (_relativeSize == value)
             {
                 return;
@@ -91,7 +90,8 @@ internal class UITransform
             if (value.X < 0 || value.Y < 0)
             {
                 throw new ArgumentException(
-                    "RelativeSize cannot have negative components.");
+                    "RelativeSize cannot have negative components.",
+                    nameof(value));
             }
             _relativeSize = value;
             _needsRecalculate = true;
@@ -103,7 +103,6 @@ internal class UITransform
         get { return _relativeOffset; }
         set
         {
-            CheckAndThrowIfNotRelative();
             if (_relativeOffset == value)
             {
                 return;
@@ -118,7 +117,6 @@ internal class UITransform
         get { return _alignment; }
         set
         {
-            CheckAndThrowIfNotRelative();
             if (_alignment == value)
             {
                 return;
@@ -187,12 +185,11 @@ internal class UITransform
         get { return _scaledLocation; }
         set
         {
-            CheckAndThrowIfNotAbsolute();
             if (ScaledLocation == value)
             {
                 return;
             }
-            _unscaledLocation = value.Scale(Vector2.One / ScreenSystem.Scale);
+            _unscaledLocation = value.Scale(Vector2.One / ScreenSystem.Scale, Math.Floor);
             _needsRecalculate = true;
         }
     }
@@ -202,7 +199,6 @@ internal class UITransform
         get { return _unscaledLocation; }
         set
         {
-            CheckAndThrowIfNotAbsolute();
             if (_unscaledLocation == value)
             {
                 return;
@@ -217,12 +213,11 @@ internal class UITransform
         get { return _scaledSize; }
         set
         {
-            CheckAndThrowIfNotAbsolute();
             if (_scaledSize == value)
             {
                 return;
             }
-            _unscaledSize = value.Scale(Vector2.One / ScreenSystem.Scale);
+            _unscaledSize = value.Scale(Vector2.One / ScreenSystem.Scale, Math.Floor);
             _needsRecalculate = true;
         }
     }
@@ -232,7 +227,6 @@ internal class UITransform
         get { return _unscaledSize; }
         set
         {
-            CheckAndThrowIfNotAbsolute();
             if (_unscaledSize == value)
             {
                 return;
@@ -272,8 +266,8 @@ internal class UITransform
                 break;
         }
         
-        _scaledLocation = _unscaledLocation.Scale(ScreenSystem.Scale);
-        _scaledSize = MathUtils.Clamp(_unscaledSize.Scale(ScreenSystem.Scale), _minSize, _maxSize);
+        _scaledLocation = _unscaledLocation.Scale(ScreenSystem.Scale, Math.Floor);
+        _scaledSize = MathUtils.Clamp(_unscaledSize.Scale(ScreenSystem.Scale, Math.Round), _minSize, _maxSize);
         _needsRecalculate = false;
         OnRecalculate?.Invoke(this, EventArgs.Empty);
     }
@@ -285,16 +279,6 @@ internal class UITransform
         _unscaledLocation = reference._unscaledLocation;
         _unscaledSize = reference._unscaledSize;
 
-        // TODO: Refactor offset and size calculation
-        if (Component.Parent is IUIPositionInfluencer parent)
-        {
-            Vector2 additionalOffset = parent.GetAdditionalRelativeOffsetForChildren();
-            _unscaledLocation += reference._unscaledSize.Scale(additionalOffset);
-
-            Vector2 additionalSize = parent.GetAdditionalRelativeSizeForChildren();
-            _unscaledSize -= reference._unscaledSize.Scale(Vector2.One - additionalSize);
-        }
-
         RecalculateSize();
         RecalculateRatio();
         RecalculateAlignment();
@@ -302,12 +286,12 @@ internal class UITransform
 
         void RecalculateOffset()
         {
-            _unscaledLocation += reference._unscaledSize.Scale(_relativeOffset);
+            _unscaledLocation += reference._unscaledSize.Scale(_relativeOffset, Math.Round);
         }
 
         void RecalculateSize()
         {
-            _unscaledSize -= reference._unscaledSize.Scale(Vector2.One - _relativeSize);
+            _unscaledSize = reference._unscaledSize.Scale(_relativeSize, Math.Round);
         }
 
         void RecalculateAlignment()
@@ -338,19 +322,18 @@ internal class UITransform
                     _unscaledLocation.Y = referenceRect.Y + (referenceRect.Height - currentRect.Height) / 2;
                     break;
                 case Alignment.Center:
-                    Point offset = referenceRect.Center - currentRect.Center;
-                    _unscaledLocation.X += offset.X;
-                    _unscaledLocation.Y += offset.Y;
+                    _unscaledLocation.X += (referenceRect.Center - currentRect.Center).X;
+                    _unscaledLocation.Y += (referenceRect.Center - currentRect.Center).Y;
                     break;
                 case Alignment.Right:
                     _unscaledLocation.X = referenceRect.Right - currentRect.Width;
-                    _unscaledLocation.Y = referenceRect.Y + (referenceRect.Height - currentRect.Height) / 2;
+                    _unscaledLocation.Y = referenceRect.Y + (int)(referenceRect.Height - currentRect.Height) / 2;
                     break;
                 case Alignment.BottomLeft:
                     _unscaledLocation.Y = referenceRect.Bottom - currentRect.Height;
                     break;
                 case Alignment.Bottom:
-                    _unscaledLocation.X = referenceRect.X + (referenceRect.Width - currentRect.Width) / 2;
+                    _unscaledLocation.X = referenceRect.X + (int)(referenceRect.Width - currentRect.Width) / 2;
                     _unscaledLocation.Y = referenceRect.Bottom - currentRect.Height;
                     break;
                 case Alignment.BottomRight:
@@ -402,22 +385,22 @@ internal class UITransform
         }
         else
         {
-            Component.Parent.Transform.OnRecalculate -= ParentTransform_OnRecalculated;
+            Component.Parent.Transform.OnRecalculate -= ParentTransform_OnRecalculate;
         }
     }
 
     #region Event Handlers
 
-    private void ParentTransform_OnRecalculated(object? sender, EventArgs args)
+    private void ParentTransform_OnRecalculate(object? sender, EventArgs args)
     {
         Recalculate();
     }
 
-    private void Component_OnParentChanged(object? sender, ParentChangeEventArgs args)
+    private void Component_OnParentChange(object? sender, ParentChangeEventArgs args)
     {
         if (args.OldParent is { } oldParent)
         {
-            oldParent.Transform.OnRecalculate -= ParentTransform_OnRecalculated;
+            oldParent.Transform.OnRecalculate -= ParentTransform_OnRecalculate;
         }
         else
         {
@@ -426,33 +409,11 @@ internal class UITransform
 
         if (args.NewParent is { } newParent)
         {
-            newParent.Transform.OnRecalculate += ParentTransform_OnRecalculated;
+            newParent.Transform.OnRecalculate += ParentTransform_OnRecalculate;
         }
         else
         {
             ScreenSystem.OnScreenChange += Recalculate;
-        }
-    }
-
-    #endregion
-
-    #region Validate Methods
-
-    private void CheckAndThrowIfNotRelative()
-    {
-        if (TransformType != TransformType.Relative)
-        {
-            throw new InvalidOperationException(
-                "Transform must be of type Relative.");
-        }
-    }
-
-    private void CheckAndThrowIfNotAbsolute()
-    {
-        if (TransformType != TransformType.Absolute)
-        {
-            throw new InvalidOperationException(
-                "Transform must be of type Absolute.");
         }
     }
 

@@ -1,27 +1,31 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace WZIMopoly.UI;
 
 internal class UIText : UIComponent
 {
-    private static readonly Dictionary<string, SpriteFont> s_cachedFonts = new();
-    private readonly string _fontPath;
+    private readonly string? _fontPath;
     private SpriteFont? _font;
 
     public UIText(string text, Color color, string? fontPath = null)
     {
+        // TODO: Change default font
         _fontPath = fontPath ?? "Fonts/DebugFont";
         Color = color;
         Text = text;
-        Transform.TransformType = TransformType.Relative;
-        Transform.Alignment = Alignment.Center;
+        Alignment = Alignment.Center;
     }
 
-    public bool UseCache { get; set; } = true;
+    public UIText(string text, Color color, SpriteFont font)
+    {
+        _font = font;
+        Color = color;
+        Text = text;
+        Alignment = Alignment.Center;
+    }
 
-    public string Text { get; set; } = string.Empty;
+    public virtual string Text { get; set; } = string.Empty;
 
     public Color Color { get; set; }
 
@@ -46,32 +50,43 @@ internal class UIText : UIComponent
 
     public override void Draw(GameTime gameTime)
     {
-        ContentSystem.SpriteBatch.DrawString(
+        SpriteBatch spriteBatch = ContentSystem.SpriteBatch;
+        spriteBatch.End();
+
+        RasterizerState rasterizerState = new() { ScissorTestEnable = true };
+        spriteBatch.Begin(
+            sortMode: SpriteSortMode.Immediate,
+            blendState: BlendState.AlphaBlend,
+            samplerState: null,
+            depthStencilState: null,
+            rasterizerState: rasterizerState);
+
+        Rectangle currentRect = spriteBatch.GraphicsDevice.ScissorRectangle;
+        if (Parent is not null)
+        {
+            spriteBatch.GraphicsDevice.ScissorRectangle = Parent.Transform.DestinationRectangle;
+        }
+
+        spriteBatch.DrawString(
             spriteFont: Font,
             text: Text,
             position: Transform.DestinationRectangle.Location.ToVector2(),
             color: Color,
             rotation: 0.0f,
             origin: Vector2.Zero,
-            scale: ScreenSystem.Scale * Size,
+            scale: Size * ScreenSystem.Scale,
             effects: SpriteEffects.None,
             layerDepth: 0.0f);
+
+        spriteBatch.GraphicsDevice.ScissorRectangle = currentRect;
+        spriteBatch.End();
+        rasterizerState.Dispose();
+        spriteBatch.Begin();
         base.Draw(gameTime);
     }
 
     private void LoadFont()
     {
-        if (UseCache && s_cachedFonts.ContainsKey(_fontPath))
-        { 
-            _font = s_cachedFonts[_fontPath];
-        }
-        else
-        {
-            _font = ContentSystem.Content.Load<SpriteFont>(_fontPath);
-            if (UseCache && !s_cachedFonts.ContainsKey(_fontPath))
-            {
-                s_cachedFonts.Add(_fontPath, _font);
-            }
-        }
+        _font = ContentSystem.Content.Load<SpriteFont>(_fontPath);
     }
 }

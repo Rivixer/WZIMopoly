@@ -5,17 +5,6 @@ using System.Linq;
 
 namespace WZIMopoly.UI;
 
-internal class ParentChangeEventArgs : EventArgs
-{
-    public ParentChangeEventArgs(UIComponent? newParent, UIComponent? oldParent)
-    {
-        NewParent = newParent;
-        OldParent = oldParent;
-    }
-    public UIComponent? NewParent { get; }
-    public UIComponent? OldParent { get; }
-}
-
 internal abstract class UIComponent
 {
     private static uint _idCounter;
@@ -32,6 +21,8 @@ internal abstract class UIComponent
     }
 
     public event EventHandler<ParentChangeEventArgs>? OnParentChange;
+    public event EventHandler<ChildChangeEventArgs>? OnChildAdd;
+    public event EventHandler<ChildChangeEventArgs>? OnChildRemove;
 
     public bool IsEnabled
     {
@@ -76,7 +67,9 @@ internal abstract class UIComponent
     public Rectangle UnscaledDestinationRectangle
     {
         get { return Transform.UnscaledDestinationRectangle; }
-        set { Transform.UnscaledLocation = value.Location;
+        set
+        {
+            Transform.UnscaledLocation = value.Location;
             Transform.UnscaledSize = value.Size;
         }
     }
@@ -97,16 +90,19 @@ internal abstract class UIComponent
             {
                 UIComponent? oldParent = _parent;
 
+                ChildChangeEventArgs childChangeEventArgs = new(this);
                 _parent?._children.Remove(this);
+                _parent?.OnChildRemove?.Invoke(_parent, childChangeEventArgs);
                 _parent = value;
                 _parent?._children.Add(this);
+                _parent?.OnChildAdd?.Invoke(_parent, childChangeEventArgs);
 
                 Transform.TransformType = _parent is null
                     ? TransformType.Absolute
                     : TransformType.Relative;
 
-                ParentChangeEventArgs eventArgs = new(_parent, oldParent);
-                OnParentChange?.Invoke(this, eventArgs);
+                ParentChangeEventArgs parentChagneEventArgs = new(_parent, oldParent);
+                OnParentChange?.Invoke(this, parentChagneEventArgs);
             }
         }
     }

@@ -44,6 +44,7 @@ internal static class ScreenSystem
             else
             {
                 SetResolution(1920, 1080, ScreenType.FullScreen);
+                //SetResolution(2560, 1440, ScreenType.FullScreen);
             }
             ApplyChanges();
         }

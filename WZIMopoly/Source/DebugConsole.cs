@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using WZIMopoly.Source.UI.Components;
 using WZIMopoly.UI;
 
@@ -8,36 +10,46 @@ namespace WZIMopoly;
 internal static class DebugConsole
 {
     private static UIFrame _frame = default!;
-       
-    public static bool IsOpen { get; private set; }
+    private static UIListBox _messages = default!;
 
     public delegate void OpenCloseEventHandler();
-
     public static event OpenCloseEventHandler? OnOpen;
     public static event OpenCloseEventHandler? OnClose;
 
-    private static UIComponent f1;
-    private static UIComponent f2;
+    public static bool IsOpen { get; private set; }
 
-    public static void Initialize()
+    public static void Create()
     {
         _frame = new(thickness: 5, Color.Black) { UnscaledDestinationRectangle = new(50, 50, 1400, 800) };
 
-        UIImage background = new(Color.Gray) { Parent = _frame, Opacity = 0.8f};
-        UIText text = new("Tu będzie konsola do debugowania :)", Color.White) { Parent = _frame };
+        UIImage background = new(Color.Black) { Parent = _frame, Opacity = 0.9f };
 
-        UIFrame textInputFrame = new(thickness: 3, Color.DarkGray)
+        UIFrame textInputFrame = new(thickness: 3, new Color(60, 60, 60, 255))
         {
             Parent = _frame,
             Alignment = Alignment.Bottom,
-            RelativeSize = new(0.98f, 0.08f),
+            RelativeSize = new(0.98f, 0.06f),
             RelativeOffset = new(0.0f, -0.02f),
         };
-        f1 = textInputFrame;
-        UIImage textInputBackground = new(Color.LightGray) { Parent = textInputFrame, Opacity = 0.99f };
-        f2 = textInputBackground;
-        UITextInput textInput = new(Color.White) { Parent = textInputFrame };
+        UIImage textInputBackground = new(Color.Gray) { Parent = textInputFrame, Opacity = 0.5f };
+        UITextInput textInput = new(Color.White, caretColor: Color.Black) { Parent = textInputFrame, Placeholder = "Tu jest miejsce na wpisanie komendy..." };
         OnClose += () => textInput.IsEnabled = false;
+
+        UIFrame messagesFrame = new(thickness: 3, new Color(60, 60, 60, 255))
+        {
+            Parent = _frame,
+            Alignment = Alignment.Top,
+            RelativeSize = new(0.98f, 0.88f),
+            RelativeOffset = new(0.0f, 0.02f),
+        };
+        UIImage messagesBackground = new(Color.Gray) { Parent = messagesFrame, Opacity = 0.15f };
+
+        _messages = new()
+        {
+            Parent = messagesFrame,
+            Alignment = Alignment.Center,
+            RelativeSize = new(0.99f),
+        };
     }
 
     public static void Update(GameTime gameTime)
@@ -48,9 +60,6 @@ internal static class DebugConsole
             IsOpen ^= true;
             (IsOpen ? OnOpen : OnClose)?.Invoke();
         }
-        Debug.WriteLine(f1.UnscaledDestinationRectangle + " " + f1.Transform.DestinationRectangle);
-        Debug.WriteLine(f2.UnscaledDestinationRectangle + " " + f2.Transform.DestinationRectangle);
-        Debug.WriteLine("");
     }
 
     public static void Draw(GameTime gameTime)
@@ -61,8 +70,14 @@ internal static class DebugConsole
         }
     }
 
-    public static void Dispose()
+    public static void Error(string message)
     {
-        _frame.Destroy();
+        var text = new UIWrappedText(message, Color.Red) { Size = 0.51f };
+        _messages.AddElement(text);
+    }
+    public static void Warning(string message)
+    {
+        var text = new UIWrappedText(message, Color.Yellow) { Size = 0.51f };
+        _messages.AddElement(text);
     }
 }
