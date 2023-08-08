@@ -32,6 +32,7 @@ internal abstract class UIComponent
 
     public UITransform Transform { get; protected set; }
 
+
     #region Transform Properites
 
     public TransformType TransformType
@@ -86,24 +87,26 @@ internal abstract class UIComponent
         }
         set
         {
-            if (_parent != value)
+            if (_parent == value)
             {
-                UIComponent? oldParent = _parent;
-
-                ChildChangeEventArgs childChangeEventArgs = new(this);
-                _parent?._children.Remove(this);
-                _parent?.OnChildRemove?.Invoke(_parent, childChangeEventArgs);
-                _parent = value;
-                _parent?._children.Add(this);
-                _parent?.OnChildAdd?.Invoke(_parent, childChangeEventArgs);
-
-                Transform.TransformType = _parent is null
-                    ? TransformType.Absolute
-                    : TransformType.Relative;
-
-                ParentChangeEventArgs parentChagneEventArgs = new(_parent, oldParent);
-                OnParentChange?.Invoke(this, parentChagneEventArgs);
+                return;
             }
+
+            UIComponent? oldParent = _parent;
+
+            ChildChangeEventArgs childChangeEventArgs = new(this);
+            _parent?._children.Remove(this);
+            _parent?.OnChildRemove?.Invoke(_parent, childChangeEventArgs);
+            _parent = value;
+            _parent?._children.Add(this);
+            _parent?.OnChildAdd?.Invoke(_parent, childChangeEventArgs);
+
+            Transform.TransformType = _parent is null
+                ? TransformType.Absolute
+                : TransformType.Relative;
+
+            ParentChangeEventArgs parentChagneEventArgs = new(_parent, oldParent);
+            OnParentChange?.Invoke(this, parentChagneEventArgs);
         }
     }
 
@@ -145,6 +148,7 @@ internal abstract class UIComponent
         {
             disposable.Dispose();
         }
+
     }
 
     /// <summary>

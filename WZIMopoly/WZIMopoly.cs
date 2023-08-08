@@ -42,6 +42,7 @@ internal class WZIMopoly : Game
     {
         ScreenSystem.Initialize(_graphics, Window);
         ScreenSystem.ApplyChanges();
+        KeyboardSystem.Initialize(Window);
         
 
         base.Initialize();
@@ -60,11 +61,12 @@ internal class WZIMopoly : Game
         menuScene.Create();
 
         DebugConsole.Error("To jest początek konsoli do debugowania. Poniżej znajdują się przykładowe wiadomości testowe:");
-        for (int i = 0; i < 4; i ++)
+        int i = 0;
+        while (i++ < 80000)
         {
-            DebugConsole.Error($"Wiadomość testowa nr {i+1}.");
+            DebugConsole.Error($"Wiadomość testowa nr {i}.");
         }
-        DebugConsole.Error($"Wiadomość testowa nr 5, która jest trochę dłuższa od poprzednich, ponieważ trzeba sprawdzić, czy ładnie się linijki wrapują. Także ten tekst powinien automatycznie się podzielić, jeśli dojdzie do ściany konsoli.");
+        DebugConsole.Error($"Wiadomość testowa nr {i}, która jest trochę dłuższa od poprzednich, ponieważ trzeba sprawdzić, czy ładnie się linijki wrapują. Także ten tekst powinien automatycznie się podzielić, jeśli dojdzie do ściany konsoli.");
         DebugConsole.Error("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
         DebugConsole.Error("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
         DebugConsole.Error("ęśąćż");
@@ -73,6 +75,15 @@ internal class WZIMopoly : Game
         DebugConsole.Error("Wracamy do czerwonego.");
         DebugConsole.Error("Jak oceniacie wygląd tej konsoli?");
         DebugConsole.Error("Ogólnie rysowanie tych ramek dookoła zajęło mi aż 6 dni...");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
+        DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
         DebugConsole.Error("Nie da się wyjść tekstem poza ramkę");
     }
     protected override void Update(GameTime gameTime)
@@ -84,6 +95,8 @@ internal class WZIMopoly : Game
 
         CurrentScene.Update(gameTime);
         DebugConsole.Update(gameTime);
+
+        //Debug.WriteLine("UPDATE: " + gameTime.IsRunningSlowly + " " + (1 / gameTime.ElapsedGameTime.TotalSeconds));
 
         if (Keys.F3.WasReleased())
         {
@@ -114,6 +127,8 @@ internal class WZIMopoly : Game
         _spriteBatch.Begin();
 
         base.Draw(gameTime);
+
+        //Debug.WriteLine("DRAW: " + gameTime.IsRunningSlowly + " " + (1 / gameTime.ElapsedGameTime.TotalSeconds));
 
         CurrentScene.Draw(gameTime);
         DebugConsole.Draw(gameTime);

@@ -20,5 +20,16 @@ internal static class MouseSystem
             && s_currentMouseState.LeftButton == ButtonState.Pressed;
     }
 
+    public static bool IsLeftButtonPressing()
+    {
+        return s_currentMouseState.LeftButton == ButtonState.Pressed;
+    }
+
     public static Point Position => s_currentMouseState.Position;
+
+    public static Point MouseDelta
+        => s_currentMouseState.Position - s_previousMouseState.Position;
+
+    public static int ScrollDelta
+        => s_currentMouseState.ScrollWheelValue - s_previousMouseState.ScrollWheelValue;
 }

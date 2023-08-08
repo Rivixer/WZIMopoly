@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Text;
 
 namespace WZIMopoly.UI;
 
@@ -7,6 +8,8 @@ internal class UIText : UIComponent
 {
     private readonly string? _fontPath;
     private SpriteFont? _font;
+
+    private bool _needsRecalculation;
 
     public UIText(string text, Color color, string? fontPath = null)
     {
@@ -25,7 +28,17 @@ internal class UIText : UIComponent
         Alignment = Alignment.Center;
     }
 
-    public virtual string Text { get; set; } = string.Empty;
+    private string _text = string.Empty;
+
+    public virtual string Text
+    {
+        get { return _text; }
+        set
+        {
+            _text = value;
+            _needsRecalculation = true;
+        }
+    }
 
     public Color Color { get; set; }
 
@@ -48,26 +61,20 @@ internal class UIText : UIComponent
         return Font.MeasureString(Text) * Size;
     }
 
+    public override void Update(GameTime gameTime)
+    {
+        base.Update(gameTime);
+
+        if (_needsRecalculation)
+        {
+            Transform.Recalculate();
+            _needsRecalculation = false;
+        }
+    }
+
     public override void Draw(GameTime gameTime)
     {
-        SpriteBatch spriteBatch = ContentSystem.SpriteBatch;
-        spriteBatch.End();
-
-        RasterizerState rasterizerState = new() { ScissorTestEnable = true };
-        spriteBatch.Begin(
-            sortMode: SpriteSortMode.Immediate,
-            blendState: BlendState.AlphaBlend,
-            samplerState: null,
-            depthStencilState: null,
-            rasterizerState: rasterizerState);
-
-        Rectangle currentRect = spriteBatch.GraphicsDevice.ScissorRectangle;
-        if (Parent is not null)
-        {
-            spriteBatch.GraphicsDevice.ScissorRectangle = Parent.Transform.DestinationRectangle;
-        }
-
-        spriteBatch.DrawString(
+        ContentSystem.SpriteBatch.DrawString(
             spriteFont: Font,
             text: Text,
             position: Transform.DestinationRectangle.Location.ToVector2(),
@@ -77,11 +84,6 @@ internal class UIText : UIComponent
             scale: Size * ScreenSystem.Scale,
             effects: SpriteEffects.None,
             layerDepth: 0.0f);
-
-        spriteBatch.GraphicsDevice.ScissorRectangle = currentRect;
-        spriteBatch.End();
-        rasterizerState.Dispose();
-        spriteBatch.Begin();
         base.Draw(gameTime);
     }
 

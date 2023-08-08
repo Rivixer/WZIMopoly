@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+using System.Linq;
 using WZIMopoly.Source.UI.Components;
 using WZIMopoly.UI;
 
@@ -32,7 +31,15 @@ internal static class DebugConsole
             RelativeOffset = new(0.0f, -0.02f),
         };
         UIImage textInputBackground = new(Color.Gray) { Parent = textInputFrame, Opacity = 0.5f };
-        UITextInput textInput = new(Color.White, caretColor: Color.Black) { Parent = textInputFrame, Placeholder = "Tu jest miejsce na wpisanie komendy..." };
+        UITextInput textInput = new(Color.White, caretColor: Color.Black)
+        {
+            Parent = textInputFrame,
+            Alignment = Alignment.Left,
+            Placeholder = "Tu jest miejsce na wpisanie komendy...",
+            TextAlignment = Alignment.Left,
+            TextSize = 0.7f,
+        };
+
         OnClose += () => textInput.IsEnabled = false;
 
         UIFrame messagesFrame = new(thickness: 3, new Color(60, 60, 60, 255))
@@ -44,12 +51,16 @@ internal static class DebugConsole
         };
         UIImage messagesBackground = new(Color.Gray) { Parent = messagesFrame, Opacity = 0.15f };
 
-        _messages = new()
+        _messages = new UIListBox()
         {
             Parent = messagesFrame,
+            Orientation = Orientation.Vertical,
+            IsScrollable = true,
             Alignment = Alignment.Center,
             RelativeSize = new(0.99f),
+            ElementSpacing = 8,
         };
+        OnOpen += () => _messages.JumpToElement(_messages.Elements.Last());
     }
 
     public static void Update(GameTime gameTime)
@@ -72,12 +83,22 @@ internal static class DebugConsole
 
     public static void Error(string message)
     {
-        var text = new UIWrappedText(message, Color.Red) { Size = 0.51f };
+        var text = new UIWrappedText(message, Color.Red)
+        {
+            Size = 0.51f,
+            Alignment = Alignment.TopLeft
+        };
         _messages.AddElement(text);
+        IsOpen = true;
     }
+
     public static void Warning(string message)
     {
-        var text = new UIWrappedText(message, Color.Yellow) { Size = 0.51f };
+        var text = new UIWrappedText(message, Color.Yellow)
+        {
+            Size = 0.51f,
+            Alignment = Alignment.TopLeft,
+        };
         _messages.AddElement(text);
     }
 }

@@ -34,6 +34,7 @@ internal class MenuScene : Scene
         quitGameButton.OnClick += (s, e) => WZIMopoly.Instance.Exit();
 
         UIText versionText = new("There will be a version of the game here someday", Color.White) { Size = 0.5f };
+        version = versionText;
         UIFrame versionFrame = new(thickness: 3, new Color(255, 255, 255, 100))
         {
             Parent = background,
@@ -46,4 +47,7 @@ internal class MenuScene : Scene
         versionText.Parent = versionFrame;
         UIImage versionBackground = new(new Color(255, 255, 255, 25)) { Parent = versionFrame };
     }
+
+    private UIText version;
+
 }

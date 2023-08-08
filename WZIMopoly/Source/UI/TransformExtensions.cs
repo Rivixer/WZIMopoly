@@ -5,18 +5,28 @@ namespace WZIMopoly.UI;
 
 internal static class TransformExtensions
 {
-    public static Point Scale(this Point point, Vector2 scale, Func<double, double> roundMethod)
+    public static Point Scale(this Point point, Vector2 scale)
     {
-        return new Point(
-            (int)roundMethod(point.X * scale.X),
-            (int)roundMethod(point.Y * scale.Y));
+        return new Point((int)(point.X * scale.X), (int)(point.Y * scale.Y));
     }
 
-    public static Point Scale(this Point point, float scale, Func<double, double> roundMethod)
+    public static Point Scale(this Point point, float scale)
+    {
+        return new Point((int)(point.X * scale), (int)(point.Y * scale));
+    }
+
+    public static Point Unscale(this Point point, Vector2 scale)
     {
         return new Point(
-            (int)roundMethod(point.X * scale),
-            (int)roundMethod(point.Y * scale));
+            (int)Math.Ceiling(point.X / scale.X),
+            (int)Math.Ceiling(point.Y / scale.Y));
+    }
+
+    public static Point Unscale(this Point point, float scale)
+    {
+        return new Point(
+            (int)Math.Ceiling(point.X / scale),
+            (int)Math.Ceiling(point.Y / scale));
     }
 
     public static Vector2 Scale(this Vector2 vector, Vector2 scale)
@@ -29,18 +39,22 @@ internal static class TransformExtensions
         return vector * scale;
     }
 
-    public static Rectangle Scale(this Rectangle rect, Vector2 scale, Func<double, double> roundMethod)
+    public static Vector2 Unscale(this Vector2 vector, Vector2 scale)
     {
-        return new Rectangle(
-            rect.Location.Scale(scale, roundMethod),
-            rect.Size.Scale(scale, roundMethod));
+        return new Vector2(vector.X / scale.X, vector.Y / scale.Y);
     }
 
-    public static Rectangle Scale(this Rectangle rect, float scale, Func<double, double> roundMethod)
+    public static Vector2 Unscale(this Vector2 vector, float scale)
     {
-        return new Rectangle(
-            rect.Location.Scale(scale, roundMethod),
-            rect.Size.Scale(scale, roundMethod));
+        return vector / scale;
+    }
+
+    public static bool ContainsAny(this Rectangle rect, Rectangle value)
+    {
+        return rect.Contains(value.Location)
+            || rect.Contains(value.Location + value.Size)
+            || rect.Contains(new Point(value.X, value.Y + value.Height))
+            || rect.Contains(new Point(value.X + value.Width, value.Y));
     }
 
     public static Ratio ToRatio(this Point point)
